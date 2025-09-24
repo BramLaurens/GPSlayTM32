@@ -45,10 +45,10 @@ void NRF_Driver(void *argument)
     
     while (TRUE)
     {
-        // HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_SET); // Turn on LED
-        // nrf24_transmit(txBuffer, sizeof(txBuffer)); // Transmit data
-        // osDelay(50);
-        // HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_RESET); // Turn off LED
+        HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_SET); // Turn on LED
+        nrf24_transmit(txBuffer, sizeof(txBuffer)); // Transmit data
+        osDelay(50);
+        HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_RESET); // Turn off LED
         osDelay(1000); // Placeholder delay
     }
 }
