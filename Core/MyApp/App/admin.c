@@ -36,8 +36,10 @@ char *app_name    = "\r\n=== freeRTOS_GPS 407 ===\r\n";
 char *app_nameLCD = "freeRTOS_GPS 407"; // max 16 chars
 
 /// default: debug all output to uart
-int Uart_debug_out = DEBUG_OUT_NONE;
+int Uart_debug_out = DEBUG_OUT_NONE;\
 
+/// NRF24 new value bit
+char NRF24_new_value = 0; // set to 1 when new value is received
 
 /// all handles used, note: defined to 'extern' in admin.h
 QueueHandle_t 	      hKey_Queue;

@@ -50,14 +50,19 @@ void NRF_Driver(void *argument)
         if(nrf24_data_available())
         {
             nrf24_receive(rx, sizeof(rx)); // Receive data
+            NRF24_new_value = 1; // Set new value flag
+        }
+
+        if (Uart_debug_out & NRF24_DEBUG_OUT && NRF24_new_value)
+        {
             char msg[50];
             sprintf(msg, rx);
             UART_puts(msg); 
             UART_puts("\r\n");
-            osDelay(1); // Placeholder delay
+            NRF24_new_value = 0; // Reset new value flag
         }
-
-
+        
+        osDelay(1); // Placeholder delay
     }
 }
 

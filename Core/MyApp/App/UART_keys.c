@@ -226,11 +226,18 @@ void UART_menu (void *argument)
 				  break;
 		
 		case 'X':
-			UART_puts("Testing NRF24 SPI communication..., should return 0x08\r\n");
-			uint8_t cfg = nrf24_SPI_commscheck();
-			char tmp[8];
-			snprintf(tmp, sizeof(tmp), "%02X", cfg);   // prints two hex digits
-			UART_puts("CONFIG register: 0x"); UART_puts(tmp); UART_puts("\r\n");
+				UART_puts("Testing NRF24 SPI communication..., should return 0x08\r\n");
+				uint8_t cfg = nrf24_SPI_commscheck();
+				char tmp[8];
+				snprintf(tmp, sizeof(tmp), "%02X", cfg);   // prints two hex digits
+				UART_puts("CONFIG register: 0x"); UART_puts(tmp); UART_puts("\r\n");
+				break;
+		
+		case 'N': // Print NRF24 debug output
+				Uart_debug_out ^= NRF24_DEBUG_OUT; // toggle output on/off
+		  	  	UART_puts("\r\nNRF24 output = ");
+		  	  	UART_puts(Uart_debug_out & NRF24_DEBUG_OUT ? "ON\r\n" : "OFF\r\n");
+				break;
 		}
 	}
 }
