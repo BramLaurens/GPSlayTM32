@@ -17,8 +17,8 @@
 #include "NRF24_conf.h"
 
 #define PLD_SIZE 32 // Payload size in bytes
-uint8_t txBuffer[PLD_SIZE] = {"Hello"}; // Transmission buffer test
 uint8_t ack[PLD_SIZE]; // Acknowledgment buffer
+uint8_t rx[PLD_SIZE];  // Receive buffer
 
 extern SPI_HandleTypeDef hspiX;
 
@@ -33,23 +33,31 @@ void NRF_Driver(void *argument)
 
 
     nrf24_init(); // Initialize NRF24L01+
-    nrf24_tx_pwr(3); // Set transmission power to maximum
-    nrf24_data_rate(0); // Set data rate to 1Mbps
+    nrf24_tx_pwr(_0dbm); // Set TX power to 0dBm
+    nrf24_data_rate(_1mbps); // Set data rate to 1Mbps
     nrf24_set_channel(78); // Set channel to 76
     nrf24_pipe_pld_size(0, PLD_SIZE); // Set payload size for pipe 0
     nrf24_set_crc(en_crc, _1byte); // Enable CRC with 1 byte
-
-    nrf24_open_tx_pipe(addr); // Open TX pipe with address
+    nrf24_open_rx_pipe(0, addr); // Open TX pipe with address
 
     nrf24_pwr_up(); // Power up the NRF24L01+
     
     while (TRUE)
     {
-        HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_SET); // Turn on LED
-        nrf24_transmit(txBuffer, sizeof(txBuffer)); // Transmit data
-        osDelay(50);
-        HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_RESET); // Turn off LED
-        osDelay(1000); // Placeholder delay
+        
+        nrf24_listen(); // Enter listening mode
+
+        if(nrf24_data_available())
+        {
+            nrf24_receive(rx, sizeof(rx)); // Receive data
+            char msg[50];
+            sprintf(msg, rx);
+            UART_puts(msg); 
+            UART_puts("\r\n");
+            osDelay(1); // Placeholder delay
+        }
+
+
     }
 }
 
