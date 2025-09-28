@@ -16,13 +16,6 @@
 
 GNRMC gnrmc; // global struct for GNRMC-messages
 
-// Structs for GNRMC atomic buffer swaps
-GNRMC buffer_gnrmc_a;
-GNRMC buffer_gnrmc_b;
-GNRMC *volatile writerBuffer = &buffer_gnrmc_a;
-GNRMC *volatile readerBuffer = &buffer_gnrmc_b;
-
-
 /**
 * @brief De chars van de binnengekomen GNRMC-string worden in data omgezet, dwz in een
 * GNRMC-struct, mbv strtok(); De struct bevat nu alleen chars - je kunt er ook voor kiezen
@@ -78,18 +71,6 @@ void fill_GNRMC(char *message)
 		UART_puts("\r\n\t longitude:\t");  UART_puts(gnrmc.longitude);
 		UART_puts("\r\n\t speed:    \t");  UART_puts(gnrmc.speed);
 		UART_puts("\r\n\t course:   \t");  UART_puts(gnrmc.course);
-	}
-
-	// Filling, and swapping the GNRMC buffers, using a mutex so that the reader task does not read half filled buffers
-	if (xSemaphoreTake(hGPS_Mutex, portMAX_DELAY) == pdTRUE)
-	{
-		memcpy((void*)writerBuffer, &gnrmc, sizeof(GNRMC)); // copy data to writerBuffer
-
-		GNRMC *temp = writerBuffer; // swap buffers
-		writerBuffer = readerBuffer; // swap writer and reader buffers
-		readerBuffer = temp;
-
-		xSemaphoreGive(hGPS_Mutex); // release mutex
 	}
 
 }
