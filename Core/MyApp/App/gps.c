@@ -61,7 +61,7 @@ void fill_GNRMC(char *message)
 
 	GNRMC *localBuffer = backendBuffer;
 
-	memset(&localBuffer, 0, sizeof(GNRMC)); // clear the struct
+	memset(localBuffer, 0, sizeof(GNRMC)); // clear the struct
 
 	s = strtok(message, tok); // 0. header;
 	strcpy(localBuffer->head, s);
@@ -104,6 +104,7 @@ void fill_GNRMC(char *message)
 		GNRMC *tempbuf = backendBuffer;
 		backendBuffer = frontendBuffer;
 		frontendBuffer = tempbuf;
+		xSemaphoreGive(hGPS_Mutex);
 	}
 	else
 	{
