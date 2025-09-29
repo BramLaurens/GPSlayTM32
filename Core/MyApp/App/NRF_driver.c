@@ -22,6 +22,11 @@ uint8_t rx[PLD_SIZE];  // Receive buffer
 
 extern SPI_HandleTypeDef hspiX;
 
+/**
+ * @brief Driver for the NRF24 module in receiver mode. Checks continously for new data.
+ * 
+ * @param argument 
+ */
 void NRF_Driver(void *argument)
 {
     osDelay(100);
@@ -44,25 +49,33 @@ void NRF_Driver(void *argument)
     
     while (TRUE)
     {
-        
-        nrf24_listen(); // Enter listening mode
-
-        if(nrf24_data_available())
-        {
-            nrf24_receive(rx, sizeof(rx)); // Receive data
-            NRF24_new_value = 1; // Set new value flag
-        }
-
-        if (Uart_debug_out & NRF24_DEBUG_OUT && NRF24_new_value)
-        {
-            char msg[50];
-            sprintf(msg, rx);
-            UART_puts(msg); 
-            UART_puts("\r\n");
-            NRF24_new_value = 0; // Reset new value flag
-        }
-        
+        NRF_receive();
         osDelay(1); // Placeholder delay
+    }
+}
+
+/**
+ * @brief Receiver function for the NRF24 module in receiver mode. Checks continously for new data and stores in RX buffer.
+ * 
+ * @param argument 
+ */
+void NRF_receive()
+{
+    nrf24_listen(); // Enter listening mode
+
+    if(nrf24_data_available())
+    {
+        nrf24_receive(rx, sizeof(rx)); // Receive data
+        NRF24_new_value = 1; // Set new value flag
+    }
+
+    if (Uart_debug_out & NRF24_DEBUG_OUT && NRF24_new_value)
+    {
+        char msg[50];
+        sprintf(msg, rx);
+        UART_puts(msg); 
+        UART_puts("\r\n");
+        NRF24_new_value = 0; // Reset new value flag
     }
 }
 
