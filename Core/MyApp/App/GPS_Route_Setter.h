@@ -9,8 +9,8 @@
 #define MYAPP_APP_GPS_ROUTE_SETTER_H_
 
 typedef struct _GPS_Route{
-    double    latitude[10];
-    double   longitude[10];
+    double    latitude;
+    double   longitude;
     struct _GPS_Route *Next_point;
 } GPS_Route;
 

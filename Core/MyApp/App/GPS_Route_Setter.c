@@ -45,8 +45,8 @@ void Route_Setter(void *argument)
 	GPS_Route *Route=NULL;
 	// testing instead of gps data
 	Route_Parser = malloc(sizeof(GNRMC));
-	memcpy(Route_Parser->longitude[10],"5.8",8);
-	Route_Parser->latitude[10] = "23.698421";
+	Route_Parser->longitude[10] = "3";
+	Route_Parser->latitude[10] = "23.69842";
 	Route_Parser->status = 'A';
 
 	uint32_t key=0;
@@ -86,35 +86,43 @@ GPS_Route *GPS_Route_Maker(GPS_Route *Route)
 		return NULL;
 	}
 
-	GPS_Route *temp= malloc(sizeof(GPS_Route));
-	if(temp==NULL){ // error malloc failed
+	GPS_Route *Node= malloc(sizeof(GPS_Route));
+	if(Node==NULL){ // error malloc failed
 		UART_puts("Malloc failed");
 		return NULL;
 	}
 
 	if(Route == NULL){
-		strncpy(temp->longitude, Route_Parser->longitude, 10);
-		strncpy(temp->latitude, Route_Parser->latitude, 10);
-		temp->Next_point = NULL;
+		Node->longitude= atof(Route_Parser->longitude);
+		Node->latitude= atof(Route_Parser->latitude);
+		Node->Next_point = NULL;
 		UART_puts("Head created");
 		UART_puts("\r\n");
-		UART_puts("Longitude in head:"); UART_puts(temp->longitude);
-		UART_puts("latitude in head:"); UART_puts(temp->latitude);
-		return temp;
+		UART_puts("Longitude in head:"); UART_putint(Node->longitude);
+		UART_puts(" latitude in head:"); UART_putint(Node->latitude);
+		return Node;
 	}
 
-
+	// adding a node other then the head(first)
+	GPS_Route *temp = Route;
+	int i=0;
 	UART_puts("begin search to next point. \r\n");
 	while(temp->Next_point != NULL){
-		
-		UART_puts("Longitude in part:"); UART_puts(temp->longitude);
-		UART_puts("latitude in part:"); UART_puts(temp->latitude);
-			UART_puts("\r\n");
+		i++;
+		UART_puts("Longitude in part:"); UART_putint(temp->longitude);
+		UART_puts("latitude in part:"); UART_putint(temp->latitude);
+		UART_puts("\r\n");
 	temp = temp->Next_point; 
 	}
-		strncpy(temp->longitude, Route_Parser->longitude, 10);
-		strncpy(temp->latitude, Route_Parser->latitude, 10);
-		temp->Next_point = NULL;
+
+		UART_puts("Longitude in part:"); UART_putint(temp->longitude);
+		UART_puts("latitude in part:"); UART_putint(temp->latitude);
+		UART_puts("\r\n");
+		UART_putint(i);
+		Node->longitude= atof(Route_Parser->longitude);
+		Node->latitude= atof(Route_Parser->latitude);
+		Node->Next_point = NULL;
+		temp->Next_point = Node;
 		UART_puts("point created");
 		UART_puts("\r\n");
 	return Route;

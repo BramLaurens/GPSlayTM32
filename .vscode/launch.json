@@ -6,6 +6,8 @@
       "type": "cortex-debug",
       "request": "launch",
       "servertype": "stlink",
+      "serverpath": "D:/school/jaar_2/P1/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.stlink-gdb-server.win32_2.2.200.202505060755/tools/bin/ST-LINK_gdbserver.exe",
+      "stm32cubeprogrammer":"D:/school/jaar_2/P1/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.cubeprogrammer.win32_2.2.200.202503041107/tools/bin",
       "device": "STM32F407VG",
       "interface": "swd",
       "executable": "${workspaceFolder}/Debug/GPSlay32.elf",
