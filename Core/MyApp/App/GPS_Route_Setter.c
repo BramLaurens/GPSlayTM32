@@ -37,29 +37,40 @@ GNRMC *Route_Parser;
 // void fill_GNRMC(char *message); pointer wordt de pointer naar de struct met data
 
 
-void Route_Setter(void *argument){
-	GPS_Route *Route;
+
+//
+
+void Route_Setter(void *argument)
+{
+	GPS_Route *Route=NULL;
+	// testing instead of gps data
+	Route_Parser = malloc(sizeof(GNRMC));
+	memcpy(Route_Parser->longitude[10],"5.8",8);
+	Route_Parser->latitude[10] = "23.698421";
+	Route_Parser->status = 'A';
+
 	uint32_t key=0;
 	while(TRUE){
 		key = xEventGroupWaitBits(hKEY_Event, 0xffff, pdTRUE, pdFALSE, portMAX_DELAY );
 		// UART_puts("\r\n");
 		// UART_puts(key);
 		UART_puts("\r\n");
-			switch(key){
-			case 0x01: // key 1 pressed
-				UART_puts("Trying to set a waypoint");
-				UART_puts("\r\n");
-				fill_GNRMC(&Route_Parser);
-				Route = GPS_Route_Maker(&Route);
-				break;
+		switch(key){
+		case 0x01: // key 1 pressed
+			UART_puts("Trying to set a waypoint");
+			UART_puts("\r\n");
+			// fill_GNRMC(&Route_Parser);
+			Route = GPS_Route_Maker(Route);
+			break;
 
 
-			default:
-				UART_puts("Current key: "); UART_putint(key);
-				UART_puts(" is not in use by GPS_Route_Setter.c");
-				UART_puts("\r\n");
-				break;
-			}
+		default:
+			UART_puts("Current key: "); UART_putint(key);
+			UART_puts(" is not in use by GPS_Route_Setter.c");
+			UART_puts("\r\n");
+			break;
+		}
+		osDelay(1);
 	}
 }
 
@@ -67,40 +78,46 @@ void Route_Setter(void *argument){
 
 
 
-GPS_Route *GPS_Route_Maker(GPS_Route *Route){
-if(Route_Parser->status == 'V'){ // 'V' is invalid 'A' is valid
-	UART_puts("Data from GPS is not valid or is currently busy locking");
-	// hier nog iets met lcd screen doen later for debuging
-	return NULL;
-}
+GPS_Route *GPS_Route_Maker(GPS_Route *Route)
+{
+	if(Route_Parser->status == 'V'){ // 'V' is invalid 'A' is valid
+		UART_puts("Data from GPS is not valid or is currently busy locking");
+		// hier nog iets met lcd screen doen later for debuging
+		return NULL;
+	}
 
-GPS_Route *temp= malloc(sizeof(GPS_Route));
-if(temp==NULL){ // error malloc failed
-	UART_puts("Malloc failed");
-	return NULL;
-}
+	GPS_Route *temp= malloc(sizeof(GPS_Route));
+	if(temp==NULL){ // error malloc failed
+		UART_puts("Malloc failed");
+		return NULL;
+	}
 
-if(Route == NULL){
-	strncpy(temp->longitude, Route_Parser->longitude, 10);
-	strncpy(temp->latitude, Route_Parser->latitude, 10);
-	temp->Next_point = NULL;
-	UART_puts("Head created");
-	UART_puts("\r\n");
-	UART_puts("Longitude in head:"); UART_puts(temp->longitude);
-	UART_puts("latitude in head:"); UART_puts(temp->latitude);
-	return temp;
-}
+	if(Route == NULL){
+		strncpy(temp->longitude, Route_Parser->longitude, 10);
+		strncpy(temp->latitude, Route_Parser->latitude, 10);
+		temp->Next_point = NULL;
+		UART_puts("Head created");
+		UART_puts("\r\n");
+		UART_puts("Longitude in head:"); UART_puts(temp->longitude);
+		UART_puts("latitude in head:"); UART_puts(temp->latitude);
+		return temp;
+	}
 
-while(temp->Next_point != NULL){
 
-temp = temp->Next_point; 
-}
-	strncpy(temp->longitude, Route_Parser->longitude, 10);
-	strncpy(temp->latitude, Route_Parser->latitude, 10);
-	temp->Next_point = NULL;
-	UART_puts("point created");
-	UART_puts("\r\n");
-return Route;
+	UART_puts("begin search to next point. \r\n");
+	while(temp->Next_point != NULL){
+		
+		UART_puts("Longitude in part:"); UART_puts(temp->longitude);
+		UART_puts("latitude in part:"); UART_puts(temp->latitude);
+			UART_puts("\r\n");
+	temp = temp->Next_point; 
+	}
+		strncpy(temp->longitude, Route_Parser->longitude, 10);
+		strncpy(temp->latitude, Route_Parser->latitude, 10);
+		temp->Next_point = NULL;
+		UART_puts("point created");
+		UART_puts("\r\n");
+	return Route;
 }
 
 

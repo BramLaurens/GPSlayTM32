@@ -100,7 +100,7 @@ TASKDATA tasks[] =
 { NRF_Driver,    NULL, .attr.name ="GPS_parser",    .attr.stack_size = 600, .attr.priority = osPriorityBelowNormal7 },
 
 // Route setter
-{ Route_Setter,    NULL, .attr.name ="Route_setter",    .attr.stack_size = 600, .attr.priority = osPriorityBelowNormal7 },
+{ Route_Setter,    NULL, .attr.name ="Route_setter",    .attr.stack_size = 1200, .attr.priority = osPriorityBelowNormal7 },
 
 
   // deze laatste niet wissen, wordt gebruik als 'terminator' in for-loops
