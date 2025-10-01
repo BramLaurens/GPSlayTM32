@@ -15,12 +15,59 @@
 #include <string.h>
 #include "stm32f4xx_hal.h"
 #include "NRF24_conf.h"
+#include "gps.h"
+#include <stdio.h>
 
 #define PLD_SIZE 32 // Payload size in bytes
 uint8_t ack[PLD_SIZE]; // Acknowledgment buffer
-uint8_t rx[PLD_SIZE];  // Receive buffer
+GPS_decimal_degrees_t latestError;
 
 extern SPI_HandleTypeDef hspiX;
+
+/**
+ * @brief Receiver function for the NRF24 module in receiver mode. Checks continously for new data and stores in RX buffer.
+ * 
+ * @param argument 
+ */
+void NRF_receive()
+{
+    nrf24_listen(); // Enter listening mode
+
+    if(nrf24_data_available())
+    {
+        /* nrf24_receive expects a uint8_t* buffer and a uint8_t size.
+         * latestError is a struct, so pass its address as a byte pointer
+         * and cast the size to uint8_t to match the API. */
+        nrf24_receive((uint8_t *)&latestError, (uint8_t)sizeof(latestError)); // Receive data
+        NRF24_new_value = 1; // Set new value flag
+    }
+
+    if (Uart_debug_out & NRF24_DEBUG_OUT && NRF24_new_value)
+    {
+        char msg[100];
+        /* Print the received GPS struct values as decimal degrees. */
+        snprintf(msg, sizeof(msg), "NRF RX lat=%.6f lon=%.6f", latestError.latitude, latestError.longitude);
+        UART_puts(msg);
+        UART_puts("\r\n");
+        NRF24_new_value = 0; // Reset new value flag
+    }
+}
+
+uint8_t nrf24_SPI_commscheck(void) {
+    uint8_t tx[2] = {0x00, 0xFF};   // R_REGISTER + CONFIG(0x00), then dummy 0xFF
+    uint8_t rx[2] = {0};
+
+    HAL_GPIO_WritePin(csn_gpio_port, csn_gpio_pin, GPIO_PIN_RESET);
+    for (volatile int i = 0; i < 50; i++) __NOP();
+
+    HAL_SPI_TransmitReceive(&hspi1, tx, rx, 2, HAL_MAX_DELAY);
+
+    for (volatile int i = 0; i < 50; i++) __NOP();
+    HAL_GPIO_WritePin(csn_gpio_port, csn_gpio_pin, GPIO_PIN_SET);
+
+    // rx[0] = STATUS, rx[1] = CONFIG
+    return rx[1];
+}
 
 /**
  * @brief Driver for the NRF24 module in receiver mode. Checks continously for new data.
@@ -52,45 +99,4 @@ void NRF_Driver(void *argument)
         NRF_receive();
         osDelay(1); // Placeholder delay
     }
-}
-
-/**
- * @brief Receiver function for the NRF24 module in receiver mode. Checks continously for new data and stores in RX buffer.
- * 
- * @param argument 
- */
-void NRF_receive()
-{
-    nrf24_listen(); // Enter listening mode
-
-    if(nrf24_data_available())
-    {
-        nrf24_receive(rx, sizeof(rx)); // Receive data
-        NRF24_new_value = 1; // Set new value flag
-    }
-
-    if (Uart_debug_out & NRF24_DEBUG_OUT && NRF24_new_value)
-    {
-        char msg[50];
-        sprintf(msg, rx);
-        UART_puts(msg); 
-        UART_puts("\r\n");
-        NRF24_new_value = 0; // Reset new value flag
-    }
-}
-
-uint8_t nrf24_SPI_commscheck(void) {
-    uint8_t tx[2] = {0x00, 0xFF};   // R_REGISTER + CONFIG(0x00), then dummy 0xFF
-    uint8_t rx[2] = {0};
-
-    HAL_GPIO_WritePin(csn_gpio_port, csn_gpio_pin, GPIO_PIN_RESET);
-    for (volatile int i = 0; i < 50; i++) __NOP();
-
-    HAL_SPI_TransmitReceive(&hspi1, tx, rx, 2, HAL_MAX_DELAY);
-
-    for (volatile int i = 0; i < 50; i++) __NOP();
-    HAL_GPIO_WritePin(csn_gpio_port, csn_gpio_pin, GPIO_PIN_SET);
-
-    // rx[0] = STATUS, rx[1] = CONFIG
-    return rx[1];
 }

@@ -40,6 +40,14 @@ enum NMEA
 	eGNGGA
 };
 
+/**
+ * @brief Struct to hold GPS coordinates in decimal degrees.
+ */
+typedef struct {
+	double latitude;    // Latitude in decimal degrees
+	double longitude;   // Longitude in decimal degrees
+} GPS_decimal_degrees_t, *PGPS_decimal_degrees_t;
+
 // Expose function to get pointer to latest complete GNRMC data
 
 void GPS_getLatestGNRMC(GNRMC *dest);
