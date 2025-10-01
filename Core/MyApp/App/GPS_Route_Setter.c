@@ -10,6 +10,9 @@
 #include "GPS_Route_Setter.h"
 #include "gps.h"
 
+
+GNRMC *Route_Parser;
+
 // bool Verifieer_Data();
 // bool of int of iets waarmee je kan zien of de data correct is
 
@@ -35,22 +38,26 @@
 
 
 void Route_Setter(void *argument){
-	GNRMC *Route_Parser;
 	GPS_Route *Route;
 	uint32_t key=0;
-	while(1){
+	while(TRUE){
 		key = xEventGroupWaitBits(hKEY_Event, 0xffff, pdTRUE, pdFALSE, portMAX_DELAY );
+		// UART_puts("\r\n");
+		// UART_puts(key);
 		UART_puts("\r\n");
-		UART_putint(key);
 			switch(key){
-			case'1':
+			case 0x01: // key 1 pressed
+				UART_puts("Trying to set a waypoint");
 				UART_puts("\r\n");
-				UART_puts("Key 1 pressed");
+				fill_GNRMC(&Route_Parser);
+				Route = GPS_Route_Maker(&Route);
 				break;
 
 
 			default:
-//				UART_puts("Current key:%i is not in use by GPS_Route_Setter.c",key);
+				UART_puts("Current key: "); UART_putint(key);
+				UART_puts(" is not in use by GPS_Route_Setter.c");
+				UART_puts("\r\n");
 				break;
 			}
 	}
@@ -60,10 +67,41 @@ void Route_Setter(void *argument){
 
 
 
-//Void GPS_Route_Maker(char *Route){
-//
-//
-//}
+GPS_Route *GPS_Route_Maker(GPS_Route *Route){
+if(Route_Parser->status == 'V'){ // 'V' is invalid 'A' is valid
+	UART_puts("Data from GPS is not valid or is currently busy locking");
+	// hier nog iets met lcd screen doen later for debuging
+	return NULL;
+}
+
+GPS_Route *temp= malloc(sizeof(GPS_Route));
+if(temp==NULL){ // error malloc failed
+	UART_puts("Malloc failed");
+	return NULL;
+}
+
+if(Route == NULL){
+	strncpy(temp->longitude, Route_Parser->longitude, 10);
+	strncpy(temp->latitude, Route_Parser->latitude, 10);
+	temp->Next_point = NULL;
+	UART_puts("Head created");
+	UART_puts("\r\n");
+	UART_puts("Longitude in head:"); UART_puts(temp->longitude);
+	UART_puts("latitude in head:"); UART_puts(temp->latitude);
+	return temp;
+}
+
+while(temp->Next_point != NULL){
+
+temp = temp->Next_point; 
+}
+	strncpy(temp->longitude, Route_Parser->longitude, 10);
+	strncpy(temp->latitude, Route_Parser->latitude, 10);
+	temp->Next_point = NULL;
+	UART_puts("point created");
+	UART_puts("\r\n");
+return Route;
+}
 
 
 
