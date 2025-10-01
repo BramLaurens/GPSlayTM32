@@ -39,17 +39,12 @@ void NRF_receive()
          * latestError is a struct, so pass its address as a byte pointer
          * and cast the size to uint8_t to match the API. */
         nrf24_receive((uint8_t *)&latestError, (uint8_t)sizeof(latestError)); // Receive data
-        NRF24_new_value = 1; // Set new value flag
-    }
 
-    if (Uart_debug_out & NRF24_DEBUG_OUT && NRF24_new_value)
-    {
         char msg[100];
         /* Print the received GPS struct values as decimal degrees. */
         snprintf(msg, sizeof(msg), "NRF RX lat=%.6f lon=%.6f", latestError.latitude, latestError.longitude);
         UART_puts(msg);
         UART_puts("\r\n");
-        NRF24_new_value = 0; // Reset new value flag
     }
 }
 
