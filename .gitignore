@@ -4,6 +4,9 @@
 #metadata
 .metadata/
 
+#vscode
+.vscode/
+
 #Debug
 Debug/
 debug/
