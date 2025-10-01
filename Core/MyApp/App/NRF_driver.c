@@ -19,10 +19,33 @@
 #include <stdio.h>
 
 #define PLD_SIZE 32 // Payload size in bytes
+uint8_t rx[PLD_SIZE]; // Transmission buffer
 uint8_t ack[PLD_SIZE]; // Acknowledgment buffer
 GPS_decimal_degrees_t latestError;
 
 extern SPI_HandleTypeDef hspiX;
+
+/**
+ * @brief TEST!! receiver function for the NRF24 module in receiver mode. Checks continously for new data and stores in RX buffer.
+ * 
+ * @param argument 
+ */
+void NRF_testreceive()
+{
+    nrf24_listen(); // Enter listening mode
+
+    if(nrf24_data_available())
+    {
+        UART_puts("NRF24 Data available!\r\n");
+
+        nrf24_receive(rx, PLD_SIZE);
+        char msg[100];
+        /* Print the received raw data */
+        sprintf(msg, sizeof(msg));
+        UART_puts(msg);
+    }
+}
+
 
 /**
  * @brief Receiver function for the NRF24 module in receiver mode. Checks continously for new data and stores in RX buffer.
@@ -35,16 +58,13 @@ void NRF_receive()
 
     if(nrf24_data_available())
     {
-        /* nrf24_receive expects a uint8_t* buffer and a uint8_t size.
-         * latestError is a struct, so pass its address as a byte pointer
-         * and cast the size to uint8_t to match the API. */
-        nrf24_receive((uint8_t *)&latestError, (uint8_t)sizeof(latestError)); // Receive data
+        UART_puts("NRF24 Data available!\r\n");
 
+        nrf24_receive(rx, PLD_SIZE);
         char msg[100];
-        /* Print the received GPS struct values as decimal degrees. */
-        snprintf(msg, sizeof(msg), "NRF RX lat=%.6f lon=%.6f", latestError.latitude, latestError.longitude);
+        /* Print the received raw data as hex values. */
+        snprintf(msg, sizeof(msg), "NRF RX: ");
         UART_puts(msg);
-        UART_puts("\r\n");
     }
 }
 
@@ -91,7 +111,7 @@ void NRF_Driver(void *argument)
     
     while (TRUE)
     {
-        NRF_receive();
+        NRF_testreceive();
         osDelay(1); // Placeholder delay
     }
 }
