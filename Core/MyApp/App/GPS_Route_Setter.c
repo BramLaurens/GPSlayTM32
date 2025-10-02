@@ -11,61 +11,33 @@
 #include "gps.h"
 
 
-GNRMC *Route_Parser;
+GNRMC *pt_Route_Parser; 
 
-// bool Verifieer_Data();
-// bool of int of iets waarmee je kan zien of de data correct is
-
-
-//struct struct_functie
-//geef terug pointer struct.
-
-
-// task maken die constant kijkt of een key gepressed is. en dan actie uitvoerd als ja. dan functie Verifieer_Data() dan struct functie.
-// Dan zetten op lcd dat het correct is gegaan.
-
-
-// data die ontvangen is wordt in een pointer opgeslagen die ik kan callen.
-
-
-// gebruik @brief @PARAM @RETURN ever om functies te documenteren.
-
-//		key = xEventGroupWaitBits(hKEY_Event, 0xffff, pdTRUE, pdFALSE, portMAX_DELAY );
-// deze callen want hieruit kan je de key presses halen met key gelijk aan de knop de
-
-// 	LCD_puts(screen_text); // max 16 chars , boven 8 onder 8 denk erom.
-// void fill_GNRMC(char *message); pointer wordt de pointer naar de struct met data
-
-
-
-//
-
+// a function to init and call other functions necessary for the Route Setter
 void Route_Setter(void *argument)
 {
-	GPS_Route *Route=NULL;
+	GPS_Route *pt_Route=NULL;
 	// testing instead of gps data
-	Route_Parser = malloc(sizeof(GNRMC));
-	Route_Parser->longitude[10] = "3";
-	Route_Parser->latitude[10] = "23.69842";
-	Route_Parser->status = 'A';
+	pt_Route_Parser = malloc(sizeof(GNRMC));
+	strncpy(pt_Route_Parser->latitude, "51.3654",10);
+	strncpy(pt_Route_Parser->longitude, "50.97652",10);
+	pt_Route_Parser->status = 'A';
 
 	uint32_t key=0;
 	while(TRUE){
-		key = xEventGroupWaitBits(hKEY_Event, 0xffff, pdTRUE, pdFALSE, portMAX_DELAY );
-		// UART_puts("\r\n");
-		// UART_puts(key);
+		key = xEventGroupWaitBits(hKEY_Event, 0xffff, pdTRUE, pdFALSE, portMAX_DELAY ); // wait for a ARM key press
 		UART_puts("\r\n");
 		switch(key){
 		case 0x01: // key 1 pressed
 			UART_puts("\r\n");
 			UART_puts("Trying to set a waypoint");
 			UART_puts("\r\n");
-			// fill_GNRMC(&Route_Parser);
-			Route = GPS_Route_Maker(Route);
+			// fill_GNRMC(&pt_Route_Parser);	// data from the gps filled in pt_Route_Parser
+			pt_Route = GPS_Route_Maker(pt_Route); // Creates a node for a linked list everytime the ARM key is pressed
 			break;
 
 
-		default:
+		default: // incease a unassigned key is pressed
 			UART_puts("Current key: "); UART_putint(key);
 			UART_puts(" is not in use by GPS_Route_Setter.c");
 			UART_puts("\r\n");
@@ -79,61 +51,60 @@ void Route_Setter(void *argument)
 
 
 
-GPS_Route *GPS_Route_Maker(GPS_Route *Route)
+
+// creates a node for the linked list containing coordinates in Long, Lapt_Route_Parser which are pulled from 
+// the global gps data struct: "pt_Route_Parser" if the data recieved is valid.
+GPS_Route *GPS_Route_Maker(GPS_Route *pt_Route)
 {
-	if(Route_Parser->status == 'V'){ // 'V' is invalid 'A' is valid
+	char Float_buffer[100]; // char buffer so the floats can be made visible for the user
+	if(pt_Route_Parser->status == 'V'){ // 'V' is invalid 'A' is valid 
 		UART_puts("Data from GPS is not valid or is currently busy locking");
-		// hier nog iets met lcd screen doen later for debuging
-		return NULL;
+		// posibility for lcd screen debuging
+		return NULL; 
 	}
 
-	GPS_Route *Node= malloc(sizeof(GPS_Route));
+	GPS_Route *Node= malloc(sizeof(GPS_Route)); // free memory so a struct can be added returning a pointer to that memory address
 	if(Node==NULL){ // error malloc failed
 		UART_puts("Malloc failed");
 		return NULL;
 	}
 
-	if(Route == NULL){
-		Node->longitude= atof(Route_Parser->longitude);
-		Node->latitude= atof(Route_Parser->latitude);
-		Node->Next_point = NULL;
+	if(pt_Route == NULL){ // if there is no head(first node of a linked list)  
+		Node->longitude= atof(pt_Route_Parser->longitude);	// make a float out of the ascii char of the gps data
+		Node->latitude= atof(pt_Route_Parser->latitude);	// make a float out of the ascii char of the gps data
+		Node->Next_point = NULL; 
 		UART_puts("Head created");
 		UART_puts("\r\n");
-		UART_puts("Longitude in head:"); UART_putint(Node->longitude);
-		UART_puts(" latitude in head:"); UART_putint(Node->latitude);
+		sprintf(Float_buffer, "Long:%2.9f",Node->longitude); // So the float can read by the user in terminal 
+		UART_puts(Float_buffer); UART_puts("\r\n");
+		// posibility for lcd screen debuging and showing user the coordinates
+		sprintf(Float_buffer, "Lat:%2.9f",Node->latitude);	// So the float can read by the user in terminal 
+		UART_puts(Float_buffer); UART_puts("\r\n");
 		return Node;
 	}
 
 	// adding a node other then the head(first)
-	GPS_Route *temp = Route;
-	int i=0;
-	UART_puts("begin search to next point. \r\n");
-	while(temp->Next_point != NULL){
+	GPS_Route *temp = pt_Route; // creating a temp so the original pointer does not get lost when searching for a next point
+	int i=1;
+	UART_puts("begin search for next point. \r\n");
+	while(temp->Next_point != NULL){ // searching for the next node with no next point so one can be added
 		i++;
-		UART_puts("Longitude in part:"); UART_putint(temp->longitude);
-		UART_puts("latitude in part:"); UART_putint(temp->latitude);
-		UART_puts("\r\n");
-	temp = temp->Next_point; 
+		temp = temp->Next_point; 
 	}
-
-		UART_puts("Longitude in part:"); UART_putint(temp->longitude);
-		UART_puts("latitude in part:"); UART_putint(temp->latitude);
-		UART_puts("\r\n");
-		UART_putint(i);
-		Node->longitude= atof(Route_Parser->longitude);
-		Node->latitude= atof(Route_Parser->latitude);
-		Node->Next_point = NULL;
-		temp->Next_point = Node;
-		UART_puts("point(s)+head created");
-		UART_puts("\r\n");
-	return Route;
+	UART_puts("\r\n");
+	UART_puts("Node in linked list:"); UART_putint(i); UART_puts("\r\n");
+	Node->longitude= atof(pt_Route_Parser->longitude);
+	Node->latitude= atof(pt_Route_Parser->latitude);
+	Node->Next_point = NULL;
+	temp->Next_point = Node;
+	sprintf(Float_buffer, "Long:%2.9f",Node->longitude);
+	UART_puts(Float_buffer); UART_puts("\r\n");
+	// LCD_clear();						// bedenk iets om dit goed te doen zonder dat node aanmaken verkeerd gaat of blocked is.
+	// LCD_puts(Float_buffer);				// dit ook
+	sprintf(Float_buffer, "Lat:%2.9f",Node->latitude);
+	UART_puts(Float_buffer); UART_puts("\r\n");
+	UART_puts("New node created");
+	UART_puts("\r\n");
+	return pt_Route;
 }
-
-
-
-
-
-
-
-
 
