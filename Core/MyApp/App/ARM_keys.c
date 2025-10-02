@@ -96,7 +96,17 @@ void ARM_keys_task (void *argument)
 			led = (i==0 ? LEDRED : (i==1 ? LEDORANGE : LEDGREEN));
 			toggle_led(led);
 	  	}
-     	taskYIELD(); // done, force context switch
+
+		// Also notify the Route_Setter task so it can act on this key press.
+		// Using a direct task notification avoids races that happen when multiple
+		// consumers try to read the shared event group bits.
+		osThreadId_t hRoute = GetTaskhandle("Route_setter");
+		if (hRoute)
+		{
+			xTaskNotify(hRoute, key, eSetValueWithOverwrite);
+		}
+
+		taskYIELD(); // done, force context switch
 	}
 }
 

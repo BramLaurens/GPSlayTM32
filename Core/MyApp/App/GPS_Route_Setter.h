@@ -11,12 +11,11 @@
 typedef struct _GPS_Route{
     double    latitude;
     double   longitude;
+    uint8_t nodeNumber;
     struct _GPS_Route *Next_point;
 } GPS_Route;
 
-
-
-GPS_Route *GPS_Route_Maker(GPS_Route *Route);
+uint8_t GPS_Route_Maker();
 
 
 

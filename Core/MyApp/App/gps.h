@@ -42,4 +42,4 @@ enum NMEA
 
 // Expose function to get pointer to latest complete GNRMC data
 
-void GPS_getLatestGNRMC(GNRMC *dest);
+void getlatest_GNRMC(GNRMC *dest);

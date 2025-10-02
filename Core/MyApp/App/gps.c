@@ -33,6 +33,7 @@ void getlatest_GNRMC(GNRMC *dest)
 	if(xSemaphoreTake(hGPS_Mutex, portMAX_DELAY) == pdTRUE)
 	{
 		*dest = *frontendBuffer;
+		xSemaphoreGive(hGPS_Mutex);
 	}
 	else
 	{
@@ -97,6 +98,13 @@ void fill_GNRMC(char *message)
 		UART_puts("\r\n\t longitude:\t");  UART_puts(gnrmc.longitude);
 		UART_puts("\r\n\t speed:    \t");  UART_puts(gnrmc.speed);
 		UART_puts("\r\n\t course:   \t");  UART_puts(gnrmc.course);
+	}
+
+	if(localBuffer->status == 'A'){
+		HAL_GPIO_WritePin(GPIOD, LEDGREEN, GPIO_PIN_SET); // GPS fix
+	}
+	else{
+		HAL_GPIO_WritePin(GPIOD, LEDGREEN, GPIO_PIN_RESET); // no GPS fix
 	}
 
 	if(xSemaphoreTake(hGPS_Mutex, portMAX_DELAY) == pdTRUE)
