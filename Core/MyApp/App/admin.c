@@ -98,7 +98,7 @@ TASKDATA tasks[] =
 { LED_Task4,    NULL, .attr.name = "LED_Task4",    .attr.stack_size = 450, .attr.priority = osPriorityBelowNormal4 },
 
   // NRF Driver
-{ NRF_Driver,    NULL, .attr.name ="GPS_parser",    .attr.stack_size = 600, .attr.priority = osPriorityBelowNormal7 },
+{ NRF_Driver,    NULL, .attr.name ="NRF_driver",    .attr.stack_size = 1000, .attr.priority = osPriorityNormal3 },
 
 // Route setter
 { Route_Setter,    NULL, .attr.name ="Route_setter",    .attr.stack_size = 1200, .attr.priority = osPriorityBelowNormal7 },
