@@ -57,6 +57,7 @@ void Route_Setter(void *argument)
 		UART_puts("\r\n");
 		switch(key){
 		case 0x01: // key 1 pressed
+			UART_puts("\r\n");
 			UART_puts("Trying to set a waypoint");
 			UART_puts("\r\n");
 			// fill_GNRMC(&Route_Parser);
@@ -123,7 +124,7 @@ GPS_Route *GPS_Route_Maker(GPS_Route *Route)
 		Node->latitude= atof(Route_Parser->latitude);
 		Node->Next_point = NULL;
 		temp->Next_point = Node;
-		UART_puts("point created");
+		UART_puts("point(s)+head created");
 		UART_puts("\r\n");
 	return Route;
 }
