@@ -45,9 +45,6 @@ double convert_decimal_degrees(char *nmea_coordinate, char* ns)
     return decimal_degrees; // Return the converted value
 }
 
-
-
-
 /**
  * @brief Views all nodes in the linked list and prints them using UART
  * 
@@ -185,7 +182,7 @@ uint8_t Remove_Last_Node()
 	if(pt_Route == NULL)
 	{	// if the linked list is empty then return -1
 		UART_puts("Linked list is empty \r\n");
-		return -1; // error code maybe other nr
+		return 2; // error code maybe other nr
 	}
 
 	if(pt_Route->Next_point == NULL)
@@ -200,7 +197,7 @@ uint8_t Remove_Last_Node()
 	while(temp->Next_point != NULL)	temp = temp->Next_point;
 
 	free(temp->Next_point); // this frees the memory for the kernel to be used again
-	temp->Next_point = NULL; // the pointer will still point to the spot in memory so make it NULL so no exidental read write operation is done
+	temp->Next_point = NULL; // the pointer will still point to the spot in memory so make it NULL so no accidental read write operation is done
 	UART_puts("Removed node");
 return 0;
 }
@@ -216,12 +213,6 @@ return 0;
  */
 void Route_Setter(void *argument)
 {
-	// Just filling GPS data struct with dummy data for testing
-	// pt_Route_Parser = malloc(sizeof(GNRMC));
-	// strncpy(pt_Route_Parser->latitude, "51.3654",10);
-	// strncpy(pt_Route_Parser->longitude, "50.97652",10);
-	// pt_Route_Parser->status = 'A';
-
 	//Create a key variable to store the key pressed by the user
 	uint32_t key=0;
 
