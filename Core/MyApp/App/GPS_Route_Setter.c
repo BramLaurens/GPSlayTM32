@@ -130,6 +130,34 @@ uint8_t GPS_Route_Maker()
 	return 0;
 }
 
+uint8_t Remove_Last_Node(void *argument){
+
+	if(pt_Route == NULL){
+		UART_puts("Linked list is empty \r\n");
+		return -1; // error code maybe other nr
+	}
+
+	if(pt_Route->Next_point == NULL){
+		free(pt_Route);
+		pt_Route = NULL;
+		UART_puts("Linked list is now cleared completly");
+		return 1;
+	}
+
+	GPS_Route *temp=pt_Route;
+	while(temp->Next_point != NULL){
+		temp = temp->Next_point;
+	}
+	free(temp->Next_point);
+	temp->Next_point = NULL;
+	UART_puts("Removed node");
+return 0;
+}
+
+
+
+
+
 /**
  * @brief Task that waits for a ARM key press to set a waypoint by calling the GPS_Route_Maker function, making a linkedlist of waypoints.
  * 
@@ -167,8 +195,13 @@ void Route_Setter(void *argument)
 			getlatest_GNRMC(&GNRMC_localcopy3);
 			GPS_Route_Maker(); // Creates a node for a linked list everytime the ARM key is pressed
 			break;
-
-
+		case 0x02: // remove last node 
+			Remove_Last_Node();
+			break;
+		case 0x04: // remove al nodes 
+			UART_puts("Removing all nodes");
+			while(Remove_Last_Node() != 0);
+			break;
 		default: // incease a unassigned key is pressed
 			UART_puts("Current key: "); UART_putint(key);
 			UART_puts(" is not in use by GPS_Route_Setter.c");
