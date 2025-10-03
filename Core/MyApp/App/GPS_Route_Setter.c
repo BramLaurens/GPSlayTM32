@@ -16,6 +16,7 @@
 // Struct to hold latest GNRMC data from gps.c
 GNRMC GNRMC_localcopy3;
 GNRMC *pt_Route_Parser = &GNRMC_localcopy3; // Pointer to the struct holding the latest GNRMC data
+// pt_Route_Parser is redonedend maybe remove for final build
 
 // Create a pointer of type GPS_Route
 GPS_Route *pt_Route=NULL;
@@ -44,11 +45,51 @@ double convert_decimal_degrees(char *nmea_coordinate, char* ns)
     return decimal_degrees; // Return the converted value
 }
 
+
+
+
+/**
+ * @brief Views all nodes in the linked list and prints them using UART
+ * 
+ * @param not in use
+ * @return void
+ */
+void View_Linkedlist()
+{
+	if(pt_Route == NULL)
+		{	// if the linked list is empty then return
+			UART_puts("Linked list is empty \r\n");
+			return; 
+		}
+
+	char buffer[100];
+	GPS_Route *temp = pt_Route;
+	if(temp->Next_point == NULL)
+	{
+		sprintf(buffer,"Long:%2.9f\n Lat:%2.9f ", temp->longitude, temp->latitude);
+		UART_puts(buffer);
+		UART_puts("\r\n");
+		return;
+	}
+
+	while(temp!= NULL) // go through and print all nodes while there is a node
+	{
+		sprintf(buffer,"Long:%2.9f\n Lat:%2.9f ", temp->longitude, temp->latitude);
+		UART_puts(buffer);
+		UART_puts("\r\n");
+		temp=temp->Next_point;
+	}
+
+	return;
+}
+
+
+
 /**
  * @brief creates a node for the linked list containing coordinates in Long, Lapt_Route_Parser 
  * which are pulled from the global gps data struct: "pt_Route_Parser" if the data recieved is valid.
  * 
- * @param pt_Route pointer to the head of the linked list, if there is no head it will create one
+ * @param Void *arg not in use
  * @return GPS_Route* returns a pointer to the head of the linked list
  */
 uint8_t GPS_Route_Maker()
@@ -130,26 +171,36 @@ uint8_t GPS_Route_Maker()
 	return 0;
 }
 
-uint8_t Remove_Last_Node(void *argument){
 
-	if(pt_Route == NULL){
+
+/**
+ * @brief Removes the last node from the linked list if the linked list is 
+ * 
+ * @param not in use
+ * @return returns an int based on the state of removal 1: linked list is empty, 0: The last node is removed, -1: The linked list is empty when this function was called 
+ */
+uint8_t Remove_Last_Node()
+{
+
+	if(pt_Route == NULL)
+	{	// if the linked list is empty then return -1
 		UART_puts("Linked list is empty \r\n");
 		return -1; // error code maybe other nr
 	}
 
-	if(pt_Route->Next_point == NULL){
-		free(pt_Route);
-		pt_Route = NULL;
+	if(pt_Route->Next_point == NULL)
+	{ // the last node of the linked list
+		free(pt_Route); // this frees the memory for the kernel to be used again
+		pt_Route = NULL; // the pointer will still point to the spot in memory so make it NULL so no exidental read write operation is done
 		UART_puts("Linked list is now cleared completly");
-		return 1;
+		return 1; // returns 1 when the linked list is completly empty 
 	}
 
-	GPS_Route *temp=pt_Route;
-	while(temp->Next_point != NULL){
-		temp = temp->Next_point;
-	}
-	free(temp->Next_point);
-	temp->Next_point = NULL;
+	GPS_Route *temp=pt_Route; // create temp to go through the linked list
+	while(temp->Next_point != NULL)	temp = temp->Next_point;
+
+	free(temp->Next_point); // this frees the memory for the kernel to be used again
+	temp->Next_point = NULL; // the pointer will still point to the spot in memory so make it NULL so no exidental read write operation is done
 	UART_puts("Removed node");
 return 0;
 }
@@ -189,19 +240,28 @@ void Route_Setter(void *argument)
 		case 0x01: // key 1 pressed (upper left)
 			#ifdef debug_routesetter
 				UART_puts("\r\n");
-				UART_puts("Trying to set a waypoint");
+				UART_puts("Trying to set a waypoint...");
 				UART_puts("\r\n");
 			#endif
 			getlatest_GNRMC(&GNRMC_localcopy3);
 			GPS_Route_Maker(); // Creates a node for a linked list everytime the ARM key is pressed
 			break;
+
 		case 0x02: // remove last node 
+			UART_puts("Removing last node...");
 			Remove_Last_Node();
 			break;
-		case 0x04: // remove al nodes 
-			UART_puts("Removing all nodes");
+
+		case 0x03: // remove all nodes 
+			UART_puts("Removing all nodes...");
 			while(Remove_Last_Node() != 0);
 			break;
+
+		case 0x04:
+		UART_puts("Viewing all items in linked list...");
+			View_Linkedlist();
+			break; 
+
 		default: // incease a unassigned key is pressed
 			UART_puts("Current key: "); UART_putint(key);
 			UART_puts(" is not in use by GPS_Route_Setter.c");
