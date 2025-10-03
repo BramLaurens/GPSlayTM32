@@ -193,18 +193,21 @@ uint8_t Remove_Last_Node()
 		return 1; // returns 1 when the linked list is completly empty 
 	}
 
-	GPS_Route *temp=pt_Route; // create temp to go through the linked list
-	while(temp->Next_point != NULL)	temp = temp->Next_point;
+	GPS_Route *temp = pt_Route;
+    GPS_Route *prev = NULL;
 
-	free(temp->Next_point); // this frees the memory for the kernel to be used again
-	temp->Next_point = NULL; // the pointer will still point to the spot in memory so make it NULL so no accidental read write operation is done
-	UART_puts("Removed node");
-return 0;
+    while(temp->Next_point != NULL) {
+        prev = temp;
+        temp = temp->Next_point;
+    }
+
+    // temp is now the last node, prev is the second-to-last
+    free(temp);
+    prev->Next_point = NULL;
+
+    UART_puts("Removed last node");
+    return 0;
 }
-
-
-
-
 
 /**
  * @brief Task that waits for a ARM key press to set a waypoint by calling the GPS_Route_Maker function, making a linkedlist of waypoints.
@@ -217,10 +220,7 @@ void Route_Setter(void *argument)
 	uint32_t key=0;
 
 	while(TRUE){
-		// Wait for a notification from the ARM key handler task instead of waiting on the
-		// shared event group. Using the event group caused a race where either the
-		// key-IRQ task or this task consumed the bits, so only one saw the key press.
-		// xTaskNotifyWait blocks until ARM_keys_task (or IRQ task) notifies us.
+		// Wait for a notification from the ARM key handler.
 		xTaskNotifyWait(0x00,            // Don't clear any notification bits on entry
 						0xffffffff,      // Clear the notification value on exit
 						&key,            // Notified value
