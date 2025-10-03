@@ -15,10 +15,13 @@
 #include <string.h>
 #include "stm32f4xx_hal.h"
 #include "NRF24_conf.h"
+#include "gps.h"
 
 #define PLD_SIZE 32 // Payload size in bytes
 uint8_t ack[PLD_SIZE]; // Acknowledgment buffer
 uint8_t rx[PLD_SIZE];  // Receive buffer
+
+GPS_decimal_degrees_t errorBuffer;
 
 extern SPI_HandleTypeDef hspiX;
 
@@ -37,22 +40,30 @@ void NRF_Driver(void *argument)
     nrf24_data_rate(_1mbps); // Set data rate to 1Mbps
     nrf24_set_channel(78); // Set channel to 76
     nrf24_pipe_pld_size(0, PLD_SIZE); // Set payload size for pipe 0
+    // nrf24_pipe_pld_size(0, sizeof(GPS_decimal_degrees_t)); // Set payload size for pipe 0
     nrf24_set_crc(en_crc, _1byte); // Enable CRC with 1 byte
     nrf24_open_rx_pipe(0, addr); // Open TX pipe with address
 
     nrf24_pwr_up(); // Power up the NRF24L01+
-    
+
+    nrf24_listen(); // Enter listening mode
+
     while (TRUE)
     {
         
-        nrf24_listen(); // Enter listening mode
-
         if(nrf24_data_available())
         {
+            UART_puts("Data received: ");
+
             nrf24_receive(rx, sizeof(rx)); // Receive data
-            char msg[50];
-            sprintf(msg, rx);
-            UART_puts(msg); 
+
+            //Copy received data to errorBuffer for further processing
+            memcpy(&errorBuffer, rx, sizeof(errorBuffer));
+
+            // Debug print
+            char msg[100];
+            sprintf(msg, "Lat: %.6f, Lon: %.6f", errorBuffer.latitude, errorBuffer.longitude);
+            UART_puts(msg);
             UART_puts("\r\n");
         }
 
