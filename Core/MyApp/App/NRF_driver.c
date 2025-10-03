@@ -15,58 +15,48 @@
 #include <string.h>
 #include "stm32f4xx_hal.h"
 #include "NRF24_conf.h"
-#include "gps.h"
-#include <stdio.h>
 
 #define PLD_SIZE 32 // Payload size in bytes
-// allocate one extra byte for safe null-termination when treating payload as a C-string
-uint8_t rx[PLD_SIZE + 1]; // Transmission buffer (+1 for '\0')
-uint8_t ack[PLD_SIZE + 1]; // Acknowledgment buffer (+1 for '\0')
-GPS_decimal_degrees_t latestError;
+uint8_t ack[PLD_SIZE]; // Acknowledgment buffer
+uint8_t rx[PLD_SIZE];  // Receive buffer
 
 extern SPI_HandleTypeDef hspiX;
 
-/**
- * @brief TEST!! receiver function for the NRF24 module in receiver mode. Checks continously for new data and stores in RX buffer.
- * 
- * @param argument 
- */
-void NRF_testreceive()
+void NRF_Driver(void *argument)
 {
-    if(nrf24_data_available())
+    osDelay(100);
+
+    UART_puts((char *)__func__); UART_puts(" started\r\n");
+    uint8_t addr[5] = {0xE7, 0xE7, 0xE7, 0xE7, 0xE7};
+    HAL_GPIO_WritePin(ce_gpio_port, ce_gpio_pin, 0); // Set CE low
+    HAL_GPIO_WritePin(csn_gpio_port, csn_gpio_pin, 1); // Set CSN high
+
+
+    nrf24_init(); // Initialize NRF24L01+
+    nrf24_tx_pwr(_0dbm); // Set TX power to 0dBm
+    nrf24_data_rate(_1mbps); // Set data rate to 1Mbps
+    nrf24_set_channel(78); // Set channel to 76
+    nrf24_pipe_pld_size(0, PLD_SIZE); // Set payload size for pipe 0
+    nrf24_set_crc(en_crc, _1byte); // Enable CRC with 1 byte
+    nrf24_open_rx_pipe(0, addr); // Open TX pipe with address
+
+    nrf24_pwr_up(); // Power up the NRF24L01+
+    
+    while (TRUE)
     {
-        UART_puts("NRF24 Data available!\r\n");
+        
+        nrf24_listen(); // Enter listening mode
 
-        nrf24_receive(rx, PLD_SIZE);
-        rx[PLD_SIZE] = '\0'; // Ensure null-terminated string (array has PLD_SIZE+1)
+        if(nrf24_data_available())
+        {
+            nrf24_receive(rx, sizeof(rx)); // Receive data
+            char msg[50];
+            sprintf(msg, rx);
+            UART_puts(msg); 
+            UART_puts("\r\n");
+        }
 
-        char msg[100];
-        // print at most PLD_SIZE characters to avoid reading binary/non-terminated data
-        snprintf(msg, sizeof(msg), "Received data: %.*s\r\n", PLD_SIZE, (char *)rx);
-        UART_puts(msg);
-    }
-}
-
-
-/**
- * @brief Receiver function for the NRF24 module in receiver mode. Checks continously for new data and stores in RX buffer.
- * 
- * @param argument 
- */
-void NRF_receive()
-{
-    nrf24_listen(); // Enter listening mode
-
-    if(nrf24_data_available())
-    {
-        UART_puts("NRF24 Data available!\r\n");
-
-    nrf24_receive(rx, PLD_SIZE);
-    rx[PLD_SIZE] = '\0'; // Ensure null-terminated string (array has PLD_SIZE+1)
-    char msg[100];
-    /* Print the received raw data as a string (limit to payload length). */
-    snprintf(msg, sizeof(msg), "Received data: %.*s\r\n", PLD_SIZE, (char *)rx);
-    UART_puts(msg);
+        osDelay(1); // Placeholder delay
     }
 }
 
@@ -84,43 +74,4 @@ uint8_t nrf24_SPI_commscheck(void) {
 
     // rx[0] = STATUS, rx[1] = CONFIG
     return rx[1];
-}
-
-/**
- * @brief Driver for the NRF24 module in receiver mode. Checks continously for new data.
- * 
- * @param argument 
- */
-void NRF_Driver(void *argument)
-{
-    osDelay(1000);
-
-    UART_puts((char *)__func__); UART_puts(" started\r\n");
-
-    uint8_t addr[5] = {0xE7, 0xE7, 0xE7, 0xE7, 0xE7};
-    HAL_GPIO_WritePin(ce_gpio_port, ce_gpio_pin, 0); // Set CE low
-    HAL_GPIO_WritePin(csn_gpio_port, csn_gpio_pin, 1); // Set CSN high
-
-
-    nrf24_init(); // Initialize NRF24L01+
-    nrf24_tx_pwr(_0dbm); // Set TX power to 0dBm
-    nrf24_data_rate(_1mbps); // Set data rate to 1Mbps
-    nrf24_set_channel(108); // Set channel to 76
-    nrf24_pipe_pld_size(0, PLD_SIZE); // Set payload size for pipe 0
-    nrf24_set_crc(en_crc, _1byte); // Enable CRC with 1 byte
-    nrf24_open_rx_pipe(0, addr); // Open TX pipe with address
-
-    nrf24_pwr_up(); // Power up the NRF24L01+
-
-    // Ideally call this once during init, not every loop:
-    nrf24_listen(); 
-
-    osDelay(1000);
-
-
-    while (TRUE)
-    {
-        NRF_testreceive();
-        osDelay(1); // Placeholder delay
-    }
 }
