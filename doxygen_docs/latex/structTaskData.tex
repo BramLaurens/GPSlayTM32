@@ -1,0 +1,109 @@
+\doxysection{Task\+Data Struct Reference}
+\hypertarget{structTaskData}{}\label{structTaskData}\index{TaskData@{TaskData}}
+
+
+struct voor taak-\/gegevens, waaronder de argumenten om een taak aan te maken  
+
+
+
+
+{\ttfamily \#include $<$admin.\+h$>$}
+
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+void \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structTaskData_aa77988455b06d56b4b1b54b272efdbb1}{argument}}
+\begin{DoxyCompactList}\small\item\em de functie()-\/pointer van de taak/thread/task zelf \end{DoxyCompactList}\item 
+os\+Thread\+Attr\+\_\+t \mbox{\hyperlink{structTaskData_a158302b7866c800c8bef26227e275d6b}{attr}}
+\begin{DoxyCompactList}\small\item\em evt extra variabele voor taak, bv. "{}hello"{} \end{DoxyCompactList}\item 
+os\+Thread\+Func\+\_\+t \mbox{\hyperlink{structTaskData_a480fd8fbf96e415daf1428fbbcfffdfd}{func}}
+\item 
+os\+Thread\+Id\+\_\+t \mbox{\hyperlink{structTaskData_aac11dd095b7ef45ad8cc8f3c5c9fe7e3}{h\+Task}}
+\begin{DoxyCompactList}\small\item\em struct for OS, but we only declare a few members \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+struct voor taak-\/gegevens, waaronder de argumenten om een taak aan te maken 
+
+The carriage return \mbox{[}CR\mbox{]} and the line feed \mbox{[}LF\mbox{]} combination terminate the sentence. \doxylink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0}{NMEA} 0 83 sentences vary in length, but each sentence is limited to 79 characters or less. This length limit excludes the \$ and the \mbox{[}CR\mbox{]}\mbox{[}LF\mbox{]} characters. The data field block, including delimiters is limited to 74 characters or less. 
+
+Definition at line \mbox{\hyperlink{admin_8h_source_l00040}{40}} of file \mbox{\hyperlink{admin_8h_source}{admin.\+h}}.
+
+
+
+\label{doc-variable-members}
+\Hypertarget{structTaskData_doc-variable-members}
+\doxysubsection{Field Documentation}
+\Hypertarget{structTaskData_aa77988455b06d56b4b1b54b272efdbb1}\index{TaskData@{TaskData}!argument@{argument}}
+\index{argument@{argument}!TaskData@{TaskData}}
+\doxysubsubsection{\texorpdfstring{argument}{argument}}
+{\footnotesize\ttfamily \label{structTaskData_aa77988455b06d56b4b1b54b272efdbb1} 
+void\texorpdfstring{$\ast$}{*} Task\+Data\+::argument}
+
+
+
+de functie()-\/pointer van de taak/thread/task zelf 
+
+
+
+Definition at line \mbox{\hyperlink{admin_8h_source_l00043}{43}} of file \mbox{\hyperlink{admin_8h_source}{admin.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{admin_8c_source_l00277}{Create\+Tasks()}}.
+
+\Hypertarget{structTaskData_a158302b7866c800c8bef26227e275d6b}\index{TaskData@{TaskData}!attr@{attr}}
+\index{attr@{attr}!TaskData@{TaskData}}
+\doxysubsubsection{\texorpdfstring{attr}{attr}}
+{\footnotesize\ttfamily \label{structTaskData_a158302b7866c800c8bef26227e275d6b} 
+os\+Thread\+Attr\+\_\+t Task\+Data\+::attr}
+
+
+
+evt extra variabele voor taak, bv. "{}hello"{} 
+
+
+
+Definition at line \mbox{\hyperlink{admin_8h_source_l00044}{44}} of file \mbox{\hyperlink{admin_8h_source}{admin.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{admin_8c_source_l00277}{Create\+Tasks()}}, \mbox{\hyperlink{admin_8c_source_l00387}{Display\+Task\+Data()}}, \mbox{\hyperlink{admin_8c_source_l00304}{Get\+Taskhandle()}}, \mbox{\hyperlink{admin_8c_source_l00325}{Set\+Task\+Priority()}}, and \mbox{\hyperlink{admin_8c_source_l00353}{Start\+Stop\+Task()}}.
+
+\Hypertarget{structTaskData_a480fd8fbf96e415daf1428fbbcfffdfd}\index{TaskData@{TaskData}!func@{func}}
+\index{func@{func}!TaskData@{TaskData}}
+\doxysubsubsection{\texorpdfstring{func}{func}}
+{\footnotesize\ttfamily \label{structTaskData_a480fd8fbf96e415daf1428fbbcfffdfd} 
+os\+Thread\+Func\+\_\+t Task\+Data\+::func}
+
+
+
+Definition at line \mbox{\hyperlink{admin_8h_source_l00042}{42}} of file \mbox{\hyperlink{admin_8h_source}{admin.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{admin_8c_source_l00277}{Create\+Tasks()}}, \mbox{\hyperlink{admin_8c_source_l00387}{Display\+Task\+Data()}}, \mbox{\hyperlink{admin_8c_source_l00304}{Get\+Taskhandle()}}, \mbox{\hyperlink{admin_8c_source_l00325}{Set\+Task\+Priority()}}, and \mbox{\hyperlink{admin_8c_source_l00353}{Start\+Stop\+Task()}}.
+
+\Hypertarget{structTaskData_aac11dd095b7ef45ad8cc8f3c5c9fe7e3}\index{TaskData@{TaskData}!hTask@{hTask}}
+\index{hTask@{hTask}!TaskData@{TaskData}}
+\doxysubsubsection{\texorpdfstring{hTask}{hTask}}
+{\footnotesize\ttfamily \label{structTaskData_aac11dd095b7ef45ad8cc8f3c5c9fe7e3} 
+os\+Thread\+Id\+\_\+t Task\+Data\+::h\+Task}
+
+
+
+struct for OS, but we only declare a few members 
+
+
+
+Definition at line \mbox{\hyperlink{admin_8h_source_l00045}{45}} of file \mbox{\hyperlink{admin_8h_source}{admin.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{admin_8c_source_l00277}{Create\+Tasks()}}, \mbox{\hyperlink{admin_8c_source_l00387}{Display\+Task\+Data()}}, \mbox{\hyperlink{admin_8c_source_l00304}{Get\+Taskhandle()}}, \mbox{\hyperlink{admin_8c_source_l00325}{Set\+Task\+Priority()}}, and \mbox{\hyperlink{admin_8c_source_l00353}{Start\+Stop\+Task()}}.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Core/\+My\+App/\+App/\mbox{\hyperlink{admin_8h}{admin.\+h}}\end{DoxyCompactItemize}

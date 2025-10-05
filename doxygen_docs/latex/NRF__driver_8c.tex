@@ -1,0 +1,257 @@
+\doxysection{Core/\+My\+App/\+App/\+NRF\+\_\+driver.c File Reference}
+\hypertarget{NRF__driver_8c}{}\label{NRF__driver_8c}\index{Core/MyApp/App/NRF\_driver.c@{Core/MyApp/App/NRF\_driver.c}}
+
+
+Driver voor de NRF24 module in receiver mode. Checkt continu op nieuwe data, en kopieert deze vanuit de module naar een RX buffer.  
+
+
+{\ttfamily \#include $<$admin.\+h$>$}\newline
+{\ttfamily \#include "{}main.\+h"{}}\newline
+{\ttfamily \#include "{}cmsis\+\_\+os.\+h"{}}\newline
+{\ttfamily \#include "{}NRF\+\_\+driver.\+h"{}}\newline
+{\ttfamily \#include "{}NRF24.\+h"{}}\newline
+{\ttfamily \#include "{}NRF24\+\_\+reg\+\_\+addresses.\+h"{}}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include "{}stm32f4xx\+\_\+hal.\+h"{}}\newline
+{\ttfamily \#include "{}NRF24\+\_\+conf.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{NRF__driver_8c_ade4aebf4c08c8234d4e46ebb7d182e7c}{PLD\+\_\+\+SIZE}}~32
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{NRF__driver_8c_a54ef642fbc9fda4162e4cbb4cecd13ef}{nrf24\+\_\+\+SPI\+\_\+commscheck}} (void)
+\item 
+void \mbox{\hyperlink{NRF__driver_8c_a45c1473721e86f632dee18fa08ea63f0}{NRF\+\_\+\+Driver}} (void \texorpdfstring{$\ast$}{*}argument)
+\begin{DoxyCompactList}\small\item\em Driver for the NRF24 module in receiver mode. Checks continously for new data. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{NRF__driver_8c_ad6e1d383782ce6b0b5bbcb68ab6e7528}{NRF\+\_\+receive}} ()
+\begin{DoxyCompactList}\small\item\em Receiver function for the NRF24 module in receiver mode. Checks continously for new data and stores in RX buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{NRF__driver_8c_a553aa06f9752fee83217dd1b164b556c}{ack}} \mbox{[}32\mbox{]}
+\item 
+SPI\+\_\+\+Handle\+Type\+Def \mbox{\hyperlink{NRF__driver_8c_ae53fe739fd3c657d0ac41543f5bc6aa5}{hspiX}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{NRF__driver_8c_ac59fc6e2a4487cbaeecd8091ace8ed5b}{rx}} \mbox{[}32\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Driver voor de NRF24 module in receiver mode. Checkt continu op nieuwe data, en kopieert deze vanuit de module naar een RX buffer. 
+
+\begin{DoxyAuthor}{Author}
+Bram Laurens 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2025-\/10-\/04
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2025 
+\end{DoxyCopyright}
+
+
+Definition in file \mbox{\hyperlink{NRF__driver_8c_source}{NRF\+\_\+driver.\+c}}.
+
+
+
+\label{doc-define-members}
+\Hypertarget{NRF__driver_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{NRF__driver_8c_ade4aebf4c08c8234d4e46ebb7d182e7c}\index{NRF\_driver.c@{NRF\_driver.c}!PLD\_SIZE@{PLD\_SIZE}}
+\index{PLD\_SIZE@{PLD\_SIZE}!NRF\_driver.c@{NRF\_driver.c}}
+\doxysubsubsection{\texorpdfstring{PLD\_SIZE}{PLD\_SIZE}}
+{\footnotesize\ttfamily \label{NRF__driver_8c_ade4aebf4c08c8234d4e46ebb7d182e7c} 
+\#define PLD\+\_\+\+SIZE~32}
+
+
+
+Definition at line \mbox{\hyperlink{NRF__driver_8c_source_l00022}{22}} of file \mbox{\hyperlink{NRF__driver_8c_source}{NRF\+\_\+driver.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{NRF__driver_8c_source_l00033}{NRF\+\_\+\+Driver()}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{NRF__driver_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{NRF__driver_8c_a54ef642fbc9fda4162e4cbb4cecd13ef}\index{NRF\_driver.c@{NRF\_driver.c}!nrf24\_SPI\_commscheck@{nrf24\_SPI\_commscheck}}
+\index{nrf24\_SPI\_commscheck@{nrf24\_SPI\_commscheck}!NRF\_driver.c@{NRF\_driver.c}}
+\doxysubsubsection{\texorpdfstring{nrf24\_SPI\_commscheck()}{nrf24\_SPI\_commscheck()}}
+{\footnotesize\ttfamily \label{NRF__driver_8c_a54ef642fbc9fda4162e4cbb4cecd13ef} 
+uint8\+\_\+t nrf24\+\_\+\+SPI\+\_\+commscheck (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{NRF__driver_8c_source_l00085}{85}} of file \mbox{\hyperlink{NRF__driver_8c_source}{NRF\+\_\+driver.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00086\ \ \ \ \ uint8\_t\ tx[2]\ =\ \{0x00,\ 0xFF\};\ \ \ \textcolor{comment}{//\ R\_REGISTER\ +\ CONFIG(0x00),\ then\ dummy\ 0xFF}}
+\DoxyCodeLine{00087\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{NRF__driver_8c_ac59fc6e2a4487cbaeecd8091ace8ed5b}{rx}}[2]\ =\ \{0\};}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ HAL\_GPIO\_WritePin(csn\_gpio\_port,\ csn\_gpio\_pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{volatile}\ \textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 50;\ i++)\ \_\_NOP();}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ HAL\_SPI\_TransmitReceive(\&\mbox{\hyperlink{main_8c_a9c6222bae4d0328dd843ae099623b40b}{hspi1}},\ tx,\ \mbox{\hyperlink{NRF__driver_8c_ac59fc6e2a4487cbaeecd8091ace8ed5b}{rx}},\ 2,\ HAL\_MAX\_DELAY);}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{volatile}\ \textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 50;\ i++)\ \_\_NOP();}
+\DoxyCodeLine{00095\ \ \ \ \ HAL\_GPIO\_WritePin(csn\_gpio\_port,\ csn\_gpio\_pin,\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{comment}{//\ rx[0]\ =\ STATUS,\ rx[1]\ =\ CONFIG}}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{NRF__driver_8c_ac59fc6e2a4487cbaeecd8091ace8ed5b}{rx}}[1];}
+\DoxyCodeLine{00099\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{main_8c_source_l00053}{hspi1}}, and \mbox{\hyperlink{NRF__driver_8c_source_l00024}{rx}}.
+
+
+
+Referenced by \mbox{\hyperlink{UART__keys_8c_source_l00134}{UART\+\_\+menu()}}.
+
+\Hypertarget{NRF__driver_8c_a45c1473721e86f632dee18fa08ea63f0}\index{NRF\_driver.c@{NRF\_driver.c}!NRF\_Driver@{NRF\_Driver}}
+\index{NRF\_Driver@{NRF\_Driver}!NRF\_driver.c@{NRF\_driver.c}}
+\doxysubsubsection{\texorpdfstring{NRF\_Driver()}{NRF\_Driver()}}
+{\footnotesize\ttfamily \label{NRF__driver_8c_a45c1473721e86f632dee18fa08ea63f0} 
+void NRF\+\_\+\+Driver (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argument}{}\end{DoxyParamCaption})}
+
+
+
+Driver for the NRF24 module in receiver mode. Checks continously for new data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argument} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{NRF__driver_8c_source_l00033}{33}} of file \mbox{\hyperlink{NRF__driver_8c_source}{NRF\+\_\+driver.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00034\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ osDelay(100);}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}\ started\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00038\ \ \ \ \ uint8\_t\ addr[5]\ =\ \{0xE7,\ 0xE7,\ 0xE7,\ 0xE7,\ 0xE7\};}
+\DoxyCodeLine{00039\ \ \ \ \ HAL\_GPIO\_WritePin(ce\_gpio\_port,\ ce\_gpio\_pin,\ 0);\ \textcolor{comment}{//\ Set\ CE\ low}}
+\DoxyCodeLine{00040\ \ \ \ \ HAL\_GPIO\_WritePin(csn\_gpio\_port,\ csn\_gpio\_pin,\ 1);\ \textcolor{comment}{//\ Set\ CSN\ high}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ nrf24\_init();\ \textcolor{comment}{//\ Initialize\ NRF24L01+}}
+\DoxyCodeLine{00044\ \ \ \ \ nrf24\_tx\_pwr(\_0dbm);\ \textcolor{comment}{//\ Set\ TX\ power\ to\ 0dBm}}
+\DoxyCodeLine{00045\ \ \ \ \ nrf24\_data\_rate(\_1mbps);\ \textcolor{comment}{//\ Set\ data\ rate\ to\ 1Mbps}}
+\DoxyCodeLine{00046\ \ \ \ \ nrf24\_set\_channel(78);\ \textcolor{comment}{//\ Set\ channel\ to\ 76}}
+\DoxyCodeLine{00047\ \ \ \ \ nrf24\_pipe\_pld\_size(0,\ \mbox{\hyperlink{NRF__driver_8c_ade4aebf4c08c8234d4e46ebb7d182e7c}{PLD\_SIZE}});\ \textcolor{comment}{//\ Set\ payload\ size\ for\ pipe\ 0}}
+\DoxyCodeLine{00048\ \ \ \ \ nrf24\_set\_crc(en\_crc,\ \_1byte);\ \textcolor{comment}{//\ Enable\ CRC\ with\ 1\ byte}}
+\DoxyCodeLine{00049\ \ \ \ \ nrf24\_open\_rx\_pipe(0,\ addr);\ \textcolor{comment}{//\ Open\ TX\ pipe\ with\ address}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ nrf24\_pwr\_up();\ \textcolor{comment}{//\ Power\ up\ the\ NRF24L01+}}
+\DoxyCodeLine{00052\ \ \ \ \ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordflow}{while}\ (\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
+\DoxyCodeLine{00054\ \ \ \ \ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{NRF__driver_8c_ad6e1d383782ce6b0b5bbcb68ab6e7528}{NRF\_receive}}();}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ osDelay(1);\ \textcolor{comment}{//\ Placeholder\ delay}}
+\DoxyCodeLine{00057\ \ \ \ \ \}}
+\DoxyCodeLine{00058\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{NRF__driver_8c_source_l00065}{NRF\+\_\+receive()}}, \mbox{\hyperlink{NRF__driver_8c_source_l00022}{PLD\+\_\+\+SIZE}}, and \mbox{\hyperlink{admin_8h_source_l00023}{TRUE}}.
+
+\Hypertarget{NRF__driver_8c_ad6e1d383782ce6b0b5bbcb68ab6e7528}\index{NRF\_driver.c@{NRF\_driver.c}!NRF\_receive@{NRF\_receive}}
+\index{NRF\_receive@{NRF\_receive}!NRF\_driver.c@{NRF\_driver.c}}
+\doxysubsubsection{\texorpdfstring{NRF\_receive()}{NRF\_receive()}}
+{\footnotesize\ttfamily \label{NRF__driver_8c_ad6e1d383782ce6b0b5bbcb68ab6e7528} 
+void NRF\+\_\+receive (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Receiver function for the NRF24 module in receiver mode. Checks continously for new data and stores in RX buffer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argument} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{NRF__driver_8c_source_l00065}{65}} of file \mbox{\hyperlink{NRF__driver_8c_source}{NRF\+\_\+driver.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00066\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ nrf24\_listen();\ \textcolor{comment}{//\ Enter\ listening\ mode}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordflow}{if}(nrf24\_data\_available())}
+\DoxyCodeLine{00070\ \ \ \ \ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ nrf24\_receive(\mbox{\hyperlink{NRF__driver_8c_ac59fc6e2a4487cbaeecd8091ace8ed5b}{rx}},\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{NRF__driver_8c_ac59fc6e2a4487cbaeecd8091ace8ed5b}{rx}}));\ \textcolor{comment}{//\ Receive\ data}}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a618e81754d5fcde12f47688e73f33350}{NRF24\_new\_value}}\ =\ 1;\ \textcolor{comment}{//\ Set\ new\ value\ flag}}
+\DoxyCodeLine{00073\ \ \ \ \ \}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_ad5d05d8c156f18a819b22c97b2096241}{NRF24\_DEBUG\_OUT}}\ \&\&\ \mbox{\hyperlink{admin_8c_a618e81754d5fcde12f47688e73f33350}{NRF24\_new\_value}})}
+\DoxyCodeLine{00076\ \ \ \ \ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ msg[50];}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ sprintf(msg,\ \mbox{\hyperlink{NRF__driver_8c_ac59fc6e2a4487cbaeecd8091ace8ed5b}{rx}});}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ UART\_puts(msg);\ }
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a618e81754d5fcde12f47688e73f33350}{NRF24\_new\_value}}\ =\ 0;\ \textcolor{comment}{//\ Reset\ new\ value\ flag}}
+\DoxyCodeLine{00082\ \ \ \ \ \}}
+\DoxyCodeLine{00083\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{admin_8h_source_l00089}{NRF24\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{admin_8c_source_l00043}{NRF24\+\_\+new\+\_\+value}}, \mbox{\hyperlink{NRF__driver_8c_source_l00024}{rx}}, and \mbox{\hyperlink{admin_8c_source_l00040}{Uart\+\_\+debug\+\_\+out}}.
+
+
+
+Referenced by \mbox{\hyperlink{NRF__driver_8c_source_l00033}{NRF\+\_\+\+Driver()}}.
+
+
+
+\label{doc-var-members}
+\Hypertarget{NRF__driver_8c_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{NRF__driver_8c_a553aa06f9752fee83217dd1b164b556c}\index{NRF\_driver.c@{NRF\_driver.c}!ack@{ack}}
+\index{ack@{ack}!NRF\_driver.c@{NRF\_driver.c}}
+\doxysubsubsection{\texorpdfstring{ack}{ack}}
+{\footnotesize\ttfamily \label{NRF__driver_8c_a553aa06f9752fee83217dd1b164b556c} 
+uint8\+\_\+t ack\mbox{[}32\mbox{]}}
+
+
+
+Definition at line \mbox{\hyperlink{NRF__driver_8c_source_l00023}{23}} of file \mbox{\hyperlink{NRF__driver_8c_source}{NRF\+\_\+driver.\+c}}.
+
+\Hypertarget{NRF__driver_8c_ae53fe739fd3c657d0ac41543f5bc6aa5}\index{NRF\_driver.c@{NRF\_driver.c}!hspiX@{hspiX}}
+\index{hspiX@{hspiX}!NRF\_driver.c@{NRF\_driver.c}}
+\doxysubsubsection{\texorpdfstring{hspiX}{hspiX}}
+{\footnotesize\ttfamily \label{NRF__driver_8c_ae53fe739fd3c657d0ac41543f5bc6aa5} 
+SPI\+\_\+\+Handle\+Type\+Def hspiX\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{NRF__driver_8c_ac59fc6e2a4487cbaeecd8091ace8ed5b}\index{NRF\_driver.c@{NRF\_driver.c}!rx@{rx}}
+\index{rx@{rx}!NRF\_driver.c@{NRF\_driver.c}}
+\doxysubsubsection{\texorpdfstring{rx}{rx}}
+{\footnotesize\ttfamily \label{NRF__driver_8c_ac59fc6e2a4487cbaeecd8091ace8ed5b} 
+uint8\+\_\+t rx\mbox{[}32\mbox{]}}
+
+
+
+Definition at line \mbox{\hyperlink{NRF__driver_8c_source_l00024}{24}} of file \mbox{\hyperlink{NRF__driver_8c_source}{NRF\+\_\+driver.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{NRF__driver_8c_source_l00085}{nrf24\+\_\+\+SPI\+\_\+commscheck()}}, and \mbox{\hyperlink{NRF__driver_8c_source_l00065}{NRF\+\_\+receive()}}.
+

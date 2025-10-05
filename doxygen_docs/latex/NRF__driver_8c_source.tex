@@ -1,0 +1,86 @@
+\doxysection{NRF\+\_\+driver.\+c}
+\hypertarget{NRF__driver_8c_source}{}\label{NRF__driver_8c_source}\index{Core/MyApp/App/NRF\_driver.c@{Core/MyApp/App/NRF\_driver.c}}
+\mbox{\hyperlink{NRF__driver_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{admin_8h}{admin.h}}>}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}main.h"{}}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00014}00014\ \textcolor{preprocessor}{\#include\ "{}cmsis\_os.h"{}}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00015}00015\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{NRF__driver_8h}{NRF\_driver.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00016}00016\ \textcolor{preprocessor}{\#include\ "{}NRF24.h"{}}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00017}00017\ \textcolor{preprocessor}{\#include\ "{}NRF24\_reg\_addresses.h"{}}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00019}00019\ \textcolor{preprocessor}{\#include\ "{}stm32f4xx\_hal.h"{}}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00020}00020\ \textcolor{preprocessor}{\#include\ "{}NRF24\_conf.h"{}}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00022}\mbox{\hyperlink{NRF__driver_8c_ade4aebf4c08c8234d4e46ebb7d182e7c}{00022}}\ \textcolor{preprocessor}{\#define\ PLD\_SIZE\ 32\ }\textcolor{comment}{//\ Payload\ size\ in\ bytes}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00023}\mbox{\hyperlink{NRF__driver_8c_a553aa06f9752fee83217dd1b164b556c}{00023}}\ uint8\_t\ \mbox{\hyperlink{NRF__driver_8c_a553aa06f9752fee83217dd1b164b556c}{ack}}[\mbox{\hyperlink{NRF__driver_8c_ade4aebf4c08c8234d4e46ebb7d182e7c}{PLD\_SIZE}}];\ \textcolor{comment}{//\ Acknowledgment\ buffer}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00024}\mbox{\hyperlink{NRF__driver_8c_ac59fc6e2a4487cbaeecd8091ace8ed5b}{00024}}\ uint8\_t\ \mbox{\hyperlink{NRF__driver_8c_ac59fc6e2a4487cbaeecd8091ace8ed5b}{rx}}[\mbox{\hyperlink{NRF__driver_8c_ade4aebf4c08c8234d4e46ebb7d182e7c}{PLD\_SIZE}}];\ \ \textcolor{comment}{//\ Receive\ buffer}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00026}00026\ \textcolor{keyword}{extern}\ SPI\_HandleTypeDef\ \mbox{\hyperlink{NRF__driver_8c_ae53fe739fd3c657d0ac41543f5bc6aa5}{hspiX}};}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00033}\mbox{\hyperlink{admin_8h_ac43aa7997511f82f9f390a9fd8b6d478}{00033}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{NRF__driver_8c_a45c1473721e86f632dee18fa08ea63f0}{NRF\_Driver}}(\textcolor{keywordtype}{void}\ *argument)}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00034}00034\ \{}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00035}00035\ \ \ \ \ osDelay(100);}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00037}00037\ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}\ started\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00038}00038\ \ \ \ \ uint8\_t\ addr[5]\ =\ \{0xE7,\ 0xE7,\ 0xE7,\ 0xE7,\ 0xE7\};}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00039}00039\ \ \ \ \ HAL\_GPIO\_WritePin(ce\_gpio\_port,\ ce\_gpio\_pin,\ 0);\ \textcolor{comment}{//\ Set\ CE\ low}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00040}00040\ \ \ \ \ HAL\_GPIO\_WritePin(csn\_gpio\_port,\ csn\_gpio\_pin,\ 1);\ \textcolor{comment}{//\ Set\ CSN\ high}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00043}00043\ \ \ \ \ nrf24\_init();\ \textcolor{comment}{//\ Initialize\ NRF24L01+}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00044}00044\ \ \ \ \ nrf24\_tx\_pwr(\_0dbm);\ \textcolor{comment}{//\ Set\ TX\ power\ to\ 0dBm}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00045}00045\ \ \ \ \ nrf24\_data\_rate(\_1mbps);\ \textcolor{comment}{//\ Set\ data\ rate\ to\ 1Mbps}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00046}00046\ \ \ \ \ nrf24\_set\_channel(78);\ \textcolor{comment}{//\ Set\ channel\ to\ 76}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00047}00047\ \ \ \ \ nrf24\_pipe\_pld\_size(0,\ \mbox{\hyperlink{NRF__driver_8c_ade4aebf4c08c8234d4e46ebb7d182e7c}{PLD\_SIZE}});\ \textcolor{comment}{//\ Set\ payload\ size\ for\ pipe\ 0}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00048}00048\ \ \ \ \ nrf24\_set\_crc(en\_crc,\ \_1byte);\ \textcolor{comment}{//\ Enable\ CRC\ with\ 1\ byte}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00049}00049\ \ \ \ \ nrf24\_open\_rx\_pipe(0,\ addr);\ \textcolor{comment}{//\ Open\ TX\ pipe\ with\ address}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00051}00051\ \ \ \ \ nrf24\_pwr\_up();\ \textcolor{comment}{//\ Power\ up\ the\ NRF24L01+}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00052}00052\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00053}00053\ \ \ \ \ \textcolor{keywordflow}{while}\ (\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00054}00054\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00055}00055\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{NRF__driver_8c_ad6e1d383782ce6b0b5bbcb68ab6e7528}{NRF\_receive}}();}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00056}00056\ \ \ \ \ \ \ \ \ osDelay(1);\ \textcolor{comment}{//\ Placeholder\ delay}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00057}00057\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00058}00058\ \}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00065}\mbox{\hyperlink{NRF__driver_8c_ad6e1d383782ce6b0b5bbcb68ab6e7528}{00065}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{NRF__driver_8c_ad6e1d383782ce6b0b5bbcb68ab6e7528}{NRF\_receive}}()}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00066}00066\ \{}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00067}00067\ \ \ \ \ nrf24\_listen();\ \textcolor{comment}{//\ Enter\ listening\ mode}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00069}00069\ \ \ \ \ \textcolor{keywordflow}{if}(nrf24\_data\_available())}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00070}00070\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00071}00071\ \ \ \ \ \ \ \ \ nrf24\_receive(\mbox{\hyperlink{NRF__driver_8c_ac59fc6e2a4487cbaeecd8091ace8ed5b}{rx}},\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{NRF__driver_8c_ac59fc6e2a4487cbaeecd8091ace8ed5b}{rx}}));\ \textcolor{comment}{//\ Receive\ data}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00072}00072\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a618e81754d5fcde12f47688e73f33350}{NRF24\_new\_value}}\ =\ 1;\ \textcolor{comment}{//\ Set\ new\ value\ flag}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00073}00073\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00075}00075\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_ad5d05d8c156f18a819b22c97b2096241}{NRF24\_DEBUG\_OUT}}\ \&\&\ \mbox{\hyperlink{admin_8c_a618e81754d5fcde12f47688e73f33350}{NRF24\_new\_value}})}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00076}00076\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00077}00077\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ msg[50];}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00078}00078\ \ \ \ \ \ \ \ \ sprintf(msg,\ \mbox{\hyperlink{NRF__driver_8c_ac59fc6e2a4487cbaeecd8091ace8ed5b}{rx}});}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00079}00079\ \ \ \ \ \ \ \ \ UART\_puts(msg);\ }
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00080}00080\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00081}00081\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a618e81754d5fcde12f47688e73f33350}{NRF24\_new\_value}}\ =\ 0;\ \textcolor{comment}{//\ Reset\ new\ value\ flag}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00082}00082\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00083}00083\ \}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00085}\mbox{\hyperlink{NRF__driver_8c_a54ef642fbc9fda4162e4cbb4cecd13ef}{00085}}\ uint8\_t\ \mbox{\hyperlink{NRF__driver_8c_a54ef642fbc9fda4162e4cbb4cecd13ef}{nrf24\_SPI\_commscheck}}(\textcolor{keywordtype}{void})\ \{}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00086}00086\ \ \ \ \ uint8\_t\ tx[2]\ =\ \{0x00,\ 0xFF\};\ \ \ \textcolor{comment}{//\ R\_REGISTER\ +\ CONFIG(0x00),\ then\ dummy\ 0xFF}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00087}00087\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{NRF__driver_8c_ac59fc6e2a4487cbaeecd8091ace8ed5b}{rx}}[2]\ =\ \{0\};}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00089}00089\ \ \ \ \ HAL\_GPIO\_WritePin(csn\_gpio\_port,\ csn\_gpio\_pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00090}00090\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{volatile}\ \textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 50;\ i++)\ \_\_NOP();}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00092}00092\ \ \ \ \ HAL\_SPI\_TransmitReceive(\&\mbox{\hyperlink{main_8c_a9c6222bae4d0328dd843ae099623b40b}{hspi1}},\ tx,\ \mbox{\hyperlink{NRF__driver_8c_ac59fc6e2a4487cbaeecd8091ace8ed5b}{rx}},\ 2,\ HAL\_MAX\_DELAY);}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00094}00094\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{volatile}\ \textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 50;\ i++)\ \_\_NOP();}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00095}00095\ \ \ \ \ HAL\_GPIO\_WritePin(csn\_gpio\_port,\ csn\_gpio\_pin,\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00097}00097\ \ \ \ \ \textcolor{comment}{//\ rx[0]\ =\ STATUS,\ rx[1]\ =\ CONFIG}}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00098}00098\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{NRF__driver_8c_ac59fc6e2a4487cbaeecd8091ace8ed5b}{rx}}[1];}
+\DoxyCodeLine{\Hypertarget{NRF__driver_8c_source_l00099}00099\ \}}
+
+\end{DoxyCode}

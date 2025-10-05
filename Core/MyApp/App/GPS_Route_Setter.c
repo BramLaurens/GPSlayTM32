@@ -1,8 +1,16 @@
-/*
- * GPS_Route_Setter.c
- *
- *  Created on: Sep 30, 2025
- *      Author: SebeB
+/**
+ * @file GPS_Route_Setter.c
+ * @brief Verwerkt de GPS data en zet deze om in een linked list met waypoints. GPS data wordt gehaald uit gps.c via de functie getlatest_GNRMC()
+ * Er zijn drie acties mogelijk:
+ * 1. Een waypoint toevoegen aan de linked list met de functie GPS_Route_Maker
+ * 2. De linked list bekijken met de functie View_Linkedlist
+ * 3. De linked list wissen met de functie Remove_Last_Node
+ * Ook is er een functie om de NMEA coordinaten om te zetten naar decimale graden: convert_decimal_degrees()
+ * @author Sebe Buitenkamp & Bram Laurens
+ * @version 0.1
+ * @date 2025-10-04
+ * 
+ * 
  */
 #include <admin.h>
 #include "main.h"
@@ -202,6 +210,7 @@ uint8_t Remove_Last_Node()
     }
 
     // temp is now the last node, prev is the second-to-last
+
     free(temp);
     prev->Next_point = NULL;
 

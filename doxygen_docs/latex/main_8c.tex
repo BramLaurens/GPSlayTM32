@@ -1,0 +1,1029 @@
+\doxysection{Core/\+Src/main.c File Reference}
+\hypertarget{main_8c}{}\label{main_8c}\index{Core/Src/main.c@{Core/Src/main.c}}
+
+
+\+: Main program body  
+
+
+{\ttfamily \#include "{}main.\+h"{}}\newline
+{\ttfamily \#include "{}cmsis\+\_\+os.\+h"{}}\newline
+{\ttfamily \#include "{}usb\+\_\+host.\+h"{}}\newline
+{\ttfamily \#include "{}admin.\+h"{}}\newline
+{\ttfamily \#include "{}NRF24.\+h"{}}\newline
+{\ttfamily \#include "{}NRF24\+\_\+reg\+\_\+addresses.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{main_8c_a1730ffe1e560465665eb47d9264826f9}{Error\+\_\+\+Handler}} (void)
+\begin{DoxyCompactList}\small\item\em This function is executed in case of error occurrence. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a8a3b0ad512a6e6c6157440b68d395eac}{HAL\+\_\+\+TIM\+\_\+\+Period\+Elapsed\+Callback}} (TIM\+\_\+\+Handle\+Type\+Def \texorpdfstring{$\ast$}{*}htim)
+\begin{DoxyCompactList}\small\item\em Period elapsed callback in non blocking mode. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_ae494a9643f29b87d6d81e5264e60e57b}{HAL\+\_\+\+UART\+\_\+\+Rx\+Cplt\+Callback}} (UART\+\_\+\+Handle\+Type\+Def \texorpdfstring{$\ast$}{*}huart)
+\begin{DoxyCompactList}\small\item\em ISR die UART-\/characters op een Queue zet. De core-\/functie wordt gegenereerd. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{main_8c_a840291bc02cba5474a4cb46a9b9566fe}{main}} (void)
+\begin{DoxyCompactList}\small\item\em The application entry point. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{main_8c_ae89fdd15729ad41a66911190fcbab23a}{MX\+\_\+\+GPIO\+\_\+\+Init}} (void)
+\begin{DoxyCompactList}\small\item\em GPIO Initialization Function. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{main_8c_a4230d11f81d0b16e112f1cc3f40cb42f}{MX\+\_\+\+I2\+C1\+\_\+\+Init}} (void)
+\begin{DoxyCompactList}\small\item\em I2\+C1 Initialization Function. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{main_8c_a28dbf2494083ac5f39daa87bf09e4eb3}{MX\+\_\+\+SPI1\+\_\+\+Init}} (void)
+\begin{DoxyCompactList}\small\item\em SPI1 Initialization Function. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{main_8c_ada2fde91c9d08b4055b4d171690255d0}{MX\+\_\+\+UART4\+\_\+\+Init}} (void)
+\begin{DoxyCompactList}\small\item\em UART4 Initialization Function. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{main_8c_a6db1014d713f6f5c0f52a13299ee0733}{MX\+\_\+\+USART2\+\_\+\+UART\+\_\+\+Init}} (void)
+\begin{DoxyCompactList}\small\item\em USART2 Initialization Function. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a99d0fdb0434092bcb24d9c9af917e4e9}{Start\+Default\+Task}} (void \texorpdfstring{$\ast$}{*}argument)
+\begin{DoxyCompactList}\small\item\em Function implementing the default\+Task thread. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a70af21c671abfcc773614a9a4f63d920}{System\+Clock\+\_\+\+Config}} (void)
+\begin{DoxyCompactList}\small\item\em System Clock Configuration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const os\+Thread\+Attr\+\_\+t \mbox{\hyperlink{main_8c_a25fbb54afdba71c24ba51ed50166ac8d}{default\+Task\+\_\+attributes}}
+\item 
+os\+Thread\+Id\+\_\+t \mbox{\hyperlink{main_8c_a6a263905468b0c37de4ee5e50ede4e74}{default\+Task\+Handle}}
+\item 
+I2\+C\+\_\+\+Handle\+Type\+Def \mbox{\hyperlink{main_8c_af7b2c26e44dadaaa798a5c3d82914ba7}{hi2c1}}
+\item 
+SPI\+\_\+\+Handle\+Type\+Def \mbox{\hyperlink{main_8c_a9c6222bae4d0328dd843ae099623b40b}{hspi1}}
+\item 
+UART\+\_\+\+Handle\+Type\+Def \mbox{\hyperlink{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}{huart2}}
+\item 
+UART\+\_\+\+Handle\+Type\+Def \mbox{\hyperlink{main_8c_ae273feb3e0dc44e38892650faa58fced}{huart4}}
+\item 
+unsigned char \mbox{\hyperlink{main_8c_a3414137a6752f04b9b5b666591a62952}{uart2\+\_\+char}}
+\item 
+unsigned char \mbox{\hyperlink{main_8c_a245542656c11698d62157049b0f8276f}{uart4\+\_\+char}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\+: Main program body 
+
+\begin{DoxyAttention}{Attention}
+Het grootste deel van deze \doxylink{main_8c}{main.\+c} wordt gegenereerd door STM. Eigen code bevindt zich op \textquotesingle{}gereserveerde\textquotesingle{} plekken, wees daar voorzichtig mee. Om deze reden heb ik zo min mogelijk \textquotesingle{}eigen code\textquotesingle{} toegevoegd.
+\end{DoxyAttention}
+\doxysubsubsection*{\begin{center}\copyright{} Copyright (c) 2021 STMicroelectronics. All rights reserved.\end{center} }
+
+This software component is licensed by ST under Ultimate Liberty license SLA0044, the "{}\+License"{}; You may not use this file except in compliance with the License. You may obtain a copy of the License at\+: www.\+st.\+com/\+SLA0044 
+
+Definition in file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{main_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{main_8c_a1730ffe1e560465665eb47d9264826f9}\index{main.c@{main.c}!Error\_Handler@{Error\_Handler}}
+\index{Error\_Handler@{Error\_Handler}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{Error\_Handler()}{Error\_Handler()}}
+{\footnotesize\ttfamily \label{main_8c_a1730ffe1e560465665eb47d9264826f9} 
+void Error\+\_\+\+Handler (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+This function is executed in case of error occurrence. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00621}{621}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00622\ \{}
+\DoxyCodeLine{00623\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ Error\_Handler\_Debug\ */}}
+\DoxyCodeLine{00624\ \ \ \textcolor{comment}{/*\ User\ can\ add\ his\ own\ implementation\ to\ report\ the\ HAL\ error\ return\ state\ */}}
+\DoxyCodeLine{00625\ \ \ \_\_disable\_irq();}
+\DoxyCodeLine{00626\ \ \ \textcolor{keywordflow}{while}\ (1)}
+\DoxyCodeLine{00627\ \ \ \{}
+\DoxyCodeLine{00628\ \ \ \}}
+\DoxyCodeLine{00629\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ Error\_Handler\_Debug\ */}}
+\DoxyCodeLine{00630\ \}}
+
+\end{DoxyCode}
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00228}{MX\+\_\+\+I2\+C1\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00262}{MX\+\_\+\+SPI1\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00300}{MX\+\_\+\+UART4\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00333}{MX\+\_\+\+USART2\+\_\+\+UART\+\_\+\+Init()}}, and \mbox{\hyperlink{main_8c_source_l00182}{System\+Clock\+\_\+\+Config()}}.
+
+\Hypertarget{main_8c_a8a3b0ad512a6e6c6157440b68d395eac}\index{main.c@{main.c}!HAL\_TIM\_PeriodElapsedCallback@{HAL\_TIM\_PeriodElapsedCallback}}
+\index{HAL\_TIM\_PeriodElapsedCallback@{HAL\_TIM\_PeriodElapsedCallback}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{HAL\_TIM\_PeriodElapsedCallback()}{HAL\_TIM\_PeriodElapsedCallback()}}
+{\footnotesize\ttfamily \label{main_8c_a8a3b0ad512a6e6c6157440b68d395eac} 
+void HAL\+\_\+\+TIM\+\_\+\+Period\+Elapsed\+Callback (\begin{DoxyParamCaption}\item[{TIM\+\_\+\+Handle\+Type\+Def \texorpdfstring{$\ast$}{*}}]{htim}{}\end{DoxyParamCaption})}
+
+
+
+Period elapsed callback in non blocking mode. 
+
+\begin{DoxyNote}{Note}
+This function is called when TIM1 interrupt took place, inside HAL\+\_\+\+TIM\+\_\+\+IRQHandler(). It makes a direct call to HAL\+\_\+\+Inc\+Tick() to increment a global variable "{}uw\+Tick"{} used as application time base. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em htim} & \+: TIM handle \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00603}{603}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00604\ \{}
+\DoxyCodeLine{00605\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ Callback\ 0\ */}}
+\DoxyCodeLine{00606\ }
+\DoxyCodeLine{00607\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ Callback\ 0\ */}}
+\DoxyCodeLine{00608\ \ \ \textcolor{keywordflow}{if}\ (htim-\/>Instance\ ==\ TIM1)}
+\DoxyCodeLine{00609\ \ \ \{}
+\DoxyCodeLine{00610\ \ \ \ \ HAL\_IncTick();}
+\DoxyCodeLine{00611\ \ \ \}}
+\DoxyCodeLine{00612\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ Callback\ 1\ */}}
+\DoxyCodeLine{00613\ }
+\DoxyCodeLine{00614\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ Callback\ 1\ */}}
+\DoxyCodeLine{00615\ \}}
+
+\end{DoxyCode}
+\Hypertarget{main_8c_ae494a9643f29b87d6d81e5264e60e57b}\index{main.c@{main.c}!HAL\_UART\_RxCpltCallback@{HAL\_UART\_RxCpltCallback}}
+\index{HAL\_UART\_RxCpltCallback@{HAL\_UART\_RxCpltCallback}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{HAL\_UART\_RxCpltCallback()}{HAL\_UART\_RxCpltCallback()}}
+{\footnotesize\ttfamily \label{main_8c_ae494a9643f29b87d6d81e5264e60e57b} 
+void HAL\+\_\+\+UART\+\_\+\+Rx\+Cplt\+Callback (\begin{DoxyParamCaption}\item[{UART\+\_\+\+Handle\+Type\+Def \texorpdfstring{$\ast$}{*}}]{huart}{}\end{DoxyParamCaption})}
+
+
+
+ISR die UART-\/characters op een Queue zet. De core-\/functie wordt gegenereerd. 
+
+Demonstreert\+: x\+Queue\+Send\+From\+ISR(); port\+YIELD\+\_\+\+FROM\+\_\+\+ISR();
+
+
+\begin{DoxyParams}{Parameters}
+{\em huart} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+Receive one byte in interrupt mode
+
+Zet de byte op de UART\+\_\+queue
+
+Receive one byte in interrupt mode
+
+Zet de byte op de GPS\+\_\+queue
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00531}{531}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00532\ \{}
+\DoxyCodeLine{00533\ \ \ \ \ BaseType\_t\ \ \ \ \ \ \ \ \ \ xHigherPriorityTaskWoken\ =\ pdFALSE;}
+\DoxyCodeLine{00534\ }
+\DoxyCodeLine{00535\ \ \ \ \ \textcolor{comment}{//\ receive\ terminal\ user\ commands}}
+\DoxyCodeLine{00536\ \ \ \ \ \textcolor{keywordflow}{if}\ (huart-\/>Instance\ ==\ USART2)}
+\DoxyCodeLine{00537\ \ \ \ \ \{}
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ HAL\_UART\_Receive\_IT(\&\mbox{\hyperlink{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}{huart2}},\ \&\mbox{\hyperlink{main_8c_a3414137a6752f04b9b5b666591a62952}{uart2\_char}},\ 1);}
+\DoxyCodeLine{00540\ }
+\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ xQueueSendFromISR(\mbox{\hyperlink{admin_8c_a1db415a0f7c5ecff145e4bb53cc54dbe}{hUART\_Queue}},\ \&\mbox{\hyperlink{main_8c_a3414137a6752f04b9b5b666591a62952}{uart2\_char}},\ \&xHigherPriorityTaskWoken);}
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (xHigherPriorityTaskWoken\ !=\ pdFALSE)}
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ \ \ \ \ portYIELD\_FROM\_ISR(xHigherPriorityTaskWoken);\ \textcolor{comment}{//\ force\ context\ switch}}
+\DoxyCodeLine{00545\ \ \ \ \ \}}
+\DoxyCodeLine{00546\ }
+\DoxyCodeLine{00547\ \ \ \ \ \textcolor{comment}{//\ receive\ GPS-\/data}}
+\DoxyCodeLine{00548\ \ \ \ \ \textcolor{keywordflow}{if}\ (huart-\/>Instance\ ==\ UART4)}
+\DoxyCodeLine{00549\ \ \ \ \ \{}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ HAL\_UART\_Receive\_IT(\&\mbox{\hyperlink{main_8c_ae273feb3e0dc44e38892650faa58fced}{huart4}},\ \&\mbox{\hyperlink{main_8c_a245542656c11698d62157049b0f8276f}{uart4\_char}},\ 1);}
+\DoxyCodeLine{00552\ }
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ xQueueSendFromISR(\mbox{\hyperlink{admin_8c_a77d12f838c966d96a18a31e503b7955c}{hGPS\_Queue}},\ \&\mbox{\hyperlink{main_8c_a245542656c11698d62157049b0f8276f}{uart4\_char}},\ \&xHigherPriorityTaskWoken);}
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (xHigherPriorityTaskWoken\ !=\ pdFALSE)}
+\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ \ \ \ \ portYIELD\_FROM\_ISR(xHigherPriorityTaskWoken);\ \textcolor{comment}{//\ force\ context\ switch}}
+\DoxyCodeLine{00557\ \ \ \ \ \}}
+\DoxyCodeLine{00558\ }
+\DoxyCodeLine{00559\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{admin_8c_source_l00048}{h\+GPS\+\_\+\+Queue}}, \mbox{\hyperlink{main_8c_source_l00056}{huart2}}, \mbox{\hyperlink{main_8c_source_l00055}{huart4}}, \mbox{\hyperlink{admin_8c_source_l00047}{h\+UART\+\_\+\+Queue}}, \mbox{\hyperlink{main_8c_source_l00067}{uart2\+\_\+char}}, and \mbox{\hyperlink{main_8c_source_l00067}{uart4\+\_\+char}}.
+
+\Hypertarget{main_8c_a840291bc02cba5474a4cb46a9b9566fe}\index{main.c@{main.c}!main@{main}}
+\index{main@{main}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{main_8c_a840291bc02cba5474a4cb46a9b9566fe} 
+int main (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+The application entry point. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em int} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00091}{91}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00092\ \{}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ 1\ */}}
+\DoxyCodeLine{00095\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ 1\ */}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \textcolor{comment}{/*\ MCU\ Configuration-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \textcolor{comment}{/*\ Reset\ of\ all\ peripherals,\ Initializes\ the\ Flash\ interface\ and\ the\ Systick.\ */}}
+\DoxyCodeLine{00100\ \ \ HAL\_Init();}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ Init\ */}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ Init\ */}}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \textcolor{comment}{/*\ Configure\ the\ system\ clock\ */}}
+\DoxyCodeLine{00107\ \ \ \mbox{\hyperlink{main_8c_a70af21c671abfcc773614a9a4f63d920}{SystemClock\_Config}}();}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ SysInit\ */}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ SysInit\ */}}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \textcolor{comment}{/*\ Initialize\ all\ configured\ peripherals\ */}}
+\DoxyCodeLine{00114\ \ \ \mbox{\hyperlink{main_8c_ae89fdd15729ad41a66911190fcbab23a}{MX\_GPIO\_Init}}();}
+\DoxyCodeLine{00115\ \ \ \mbox{\hyperlink{main_8c_a4230d11f81d0b16e112f1cc3f40cb42f}{MX\_I2C1\_Init}}();}
+\DoxyCodeLine{00116\ \ \ \mbox{\hyperlink{main_8c_a6db1014d713f6f5c0f52a13299ee0733}{MX\_USART2\_UART\_Init}}();}
+\DoxyCodeLine{00117\ \ \ \mbox{\hyperlink{main_8c_ada2fde91c9d08b4055b4d171690255d0}{MX\_UART4\_Init}}();}
+\DoxyCodeLine{00118\ \ \ \mbox{\hyperlink{main_8c_a28dbf2494083ac5f39daa87bf09e4eb3}{MX\_SPI1\_Init}}();}
+\DoxyCodeLine{00119\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ 2\ */}}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ LCD\_init();}
+\DoxyCodeLine{00122\ \ \ KEYS\_init();}
+\DoxyCodeLine{00123\ \ \ KEYS\_initISR(1);\ \textcolor{comment}{//\ set\ all\ lines\ high\ once}}
+\DoxyCodeLine{00124\ \ \ LED\_init();}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \mbox{\hyperlink{admin_8c_a9dec45875121142b6466b9475691b40a}{DisplayVersion}}();}
+\DoxyCodeLine{00127\ \ \ osDelay(500);\ \textcolor{comment}{//\ time\ to\ read\ version}}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ 2\ */}}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \textcolor{comment}{/*\ Init\ scheduler\ */}}
+\DoxyCodeLine{00132\ \ \ osKernelInitialize();}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ RTOS\_MUTEX\ */}}
+\DoxyCodeLine{00135\ \ \ \textcolor{comment}{/*\ add\ mutexes,\ ...\ */}}
+\DoxyCodeLine{00136\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ RTOS\_MUTEX\ */}}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ RTOS\_SEMAPHORES\ */}}
+\DoxyCodeLine{00139\ \ \ \textcolor{comment}{/*\ add\ semaphores,\ ...\ */}}
+\DoxyCodeLine{00140\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ RTOS\_SEMAPHORES\ */}}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ RTOS\_TIMERS\ */}}
+\DoxyCodeLine{00143\ \ \ \textcolor{comment}{/*\ start\ timers,\ add\ new\ ones,\ ...\ */}}
+\DoxyCodeLine{00144\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ RTOS\_TIMERS\ */}}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ RTOS\_QUEUES\ */}}
+\DoxyCodeLine{00147\ \ \ \textcolor{comment}{/*\ add\ queues,\ ...\ */}}
+\DoxyCodeLine{00148\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ RTOS\_QUEUES\ */}}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \ \ \textcolor{comment}{/*\ Create\ the\ thread(s)\ */}}
+\DoxyCodeLine{00151\ \ \ \textcolor{comment}{/*\ creation\ of\ defaultTask\ */}}
+\DoxyCodeLine{00152\ \ \ \mbox{\hyperlink{main_8c_a6a263905468b0c37de4ee5e50ede4e74}{defaultTaskHandle}}\ =\ osThreadNew(\mbox{\hyperlink{main_8c_a99d0fdb0434092bcb24d9c9af917e4e9}{StartDefaultTask}},\ NULL,\ \&\mbox{\hyperlink{main_8c_a25fbb54afdba71c24ba51ed50166ac8d}{defaultTask\_attributes}});}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ RTOS\_THREADS\ */}}
+\DoxyCodeLine{00155\ \ \ \textcolor{comment}{/*\ add\ threads,\ ...\ */}}
+\DoxyCodeLine{00156\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ RTOS\_THREADS\ */}}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ RTOS\_EVENTS\ */}}
+\DoxyCodeLine{00159\ \ \ \textcolor{comment}{/*\ add\ events,\ ...\ */}}
+\DoxyCodeLine{00160\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ RTOS\_EVENTS\ */}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \textcolor{comment}{/*\ Start\ scheduler\ */}}
+\DoxyCodeLine{00163\ \ \ osKernelStart();}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \ \ \textcolor{comment}{/*\ We\ should\ never\ get\ here\ as\ control\ is\ now\ taken\ by\ the\ scheduler\ */}}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \ \ \textcolor{comment}{/*\ Infinite\ loop\ */}}
+\DoxyCodeLine{00168\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ WHILE\ */}}
+\DoxyCodeLine{00169\ \ \ \textcolor{keywordflow}{while}\ (1)}
+\DoxyCodeLine{00170\ \ \ \{}
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ WHILE\ */}}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \ \ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ 3\ */}}
+\DoxyCodeLine{00174\ \ \ \}}
+\DoxyCodeLine{00175\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ 3\ */}}
+\DoxyCodeLine{00176\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{main_8c_source_l00060}{default\+Task\+\_\+attributes}}, \mbox{\hyperlink{main_8c_source_l00059}{default\+Task\+Handle}}, \mbox{\hyperlink{admin_8c_source_l00126}{Display\+Version()}}, \mbox{\hyperlink{main_8c_source_l00366}{MX\+\_\+\+GPIO\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00228}{MX\+\_\+\+I2\+C1\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00262}{MX\+\_\+\+SPI1\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00300}{MX\+\_\+\+UART4\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00333}{MX\+\_\+\+USART2\+\_\+\+UART\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00570}{Start\+Default\+Task()}}, and \mbox{\hyperlink{main_8c_source_l00182}{System\+Clock\+\_\+\+Config()}}.
+
+\Hypertarget{main_8c_ae89fdd15729ad41a66911190fcbab23a}\index{main.c@{main.c}!MX\_GPIO\_Init@{MX\_GPIO\_Init}}
+\index{MX\_GPIO\_Init@{MX\_GPIO\_Init}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{MX\_GPIO\_Init()}{MX\_GPIO\_Init()}}
+{\footnotesize\ttfamily \label{main_8c_ae89fdd15729ad41a66911190fcbab23a} 
+void MX\+\_\+\+GPIO\+\_\+\+Init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+GPIO Initialization Function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00366}{366}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00367\ \{}
+\DoxyCodeLine{00368\ \ \ GPIO\_InitTypeDef\ GPIO\_InitStruct\ =\ \{0\};}
+\DoxyCodeLine{00369\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ MX\_GPIO\_Init\_1\ */}}
+\DoxyCodeLine{00370\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ MX\_GPIO\_Init\_1\ */}}
+\DoxyCodeLine{00371\ }
+\DoxyCodeLine{00372\ \ \ \textcolor{comment}{/*\ GPIO\ Ports\ Clock\ Enable\ */}}
+\DoxyCodeLine{00373\ \ \ \_\_HAL\_RCC\_GPIOE\_CLK\_ENABLE();}
+\DoxyCodeLine{00374\ \ \ \_\_HAL\_RCC\_GPIOC\_CLK\_ENABLE();}
+\DoxyCodeLine{00375\ \ \ \_\_HAL\_RCC\_GPIOH\_CLK\_ENABLE();}
+\DoxyCodeLine{00376\ \ \ \_\_HAL\_RCC\_GPIOA\_CLK\_ENABLE();}
+\DoxyCodeLine{00377\ \ \ \_\_HAL\_RCC\_GPIOB\_CLK\_ENABLE();}
+\DoxyCodeLine{00378\ \ \ \_\_HAL\_RCC\_GPIOD\_CLK\_ENABLE();}
+\DoxyCodeLine{00379\ }
+\DoxyCodeLine{00380\ \ \ \textcolor{comment}{/*Configure\ GPIO\ pin\ Output\ Level\ */}}
+\DoxyCodeLine{00381\ \ \ HAL\_GPIO\_WritePin(CS\_I2C\_SPI\_GPIO\_Port,\ CS\_I2C\_SPI\_Pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00382\ }
+\DoxyCodeLine{00383\ \ \ \textcolor{comment}{/*Configure\ GPIO\ pin\ Output\ Level\ */}}
+\DoxyCodeLine{00384\ \ \ HAL\_GPIO\_WritePin(OTG\_FS\_PowerSwitchOn\_GPIO\_Port,\ OTG\_FS\_PowerSwitchOn\_Pin,\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{00385\ }
+\DoxyCodeLine{00386\ \ \ \textcolor{comment}{/*Configure\ GPIO\ pin\ Output\ Level\ */}}
+\DoxyCodeLine{00387\ \ \ HAL\_GPIO\_WritePin(GPIOB,\ LED\_RCK\_Pin|SPI1\_CSN\_Pin|SPI1\_CE\_Pin|LED\_SCK\_Pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00388\ }
+\DoxyCodeLine{00389\ \ \ \textcolor{comment}{/*Configure\ GPIO\ pin\ Output\ Level\ */}}
+\DoxyCodeLine{00390\ \ \ HAL\_GPIO\_WritePin(GPIOD,\ LD4\_Pin|LD3\_Pin|LD5\_Pin|LD6\_Pin}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |Audio\_RST\_Pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00392\ }
+\DoxyCodeLine{00393\ \ \ \textcolor{comment}{/*Configure\ GPIO\ pin\ Output\ Level\ */}}
+\DoxyCodeLine{00394\ \ \ HAL\_GPIO\_WritePin(Buzzer\_GPIO\_Port,\ Buzzer\_Pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00395\ }
+\DoxyCodeLine{00396\ \ \ \textcolor{comment}{/*Configure\ GPIO\ pin\ Output\ Level\ */}}
+\DoxyCodeLine{00397\ \ \ HAL\_GPIO\_WritePin(LED\_SER\_GPIO\_Port,\ LED\_SER\_Pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00398\ }
+\DoxyCodeLine{00399\ \ \ \textcolor{comment}{/*Configure\ GPIO\ pin\ :\ CS\_I2C\_SPI\_Pin\ */}}
+\DoxyCodeLine{00400\ \ \ GPIO\_InitStruct.Pin\ =\ CS\_I2C\_SPI\_Pin;}
+\DoxyCodeLine{00401\ \ \ GPIO\_InitStruct.Mode\ =\ GPIO\_MODE\_OUTPUT\_PP;}
+\DoxyCodeLine{00402\ \ \ GPIO\_InitStruct.Pull\ =\ GPIO\_NOPULL;}
+\DoxyCodeLine{00403\ \ \ GPIO\_InitStruct.Speed\ =\ GPIO\_SPEED\_FREQ\_LOW;}
+\DoxyCodeLine{00404\ \ \ HAL\_GPIO\_Init(CS\_I2C\_SPI\_GPIO\_Port,\ \&GPIO\_InitStruct);}
+\DoxyCodeLine{00405\ }
+\DoxyCodeLine{00406\ \ \ \textcolor{comment}{/*Configure\ GPIO\ pins\ :\ OTG\_FS\_PowerSwitchOn\_Pin\ Buzzer\_Pin\ */}}
+\DoxyCodeLine{00407\ \ \ GPIO\_InitStruct.Pin\ =\ OTG\_FS\_PowerSwitchOn\_Pin|Buzzer\_Pin;}
+\DoxyCodeLine{00408\ \ \ GPIO\_InitStruct.Mode\ =\ GPIO\_MODE\_OUTPUT\_PP;}
+\DoxyCodeLine{00409\ \ \ GPIO\_InitStruct.Pull\ =\ GPIO\_NOPULL;}
+\DoxyCodeLine{00410\ \ \ GPIO\_InitStruct.Speed\ =\ GPIO\_SPEED\_FREQ\_LOW;}
+\DoxyCodeLine{00411\ \ \ HAL\_GPIO\_Init(GPIOC,\ \&GPIO\_InitStruct);}
+\DoxyCodeLine{00412\ }
+\DoxyCodeLine{00413\ \ \ \textcolor{comment}{/*Configure\ GPIO\ pin\ :\ PDM\_OUT\_Pin\ */}}
+\DoxyCodeLine{00414\ \ \ GPIO\_InitStruct.Pin\ =\ PDM\_OUT\_Pin;}
+\DoxyCodeLine{00415\ \ \ GPIO\_InitStruct.Mode\ =\ GPIO\_MODE\_AF\_PP;}
+\DoxyCodeLine{00416\ \ \ GPIO\_InitStruct.Pull\ =\ GPIO\_NOPULL;}
+\DoxyCodeLine{00417\ \ \ GPIO\_InitStruct.Speed\ =\ GPIO\_SPEED\_FREQ\_LOW;}
+\DoxyCodeLine{00418\ \ \ GPIO\_InitStruct.Alternate\ =\ GPIO\_AF5\_SPI2;}
+\DoxyCodeLine{00419\ \ \ HAL\_GPIO\_Init(PDM\_OUT\_GPIO\_Port,\ \&GPIO\_InitStruct);}
+\DoxyCodeLine{00420\ }
+\DoxyCodeLine{00421\ \ \ \textcolor{comment}{/*Configure\ GPIO\ pin\ :\ Key\_int\_Pin\ */}}
+\DoxyCodeLine{00422\ \ \ GPIO\_InitStruct.Pin\ =\ Key\_int\_Pin;}
+\DoxyCodeLine{00423\ \ \ GPIO\_InitStruct.Mode\ =\ GPIO\_MODE\_IT\_RISING;}
+\DoxyCodeLine{00424\ \ \ GPIO\_InitStruct.Pull\ =\ GPIO\_NOPULL;}
+\DoxyCodeLine{00425\ \ \ HAL\_GPIO\_Init(Key\_int\_GPIO\_Port,\ \&GPIO\_InitStruct);}
+\DoxyCodeLine{00426\ }
+\DoxyCodeLine{00427\ \ \ \textcolor{comment}{/*Configure\ GPIO\ pins\ :\ LED\_RCK\_Pin\ SPI1\_CSN\_Pin\ SPI1\_CE\_Pin\ LED\_SCK\_Pin\ */}}
+\DoxyCodeLine{00428\ \ \ GPIO\_InitStruct.Pin\ =\ LED\_RCK\_Pin|SPI1\_CSN\_Pin|SPI1\_CE\_Pin|LED\_SCK\_Pin;}
+\DoxyCodeLine{00429\ \ \ GPIO\_InitStruct.Mode\ =\ GPIO\_MODE\_OUTPUT\_PP;}
+\DoxyCodeLine{00430\ \ \ GPIO\_InitStruct.Pull\ =\ GPIO\_NOPULL;}
+\DoxyCodeLine{00431\ \ \ GPIO\_InitStruct.Speed\ =\ GPIO\_SPEED\_FREQ\_LOW;}
+\DoxyCodeLine{00432\ \ \ HAL\_GPIO\_Init(GPIOB,\ \&GPIO\_InitStruct);}
+\DoxyCodeLine{00433\ }
+\DoxyCodeLine{00434\ \ \ \textcolor{comment}{/*Configure\ GPIO\ pins\ :\ BOOT1\_Pin\ SPI1\_IRQ\_IN\_Pin\ */}}
+\DoxyCodeLine{00435\ \ \ GPIO\_InitStruct.Pin\ =\ BOOT1\_Pin|SPI1\_IRQ\_IN\_Pin;}
+\DoxyCodeLine{00436\ \ \ GPIO\_InitStruct.Mode\ =\ GPIO\_MODE\_INPUT;}
+\DoxyCodeLine{00437\ \ \ GPIO\_InitStruct.Pull\ =\ GPIO\_NOPULL;}
+\DoxyCodeLine{00438\ \ \ HAL\_GPIO\_Init(GPIOB,\ \&GPIO\_InitStruct);}
+\DoxyCodeLine{00439\ }
+\DoxyCodeLine{00440\ \ \ \textcolor{comment}{/*Configure\ GPIO\ pin\ :\ CLK\_IN\_Pin\ */}}
+\DoxyCodeLine{00441\ \ \ GPIO\_InitStruct.Pin\ =\ CLK\_IN\_Pin;}
+\DoxyCodeLine{00442\ \ \ GPIO\_InitStruct.Mode\ =\ GPIO\_MODE\_AF\_PP;}
+\DoxyCodeLine{00443\ \ \ GPIO\_InitStruct.Pull\ =\ GPIO\_NOPULL;}
+\DoxyCodeLine{00444\ \ \ GPIO\_InitStruct.Speed\ =\ GPIO\_SPEED\_FREQ\_LOW;}
+\DoxyCodeLine{00445\ \ \ GPIO\_InitStruct.Alternate\ =\ GPIO\_AF5\_SPI2;}
+\DoxyCodeLine{00446\ \ \ HAL\_GPIO\_Init(CLK\_IN\_GPIO\_Port,\ \&GPIO\_InitStruct);}
+\DoxyCodeLine{00447\ }
+\DoxyCodeLine{00448\ \ \ \textcolor{comment}{/*Configure\ GPIO\ pins\ :\ LD4\_Pin\ LD3\_Pin\ LD5\_Pin\ LD6\_Pin }}
+\DoxyCodeLine{00449\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Audio\_RST\_Pin\ */}}
+\DoxyCodeLine{00450\ \ \ GPIO\_InitStruct.Pin\ =\ LD4\_Pin|LD3\_Pin|LD5\_Pin|LD6\_Pin}
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |Audio\_RST\_Pin;}
+\DoxyCodeLine{00452\ \ \ GPIO\_InitStruct.Mode\ =\ GPIO\_MODE\_OUTPUT\_PP;}
+\DoxyCodeLine{00453\ \ \ GPIO\_InitStruct.Pull\ =\ GPIO\_NOPULL;}
+\DoxyCodeLine{00454\ \ \ GPIO\_InitStruct.Speed\ =\ GPIO\_SPEED\_FREQ\_LOW;}
+\DoxyCodeLine{00455\ \ \ HAL\_GPIO\_Init(GPIOD,\ \&GPIO\_InitStruct);}
+\DoxyCodeLine{00456\ }
+\DoxyCodeLine{00457\ \ \ \textcolor{comment}{/*Configure\ GPIO\ pins\ :\ I2S3\_MCK\_Pin\ I2S3\_SCK\_Pin\ PC12\ */}}
+\DoxyCodeLine{00458\ \ \ GPIO\_InitStruct.Pin\ =\ I2S3\_MCK\_Pin|I2S3\_SCK\_Pin|GPIO\_PIN\_12;}
+\DoxyCodeLine{00459\ \ \ GPIO\_InitStruct.Mode\ =\ GPIO\_MODE\_AF\_PP;}
+\DoxyCodeLine{00460\ \ \ GPIO\_InitStruct.Pull\ =\ GPIO\_NOPULL;}
+\DoxyCodeLine{00461\ \ \ GPIO\_InitStruct.Speed\ =\ GPIO\_SPEED\_FREQ\_LOW;}
+\DoxyCodeLine{00462\ \ \ GPIO\_InitStruct.Alternate\ =\ GPIO\_AF6\_SPI3;}
+\DoxyCodeLine{00463\ \ \ HAL\_GPIO\_Init(GPIOC,\ \&GPIO\_InitStruct);}
+\DoxyCodeLine{00464\ }
+\DoxyCodeLine{00465\ \ \ \textcolor{comment}{/*Configure\ GPIO\ pin\ :\ LED\_SER\_Pin\ */}}
+\DoxyCodeLine{00466\ \ \ GPIO\_InitStruct.Pin\ =\ LED\_SER\_Pin;}
+\DoxyCodeLine{00467\ \ \ GPIO\_InitStruct.Mode\ =\ GPIO\_MODE\_OUTPUT\_PP;}
+\DoxyCodeLine{00468\ \ \ GPIO\_InitStruct.Pull\ =\ GPIO\_NOPULL;}
+\DoxyCodeLine{00469\ \ \ GPIO\_InitStruct.Speed\ =\ GPIO\_SPEED\_FREQ\_LOW;}
+\DoxyCodeLine{00470\ \ \ HAL\_GPIO\_Init(LED\_SER\_GPIO\_Port,\ \&GPIO\_InitStruct);}
+\DoxyCodeLine{00471\ }
+\DoxyCodeLine{00472\ \ \ \textcolor{comment}{/*Configure\ GPIO\ pin\ :\ OTG\_FS\_OverCurrent\_Pin\ */}}
+\DoxyCodeLine{00473\ \ \ GPIO\_InitStruct.Pin\ =\ OTG\_FS\_OverCurrent\_Pin;}
+\DoxyCodeLine{00474\ \ \ GPIO\_InitStruct.Mode\ =\ GPIO\_MODE\_INPUT;}
+\DoxyCodeLine{00475\ \ \ GPIO\_InitStruct.Pull\ =\ GPIO\_NOPULL;}
+\DoxyCodeLine{00476\ \ \ HAL\_GPIO\_Init(OTG\_FS\_OverCurrent\_GPIO\_Port,\ \&GPIO\_InitStruct);}
+\DoxyCodeLine{00477\ }
+\DoxyCodeLine{00478\ \ \ \textcolor{comment}{/*Configure\ GPIO\ pin\ :\ MEMS\_INT2\_Pin\ */}}
+\DoxyCodeLine{00479\ \ \ GPIO\_InitStruct.Pin\ =\ MEMS\_INT2\_Pin;}
+\DoxyCodeLine{00480\ \ \ GPIO\_InitStruct.Mode\ =\ GPIO\_MODE\_EVT\_RISING;}
+\DoxyCodeLine{00481\ \ \ GPIO\_InitStruct.Pull\ =\ GPIO\_NOPULL;}
+\DoxyCodeLine{00482\ \ \ HAL\_GPIO\_Init(MEMS\_INT2\_GPIO\_Port,\ \&GPIO\_InitStruct);}
+\DoxyCodeLine{00483\ }
+\DoxyCodeLine{00484\ \ \ \textcolor{comment}{/*\ EXTI\ interrupt\ init*/}}
+\DoxyCodeLine{00485\ \ \ HAL\_NVIC\_SetPriority(EXTI0\_IRQn,\ 5,\ 0);}
+\DoxyCodeLine{00486\ \ \ HAL\_NVIC\_EnableIRQ(EXTI0\_IRQn);}
+\DoxyCodeLine{00487\ }
+\DoxyCodeLine{00488\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ MX\_GPIO\_Init\_2\ */}}
+\DoxyCodeLine{00489\ }
+\DoxyCodeLine{00490\ \ \ \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{00491\ \ \ \textcolor{comment}{/*\ SPI1\ pins\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00492\ \ \ \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{00493\ }
+\DoxyCodeLine{00494\ \ \ \textcolor{comment}{/*\ PB3\ -\/>\ SPI1\_SCK\ */}}
+\DoxyCodeLine{00495\ \ \ GPIO\_InitStruct.Pin\ =\ GPIO\_PIN\_3;}
+\DoxyCodeLine{00496\ \ \ GPIO\_InitStruct.Mode\ =\ GPIO\_MODE\_AF\_PP;}
+\DoxyCodeLine{00497\ \ \ GPIO\_InitStruct.Pull\ =\ GPIO\_NOPULL;}
+\DoxyCodeLine{00498\ \ \ GPIO\_InitStruct.Speed\ =\ GPIO\_SPEED\_FREQ\_VERY\_HIGH;}
+\DoxyCodeLine{00499\ \ \ GPIO\_InitStruct.Alternate\ =\ GPIO\_AF5\_SPI1;}
+\DoxyCodeLine{00500\ \ \ HAL\_GPIO\_Init(GPIOB,\ \&GPIO\_InitStruct);}
+\DoxyCodeLine{00501\ }
+\DoxyCodeLine{00502\ \ \ \textcolor{comment}{/*\ PA6\ -\/>\ SPI1\_MISO\ */}}
+\DoxyCodeLine{00503\ \ \ GPIO\_InitStruct.Pin\ =\ GPIO\_PIN\_6;}
+\DoxyCodeLine{00504\ \ \ GPIO\_InitStruct.Mode\ =\ GPIO\_MODE\_AF\_PP;}
+\DoxyCodeLine{00505\ \ \ GPIO\_InitStruct.Pull\ =\ GPIO\_NOPULL;}
+\DoxyCodeLine{00506\ \ \ GPIO\_InitStruct.Speed\ =\ GPIO\_SPEED\_FREQ\_VERY\_HIGH;}
+\DoxyCodeLine{00507\ \ \ GPIO\_InitStruct.Alternate\ =\ GPIO\_AF5\_SPI1;}
+\DoxyCodeLine{00508\ \ \ HAL\_GPIO\_Init(GPIOA,\ \&GPIO\_InitStruct);}
+\DoxyCodeLine{00509\ }
+\DoxyCodeLine{00510\ \ \ \textcolor{comment}{/*\ PA7\ -\/>\ SPI1\_MOSI\ */}}
+\DoxyCodeLine{00511\ \ \ GPIO\_InitStruct.Pin\ =\ GPIO\_PIN\_7;}
+\DoxyCodeLine{00512\ \ \ GPIO\_InitStruct.Mode\ =\ GPIO\_MODE\_AF\_PP;}
+\DoxyCodeLine{00513\ \ \ GPIO\_InitStruct.Pull\ =\ GPIO\_NOPULL;}
+\DoxyCodeLine{00514\ \ \ GPIO\_InitStruct.Speed\ =\ GPIO\_SPEED\_FREQ\_VERY\_HIGH;}
+\DoxyCodeLine{00515\ \ \ GPIO\_InitStruct.Alternate\ =\ GPIO\_AF5\_SPI1;}
+\DoxyCodeLine{00516\ \ \ HAL\_GPIO\_Init(GPIOA,\ \&GPIO\_InitStruct);}
+\DoxyCodeLine{00517\ }
+\DoxyCodeLine{00518\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ MX\_GPIO\_Init\_2\ */}}
+\DoxyCodeLine{00519\ \}}
+
+\end{DoxyCode}
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00091}{main()}}.
+
+\Hypertarget{main_8c_a4230d11f81d0b16e112f1cc3f40cb42f}\index{main.c@{main.c}!MX\_I2C1\_Init@{MX\_I2C1\_Init}}
+\index{MX\_I2C1\_Init@{MX\_I2C1\_Init}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{MX\_I2C1\_Init()}{MX\_I2C1\_Init()}}
+{\footnotesize\ttfamily \label{main_8c_a4230d11f81d0b16e112f1cc3f40cb42f} 
+void MX\+\_\+\+I2\+C1\+\_\+\+Init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+I2\+C1 Initialization Function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00228}{228}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00229\ \{}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ I2C1\_Init\ 0\ */}}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00233\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ I2C1\_Init\ 0\ */}}
+\DoxyCodeLine{00234\ }
+\DoxyCodeLine{00235\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ I2C1\_Init\ 1\ */}}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ I2C1\_Init\ 1\ */}}
+\DoxyCodeLine{00238\ \ \ \mbox{\hyperlink{main_8c_af7b2c26e44dadaaa798a5c3d82914ba7}{hi2c1}}.Instance\ =\ I2C1;}
+\DoxyCodeLine{00239\ \ \ \mbox{\hyperlink{main_8c_af7b2c26e44dadaaa798a5c3d82914ba7}{hi2c1}}.Init.ClockSpeed\ =\ 100000;}
+\DoxyCodeLine{00240\ \ \ \mbox{\hyperlink{main_8c_af7b2c26e44dadaaa798a5c3d82914ba7}{hi2c1}}.Init.DutyCycle\ =\ I2C\_DUTYCYCLE\_2;}
+\DoxyCodeLine{00241\ \ \ \mbox{\hyperlink{main_8c_af7b2c26e44dadaaa798a5c3d82914ba7}{hi2c1}}.Init.OwnAddress1\ =\ 0;}
+\DoxyCodeLine{00242\ \ \ \mbox{\hyperlink{main_8c_af7b2c26e44dadaaa798a5c3d82914ba7}{hi2c1}}.Init.AddressingMode\ =\ I2C\_ADDRESSINGMODE\_7BIT;}
+\DoxyCodeLine{00243\ \ \ \mbox{\hyperlink{main_8c_af7b2c26e44dadaaa798a5c3d82914ba7}{hi2c1}}.Init.DualAddressMode\ =\ I2C\_DUALADDRESS\_DISABLE;}
+\DoxyCodeLine{00244\ \ \ \mbox{\hyperlink{main_8c_af7b2c26e44dadaaa798a5c3d82914ba7}{hi2c1}}.Init.OwnAddress2\ =\ 0;}
+\DoxyCodeLine{00245\ \ \ \mbox{\hyperlink{main_8c_af7b2c26e44dadaaa798a5c3d82914ba7}{hi2c1}}.Init.GeneralCallMode\ =\ I2C\_GENERALCALL\_DISABLE;}
+\DoxyCodeLine{00246\ \ \ \mbox{\hyperlink{main_8c_af7b2c26e44dadaaa798a5c3d82914ba7}{hi2c1}}.Init.NoStretchMode\ =\ I2C\_NOSTRETCH\_DISABLE;}
+\DoxyCodeLine{00247\ \ \ \textcolor{keywordflow}{if}\ (HAL\_I2C\_Init(\&\mbox{\hyperlink{main_8c_af7b2c26e44dadaaa798a5c3d82914ba7}{hi2c1}})\ !=\ HAL\_OK)}
+\DoxyCodeLine{00248\ \ \ \{}
+\DoxyCodeLine{00249\ \ \ \ \ \mbox{\hyperlink{main_8c_a1730ffe1e560465665eb47d9264826f9}{Error\_Handler}}();}
+\DoxyCodeLine{00250\ \ \ \}}
+\DoxyCodeLine{00251\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ I2C1\_Init\ 2\ */}}
+\DoxyCodeLine{00252\ }
+\DoxyCodeLine{00253\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ I2C1\_Init\ 2\ */}}
+\DoxyCodeLine{00254\ }
+\DoxyCodeLine{00255\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{main_8c_source_l00621}{Error\+\_\+\+Handler()}}, and \mbox{\hyperlink{main_8c_source_l00051}{hi2c1}}.
+
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00091}{main()}}.
+
+\Hypertarget{main_8c_a28dbf2494083ac5f39daa87bf09e4eb3}\index{main.c@{main.c}!MX\_SPI1\_Init@{MX\_SPI1\_Init}}
+\index{MX\_SPI1\_Init@{MX\_SPI1\_Init}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{MX\_SPI1\_Init()}{MX\_SPI1\_Init()}}
+{\footnotesize\ttfamily \label{main_8c_a28dbf2494083ac5f39daa87bf09e4eb3} 
+void MX\+\_\+\+SPI1\+\_\+\+Init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+SPI1 Initialization Function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00262}{262}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00263\ \{}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00265\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ SPI1\_Init\ 0\ */}}
+\DoxyCodeLine{00266\ }
+\DoxyCodeLine{00267\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ SPI1\_Init\ 0\ */}}
+\DoxyCodeLine{00268\ }
+\DoxyCodeLine{00269\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ SPI1\_Init\ 1\ */}}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00271\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ SPI1\_Init\ 1\ */}}
+\DoxyCodeLine{00272\ \ \ \textcolor{comment}{/*\ SPI1\ parameter\ configuration*/}}
+\DoxyCodeLine{00273\ \ \ \mbox{\hyperlink{main_8c_a9c6222bae4d0328dd843ae099623b40b}{hspi1}}.Instance\ =\ SPI1;}
+\DoxyCodeLine{00274\ \ \ \mbox{\hyperlink{main_8c_a9c6222bae4d0328dd843ae099623b40b}{hspi1}}.Init.Mode\ =\ SPI\_MODE\_MASTER;}
+\DoxyCodeLine{00275\ \ \ \mbox{\hyperlink{main_8c_a9c6222bae4d0328dd843ae099623b40b}{hspi1}}.Init.Direction\ =\ SPI\_DIRECTION\_2LINES;}
+\DoxyCodeLine{00276\ \ \ \mbox{\hyperlink{main_8c_a9c6222bae4d0328dd843ae099623b40b}{hspi1}}.Init.DataSize\ =\ SPI\_DATASIZE\_8BIT;}
+\DoxyCodeLine{00277\ \ \ \mbox{\hyperlink{main_8c_a9c6222bae4d0328dd843ae099623b40b}{hspi1}}.Init.CLKPolarity\ =\ SPI\_POLARITY\_LOW;}
+\DoxyCodeLine{00278\ \ \ \mbox{\hyperlink{main_8c_a9c6222bae4d0328dd843ae099623b40b}{hspi1}}.Init.CLKPhase\ =\ SPI\_PHASE\_1EDGE;}
+\DoxyCodeLine{00279\ \ \ \mbox{\hyperlink{main_8c_a9c6222bae4d0328dd843ae099623b40b}{hspi1}}.Init.NSS\ =\ SPI\_NSS\_SOFT;}
+\DoxyCodeLine{00280\ \ \ \mbox{\hyperlink{main_8c_a9c6222bae4d0328dd843ae099623b40b}{hspi1}}.Init.BaudRatePrescaler\ =\ SPI\_BAUDRATEPRESCALER\_128;}
+\DoxyCodeLine{00281\ \ \ \mbox{\hyperlink{main_8c_a9c6222bae4d0328dd843ae099623b40b}{hspi1}}.Init.FirstBit\ =\ SPI\_FIRSTBIT\_MSB;}
+\DoxyCodeLine{00282\ \ \ \mbox{\hyperlink{main_8c_a9c6222bae4d0328dd843ae099623b40b}{hspi1}}.Init.TIMode\ =\ SPI\_TIMODE\_DISABLE;}
+\DoxyCodeLine{00283\ \ \ \mbox{\hyperlink{main_8c_a9c6222bae4d0328dd843ae099623b40b}{hspi1}}.Init.CRCCalculation\ =\ SPI\_CRCCALCULATION\_DISABLE;}
+\DoxyCodeLine{00284\ \ \ \mbox{\hyperlink{main_8c_a9c6222bae4d0328dd843ae099623b40b}{hspi1}}.Init.CRCPolynomial\ =\ 10;}
+\DoxyCodeLine{00285\ \ \ \textcolor{keywordflow}{if}\ (HAL\_SPI\_Init(\&\mbox{\hyperlink{main_8c_a9c6222bae4d0328dd843ae099623b40b}{hspi1}})\ !=\ HAL\_OK)}
+\DoxyCodeLine{00286\ \ \ \{}
+\DoxyCodeLine{00287\ \ \ \ \ \mbox{\hyperlink{main_8c_a1730ffe1e560465665eb47d9264826f9}{Error\_Handler}}();}
+\DoxyCodeLine{00288\ \ \ \}}
+\DoxyCodeLine{00289\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ SPI1\_Init\ 2\ */}}
+\DoxyCodeLine{00290\ }
+\DoxyCodeLine{00291\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ SPI1\_Init\ 2\ */}}
+\DoxyCodeLine{00292\ }
+\DoxyCodeLine{00293\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{main_8c_source_l00621}{Error\+\_\+\+Handler()}}, and \mbox{\hyperlink{main_8c_source_l00053}{hspi1}}.
+
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00091}{main()}}.
+
+\Hypertarget{main_8c_ada2fde91c9d08b4055b4d171690255d0}\index{main.c@{main.c}!MX\_UART4\_Init@{MX\_UART4\_Init}}
+\index{MX\_UART4\_Init@{MX\_UART4\_Init}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{MX\_UART4\_Init()}{MX\_UART4\_Init()}}
+{\footnotesize\ttfamily \label{main_8c_ada2fde91c9d08b4055b4d171690255d0} 
+void MX\+\_\+\+UART4\+\_\+\+Init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+UART4 Initialization Function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00300}{300}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00301\ \{}
+\DoxyCodeLine{00302\ }
+\DoxyCodeLine{00303\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ UART4\_Init\ 0\ */}}
+\DoxyCodeLine{00304\ }
+\DoxyCodeLine{00305\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ UART4\_Init\ 0\ */}}
+\DoxyCodeLine{00306\ }
+\DoxyCodeLine{00307\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ UART4\_Init\ 1\ */}}
+\DoxyCodeLine{00308\ }
+\DoxyCodeLine{00309\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ UART4\_Init\ 1\ */}}
+\DoxyCodeLine{00310\ \ \ \mbox{\hyperlink{main_8c_ae273feb3e0dc44e38892650faa58fced}{huart4}}.Instance\ =\ UART4;}
+\DoxyCodeLine{00311\ \ \ \mbox{\hyperlink{main_8c_ae273feb3e0dc44e38892650faa58fced}{huart4}}.Init.BaudRate\ =\ 9600;}
+\DoxyCodeLine{00312\ \ \ \mbox{\hyperlink{main_8c_ae273feb3e0dc44e38892650faa58fced}{huart4}}.Init.WordLength\ =\ UART\_WORDLENGTH\_8B;}
+\DoxyCodeLine{00313\ \ \ \mbox{\hyperlink{main_8c_ae273feb3e0dc44e38892650faa58fced}{huart4}}.Init.StopBits\ =\ UART\_STOPBITS\_1;}
+\DoxyCodeLine{00314\ \ \ \mbox{\hyperlink{main_8c_ae273feb3e0dc44e38892650faa58fced}{huart4}}.Init.Parity\ =\ UART\_PARITY\_NONE;}
+\DoxyCodeLine{00315\ \ \ \mbox{\hyperlink{main_8c_ae273feb3e0dc44e38892650faa58fced}{huart4}}.Init.Mode\ =\ UART\_MODE\_TX\_RX;}
+\DoxyCodeLine{00316\ \ \ \mbox{\hyperlink{main_8c_ae273feb3e0dc44e38892650faa58fced}{huart4}}.Init.HwFlowCtl\ =\ UART\_HWCONTROL\_NONE;}
+\DoxyCodeLine{00317\ \ \ \mbox{\hyperlink{main_8c_ae273feb3e0dc44e38892650faa58fced}{huart4}}.Init.OverSampling\ =\ UART\_OVERSAMPLING\_16;}
+\DoxyCodeLine{00318\ \ \ \textcolor{keywordflow}{if}\ (HAL\_UART\_Init(\&\mbox{\hyperlink{main_8c_ae273feb3e0dc44e38892650faa58fced}{huart4}})\ !=\ HAL\_OK)}
+\DoxyCodeLine{00319\ \ \ \{}
+\DoxyCodeLine{00320\ \ \ \ \ \mbox{\hyperlink{main_8c_a1730ffe1e560465665eb47d9264826f9}{Error\_Handler}}();}
+\DoxyCodeLine{00321\ \ \ \}}
+\DoxyCodeLine{00322\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ UART4\_Init\ 2\ */}}
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00324\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ UART4\_Init\ 2\ */}}
+\DoxyCodeLine{00325\ }
+\DoxyCodeLine{00326\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{main_8c_source_l00621}{Error\+\_\+\+Handler()}}, and \mbox{\hyperlink{main_8c_source_l00055}{huart4}}.
+
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00091}{main()}}.
+
+\Hypertarget{main_8c_a6db1014d713f6f5c0f52a13299ee0733}\index{main.c@{main.c}!MX\_USART2\_UART\_Init@{MX\_USART2\_UART\_Init}}
+\index{MX\_USART2\_UART\_Init@{MX\_USART2\_UART\_Init}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{MX\_USART2\_UART\_Init()}{MX\_USART2\_UART\_Init()}}
+{\footnotesize\ttfamily \label{main_8c_a6db1014d713f6f5c0f52a13299ee0733} 
+void MX\+\_\+\+USART2\+\_\+\+UART\+\_\+\+Init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+USART2 Initialization Function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00333}{333}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00334\ \{}
+\DoxyCodeLine{00335\ }
+\DoxyCodeLine{00336\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ USART2\_Init\ 0\ */}}
+\DoxyCodeLine{00337\ }
+\DoxyCodeLine{00338\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ USART2\_Init\ 0\ */}}
+\DoxyCodeLine{00339\ }
+\DoxyCodeLine{00340\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ USART2\_Init\ 1\ */}}
+\DoxyCodeLine{00341\ }
+\DoxyCodeLine{00342\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ USART2\_Init\ 1\ */}}
+\DoxyCodeLine{00343\ \ \ \mbox{\hyperlink{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}{huart2}}.Instance\ =\ USART2;}
+\DoxyCodeLine{00344\ \ \ \mbox{\hyperlink{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}{huart2}}.Init.BaudRate\ =\ 115200;}
+\DoxyCodeLine{00345\ \ \ \mbox{\hyperlink{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}{huart2}}.Init.WordLength\ =\ UART\_WORDLENGTH\_8B;}
+\DoxyCodeLine{00346\ \ \ \mbox{\hyperlink{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}{huart2}}.Init.StopBits\ =\ UART\_STOPBITS\_1;}
+\DoxyCodeLine{00347\ \ \ \mbox{\hyperlink{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}{huart2}}.Init.Parity\ =\ UART\_PARITY\_NONE;}
+\DoxyCodeLine{00348\ \ \ \mbox{\hyperlink{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}{huart2}}.Init.Mode\ =\ UART\_MODE\_TX\_RX;}
+\DoxyCodeLine{00349\ \ \ \mbox{\hyperlink{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}{huart2}}.Init.HwFlowCtl\ =\ UART\_HWCONTROL\_NONE;}
+\DoxyCodeLine{00350\ \ \ \mbox{\hyperlink{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}{huart2}}.Init.OverSampling\ =\ UART\_OVERSAMPLING\_16;}
+\DoxyCodeLine{00351\ \ \ \textcolor{keywordflow}{if}\ (HAL\_UART\_Init(\&\mbox{\hyperlink{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}{huart2}})\ !=\ HAL\_OK)}
+\DoxyCodeLine{00352\ \ \ \{}
+\DoxyCodeLine{00353\ \ \ \ \ \mbox{\hyperlink{main_8c_a1730ffe1e560465665eb47d9264826f9}{Error\_Handler}}();}
+\DoxyCodeLine{00354\ \ \ \}}
+\DoxyCodeLine{00355\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ USART2\_Init\ 2\ */}}
+\DoxyCodeLine{00356\ }
+\DoxyCodeLine{00357\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ USART2\_Init\ 2\ */}}
+\DoxyCodeLine{00358\ }
+\DoxyCodeLine{00359\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{main_8c_source_l00621}{Error\+\_\+\+Handler()}}, and \mbox{\hyperlink{main_8c_source_l00056}{huart2}}.
+
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00091}{main()}}.
+
+\Hypertarget{main_8c_a99d0fdb0434092bcb24d9c9af917e4e9}\index{main.c@{main.c}!StartDefaultTask@{StartDefaultTask}}
+\index{StartDefaultTask@{StartDefaultTask}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{StartDefaultTask()}{StartDefaultTask()}}
+{\footnotesize\ttfamily \label{main_8c_a99d0fdb0434092bcb24d9c9af917e4e9} 
+void Start\+Default\+Task (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argument}{}\end{DoxyParamCaption})}
+
+
+
+Function implementing the default\+Task thread. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argument} & Not used \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00570}{570}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00571\ \{}
+\DoxyCodeLine{00572\ \ \ \textcolor{comment}{/*\ init\ code\ for\ USB\_HOST\ */}}
+\DoxyCodeLine{00573\ \ \ MX\_USB\_HOST\_Init();}
+\DoxyCodeLine{00574\ \ \ \textcolor{comment}{/*\ USER\ CODE\ BEGIN\ 5\ */}}
+\DoxyCodeLine{00575\ }
+\DoxyCodeLine{00576\ }
+\DoxyCodeLine{00577\ \ \ \mbox{\hyperlink{admin_8c_a183387e08a88262f831be8b883ce8754}{CreateHandles}}();}
+\DoxyCodeLine{00578\ \ \ \mbox{\hyperlink{admin_8c_a7f983159a50cdcaaad786c6c7a216cd9}{CreateTasks}}();}
+\DoxyCodeLine{00579\ }
+\DoxyCodeLine{00580\ \ \ \textcolor{comment}{//\ start\ the\ interrupt\ handlers\ after\ all\ handles\ are\ created}}
+\DoxyCodeLine{00581\ \ \ HAL\_UART\_Receive\_IT(\&\mbox{\hyperlink{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}{huart2}},\ \&\mbox{\hyperlink{main_8c_a3414137a6752f04b9b5b666591a62952}{uart2\_char}},\ 1);\ \textcolor{comment}{//start\ the\ UART2\ interrupt\ engine\ for\ reading}}
+\DoxyCodeLine{00582\ \ \ HAL\_UART\_Receive\_IT(\&\mbox{\hyperlink{main_8c_ae273feb3e0dc44e38892650faa58fced}{huart4}},\ \&\mbox{\hyperlink{main_8c_a245542656c11698d62157049b0f8276f}{uart4\_char}},\ 1);\ \textcolor{comment}{//start\ the\ UART4\ interrupt\ engine\ GPS}}
+\DoxyCodeLine{00583\ }
+\DoxyCodeLine{00584\ \ \ \textcolor{comment}{//\ UART\_putint(byte2);\ UART\_puts("{}\(\backslash\)r\(\backslash\)n"{});\ //\ deze\ byte\ (de\ eerste)\ is\ nog\ een\ irritante\ bug.}}
+\DoxyCodeLine{00585\ }
+\DoxyCodeLine{00586\ \ \ \textcolor{comment}{/*\ Infinite\ loop\ */}}
+\DoxyCodeLine{00587\ \ \ \textcolor{keywordflow}{for}(;;)}
+\DoxyCodeLine{00588\ \ \ \{}
+\DoxyCodeLine{00589\ \ \ \ \ osDelay(1);}
+\DoxyCodeLine{00590\ \ \ \ \ vTaskDelete(\mbox{\hyperlink{main_8c_a6a263905468b0c37de4ee5e50ede4e74}{defaultTaskHandle}});\ \textcolor{comment}{//\ remove\ this\ default\ task}}
+\DoxyCodeLine{00591\ \ \ \}}
+\DoxyCodeLine{00592\ \ \ \textcolor{comment}{/*\ USER\ CODE\ END\ 5\ */}}
+\DoxyCodeLine{00593\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{admin_8c_source_l00220}{Create\+Handles()}}, \mbox{\hyperlink{admin_8c_source_l00277}{Create\+Tasks()}}, \mbox{\hyperlink{main_8c_source_l00059}{default\+Task\+Handle}}, \mbox{\hyperlink{main_8c_source_l00056}{huart2}}, \mbox{\hyperlink{main_8c_source_l00055}{huart4}}, \mbox{\hyperlink{main_8c_source_l00067}{uart2\+\_\+char}}, and \mbox{\hyperlink{main_8c_source_l00067}{uart4\+\_\+char}}.
+
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00091}{main()}}.
+
+\Hypertarget{main_8c_a70af21c671abfcc773614a9a4f63d920}\index{main.c@{main.c}!SystemClock\_Config@{SystemClock\_Config}}
+\index{SystemClock\_Config@{SystemClock\_Config}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{SystemClock\_Config()}{SystemClock\_Config()}}
+{\footnotesize\ttfamily \label{main_8c_a70af21c671abfcc773614a9a4f63d920} 
+void System\+Clock\+\_\+\+Config (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+System Clock Configuration. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+Configure the main internal regulator output voltage
+
+Initializes the RCC Oscillators according to the specified parameters in the RCC\+\_\+\+Osc\+Init\+Type\+Def structure.
+
+Initializes the CPU, AHB and APB buses clocks
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00182}{182}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00183\ \{}
+\DoxyCodeLine{00184\ \ \ RCC\_OscInitTypeDef\ RCC\_OscInitStruct\ =\ \{0\};}
+\DoxyCodeLine{00185\ \ \ RCC\_ClkInitTypeDef\ RCC\_ClkInitStruct\ =\ \{0\};}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00189\ \ \ \_\_HAL\_RCC\_PWR\_CLK\_ENABLE();}
+\DoxyCodeLine{00190\ \ \ \_\_HAL\_PWR\_VOLTAGESCALING\_CONFIG(PWR\_REGULATOR\_VOLTAGE\_SCALE1);}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00195\ \ \ RCC\_OscInitStruct.OscillatorType\ =\ RCC\_OSCILLATORTYPE\_HSE;}
+\DoxyCodeLine{00196\ \ \ RCC\_OscInitStruct.HSEState\ =\ RCC\_HSE\_ON;}
+\DoxyCodeLine{00197\ \ \ RCC\_OscInitStruct.PLL.PLLState\ =\ RCC\_PLL\_ON;}
+\DoxyCodeLine{00198\ \ \ RCC\_OscInitStruct.PLL.PLLSource\ =\ RCC\_PLLSOURCE\_HSE;}
+\DoxyCodeLine{00199\ \ \ RCC\_OscInitStruct.PLL.PLLM\ =\ 8;}
+\DoxyCodeLine{00200\ \ \ RCC\_OscInitStruct.PLL.PLLN\ =\ 336;}
+\DoxyCodeLine{00201\ \ \ RCC\_OscInitStruct.PLL.PLLP\ =\ RCC\_PLLP\_DIV2;}
+\DoxyCodeLine{00202\ \ \ RCC\_OscInitStruct.PLL.PLLQ\ =\ 7;}
+\DoxyCodeLine{00203\ \ \ \textcolor{keywordflow}{if}\ (HAL\_RCC\_OscConfig(\&RCC\_OscInitStruct)\ !=\ HAL\_OK)}
+\DoxyCodeLine{00204\ \ \ \{}
+\DoxyCodeLine{00205\ \ \ \ \ \mbox{\hyperlink{main_8c_a1730ffe1e560465665eb47d9264826f9}{Error\_Handler}}();}
+\DoxyCodeLine{00206\ \ \ \}}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00210\ \ \ RCC\_ClkInitStruct.ClockType\ =\ RCC\_CLOCKTYPE\_HCLK|RCC\_CLOCKTYPE\_SYSCLK}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |RCC\_CLOCKTYPE\_PCLK1|RCC\_CLOCKTYPE\_PCLK2;}
+\DoxyCodeLine{00212\ \ \ RCC\_ClkInitStruct.SYSCLKSource\ =\ RCC\_SYSCLKSOURCE\_PLLCLK;}
+\DoxyCodeLine{00213\ \ \ RCC\_ClkInitStruct.AHBCLKDivider\ =\ RCC\_SYSCLK\_DIV1;}
+\DoxyCodeLine{00214\ \ \ RCC\_ClkInitStruct.APB1CLKDivider\ =\ RCC\_HCLK\_DIV4;}
+\DoxyCodeLine{00215\ \ \ RCC\_ClkInitStruct.APB2CLKDivider\ =\ RCC\_HCLK\_DIV2;}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00217\ \ \ \textcolor{keywordflow}{if}\ (HAL\_RCC\_ClockConfig(\&RCC\_ClkInitStruct,\ FLASH\_LATENCY\_5)\ !=\ HAL\_OK)}
+\DoxyCodeLine{00218\ \ \ \{}
+\DoxyCodeLine{00219\ \ \ \ \ \mbox{\hyperlink{main_8c_a1730ffe1e560465665eb47d9264826f9}{Error\_Handler}}();}
+\DoxyCodeLine{00220\ \ \ \}}
+\DoxyCodeLine{00221\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{main_8c_source_l00621}{Error\+\_\+\+Handler()}}.
+
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00091}{main()}}.
+
+
+
+\label{doc-var-members}
+\Hypertarget{main_8c_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{main_8c_a25fbb54afdba71c24ba51ed50166ac8d}\index{main.c@{main.c}!defaultTask\_attributes@{defaultTask\_attributes}}
+\index{defaultTask\_attributes@{defaultTask\_attributes}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{defaultTask\_attributes}{defaultTask\_attributes}}
+{\footnotesize\ttfamily \label{main_8c_a25fbb54afdba71c24ba51ed50166ac8d} 
+const os\+Thread\+Attr\+\_\+t default\+Task\+\_\+attributes}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ .name\ =\ \textcolor{stringliteral}{"{}defaultTask"{}},}
+\DoxyCodeLine{\ \ .stack\_size\ =\ 128\ *\ 4,}
+\DoxyCodeLine{\ \ .priority\ =\ (osPriority\_t)\ osPriorityNormal,}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00060}{60}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00061\ \ \ .name\ =\ \textcolor{stringliteral}{"{}defaultTask"{}},}
+\DoxyCodeLine{00062\ \ \ .stack\_size\ =\ 128\ *\ 4,}
+\DoxyCodeLine{00063\ \ \ .priority\ =\ (osPriority\_t)\ osPriorityNormal,}
+\DoxyCodeLine{00064\ \};}
+
+\end{DoxyCode}
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00091}{main()}}.
+
+\Hypertarget{main_8c_a6a263905468b0c37de4ee5e50ede4e74}\index{main.c@{main.c}!defaultTaskHandle@{defaultTaskHandle}}
+\index{defaultTaskHandle@{defaultTaskHandle}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{defaultTaskHandle}{defaultTaskHandle}}
+{\footnotesize\ttfamily \label{main_8c_a6a263905468b0c37de4ee5e50ede4e74} 
+os\+Thread\+Id\+\_\+t default\+Task\+Handle}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00059}{59}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00091}{main()}}, and \mbox{\hyperlink{main_8c_source_l00570}{Start\+Default\+Task()}}.
+
+\Hypertarget{main_8c_af7b2c26e44dadaaa798a5c3d82914ba7}\index{main.c@{main.c}!hi2c1@{hi2c1}}
+\index{hi2c1@{hi2c1}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{hi2c1}{hi2c1}}
+{\footnotesize\ttfamily \label{main_8c_af7b2c26e44dadaaa798a5c3d82914ba7} 
+I2\+C\+\_\+\+Handle\+Type\+Def hi2c1}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00051}{51}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00228}{MX\+\_\+\+I2\+C1\+\_\+\+Init()}}.
+
+\Hypertarget{main_8c_a9c6222bae4d0328dd843ae099623b40b}\index{main.c@{main.c}!hspi1@{hspi1}}
+\index{hspi1@{hspi1}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{hspi1}{hspi1}}
+{\footnotesize\ttfamily \label{main_8c_a9c6222bae4d0328dd843ae099623b40b} 
+SPI\+\_\+\+Handle\+Type\+Def hspi1}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00053}{53}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00262}{MX\+\_\+\+SPI1\+\_\+\+Init()}}, and \mbox{\hyperlink{NRF__driver_8c_source_l00085}{nrf24\+\_\+\+SPI\+\_\+commscheck()}}.
+
+\Hypertarget{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}\index{main.c@{main.c}!huart2@{huart2}}
+\index{huart2@{huart2}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{huart2}{huart2}}
+{\footnotesize\ttfamily \label{main_8c_aa9479c261d65eecedd3d9582f7f0f89c} 
+UART\+\_\+\+Handle\+Type\+Def huart2}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00056}{56}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00531}{HAL\+\_\+\+UART\+\_\+\+Rx\+Cplt\+Callback()}}, \mbox{\hyperlink{main_8c_source_l00333}{MX\+\_\+\+USART2\+\_\+\+UART\+\_\+\+Init()}}, and \mbox{\hyperlink{main_8c_source_l00570}{Start\+Default\+Task()}}.
+
+\Hypertarget{main_8c_ae273feb3e0dc44e38892650faa58fced}\index{main.c@{main.c}!huart4@{huart4}}
+\index{huart4@{huart4}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{huart4}{huart4}}
+{\footnotesize\ttfamily \label{main_8c_ae273feb3e0dc44e38892650faa58fced} 
+UART\+\_\+\+Handle\+Type\+Def huart4}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00055}{55}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00531}{HAL\+\_\+\+UART\+\_\+\+Rx\+Cplt\+Callback()}}, \mbox{\hyperlink{main_8c_source_l00300}{MX\+\_\+\+UART4\+\_\+\+Init()}}, and \mbox{\hyperlink{main_8c_source_l00570}{Start\+Default\+Task()}}.
+
+\Hypertarget{main_8c_a3414137a6752f04b9b5b666591a62952}\index{main.c@{main.c}!uart2\_char@{uart2\_char}}
+\index{uart2\_char@{uart2\_char}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{uart2\_char}{uart2\_char}}
+{\footnotesize\ttfamily \label{main_8c_a3414137a6752f04b9b5b666591a62952} 
+unsigned char uart2\+\_\+char}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00067}{67}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00531}{HAL\+\_\+\+UART\+\_\+\+Rx\+Cplt\+Callback()}}, and \mbox{\hyperlink{main_8c_source_l00570}{Start\+Default\+Task()}}.
+
+\Hypertarget{main_8c_a245542656c11698d62157049b0f8276f}\index{main.c@{main.c}!uart4\_char@{uart4\_char}}
+\index{uart4\_char@{uart4\_char}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{uart4\_char}{uart4\_char}}
+{\footnotesize\ttfamily \label{main_8c_a245542656c11698d62157049b0f8276f} 
+unsigned char uart4\+\_\+char}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00067}{67}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00531}{HAL\+\_\+\+UART\+\_\+\+Rx\+Cplt\+Callback()}}, and \mbox{\hyperlink{main_8c_source_l00570}{Start\+Default\+Task()}}.
+

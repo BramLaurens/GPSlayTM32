@@ -1,0 +1,81 @@
+\doxysection{Core/\+My\+App/\+App/student.c File Reference}
+\hypertarget{student_8c}{}\label{student_8c}\index{Core/MyApp/App/student.c@{Core/MyApp/App/student.c}}
+
+
+Hier kunnen studenten hun eigen tasks aanmaken.  
+
+
+{\ttfamily \#include $<$admin.\+h$>$}\newline
+{\ttfamily \#include "{}main.\+h"{}}\newline
+{\ttfamily \#include "{}cmsis\+\_\+os.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{student_8c_a282e21c3f1a0eb3054bbb9e40ffa9cc6}{Student\+\_\+task1}} (void \texorpdfstring{$\ast$}{*}argument)
+\begin{DoxyCompactList}\small\item\em Oefentask voor studenten. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Hier kunnen studenten hun eigen tasks aanmaken. 
+
+\begin{DoxyAuthor}{Author}
+MSC
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+5/5/2022 
+\end{DoxyDate}
+
+
+Definition in file \mbox{\hyperlink{student_8c_source}{student.\+c}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{student_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{student_8c_a282e21c3f1a0eb3054bbb9e40ffa9cc6}\index{student.c@{student.c}!Student\_task1@{Student\_task1}}
+\index{Student\_task1@{Student\_task1}!student.c@{student.c}}
+\doxysubsubsection{\texorpdfstring{Student\_task1()}{Student\_task1()}}
+{\footnotesize\ttfamily \label{student_8c_a282e21c3f1a0eb3054bbb9e40ffa9cc6} 
+void Student\+\_\+task1 (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argument}{}\end{DoxyParamCaption})}
+
+
+
+Oefentask voor studenten. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argument,kan} & evt vanuit tasks gebruikt worden \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{student_8c_source_l00019}{19}} of file \mbox{\hyperlink{student_8c_source}{student.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00020\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}\ started\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{char}\ buf[80];}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ i\ =\ 0;}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
+\DoxyCodeLine{00026\ \ \ \ \ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ osDelay(1000);}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_a6fcd7c2c8ee6e408e84e96747933027c}{STUDENT\_DEBUG\_OUT}})}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ sprintf(buf,\ \textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\%s:\ \%u"{}},\ \_\_func\_\_,\ i++);}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(buf);}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00034\ \ \ \ \ \}}
+\DoxyCodeLine{00035\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{admin_8h_source_l00083}{STUDENT\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{admin_8h_source_l00023}{TRUE}}, and \mbox{\hyperlink{admin_8c_source_l00040}{Uart\+\_\+debug\+\_\+out}}.
+

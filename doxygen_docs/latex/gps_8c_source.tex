@@ -1,0 +1,240 @@
+\doxysection{gps.\+c}
+\hypertarget{gps_8c_source}{}\label{gps_8c_source}\index{Core/MyApp/App/gps.c@{Core/MyApp/App/gps.c}}
+\mbox{\hyperlink{gps_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{admin_8h}{admin.h}}>}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00012}00012\ \textcolor{preprocessor}{\#include\ "{}main.h"{}}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}cmsis\_os.h"{}}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00014}00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{gps_8h}{gps.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00017}\mbox{\hyperlink{gps_8c_a0467b1a9289b2992a0c040d54b5409f3}{00017}}\ \mbox{\hyperlink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC}}\ \mbox{\hyperlink{gps_8c_a0467b1a9289b2992a0c040d54b5409f3}{gnrmc}};\ \textcolor{comment}{//\ global\ struct\ for\ GNRMC-\/messages}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00019}\mbox{\hyperlink{gps_8c_a5d65702be83af3deed70168dce8d61b9}{00019}}\ \textcolor{keyword}{static}\ \mbox{\hyperlink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC}}\ \mbox{\hyperlink{gps_8c_a5d65702be83af3deed70168dce8d61b9}{bufferA}};}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00020}\mbox{\hyperlink{gps_8c_a6e506e6deff4ea0bffca386f8f0b8ccb}{00020}}\ \textcolor{keyword}{static}\ \mbox{\hyperlink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC}}\ \mbox{\hyperlink{gps_8c_a6e506e6deff4ea0bffca386f8f0b8ccb}{bufferB}};}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00022}\mbox{\hyperlink{gps_8c_ab8fafa7c928aa273ebc494046630ed46}{00022}}\ \textcolor{keyword}{static}\ \mbox{\hyperlink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC}}\ *\textcolor{keyword}{volatile}\ \mbox{\hyperlink{gps_8c_ab8fafa7c928aa273ebc494046630ed46}{frontendBuffer}}\ =\ \&\mbox{\hyperlink{gps_8c_a5d65702be83af3deed70168dce8d61b9}{bufferA}};\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00023}\mbox{\hyperlink{gps_8c_a90c9b96ca8d22b36a7f41cd7ab710c7b}{00023}}\ \textcolor{keyword}{static}\ \mbox{\hyperlink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC}}\ *\textcolor{keyword}{volatile}\ \mbox{\hyperlink{gps_8c_a90c9b96ca8d22b36a7f41cd7ab710c7b}{backendBuffer}}\ \ =\ \&\mbox{\hyperlink{gps_8c_a6e506e6deff4ea0bffca386f8f0b8ccb}{bufferB}};\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00031}\mbox{\hyperlink{gps_8c_ad1ebb3252081d2411aefcb941109edd1}{00031}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{gps_8c_ad1ebb3252081d2411aefcb941109edd1}{getlatest\_GNRMC}}(\mbox{\hyperlink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC}}\ *dest)}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00032}00032\ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00033}00033\ \ \ \ \ \textcolor{keywordflow}{if}(xSemaphoreTake(\mbox{\hyperlink{admin_8c_a5f9ab1293c7ef76b78e15194fd04da8b}{hGPS\_Mutex}},\ portMAX\_DELAY)\ ==\ pdTRUE)}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00034}00034\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00035}00035\ \ \ \ \ \ \ \ \ *dest\ =\ *\mbox{\hyperlink{gps_8c_ab8fafa7c928aa273ebc494046630ed46}{frontendBuffer}};}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00036}00036\ \ \ \ \ \ \ \ \ xSemaphoreGive(\mbox{\hyperlink{admin_8c_a5f9ab1293c7ef76b78e15194fd04da8b}{hGPS\_Mutex}});}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00037}00037\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00038}00038\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00039}00039\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00040}00040\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Err:GPS\_mutex"{}});}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00041}00041\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00042}00042\ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00050}\mbox{\hyperlink{gps_8c_a294c695f1e114c0a4975cef5b91f8e7d}{00050}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{gps_8c_a294c695f1e114c0a4975cef5b91f8e7d}{fill\_GNRMC}}(\textcolor{keywordtype}{char}\ *message)}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00051}00051\ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00052}00052\ \ \ \ \ \textcolor{comment}{//\ example:\ \$GNRMC,164435.000,A,5205.9505,N,00507.0873,E,0.49,21.70,140423,,,A}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00053}00053\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ id\ \ \ \ ,\ time\ \ \ \ \ ,s,}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00055}00055\ \ \ \ \ osThreadId\_t\ hTask;}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00057}00057\ \ \ \ \ \textcolor{keywordtype}{char}\ *tok\ =\ \textcolor{stringliteral}{"{},"{}};}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00058}00058\ \ \ \ \ \textcolor{keywordtype}{char}\ *s;}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00060}00060\ \ \ \ \ \mbox{\hyperlink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC}}\ *localBuffer\ =\ \mbox{\hyperlink{gps_8c_a90c9b96ca8d22b36a7f41cd7ab710c7b}{backendBuffer}};}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00062}00062\ \ \ \ \ memset(localBuffer,\ 0,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC}}));\ \textcolor{comment}{//\ clear\ the\ struct}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00064}00064\ \ \ \ \ s\ =\ strtok(message,\ tok);\ \textcolor{comment}{//\ 0.\ header;}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00065}00065\ \ \ \ \ strcpy(localBuffer-\/>\mbox{\hyperlink{struct__GNRMC_ad04f9f2bf3c31a6e9ad48032b5fd65a6}{head}},\ s);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00067}00067\ \ \ \ \ s\ =\ strtok(NULL,\ tok);\ \ \ \ \textcolor{comment}{//\ 1.\ time;\ not\ used}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00069}00069\ \ \ \ \ s\ =\ strtok(NULL,\ tok);\ \ \ \ \textcolor{comment}{//\ 2.\ valid;}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00070}00070\ \ \ \ \ localBuffer-\/>\mbox{\hyperlink{struct__GNRMC_a21f98d10acb4243e90546dd02f5eb2b7}{status}}\ =\ s[0];}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00072}00072\ \ \ \ \ s\ =\ strtok(NULL,\ tok);\ \ \ \ \textcolor{comment}{//\ 3.\ latitude;}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00073}00073\ \ \ \ \ strcpy(localBuffer-\/>\mbox{\hyperlink{struct__GNRMC_a266beef800a2fe9da436c749b7402baf}{latitude}},\ s);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00075}00075\ \ \ \ \ s\ =\ strtok(NULL,\ tok);\ \ \ \ \textcolor{comment}{//\ 4.\ N/S;\ not\ used}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00077}00077\ \ \ \ \ s\ =\ strtok(NULL,\ tok);\ \ \ \ \textcolor{comment}{//\ 5.\ longitude;}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00078}00078\ \ \ \ \ \textcolor{keywordflow}{if}\ (s[0]\ ==\ \textcolor{charliteral}{'0'})\ \textcolor{comment}{//\ if\ leading\ '0'\ is\ present,\ remove\ it}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00079}00079\ \ \ \ \ \ \ \ \ memmove(s,\ s\ +\ 1,\ strlen(s));\ \textcolor{comment}{//\ remove\ leading\ '0'\ if\ present}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00080}00080\ \ \ \ \ strcpy(localBuffer-\/>\mbox{\hyperlink{struct__GNRMC_a0918955ee8187503b361127c7030e579}{longitude}},\ s);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00082}00082\ \ \ \ \ s\ =\ strtok(NULL,\ tok);\ \ \ \ \textcolor{comment}{//\ 6.\ E/W;\ not\ used}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00084}00084\ \ \ \ \ s\ =\ strtok(NULL,\ tok);\ \ \ \ \textcolor{comment}{//\ 7.\ speed;}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00085}00085\ \ \ \ \ strcpy(localBuffer-\/>\mbox{\hyperlink{struct__GNRMC_a5f1886b3d6feca62fa8dc7e46fd014e9}{speed}},\ s);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00087}00087\ \ \ \ \ s\ =\ strtok(NULL,\ tok);\ \ \ \ \textcolor{comment}{//\ 8.\ course;}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00088}00088\ \ \ \ \ strcpy(localBuffer-\/>\mbox{\hyperlink{struct__GNRMC_af50928444db80d81eb943d0804944047}{course}},\ s);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00090}00090\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_aaaa64fd595cb0468a82ae3c5c19df4fd}{GPS\_DEBUG\_OUT}})}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00091}00091\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00092}00092\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)t\ GPS\ type:\ \(\backslash\)t"{}});\ \ UART\_puts(\mbox{\hyperlink{gps_8c_a0467b1a9289b2992a0c040d54b5409f3}{gnrmc}}.head);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00093}00093\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)t\ status:\ \(\backslash\)t\(\backslash\)t"{}});\ \ UART\_putchar(\mbox{\hyperlink{gps_8c_a0467b1a9289b2992a0c040d54b5409f3}{gnrmc}}.status);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00094}00094\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)t\ latitude:\(\backslash\)t\(\backslash\)t"{}});\ UART\_puts(\mbox{\hyperlink{gps_8c_a0467b1a9289b2992a0c040d54b5409f3}{gnrmc}}.latitude);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00095}00095\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)t\ longitude:\(\backslash\)t"{}});\ \ UART\_puts(\mbox{\hyperlink{gps_8c_a0467b1a9289b2992a0c040d54b5409f3}{gnrmc}}.longitude);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00096}00096\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)t\ speed:\ \ \ \ \(\backslash\)t"{}});\ \ UART\_puts(\mbox{\hyperlink{gps_8c_a0467b1a9289b2992a0c040d54b5409f3}{gnrmc}}.speed);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00097}00097\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)t\ course:\ \ \ \(\backslash\)t"{}});\ \ UART\_puts(\mbox{\hyperlink{gps_8c_a0467b1a9289b2992a0c040d54b5409f3}{gnrmc}}.course);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00098}00098\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00100}00100\ \ \ \ \ \textcolor{keywordflow}{if}(localBuffer-\/>\mbox{\hyperlink{struct__GNRMC_a21f98d10acb4243e90546dd02f5eb2b7}{status}}\ ==\ \textcolor{charliteral}{'A'})\{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00101}00101\ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(GPIOD,\ \mbox{\hyperlink{admin_8h_a5cd9ee80876b12602eb666a07b9cfe50}{LEDGREEN}},\ GPIO\_PIN\_SET);\ \textcolor{comment}{//\ GPS\ fix}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00102}00102\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00103}00103\ \ \ \ \ \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00104}00104\ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(GPIOD,\ \mbox{\hyperlink{admin_8h_a5cd9ee80876b12602eb666a07b9cfe50}{LEDGREEN}},\ GPIO\_PIN\_RESET);\ \textcolor{comment}{//\ no\ GPS\ fix}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00105}00105\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00107}00107\ \ \ \ \ \textcolor{keywordflow}{if}(xSemaphoreTake(\mbox{\hyperlink{admin_8c_a5f9ab1293c7ef76b78e15194fd04da8b}{hGPS\_Mutex}},\ portMAX\_DELAY)\ ==\ pdTRUE)}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00108}00108\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00109}00109\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC}}\ *tempbuf\ =\ \mbox{\hyperlink{gps_8c_a90c9b96ca8d22b36a7f41cd7ab710c7b}{backendBuffer}};}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00110}00110\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{gps_8c_a90c9b96ca8d22b36a7f41cd7ab710c7b}{backendBuffer}}\ =\ \mbox{\hyperlink{gps_8c_ab8fafa7c928aa273ebc494046630ed46}{frontendBuffer}};}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00111}00111\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{gps_8c_ab8fafa7c928aa273ebc494046630ed46}{frontendBuffer}}\ =\ tempbuf;}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00112}00112\ \ \ \ \ \ \ \ \ xSemaphoreGive(\mbox{\hyperlink{admin_8c_a5f9ab1293c7ef76b78e15194fd04da8b}{hGPS\_Mutex}});}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00113}00113\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00114}00114\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00115}00115\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00116}00116\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Err:GPS\_mutex"{}});}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00117}00117\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00118}00118\ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00127}\mbox{\hyperlink{admin_8h_aa858cc1bd518e1f551603a78e90c53be}{00127}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{gps_8c_af733a2317b43875d2c911c34f3a86823}{GPS\_getNMEA}}\ (\textcolor{keywordtype}{void}\ *argument)}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00128}00128\ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00129}00129\ \ \ \ \ \textcolor{keywordtype}{char}\ \ Q\_char;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ char\ to\ receive\ from\ queue}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00130}00130\ \ \ \ \ \textcolor{keywordtype}{char}\ \ MSG\_buff[\mbox{\hyperlink{admin_8h_a40d33106a4ed541fd00a0f928caeee64}{GPS\_MAXLEN}}];\ \textcolor{comment}{//\ buffer\ for\ GPS-\/string}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00131}00131\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ pos\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00132}00132\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ cs;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ checksum-\/flag}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00133}00133\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ new\_msg\ =\ \mbox{\hyperlink{admin_8h_aa93f0eb578d23995850d61f7d61c55c1}{FALSE}};\ \ \ \ \ \ \textcolor{comment}{//\ do\ we\ encounter\ a\ '\$'-\/char?}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00134}00134\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ msg\_type\ =\ 0;\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ do\ we\ want\ this\ message\ to\ be\ interpreted?}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00136}00136\ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}started\(\backslash\)n\(\backslash\)r"{}});}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00137}00137\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00138}00138\ \ \ \ \ \textcolor{keywordflow}{while}\ (\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00139}00139\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00140}00140\ \ \ \ \ \ \ \ \ xQueueReceive(\mbox{\hyperlink{admin_8c_a77d12f838c966d96a18a31e503b7955c}{hGPS\_Queue}},\ \&Q\_char,\ portMAX\_DELAY);\ \textcolor{comment}{//\ get\ one\ char\ from\ the\ q}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00142}00142\ \ \ \ \ \ \ \ \ \textcolor{comment}{//UART\_putchar(Q\_buff);\ \ //\ echo,\ for\ testing}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00143}00143\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00144}00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Q\_char\ ==\ \textcolor{charliteral}{'\$'})\ \textcolor{comment}{//\ gotcha,\ new\ datastring\ started}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00145}00145\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ memset(MSG\_buff,\ 0,\ \textcolor{keyword}{sizeof}(MSG\_buff));\ \textcolor{comment}{//\ clear\ buff}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ pos\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ new\_msg\ =\ \mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}};\ \textcolor{comment}{//\ from\ now\ on,\ chars\ are\ valid\ to\ receive}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00149}00149\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00151}00151\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (new\_msg\ ==\ \mbox{\hyperlink{admin_8h_aa93f0eb578d23995850d61f7d61c55c1}{FALSE}})\ \textcolor{comment}{//\ char\ only\ valid\ if\ started\ by\ \$}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00154}00154\ \ \ \ \ \ \ \ \ MSG\_buff[pos]\ =\ Q\_char;\ \textcolor{comment}{//\ copy\ char\ read\ from\ Q\ into\ the\ msg-\/buf}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00155}00155\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00156}00156\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ pos==5,\ the\ message\ type\ (f.i.\ "{}\$GPGSA)\ is\ complete,\ so\ we\ now\ we\ can\ determine}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00157}00157\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ we\ want\ the\ rest\ of\ the\ message...\ else\ we\ skip\ the\ rest\ characters}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00158}00158\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pos\ ==\ 5)}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00159}00159\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ msg\_type\ =\ 0;\ \textcolor{comment}{//\ reset}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00161}00161\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ next,\ we\ decide\ which\ message\ types\ we\ want\ to\ interpret}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ and\ we\ set\ the\ message-\/type\ for\ later\ use...}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \ \ \ \ \ (!strncmp(\&MSG\_buff[1],\ \textcolor{stringliteral}{"{}GNRMC"{}},\ 5))\ msg\_type\ =\ \mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0ae7540255e4832928911015fb32614905}{eGNRMC}};}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (!strncmp(\&MSG\_buff[1],\ \textcolor{stringliteral}{"{}GPGSA"{}},\ 5))\ msg\_type\ =\ \mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0acbcd39e2eb8e4305289f07180dcaa61f}{eGPGSA}};}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (!strncmp(\&MSG\_buff[1],\ \textcolor{stringliteral}{"{}GNGGA"{}},\ 5))\ msg\_type\ =\ \mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0afa99839f798603aeafa797ee91de2b84}{eGNGGA}};}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!msg\_type)\ \textcolor{comment}{//\ not\ an\ interesting\ message\ type}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ new\_msg\ =\ \mbox{\hyperlink{admin_8h_aa93f0eb578d23995850d61f7d61c55c1}{FALSE}};}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00173}00173\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00174}00174\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00175}00175\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ we\ are\ here,\ we\ are\ reading\ the\ rest\ of\ the\ message\ into\ the\ msg\_buff}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00177}00177\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pos\ >=\ \mbox{\hyperlink{admin_8h_a40d33106a4ed541fd00a0f928caeee64}{GPS\_MAXLEN}}\ -\/\ 1)\ \textcolor{comment}{//\ avoid\ overflow\ (should\ not\ happen,\ but\ still...)}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00178}00178\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ new\_msg\ =\ \mbox{\hyperlink{admin_8h_aa93f0eb578d23995850d61f7d61c55c1}{FALSE}};\ \textcolor{comment}{//\ ignore\ it}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00181}00181\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00182}00182\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00183}00183\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (MSG\_buff[pos]\ ==\ \textcolor{charliteral}{'\(\backslash\)r'})\ \textcolor{comment}{//\ end\ of\ message\ encountered\ -\/\ all\ messages\ end\ with\ <CR-\/13><LF-\/10>}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00184}00184\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ MSG\_buff[pos]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ close\ string}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ cs\ =\ \mbox{\hyperlink{gps_8c_a599d945c53e74265e35aff35847c15e2}{checksum\_valid}}(MSG\_buff);\ \textcolor{comment}{//\ note,\ checksumchars\ (eg\ "{}*43"{})\ are\ removed\ from\ string}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00187}00187\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_aaaa64fd595cb0468a82ae3c5c19df4fd}{GPS\_DEBUG\_OUT}})\ \textcolor{comment}{//\ output\ to\ uart\ if\ wanted}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)nGPS\ (UART4):\ "{}});\ UART\_puts(MSG\_buff);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\ cs\ ?\ \textcolor{stringliteral}{"{}\ [cs:OK]\(\backslash\)r\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}\ [cs:ERR]\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00193}00193\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cs)\ \textcolor{comment}{//\ checksum\ okay,\ so\ interpret\ the\ message}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(msg\_type)\ \textcolor{comment}{//\ extract\ data\ from\ msg\ into\ right\ struct}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0ae7540255e4832928911015fb32614905}{eGNRMC}}:\ \mbox{\hyperlink{gps_8c_a294c695f1e114c0a4975cef5b91f8e7d}{fill\_GNRMC}}(MSG\_buff);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ use\ the\ data...}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0acbcd39e2eb8e4305289f07180dcaa61f}{eGPGSA}}:}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0afa99839f798603aeafa797ee91de2b84}{eGNGGA}}:\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00206}00206\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ new\_msg\ =\ \mbox{\hyperlink{admin_8h_aa93f0eb578d23995850d61f7d61c55c1}{FALSE}};\ \textcolor{comment}{//\ new\ message\ possible}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00209}00209\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00210}00210\ \ \ \ \ \ \ \ \ pos++;\ \textcolor{comment}{//\ proceed\ reading\ next\ char\ from\ the\ queue}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00211}00211\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00212}00212\ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00213}00213\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00215}00215\ \textcolor{comment}{//\ source:\ file:///C:/craigpeacock/NMEA-\/GPS}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00216}\mbox{\hyperlink{gps_8c_a66735348a4e65644ec1762bdf37e4f19}{00216}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{gps_8c_a66735348a4e65644ec1762bdf37e4f19}{hex2int}}(\textcolor{keywordtype}{char}\ *c)}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00217}00217\ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00218}00218\ \ \ \ \ \textcolor{keywordtype}{int}\ value;}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00219}00219\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00220}00220\ \ \ \ \ value\ =\ \mbox{\hyperlink{gps_8c_a49002bb606cdf9e9ffecb4dba16082c0}{hexchar2int}}(c[0]);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00221}00221\ \ \ \ \ value\ =\ value\ <<\ 4;}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00222}00222\ \ \ \ \ value\ +=\ \mbox{\hyperlink{gps_8c_a49002bb606cdf9e9ffecb4dba16082c0}{hexchar2int}}(c[1]);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00223}00223\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00224}00224\ \ \ \ \ \textcolor{keywordflow}{return}\ value;}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00225}00225\ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00226}00226\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00227}00227\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00228}\mbox{\hyperlink{gps_8c_a49002bb606cdf9e9ffecb4dba16082c0}{00228}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{gps_8c_a49002bb606cdf9e9ffecb4dba16082c0}{hexchar2int}}(\textcolor{keywordtype}{char}\ c)}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00229}00229\ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00230}00230\ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ >=\ \textcolor{charliteral}{'0'}\ \&\&\ c\ <=\ \textcolor{charliteral}{'9'})}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00231}00231\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (c\ -\/\ \textcolor{charliteral}{'0'});}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00232}00232\ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ >=\ \textcolor{charliteral}{'A'}\ \&\&\ c\ <=\ \textcolor{charliteral}{'F'})}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00233}00233\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (c\ -\/\ \textcolor{charliteral}{'A'}\ +\ 10);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00234}00234\ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ >=\ \textcolor{charliteral}{'a'}\ \&\&\ c\ <=\ \textcolor{charliteral}{'f'})}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00235}00235\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (c\ -\/\ \textcolor{charliteral}{'a'}\ +\ 10);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00236}00236\ \ \ \ \ \textcolor{keywordflow}{return}\ (-\/1);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00237}00237\ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00238}00238\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00240}00240\ \textcolor{comment}{//\ source:\ file:///C:/craigpeacock/NMEA-\/GPS}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00241}\mbox{\hyperlink{gps_8c_a599d945c53e74265e35aff35847c15e2}{00241}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{gps_8c_a599d945c53e74265e35aff35847c15e2}{checksum\_valid}}(\textcolor{keywordtype}{char}\ *\textcolor{keywordtype}{string})}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00242}00242\ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00243}00243\ \ \ \ \ \textcolor{keywordtype}{char}\ *checksum\_str;}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00244}00244\ \ \ \ \ \textcolor{keywordtype}{int}\ checksum,\ i;}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00245}00245\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ calculated\_checksum\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00246}00246\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00247}00247\ \ \ \ \ \textcolor{comment}{//\ Checksum\ is\ postcede\ by\ *}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00248}00248\ \ \ \ \ \textcolor{keywordflow}{if}\ ((checksum\_str\ =\ strchr(\textcolor{keywordtype}{string},\ \textcolor{charliteral}{'*'})))}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00249}00249\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00250}00250\ \ \ \ \ \ \ \ \ *checksum\_str\ =\ \textcolor{charliteral}{'\(\backslash\)0'};\ \textcolor{comment}{//\ Remove\ checksum\ from\ string}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00251}00251\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ checksum,\ starting\ after\ \$\ (i\ =\ 1)}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00252}00252\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (i\ =\ 1;\ i\ <\ strlen(\textcolor{keywordtype}{string});\ i++)}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ calculated\_checksum\ =\ calculated\_checksum\ \string^\ \textcolor{keywordtype}{string}[i];}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00254}00254\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00255}00255\ \ \ \ \ \ \ \ \ checksum\ =\ \mbox{\hyperlink{gps_8c_a66735348a4e65644ec1762bdf37e4f19}{hex2int}}((\textcolor{keywordtype}{char}\ *)checksum\_str+1);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00256}00256\ \ \ \ \ \ \ \ \ \textcolor{comment}{//printf("{}Checksum\ Str\ [\%s],\ Checksum\ \%02X,\ Calculated\ Checksum\ \%02X\(\backslash\)r\(\backslash\)n"{},(char\ *)checksum\_str+1,\ checksum,\ calculated\_checksum);}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00257}00257\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (checksum\ ==\ calculated\_checksum)}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (1);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00259}00259\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00260}00260\ }
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00261}00261\ \ \ \ \ \textcolor{keywordflow}{return}\ (0);}
+\DoxyCodeLine{\Hypertarget{gps_8c_source_l00262}00262\ \}}
+
+\end{DoxyCode}
