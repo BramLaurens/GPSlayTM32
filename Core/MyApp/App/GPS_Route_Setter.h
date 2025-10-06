@@ -19,6 +19,14 @@ typedef struct _GPS_Route{
     struct _GPS_Route *Next_point;
 } GPS_Route;
 
+/**
+ * @brief Struct to hold GPS coordinates in decimal degrees.
+ */
+typedef struct {
+	double latitude;    // Latitude in decimal degrees
+	double longitude;   // Longitude in decimal degrees
+} GPS_decimal_degrees_t, *PGPS_decimal_degrees_t;
+
 uint8_t GPS_Route_Maker();
 
 
