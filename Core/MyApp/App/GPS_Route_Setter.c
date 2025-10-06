@@ -71,7 +71,7 @@ void View_Linkedlist()
 	GPS_Route *temp = pt_Route;
 	if(temp->Next_point == NULL)
 	{
-		sprintf(buffer,"Long:%2.9f\n Lat:%2.9f ", temp->longitude, temp->latitude);
+		sprintf(buffer,"[%d]	Long:%2.9f Lat:%2.9f ",temp->nodeNumber, temp->longitude, temp->latitude);
 		UART_puts(buffer);
 		UART_puts("\r\n");
 		return;
@@ -79,7 +79,7 @@ void View_Linkedlist()
 
 	while(temp!= NULL) // go through and print all nodes while there is a node
 	{
-		sprintf(buffer,"Long:%2.9f\n Lat:%2.9f ", temp->longitude, temp->latitude);
+		sprintf(buffer,"[%d]	Long:%2.9f Lat:%2.9f ",temp->nodeNumber, temp->longitude, temp->latitude);
 		UART_puts(buffer);
 		UART_puts("\r\n");
 		temp=temp->Next_point;
@@ -286,7 +286,7 @@ void Route_Setter(void *argument)
 			break;
 
 		case 0x04:
-		UART_puts("Viewing all items in linked list...");
+		UART_puts("Viewing all items in linked list... \r\n");
 			View_Linkedlist();
 			break; 
 
