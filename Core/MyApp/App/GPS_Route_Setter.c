@@ -225,7 +225,7 @@ uint8_t Remove_Last_Node()
 	{ // the last node of the linked list
 		free(pt_Route); // this frees the memory for the kernel to be used again
 		pt_Route = NULL; // the pointer will still point to the spot in memory so make it NULL so no exidental read write operation is done
-		UART_puts("Linked list is now cleared completly");
+		UART_puts("Linked list is now cleared completly \r\n");
 		return 1; // returns 1 when the linked list is completly empty 
 	}
 
@@ -242,7 +242,7 @@ uint8_t Remove_Last_Node()
     free(temp);
     prev->Next_point = NULL;
 
-    UART_puts("Removed last node");
+    UART_puts("Removed last node \r\n ");
     return 0;
 }
 
@@ -282,7 +282,7 @@ void Route_Setter(void *argument)
 
 		case 0x03: // remove all nodes 
 			UART_puts("Removing all nodes...");
-			while(Remove_Last_Node() != 0);
+			while(Remove_Last_Node() == 0);
 			break;
 
 		case 0x04:
