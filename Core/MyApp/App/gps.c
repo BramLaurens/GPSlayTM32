@@ -54,9 +54,6 @@ void fill_GNRMC(char *message)
 
 	osThreadId_t hTask;
 
-	if (!(hTask = xTaskGetHandle("GPS_parser")))
-				error_HaltOS("Err:ARM_hndle");
-
 	char *tok = ",";
 	char *s;
 

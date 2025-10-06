@@ -1,8 +1,16 @@
-/*
- * GPS_Route_Setter.c
- *
- *  Created on: Sep 30, 2025
- *      Author: SebeB
+/**
+ * @file GPS_Route_Setter.c
+ * @brief Verwerkt de GPS data en zet deze om in een linked list met waypoints. GPS data wordt gehaald uit gps.c via de functie getlatest_GNRMC()
+ * Er zijn drie acties mogelijk:
+ * 1. Een waypoint toevoegen aan de linked list met de functie GPS_Route_Maker
+ * 2. De linked list bekijken met de functie View_Linkedlist
+ * 3. De linked list wissen met de functie Remove_Last_Node
+ * Ook is er een functie om de NMEA coordinaten om te zetten naar decimale graden: convert_decimal_degrees()
+ * @author Sebe Buitenkamp & Bram Laurens
+ * @version 0.1
+ * @date 2025-10-04
+ * 
+ * 
  */
 #include <admin.h>
 #include "main.h"
@@ -44,9 +52,6 @@ double convert_decimal_degrees(char *nmea_coordinate, char* ns)
 
     return decimal_degrees; // Return the converted value
 }
-
-
-
 
 /**
  * @brief Views all nodes in the linked list and prints them using UART
@@ -213,7 +218,7 @@ uint8_t Remove_Last_Node()
 	if(pt_Route == NULL)
 	{	// if the linked list is empty then return -1
 		UART_puts("Linked list is empty \r\n");
-		return -1; // error code maybe other nr
+		return 2; // error code maybe other nr
 	}
 
 	if(pt_Route->Next_point == NULL)
@@ -224,18 +229,22 @@ uint8_t Remove_Last_Node()
 		return 1; // returns 1 when the linked list is completly empty 
 	}
 
-	GPS_Route *temp=pt_Route; // create temp to go through the linked list
-	while(temp->Next_point != NULL)	temp = temp->Next_point;
+	GPS_Route *temp = pt_Route;
+    GPS_Route *prev = NULL;
 
-	free(temp->Next_point); // this frees the memory for the kernel to be used again
-	temp->Next_point = NULL; // the pointer will still point to the spot in memory so make it NULL so no exidental read write operation is done
-	UART_puts("Removed node");
-return 0;
+    while(temp->Next_point != NULL) {
+        prev = temp;
+        temp = temp->Next_point;
+    }
+
+    // temp is now the last node, prev is the second-to-last
+
+    free(temp);
+    prev->Next_point = NULL;
+
+    UART_puts("Removed last node");
+    return 0;
 }
-
-
-
-
 
 /**
  * @brief Task that waits for a ARM key press to set a waypoint by calling the GPS_Route_Maker function, making a linkedlist of waypoints.
@@ -244,20 +253,11 @@ return 0;
  */
 void Route_Setter(void *argument)
 {
-	// Just filling GPS data struct with dummy data for testing
-	// pt_Route_Parser = malloc(sizeof(GNRMC));
-	// strncpy(pt_Route_Parser->latitude, "51.3654",10);
-	// strncpy(pt_Route_Parser->longitude, "50.97652",10);
-	// pt_Route_Parser->status = 'A';
-
 	//Create a key variable to store the key pressed by the user
 	uint32_t key=0;
 
 	while(TRUE){
-		// Wait for a notification from the ARM key handler task instead of waiting on the
-		// shared event group. Using the event group caused a race where either the
-		// key-IRQ task or this task consumed the bits, so only one saw the key press.
-		// xTaskNotifyWait blocks until ARM_keys_task (or IRQ task) notifies us.
+		// Wait for a notification from the ARM key handler.
 		xTaskNotifyWait(0x00,            // Don't clear any notification bits on entry
 						0xffffffff,      // Clear the notification value on exit
 						&key,            // Notified value

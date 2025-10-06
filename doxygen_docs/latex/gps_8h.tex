@@ -1,0 +1,231 @@
+\doxysection{Core/\+My\+App/\+App/gps.h File Reference}
+\hypertarget{gps_8h}{}\label{gps_8h}\index{Core/MyApp/App/gps.h@{Core/MyApp/App/gps.h}}
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct__GNRMC}{\+\_\+\+GNRMC}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{struct__GNRMC}{\+\_\+\+GNRMC}} \mbox{\hyperlink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0}{NMEA}} \{ \mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0ae7540255e4832928911015fb32614905}{e\+GNRMC}} = 1
+, \mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0acbcd39e2eb8e4305289f07180dcaa61f}{e\+GPGSA}}
+, \mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0afa99839f798603aeafa797ee91de2b84}{e\+GNGGA}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{gps_8h_a599d945c53e74265e35aff35847c15e2}{checksum\+\_\+valid}} (char \texorpdfstring{$\ast$}{*}string)
+\item 
+void \mbox{\hyperlink{gps_8h_ad1ebb3252081d2411aefcb941109edd1}{getlatest\+\_\+\+GNRMC}} (\mbox{\hyperlink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC}} \texorpdfstring{$\ast$}{*}dest)
+\begin{DoxyCompactList}\small\item\em Function that gets a pointer to the latest complete \doxylink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC} data. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{gps_8h_a66735348a4e65644ec1762bdf37e4f19}{hex2int}} (char \texorpdfstring{$\ast$}{*}c)
+\item 
+int \mbox{\hyperlink{gps_8h_a49002bb606cdf9e9ffecb4dba16082c0}{hexchar2int}} (char c)
+\end{DoxyCompactItemize}
+
+
+\label{doc-typedef-members}
+\Hypertarget{gps_8h_doc-typedef-members}
+\doxysubsection{Typedef Documentation}
+\Hypertarget{gps_8h_a398f185046df1b64c64b2665bd820cec}\index{gps.h@{gps.h}!GNRMC@{GNRMC}}
+\index{GNRMC@{GNRMC}!gps.h@{gps.h}}
+\doxysubsubsection{\texorpdfstring{GNRMC}{GNRMC}}
+{\footnotesize\ttfamily \label{gps_8h_a398f185046df1b64c64b2665bd820cec} 
+typedef struct \mbox{\hyperlink{struct__GNRMC}{\+\_\+\+GNRMC}} \mbox{\hyperlink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC}}}
+
+
+
+\label{doc-enum-members}
+\Hypertarget{gps_8h_doc-enum-members}
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{gps_8h_a96f0fef87e94bde66ece944b1f311ea0}\index{gps.h@{gps.h}!NMEA@{NMEA}}
+\index{NMEA@{NMEA}!gps.h@{gps.h}}
+\doxysubsubsection{\texorpdfstring{NMEA}{NMEA}}
+{\footnotesize\ttfamily \label{gps_8h_a96f0fef87e94bde66ece944b1f311ea0} 
+enum \mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0}{NMEA}}}
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eGNRMC@{eGNRMC}!gps.h@{gps.h}}\index{gps.h@{gps.h}!eGNRMC@{eGNRMC}}}\Hypertarget{gps_8h_a96f0fef87e94bde66ece944b1f311ea0ae7540255e4832928911015fb32614905}\label{gps_8h_a96f0fef87e94bde66ece944b1f311ea0ae7540255e4832928911015fb32614905} 
+e\+GNRMC&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eGPGSA@{eGPGSA}!gps.h@{gps.h}}\index{gps.h@{gps.h}!eGPGSA@{eGPGSA}}}\Hypertarget{gps_8h_a96f0fef87e94bde66ece944b1f311ea0acbcd39e2eb8e4305289f07180dcaa61f}\label{gps_8h_a96f0fef87e94bde66ece944b1f311ea0acbcd39e2eb8e4305289f07180dcaa61f} 
+e\+GPGSA&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{eGNGGA@{eGNGGA}!gps.h@{gps.h}}\index{gps.h@{gps.h}!eGNGGA@{eGNGGA}}}\Hypertarget{gps_8h_a96f0fef87e94bde66ece944b1f311ea0afa99839f798603aeafa797ee91de2b84}\label{gps_8h_a96f0fef87e94bde66ece944b1f311ea0afa99839f798603aeafa797ee91de2b84} 
+e\+GNGGA&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{gps_8h_source_l00036}{36}} of file \mbox{\hyperlink{gps_8h_source}{gps.\+h}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00037\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0ae7540255e4832928911015fb32614905}{eGNRMC}}\ =\ 1,}
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0acbcd39e2eb8e4305289f07180dcaa61f}{eGPGSA}},}
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0afa99839f798603aeafa797ee91de2b84}{eGNGGA}}}
+\DoxyCodeLine{00041\ \};}
+
+\end{DoxyCode}
+
+
+\label{doc-func-members}
+\Hypertarget{gps_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{gps_8h_a599d945c53e74265e35aff35847c15e2}\index{gps.h@{gps.h}!checksum\_valid@{checksum\_valid}}
+\index{checksum\_valid@{checksum\_valid}!gps.h@{gps.h}}
+\doxysubsubsection{\texorpdfstring{checksum\_valid()}{checksum\_valid()}}
+{\footnotesize\ttfamily \label{gps_8h_a599d945c53e74265e35aff35847c15e2} 
+int checksum\+\_\+valid (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{string}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{gps_8c_source_l00241}{241}} of file \mbox{\hyperlink{gps_8c_source}{gps.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00242\ \{}
+\DoxyCodeLine{00243\ \ \ \ \ \textcolor{keywordtype}{char}\ *checksum\_str;}
+\DoxyCodeLine{00244\ \ \ \ \ \textcolor{keywordtype}{int}\ checksum,\ i;}
+\DoxyCodeLine{00245\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ calculated\_checksum\ =\ 0;}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00247\ \ \ \ \ \textcolor{comment}{//\ Checksum\ is\ postcede\ by\ *}}
+\DoxyCodeLine{00248\ \ \ \ \ \textcolor{keywordflow}{if}\ ((checksum\_str\ =\ strchr(\textcolor{keywordtype}{string},\ \textcolor{charliteral}{'*'})))}
+\DoxyCodeLine{00249\ \ \ \ \ \{}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ *checksum\_str\ =\ \textcolor{charliteral}{'\(\backslash\)0'};\ \textcolor{comment}{//\ Remove\ checksum\ from\ string}}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ checksum,\ starting\ after\ \$\ (i\ =\ 1)}}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (i\ =\ 1;\ i\ <\ strlen(\textcolor{keywordtype}{string});\ i++)}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ calculated\_checksum\ =\ calculated\_checksum\ \string^\ \textcolor{keywordtype}{string}[i];}
+\DoxyCodeLine{00254\ }
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ checksum\ =\ \mbox{\hyperlink{gps_8c_a66735348a4e65644ec1762bdf37e4f19}{hex2int}}((\textcolor{keywordtype}{char}\ *)checksum\_str+1);}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \textcolor{comment}{//printf("{}Checksum\ Str\ [\%s],\ Checksum\ \%02X,\ Calculated\ Checksum\ \%02X\(\backslash\)r\(\backslash\)n"{},(char\ *)checksum\_str+1,\ checksum,\ calculated\_checksum);}}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (checksum\ ==\ calculated\_checksum)}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (1);}
+\DoxyCodeLine{00259\ \ \ \ \ \}}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00261\ \ \ \ \ \textcolor{keywordflow}{return}\ (0);}
+\DoxyCodeLine{00262\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{gps_8c_source_l00216}{hex2int()}}.
+
+
+
+Referenced by \mbox{\hyperlink{gps_8c_source_l00127}{GPS\+\_\+get\+NMEA()}}.
+
+\Hypertarget{gps_8h_ad1ebb3252081d2411aefcb941109edd1}\index{gps.h@{gps.h}!getlatest\_GNRMC@{getlatest\_GNRMC}}
+\index{getlatest\_GNRMC@{getlatest\_GNRMC}!gps.h@{gps.h}}
+\doxysubsubsection{\texorpdfstring{getlatest\_GNRMC()}{getlatest\_GNRMC()}}
+{\footnotesize\ttfamily \label{gps_8h_ad1ebb3252081d2411aefcb941109edd1} 
+void getlatest\+\_\+\+GNRMC (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC}} \texorpdfstring{$\ast$}{*}}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Function that gets a pointer to the latest complete \doxylink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC} data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & pointer of type \doxylink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC} that will be pointing to the latest \doxylink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC} data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{gps_8c_source_l00031}{31}} of file \mbox{\hyperlink{gps_8c_source}{gps.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00032\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordflow}{if}(xSemaphoreTake(\mbox{\hyperlink{admin_8c_a5f9ab1293c7ef76b78e15194fd04da8b}{hGPS\_Mutex}},\ portMAX\_DELAY)\ ==\ pdTRUE)}
+\DoxyCodeLine{00034\ \ \ \ \ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ *dest\ =\ *\mbox{\hyperlink{gps_8c_ab8fafa7c928aa273ebc494046630ed46}{frontendBuffer}};}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ xSemaphoreGive(\mbox{\hyperlink{admin_8c_a5f9ab1293c7ef76b78e15194fd04da8b}{hGPS\_Mutex}});}
+\DoxyCodeLine{00037\ \ \ \ \ \}}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00039\ \ \ \ \ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Err:GPS\_mutex"{}});}
+\DoxyCodeLine{00041\ \ \ \ \ \}}
+\DoxyCodeLine{00042\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{admin_8c_source_l00202}{error\+\_\+\+Halt\+OS()}}, \mbox{\hyperlink{gps_8c_source_l00022}{frontend\+Buffer}}, and \mbox{\hyperlink{admin_8c_source_l00052}{h\+GPS\+\_\+\+Mutex}}.
+
+
+
+Referenced by \mbox{\hyperlink{GPS__Route__Setter_8c_source_l00226}{Route\+\_\+\+Setter()}}.
+
+\Hypertarget{gps_8h_a66735348a4e65644ec1762bdf37e4f19}\index{gps.h@{gps.h}!hex2int@{hex2int}}
+\index{hex2int@{hex2int}!gps.h@{gps.h}}
+\doxysubsubsection{\texorpdfstring{hex2int()}{hex2int()}}
+{\footnotesize\ttfamily \label{gps_8h_a66735348a4e65644ec1762bdf37e4f19} 
+int hex2int (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{c}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{gps_8c_source_l00216}{216}} of file \mbox{\hyperlink{gps_8c_source}{gps.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00217\ \{}
+\DoxyCodeLine{00218\ \ \ \ \ \textcolor{keywordtype}{int}\ value;}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00220\ \ \ \ \ value\ =\ \mbox{\hyperlink{gps_8c_a49002bb606cdf9e9ffecb4dba16082c0}{hexchar2int}}(c[0]);}
+\DoxyCodeLine{00221\ \ \ \ \ value\ =\ value\ <<\ 4;}
+\DoxyCodeLine{00222\ \ \ \ \ value\ +=\ \mbox{\hyperlink{gps_8c_a49002bb606cdf9e9ffecb4dba16082c0}{hexchar2int}}(c[1]);}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00224\ \ \ \ \ \textcolor{keywordflow}{return}\ value;}
+\DoxyCodeLine{00225\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{gps_8c_source_l00228}{hexchar2int()}}.
+
+
+
+Referenced by \mbox{\hyperlink{gps_8c_source_l00241}{checksum\+\_\+valid()}}.
+
+\Hypertarget{gps_8h_a49002bb606cdf9e9ffecb4dba16082c0}\index{gps.h@{gps.h}!hexchar2int@{hexchar2int}}
+\index{hexchar2int@{hexchar2int}!gps.h@{gps.h}}
+\doxysubsubsection{\texorpdfstring{hexchar2int()}{hexchar2int()}}
+{\footnotesize\ttfamily \label{gps_8h_a49002bb606cdf9e9ffecb4dba16082c0} 
+int hexchar2int (\begin{DoxyParamCaption}\item[{char}]{c}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{gps_8c_source_l00228}{228}} of file \mbox{\hyperlink{gps_8c_source}{gps.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00229\ \{}
+\DoxyCodeLine{00230\ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ >=\ \textcolor{charliteral}{'0'}\ \&\&\ c\ <=\ \textcolor{charliteral}{'9'})}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (c\ -\/\ \textcolor{charliteral}{'0'});}
+\DoxyCodeLine{00232\ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ >=\ \textcolor{charliteral}{'A'}\ \&\&\ c\ <=\ \textcolor{charliteral}{'F'})}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (c\ -\/\ \textcolor{charliteral}{'A'}\ +\ 10);}
+\DoxyCodeLine{00234\ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ >=\ \textcolor{charliteral}{'a'}\ \&\&\ c\ <=\ \textcolor{charliteral}{'f'})}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (c\ -\/\ \textcolor{charliteral}{'a'}\ +\ 10);}
+\DoxyCodeLine{00236\ \ \ \ \ \textcolor{keywordflow}{return}\ (-\/1);}
+\DoxyCodeLine{00237\ \}}
+
+\end{DoxyCode}
+
+
+Referenced by \mbox{\hyperlink{gps_8c_source_l00216}{hex2int()}}.
+

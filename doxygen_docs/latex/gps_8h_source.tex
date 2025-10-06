@@ -1,0 +1,43 @@
+\doxysection{gps.\+h}
+\hypertarget{gps_8h_source}{}\label{gps_8h_source}\index{Core/MyApp/App/gps.h@{Core/MyApp/App/gps.h}}
+\mbox{\hyperlink{gps_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00010}00010\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{gps_8h_a66735348a4e65644ec1762bdf37e4f19}{hex2int}}(\textcolor{keywordtype}{char}\ *c);}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00011}00011\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{gps_8h_a49002bb606cdf9e9ffecb4dba16082c0}{hexchar2int}}(\textcolor{keywordtype}{char}\ c);}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00012}00012\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{gps_8h_a599d945c53e74265e35aff35847c15e2}{checksum\_valid}}(\textcolor{keywordtype}{char}\ *\textcolor{keywordtype}{string});}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00015}00015\ \textcolor{comment}{//\ GNRMC\ struct:\ all\ with\ char-\/members\ -\/\ should/could\ be\ improved\ with\ proper\ data-\/elements}}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00016}\mbox{\hyperlink{struct__GNRMC}{00016}}\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct__GNRMC}{\_GNRMC}}}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00017}00017\ \{}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00018}\mbox{\hyperlink{struct__GNRMC_ad04f9f2bf3c31a6e9ad48032b5fd65a6}{00018}}\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \mbox{\hyperlink{struct__GNRMC_ad04f9f2bf3c31a6e9ad48032b5fd65a6}{head}}[7];\ \ \ \ \ \ \ \textcolor{comment}{//\ 0.\ header}}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00019}\mbox{\hyperlink{struct__GNRMC_afd04b7a89272ac6b18ff67f2e08cdb00}{00019}}\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \mbox{\hyperlink{struct__GNRMC_afd04b7a89272ac6b18ff67f2e08cdb00}{time}}[10];\ \ \ \ \ \ \textcolor{comment}{//\ 1.\ hhmmss.sss}}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00020}\mbox{\hyperlink{struct__GNRMC_a21f98d10acb4243e90546dd02f5eb2b7}{00020}}\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \mbox{\hyperlink{struct__GNRMC_a21f98d10acb4243e90546dd02f5eb2b7}{status}};\ \ \ \ \ \ \ \ \textcolor{comment}{//\ 2.\ A=valid,\ V=not\ valid}}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00021}\mbox{\hyperlink{struct__GNRMC_a266beef800a2fe9da436c749b7402baf}{00021}}\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \mbox{\hyperlink{struct__GNRMC_a266beef800a2fe9da436c749b7402baf}{latitude}}[10];\ \ \textcolor{comment}{//\ 3.\ ddmm.mmmm\ (double)}}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00022}\mbox{\hyperlink{struct__GNRMC_a16ecc6dad3b497fe5afe4c4bb1dba892}{00022}}\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \mbox{\hyperlink{struct__GNRMC_a16ecc6dad3b497fe5afe4c4bb1dba892}{NS\_ind}};\ \ \ \ \ \ \ \ \textcolor{comment}{//\ 4.\ N,S}}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00023}\mbox{\hyperlink{struct__GNRMC_a0918955ee8187503b361127c7030e579}{00023}}\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \mbox{\hyperlink{struct__GNRMC_a0918955ee8187503b361127c7030e579}{longitude}}[10];\ \textcolor{comment}{//\ 5.\ ddmm.mmmm\ (double)}}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00024}\mbox{\hyperlink{struct__GNRMC_a9bfd95072dff73d09353fc4c41db7885}{00024}}\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \mbox{\hyperlink{struct__GNRMC_a9bfd95072dff73d09353fc4c41db7885}{EW\_ind}};\ \ \ \ \ \ \ \ \textcolor{comment}{//\ 6.\ E,W}}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00025}\mbox{\hyperlink{struct__GNRMC_a5f1886b3d6feca62fa8dc7e46fd014e9}{00025}}\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \mbox{\hyperlink{struct__GNRMC_a5f1886b3d6feca62fa8dc7e46fd014e9}{speed}}[6];\ \ \ \ \ \ \textcolor{comment}{//\ 7.\ 0.13\ knots\ (double)}}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00026}\mbox{\hyperlink{struct__GNRMC_af50928444db80d81eb943d0804944047}{00026}}\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \mbox{\hyperlink{struct__GNRMC_af50928444db80d81eb943d0804944047}{course}}[6];\ \ \ \ \ \textcolor{comment}{//\ 8.\ 309.62\ degrees\ (double)}}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00027}\mbox{\hyperlink{struct__GNRMC_a8853dc4f4081f03375f60039374d6c6e}{00027}}\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \mbox{\hyperlink{struct__GNRMC_a8853dc4f4081f03375f60039374d6c6e}{date}}[7];\ \ \ \ \ \ \ \textcolor{comment}{//\ 9.\ ddmmyy}}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00028}\mbox{\hyperlink{struct__GNRMC_ac40135778fb6397517b22f538550f684}{00028}}\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \mbox{\hyperlink{struct__GNRMC_ac40135778fb6397517b22f538550f684}{mag\_var}}[6];\ \ \ \ \textcolor{comment}{//\ 10.E,W\ degrees\ (double)}}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00029}\mbox{\hyperlink{struct__GNRMC_ae084cbeba9e7fbdd1fcb2cde9a56e334}{00029}}\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \mbox{\hyperlink{struct__GNRMC_ae084cbeba9e7fbdd1fcb2cde9a56e334}{mag\_var\_pos}};\ \ \ \textcolor{comment}{//\ 11.}}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00030}\mbox{\hyperlink{struct__GNRMC_ae9a603ae0dd481e8e6d591ef5e189140}{00030}}\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \mbox{\hyperlink{struct__GNRMC_ae9a603ae0dd481e8e6d591ef5e189140}{mode}};\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 12.A=autonomous,\ D,E}}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00031}\mbox{\hyperlink{struct__GNRMC_ad8464a5c3b4fb3a54a85f18aa43c3ae6}{00031}}\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \mbox{\hyperlink{struct__GNRMC_ad8464a5c3b4fb3a54a85f18aa43c3ae6}{cs}}[4];\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 13.checkum\ *34}}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00032}\mbox{\hyperlink{gps_8h_a398f185046df1b64c64b2665bd820cec}{00032}}\ \}\ \mbox{\hyperlink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC}};}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00035}00035\ \textcolor{comment}{//\ enum\ voor\ NMEA\ protocolstrings\ (starting\ 'e'\ for\ enum)}}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00036}\mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0}{00036}}\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0}{NMEA}}}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00037}00037\ \{}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00038}\mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0ae7540255e4832928911015fb32614905}{00038}}\ \ \ \ \ \mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0ae7540255e4832928911015fb32614905}{eGNRMC}}\ =\ 1,}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00039}\mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0acbcd39e2eb8e4305289f07180dcaa61f}{00039}}\ \ \ \ \ \mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0acbcd39e2eb8e4305289f07180dcaa61f}{eGPGSA}},}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00040}\mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0afa99839f798603aeafa797ee91de2b84}{00040}}\ \ \ \ \ \mbox{\hyperlink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0afa99839f798603aeafa797ee91de2b84}{eGNGGA}}}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00041}00041\ \};}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00043}00043\ \textcolor{comment}{//\ Expose\ function\ to\ get\ pointer\ to\ latest\ complete\ GNRMC\ data}}
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{gps_8h_source_l00045}00045\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{gps_8h_ad1ebb3252081d2411aefcb941109edd1}{getlatest\_GNRMC}}(\mbox{\hyperlink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC}}\ *dest);}
+
+\end{DoxyCode}

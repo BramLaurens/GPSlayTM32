@@ -1,0 +1,372 @@
+\doxysection{Core/\+My\+App/\+App/\+UART\+\_\+keys.c File Reference}
+\hypertarget{UART__keys_8c}{}\label{UART__keys_8c}\index{Core/MyApp/App/UART\_keys.c@{Core/MyApp/App/UART\_keys.c}}
+
+
+Behandelt de communicatie met de UART.~\newline
+ {\bfseries{Demonstreert\+: IRQ-\/handling, queue-\/handling, tasknotifcation, string-\/handling (strtok, pointers).}}~\newline
+ Aan de UART is een interrupt gekoppeld, waarvan de ISR (zie\+: \doxylink{main_8c_ae494a9643f29b87d6d81e5264e60e57b}{HAL\+\_\+\+UART\+\_\+\+Rx\+Cplt\+Callback()}) in \doxylink{main_8c}{main.\+c} gegenereerd is. Elke toets (character), die in een terminalprogramma ingedrukt wordt, wordt in de ISR in een queue gezet.~\newline
+ De task \doxylink{UART__keys_8c_a2f8c9b40e09f1da12285de5c47e13856}{UART\+\_\+keys\+\_\+\+IRQ()} leest de queue uit nadat het LINEFEED-\/character is gevonden (nadat ENTER gedrukt is). De task leest de queue uit en vult een eigen buffer. Deze buffer wordt via Task\+Notify doorgestuurd naar de task die deze buffer interpreteert\+: \doxylink{UART__keys_8c_a54d4ec6474d826f35cbf28a391cc68a0}{UART\+\_\+menu()}.  
+
+
+{\ttfamily \#include $<$admin.\+h$>$}\newline
+{\ttfamily \#include "{}main.\+h"{}}\newline
+{\ttfamily \#include "{}cmsis\+\_\+os.\+h"{}}\newline
+{\ttfamily \#include "{}uart.\+h"{}}\newline
+{\ttfamily \#include "{}NRF\+\_\+driver.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{UART__keys_8c_a2f8c9b40e09f1da12285de5c47e13856}{UART\+\_\+keys\+\_\+\+IRQ}} (void \texorpdfstring{$\ast$}{*}argument)
+\begin{DoxyCompactList}\small\item\em Leest characters in die de gebruiker via Terminalprogramma intikt. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{UART__keys_8c_a8301f294cdbb72fd9830d388af6e8725}{UART\+\_\+keys\+\_\+poll}} (void \texorpdfstring{$\ast$}{*}argument)
+\begin{DoxyCompactList}\small\item\em deze waarde kan hier veranderd worden. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{UART__keys_8c_a54d4ec6474d826f35cbf28a391cc68a0}{UART\+\_\+menu}} (void \texorpdfstring{$\ast$}{*}argument)
+\begin{DoxyCompactList}\small\item\em User Interface. De task wacht op kant en klare user-\/strings (Task\+Notify\+Take) van ISR-\/handler, en interpreteert de string. Het eerste character geeft het hoofd-\/commando aan. Afhankelijk van het commando worden opvolgende chars geinterpreteerd. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+unsigned int \mbox{\hyperlink{UART__keys_8c_ac0e8ff7c2f49b0988165336ca423dcea}{os\+\_\+delay}}
+\begin{DoxyCompactList}\small\item\em default value 100MSEC, kan veranderd worden via Terminal (user interface) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Behandelt de communicatie met de UART.~\newline
+ {\bfseries{Demonstreert\+: IRQ-\/handling, queue-\/handling, tasknotifcation, string-\/handling (strtok, pointers).}}~\newline
+ Aan de UART is een interrupt gekoppeld, waarvan de ISR (zie\+: \doxylink{main_8c_ae494a9643f29b87d6d81e5264e60e57b}{HAL\+\_\+\+UART\+\_\+\+Rx\+Cplt\+Callback()}) in \doxylink{main_8c}{main.\+c} gegenereerd is. Elke toets (character), die in een terminalprogramma ingedrukt wordt, wordt in de ISR in een queue gezet.~\newline
+ De task \doxylink{UART__keys_8c_a2f8c9b40e09f1da12285de5c47e13856}{UART\+\_\+keys\+\_\+\+IRQ()} leest de queue uit nadat het LINEFEED-\/character is gevonden (nadat ENTER gedrukt is). De task leest de queue uit en vult een eigen buffer. Deze buffer wordt via Task\+Notify doorgestuurd naar de task die deze buffer interpreteert\+: \doxylink{UART__keys_8c_a54d4ec6474d826f35cbf28a391cc68a0}{UART\+\_\+menu()}. 
+
+\begin{DoxyAuthor}{Author}
+MSC
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+5/5/2022 
+\end{DoxyDate}
+
+
+Definition in file \mbox{\hyperlink{UART__keys_8c_source}{UART\+\_\+keys.\+c}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{UART__keys_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{UART__keys_8c_a2f8c9b40e09f1da12285de5c47e13856}\index{UART\_keys.c@{UART\_keys.c}!UART\_keys\_IRQ@{UART\_keys\_IRQ}}
+\index{UART\_keys\_IRQ@{UART\_keys\_IRQ}!UART\_keys.c@{UART\_keys.c}}
+\doxysubsubsection{\texorpdfstring{UART\_keys\_IRQ()}{UART\_keys\_IRQ()}}
+{\footnotesize\ttfamily \label{UART__keys_8c_a2f8c9b40e09f1da12285de5c47e13856} 
+void UART\+\_\+keys\+\_\+\+IRQ (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argument}{}\end{DoxyParamCaption})}
+
+
+
+Leest characters in die de gebruiker via Terminalprogramma intikt. 
+
+
+\begin{DoxyEnumerate}
+\item wacht op chars in queue, gevuld door de IRQ\+\_\+handler (\doxylink{main_8c}{main.\+c})
+\item notifies/stuurt command-\/string naar andere task 
+\begin{DoxyParams}{Parameters}
+{\em \texorpdfstring{$\ast$}{*}argument} & Niet gebruikt, eventueel een waarde of string om te testen \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+
+\end{DoxyEnumerate}
+
+Definition at line \mbox{\hyperlink{UART__keys_8c_source_l00062}{62}} of file \mbox{\hyperlink{UART__keys_8c_source}{UART\+\_\+keys.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00063\ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ \ \ \ \ buffer[\mbox{\hyperlink{admin_8h_a18901836d92cf76a93826b9e1116292d}{QSIZE\_UART}}];}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ \ \ \ \ buffer\_copy[\mbox{\hyperlink{admin_8h_a18901836d92cf76a93826b9e1116292d}{QSIZE\_UART}}];}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ pos\ =\ 0;}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ finish\ =\ \mbox{\hyperlink{admin_8h_aa93f0eb578d23995850d61f7d61c55c1}{FALSE}};}
+\DoxyCodeLine{00068\ \ \ \ \ osThreadId\_t\ \ \ \ hTask;}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}started,\ enter\ key\ on\ terminal...\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(hTask\ =\ xTaskGetHandle(\textcolor{stringliteral}{"{}UART\_menu"{}})))}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Err:UART\_hndl\ 0"{}});}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
+\DoxyCodeLine{00076\ \ \ \ \ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ laat\ de\ VIC\ de\ q\ vullen,\ die\ per\ char\ in\ onze\ eigen\ string\ geplaatst\ wordt}}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ tot\ LFEED\ gedrukt\ is\ of\ qsize-\/1\ bereikt\ is.}}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ nb:\ argument\ 2\ is\ het\ adres\ waar\ ik\ het\ q-\/char\ in\ zet}}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ nb:\ q-\/receive\ haalt\ gelijk\ de\ buffer\ leeg\ (q-\/peek\ niet).}}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ xQueueReceive(\mbox{\hyperlink{admin_8c_a1db415a0f7c5ecff145e4bb53cc54dbe}{hUART\_Queue}},\ \&buffer[pos],\ portMAX\_DELAY);}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ negeer\ dit\ char\ bij\ geen\ data:\ -\/1,\ 255,\ of\ CR\ of\ spatie}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buffer[pos]\ ==\ 0\ ||\ buffer[pos]\ ==\ -\/1\ ||\ buffer[pos]\ ==\ 255\ ||\ buffer[pos]\ ==\ CRETURN\ ||\ buffer[pos]\ ==\ 32)}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{comment}{//UART\_putchar(buffer[pos]);\ \ //\ echo}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ check\ of\ de\ string\ gesloten\ was\ of\ gesloten\ moet\ worden...}}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buffer[pos]\ ==\ LFEED)\ \ \ \ \ \textcolor{comment}{//\ close\ als\ LF\ gedrukt}}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ buffer[pos]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ finish\ =\ \mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}};}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (pos\ ==\ \mbox{\hyperlink{admin_8h_a18901836d92cf76a93826b9e1116292d}{QSIZE\_UART}}\ -\/\ 2)\ \textcolor{comment}{//\ close\ if\ end\ of\ buf}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ buffer[++pos]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};\ \ \ \ \ \ \ \textcolor{comment}{//\ first,\ skip\ to\ last\ position,\ then\ close\ string}}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ finish\ =\ \mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}};}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (finish)}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ de\ volgende\ taak\ krijgt\ een\ copy\ van\ de\ string}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ mijn\ eigen\ buffer\ kan\ zo\ gelijk\ weer\ gevuld\ worden\ door\ de\ ISR}}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ strcpy(buffer\_copy,\ buffer);}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ memset(buffer,\ 0,\ \mbox{\hyperlink{admin_8h_a18901836d92cf76a93826b9e1116292d}{QSIZE\_UART}});\ \textcolor{comment}{//\ clear\ original\ buffer}}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ finish\ =\ \mbox{\hyperlink{admin_8h_aa93f0eb578d23995850d61f7d61c55c1}{FALSE}};}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ pos\ =\ 0;}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ xTaskNotify(hTask,\ buffer\_copy,\ eSetValueWithOverwrite);\ \textcolor{comment}{//\ notify\ task2\ with\ copy}}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//hello\ test}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_a4fb4ecb0210feec08883b3c4a1d401e3}{UART\_DEBUG\_OUT}})}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)r"{}});\ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}:\ UART\_menu\ notified\ with\ "{}});\ UART\_puts(buffer\_copy);}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ pos++;}
+\DoxyCodeLine{00123\ \ \ \ \ \}}
+\DoxyCodeLine{00124\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{admin_8c_source_l00202}{error\+\_\+\+Halt\+OS()}}, \mbox{\hyperlink{admin_8h_source_l00024}{FALSE}}, \mbox{\hyperlink{admin_8c_source_l00047}{h\+UART\+\_\+\+Queue}}, \mbox{\hyperlink{admin_8h_source_l00027}{QSIZE\+\_\+\+UART}}, \mbox{\hyperlink{admin_8h_source_l00023}{TRUE}}, \mbox{\hyperlink{admin_8h_source_l00081}{UART\+\_\+\+DEBUG\+\_\+\+OUT}}, and \mbox{\hyperlink{admin_8c_source_l00040}{Uart\+\_\+debug\+\_\+out}}.
+
+\Hypertarget{UART__keys_8c_a8301f294cdbb72fd9830d388af6e8725}\index{UART\_keys.c@{UART\_keys.c}!UART\_keys\_poll@{UART\_keys\_poll}}
+\index{UART\_keys\_poll@{UART\_keys\_poll}!UART\_keys.c@{UART\_keys.c}}
+\doxysubsubsection{\texorpdfstring{UART\_keys\_poll()}{UART\_keys\_poll()}}
+{\footnotesize\ttfamily \label{UART__keys_8c_a8301f294cdbb72fd9830d388af6e8725} 
+void UART\+\_\+keys\+\_\+poll (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argument}{}\end{DoxyParamCaption})}
+
+
+
+deze waarde kan hier veranderd worden. 
+
+Polt en leest characters in die de gebruiker via Terminalprogramma intikt.
+\begin{DoxyEnumerate}
+\item leest characters van uart
+\item notifies command-\/string naar andere task 
+\begin{DoxyParams}{Parameters}
+{\em \texorpdfstring{$\ast$}{*}argument} & Niet gebruikt, eventueel een waarde of string om te testen \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+
+\end{DoxyEnumerate}
+
+Definition at line \mbox{\hyperlink{UART__keys_8c_source_l00031}{31}} of file \mbox{\hyperlink{UART__keys_8c_source}{UART\+\_\+keys.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00032\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{char}\ buffer[\mbox{\hyperlink{admin_8h_a18901836d92cf76a93826b9e1116292d}{QSIZE\_UART}}];}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ osThreadId\_t\ hTask\ =\ xTaskGetHandle(\textcolor{stringliteral}{"{}UART\_menu"{}});}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}started,\ enter\ key\ on\ terminal\(\backslash\)n\(\backslash\)r"{}});}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
+\DoxyCodeLine{00040\ \ \ \ \ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ UART\_gets(buffer,\ \mbox{\hyperlink{admin_8h_a18901836d92cf76a93826b9e1116292d}{QSIZE\_UART}},\ \mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}});\ \textcolor{comment}{//\ wait\ for\ string}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ xTaskNotify(hTask,\ buffer,\ eSetValueWithOverwrite);\ \textcolor{comment}{//\ notify\ task2\ with\ value}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_a4fb4ecb0210feec08883b3c4a1d401e3}{UART\_DEBUG\_OUT}})}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)r"{}});\ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}-\/\ notified\ with\ "{}});\ UART\_puts(buffer);}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00051\ \ \ \ \ \}}
+\DoxyCodeLine{00052\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{admin_8h_source_l00027}{QSIZE\+\_\+\+UART}}, \mbox{\hyperlink{admin_8h_source_l00023}{TRUE}}, \mbox{\hyperlink{admin_8h_source_l00081}{UART\+\_\+\+DEBUG\+\_\+\+OUT}}, and \mbox{\hyperlink{admin_8c_source_l00040}{Uart\+\_\+debug\+\_\+out}}.
+
+\Hypertarget{UART__keys_8c_a54d4ec6474d826f35cbf28a391cc68a0}\index{UART\_keys.c@{UART\_keys.c}!UART\_menu@{UART\_menu}}
+\index{UART\_menu@{UART\_menu}!UART\_keys.c@{UART\_keys.c}}
+\doxysubsubsection{\texorpdfstring{UART\_menu()}{UART\_menu()}}
+{\footnotesize\ttfamily \label{UART__keys_8c_a54d4ec6474d826f35cbf28a391cc68a0} 
+void UART\+\_\+menu (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argument}{}\end{DoxyParamCaption})}
+
+
+
+User Interface. De task wacht op kant en klare user-\/strings (Task\+Notify\+Take) van ISR-\/handler, en interpreteert de string. Het eerste character geeft het hoofd-\/commando aan. Afhankelijk van het commando worden opvolgende chars geinterpreteerd. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \texorpdfstring{$\ast$}{*}argument} & Niet gebruikt, eventueel een waarde of string om te testen \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+{\bfseries{0 -\/ 5}}\+: Togglet verschillende debug-\/outputs naar UART
+
+... en reageert ook op een paar letters
+
+D\+: Verandert de Default OSTIME-\/\+DELAY, die gebruikt wordt bij de LEDs. commando\+: {\bfseries{"{}d,200"{}}} betekent\+: set delay op 200, NB\+: spaties worden niet afgevangen...
+
+M\+: Displays het menu (zie my\+\_\+app.\+c)
+
+T\+: Displays de stackdata van alle Tasks
+
+P\+: Verandert de Prioriteit van een taak commando, als\+: {\bfseries{"{}t,9,20"{}}} betekent\+: set Task 9 op priority 20
+
+S\+: Start/\+Stop task commando, als\+: {\bfseries{"{}s,9"{}}} betekent\+: start/stop Task 9
+
+Definition at line \mbox{\hyperlink{UART__keys_8c_source_l00134}{134}} of file \mbox{\hyperlink{UART__keys_8c_source}{UART\+\_\+keys.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00135\ \{}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ *s;}
+\DoxyCodeLine{00137\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ *tok\ =\ \textcolor{stringliteral}{"{},"{}};\ \ \textcolor{comment}{//\ token\ if\ command\ is\ more\ than\ 1\ char}}
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ val1,\ val2;}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}started\(\backslash\)n\(\backslash\)r"{}});}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordflow}{while}\ (\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
+\DoxyCodeLine{00143\ \ \ \ \ \{}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ wacht\ op\ de\ string;\ let\ op\ de\ cast\ van\ (unsigned\ long)\ naar\ (char\ *)!}}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ want\ de\ waarde\ die\ ik\ terug\ krijg\ is\ een\ pointer.}}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ s\ =\ (\textcolor{keywordtype}{char}\ *)ulTaskNotifyTake(pdTRUE,\ portMAX\_DELAY);}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ check\ het\ eerste\ (en\ vaak\ enige)\ karakter\ van\ de\ inkomende\ command-\/string}}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ toupper()\ zorgt\ ervoor\ dat\ het\ eerste\ karakter\ hoofdletter\ wordt,\ zo\ hoef\ ik\ niet\ op\ kleine}}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ letters\ te\ checken.}}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (toupper((\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char})s[0]))}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \ UART\_puts(s);}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\ (unkown\ command)\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'0'}:\ \mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ =\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ ?\ \mbox{\hyperlink{admin_8h_aecec3b7ee8e67b05c23fe851e7115999}{DEBUG\_OUT\_NONE}}\ :\ \mbox{\hyperlink{admin_8h_adf61e71f815198fd487984a437f413fe}{DEBUG\_OUT\_ALL}});}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)nall\ debug\ output\ =\ "{}});}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ ==\ \mbox{\hyperlink{admin_8h_adf61e71f815198fd487984a437f413fe}{DEBUG\_OUT\_ALL}}\ ?\ \textcolor{stringliteral}{"{}ON\(\backslash\)r\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}OFF\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ als\ alle\ output\ uitgezet\ wordt,\ is\ het\ handig\ om\ gelijk\ het\ menu\ te\ laten\ zien.}}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ ==\ \mbox{\hyperlink{admin_8h_aecec3b7ee8e67b05c23fe851e7115999}{DEBUG\_OUT\_NONE}})}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a93467475af28d4b75cafb508f95578bf}{DisplayMenu}}();}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'1'}:\ \mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \string^=\ \mbox{\hyperlink{admin_8h_a367617a9804f8aeeb1b5b09d17af0d1a}{LEDS\_DEBUG\_OUT}};\ \textcolor{comment}{//\ toggle\ output\ on/off}}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)nleds\ output\ =\ "{}});}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_a367617a9804f8aeeb1b5b09d17af0d1a}{LEDS\_DEBUG\_OUT}}\ ?\ \textcolor{stringliteral}{"{}ON\(\backslash\)r\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}OFF\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'2'}:\ \mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \string^=\ \mbox{\hyperlink{admin_8h_ae2de7e45f2168abc45779a2d5dce35e2}{ARMKEYS\_DEBUG\_OUT}};\ \textcolor{comment}{//\ toggle\ output\ on/off}}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)narmkeys\ output\ =\ "{}});}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_ae2de7e45f2168abc45779a2d5dce35e2}{ARMKEYS\_DEBUG\_OUT}}\ ?\ \textcolor{stringliteral}{"{}ON\(\backslash\)r\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}OFF\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'3'}:\ \mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \string^=\ \mbox{\hyperlink{admin_8h_a4fb4ecb0210feec08883b3c4a1d401e3}{UART\_DEBUG\_OUT}};\ \textcolor{comment}{//\ toggle\ output\ on/off}}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)nuart\ output\ =\ "{}});}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_a4fb4ecb0210feec08883b3c4a1d401e3}{UART\_DEBUG\_OUT}}\ ?\ \textcolor{stringliteral}{"{}ON\(\backslash\)r\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}OFF\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'4'}:\ \mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \string^=\ \mbox{\hyperlink{admin_8h_a6fcd7c2c8ee6e408e84e96747933027c}{STUDENT\_DEBUG\_OUT}};\ \textcolor{comment}{//\ toggle\ output\ on/off}}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)nstudent\ output\ =\ "{}});}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_a6fcd7c2c8ee6e408e84e96747933027c}{STUDENT\_DEBUG\_OUT}}\ ?\ \textcolor{stringliteral}{"{}ON\(\backslash\)r\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}OFF\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'5'}:\ \mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \string^=\ \mbox{\hyperlink{admin_8h_aaaa64fd595cb0468a82ae3c5c19df4fd}{GPS\_DEBUG\_OUT}};\ \textcolor{comment}{//\ toggle\ output\ on/off}}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)nGPS\ output\ =\ "{}});}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_aaaa64fd595cb0468a82ae3c5c19df4fd}{GPS\_DEBUG\_OUT}}\ ?\ \textcolor{stringliteral}{"{}ON\(\backslash\)r\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}OFF\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'D'}:\ }
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ledjes_8c_ac0e8ff7c2f49b0988165336ca423dcea}{os\_delay}}\ =\ atoi(s+2);\ \textcolor{comment}{//\ skip\ first\ 2\ characters}}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\ os\_delay\ set\ to:\ "{}});\ UART\_putint(\mbox{\hyperlink{ledjes_8c_ac0e8ff7c2f49b0988165336ca423dcea}{os\_delay}});}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'M'}:\ \mbox{\hyperlink{admin_8c_a93467475af28d4b75cafb508f95578bf}{DisplayMenu}}();\ }
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'T'}:\ \mbox{\hyperlink{admin_8c_a8d78f01ecc2ff5ebf5c8c6450b175671}{DisplayTaskData}}();\ }
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00204\ }
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'P'}:\ }
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ eerst:\ de\ 2\ waarden\ worden\ uit\ de\ string\ gehaald\ met\ strtok()}}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ dan:\ de\ strings\ worden\ naar\ int\ geconverteerd}}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ nb.\ dit\ is\ wel\ grof\ geprogrammeerd\ zo,\ in\ het\ echt\ maak\ je\ hier\ een\ mooie\ functie\ van.}}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ s\ =\ strtok(s,\ \ \ \ tok);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ naar\ start\ van\ string,\ negeer\ 't,'}}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ s\ =\ strtok(NULL,\ tok);\ val1\ =\ atoi(s);\ \textcolor{comment}{//\ volgende\ =\ task\_id}}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ s\ =\ strtok(NULL,\ tok);\ val2\ =\ atoi(s);\ \textcolor{comment}{//\ volgende\ =\ priority}}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (val1\ \&\&\ val2)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ kleine\ validiteitscontrole}}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a08f97e6c32e65d04aa2425dadff927e1}{SetTaskPriority}}(val1,\ val2);}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'S'}:\ }
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ eerst:\ de\ waarde\ worden\ uit\ de\ string\ gehaald\ met\ strtok()}}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ dan:\ de\ string\ wordt\ naar\ int\ geconverteerd}}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ nb.\ dit\ is\ wel\ grof\ geprogrammeerd\ zo,\ in\ het\ echt\ maak\ je\ hier\ een\ mooie\ functie\ van.}}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ s\ =\ strtok(s,\ \ \ \ tok);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ naar\ start\ van\ string,\ negeer\ 's,'}}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ s\ =\ strtok(NULL,\ tok);\ val1\ =\ atoi(s);\ \textcolor{comment}{//\ volgende\ =\ task\_id}}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (val1)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ kleine\ validiteitscontrole}}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a3c09afd4e5fad01fc4adbb0c77ecbd6d}{StartStopTask}}(val1);}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'X'}:}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Testing\ NRF24\ SPI\ communication...,\ should\ return\ 0x08\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ cfg\ =\ \mbox{\hyperlink{NRF__driver_8c_a54ef642fbc9fda4162e4cbb4cecd13ef}{nrf24\_SPI\_commscheck}}();}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ tmp[8];}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ snprintf(tmp,\ \textcolor{keyword}{sizeof}(tmp),\ \textcolor{stringliteral}{"{}\%02X"{}},\ cfg);\ \ \ \textcolor{comment}{//\ prints\ two\ hex\ digits}}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}CONFIG\ register:\ 0x"{}});\ UART\_puts(tmp);\ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'N'}:\ \textcolor{comment}{//\ Print\ NRF24\ debug\ output}}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \string^=\ \mbox{\hyperlink{admin_8h_ad5d05d8c156f18a819b22c97b2096241}{NRF24\_DEBUG\_OUT}};\ \textcolor{comment}{//\ toggle\ output\ on/off}}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)nNRF24\ output\ =\ "{}});}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_ad5d05d8c156f18a819b22c97b2096241}{NRF24\_DEBUG\_OUT}}\ ?\ \textcolor{stringliteral}{"{}ON\(\backslash\)r\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}OFF\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00242\ \ \ \ \ \}}
+\DoxyCodeLine{00243\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{admin_8h_source_l00079}{ARMKEYS\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{admin_8h_source_l00071}{DEBUG\+\_\+\+OUT\+\_\+\+ALL}}, \mbox{\hyperlink{admin_8h_source_l00069}{DEBUG\+\_\+\+OUT\+\_\+\+NONE}}, \mbox{\hyperlink{admin_8c_source_l00162}{Display\+Menu()}}, \mbox{\hyperlink{admin_8c_source_l00387}{Display\+Task\+Data()}}, \mbox{\hyperlink{admin_8h_source_l00085}{GPS\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{admin_8h_source_l00077}{LEDS\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{admin_8h_source_l00089}{NRF24\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{NRF__driver_8c_source_l00085}{nrf24\+\_\+\+SPI\+\_\+commscheck()}}, \mbox{\hyperlink{ledjes_8c_source_l00036}{os\+\_\+delay}}, \mbox{\hyperlink{admin_8c_source_l00325}{Set\+Task\+Priority()}}, \mbox{\hyperlink{admin_8c_source_l00353}{Start\+Stop\+Task()}}, \mbox{\hyperlink{admin_8h_source_l00083}{STUDENT\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{admin_8h_source_l00023}{TRUE}}, \mbox{\hyperlink{admin_8h_source_l00081}{UART\+\_\+\+DEBUG\+\_\+\+OUT}}, and \mbox{\hyperlink{admin_8c_source_l00040}{Uart\+\_\+debug\+\_\+out}}.
+
+
+
+\label{doc-var-members}
+\Hypertarget{UART__keys_8c_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{UART__keys_8c_ac0e8ff7c2f49b0988165336ca423dcea}\index{UART\_keys.c@{UART\_keys.c}!os\_delay@{os\_delay}}
+\index{os\_delay@{os\_delay}!UART\_keys.c@{UART\_keys.c}}
+\doxysubsubsection{\texorpdfstring{os\_delay}{os\_delay}}
+{\footnotesize\ttfamily \label{UART__keys_8c_ac0e8ff7c2f49b0988165336ca423dcea} 
+unsigned int os\+\_\+delay\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+default value 100MSEC, kan veranderd worden via Terminal (user interface) 
+
+
+
+Definition at line \mbox{\hyperlink{ledjes_8c_source_l00036}{36}} of file \mbox{\hyperlink{ledjes_8c_source}{ledjes.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{ledjes_8c_source_l00044}{LED\+\_\+\+Task1()}}, \mbox{\hyperlink{ledjes_8c_source_l00077}{LED\+\_\+\+Task2()}}, \mbox{\hyperlink{ledjes_8c_source_l00107}{LED\+\_\+\+Task3()}}, \mbox{\hyperlink{ledjes_8c_source_l00152}{LED\+\_\+\+Task4()}}, and \mbox{\hyperlink{UART__keys_8c_source_l00134}{UART\+\_\+menu()}}.
+

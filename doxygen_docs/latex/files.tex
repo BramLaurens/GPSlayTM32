@@ -1,0 +1,31 @@
+\doxysection{File List}
+Here is a list of all files with brief descriptions\+:\begin{DoxyCompactList}
+\item\contentsline{section}{Core/\+My\+App/\+App/\mbox{\hyperlink{admin_8c}{admin.\+c}} \\*Bestaat uit 3 onderdelen\+: ~\newline
+ Deel 1. {\bfseries{Initialisatieoutput naar uart en lcd-\/scherm}}.~\newline
+ Deel 2. De functies voor de {\bfseries{initialisatie van de handles}}. ~\newline
+ Deel 3. De functies voor opzet en {\bfseries{handling van tasks}}. Dit deel bevat de functies die tasks aanmaakt én hulpfuncties voor tasks.~\newline
+ {\bfseries{Demonstreert\+: os\+Thread\+New(), v\+Task\+Suspend\+All(), x\+Task\+Resume\+All(), ux\+Task\+Get\+Stack\+High\+Water\+Mark(), v\+Task\+Priority\+Set() en c-\/stuff als array-\/handling, structures,}} en let op\+: het gebruiken van specifieke structure-\/members binnen andere structures, zie tasks\mbox{[}\mbox{]}!~\newline
+ }{\pageref{admin_8c}}{}
+\item\contentsline{section}{Core/\+My\+App/\+App/\mbox{\hyperlink{admin_8h}{admin.\+h}} \\*Bevat de defines \& externals voor deze applicatie }{\pageref{admin_8h}}{}
+\item\contentsline{section}{Core/\+My\+App/\+App/\mbox{\hyperlink{ARM__keys_8c}{ARM\+\_\+keys.\+c}} \\*Behandelt de communicatie met de ARM-\/toetsjes met\+: Eventgroups, Task\+Notify, Interrupt-\/handling.~\newline
+ {\bfseries{Demonstreert\+: x\+Event\+Group\+Wait\+Bits(), x\+Task\+Get\+Handle(), x\+Task\+Notify(), x\+Task\+Notify\+Wait(),x\+Semaphoregive(), x\+Semaphore\+Take(). }}~\newline
+ }{\pageref{ARM__keys_8c}}{}
+\item\contentsline{section}{Core/\+My\+App/\+App/\mbox{\hyperlink{gps_8c}{gps.\+c}} \\*Behandelt de gps input-\/strings (NMEA-\/protocol) van UART1.~\newline
+ {\bfseries{Demonstreert\+: x\+Message\+Buffer\+Read() }}~\newline
+ Aan UART1 is een interrupt gekoppeld (zie \doxylink{main_8c}{main.\+c}\+: \doxylink{main_8c_ae494a9643f29b87d6d81e5264e60e57b}{HAL\+\_\+\+UART\+\_\+\+Rx\+Cplt\+Callback()}, die de inkomende string op een messagebuffer zet, die we hier uitlezen en verwerken.~\newline
+ }{\pageref{gps_8c}}{}
+\item\contentsline{section}{Core/\+My\+App/\+App/\mbox{\hyperlink{gps_8h}{gps.\+h}} }{\pageref{gps_8h}}{}
+\item\contentsline{section}{Core/\+My\+App/\+App/\mbox{\hyperlink{GPS__Route__Setter_8c}{GPS\+\_\+\+Route\+\_\+\+Setter.\+c}} \\*Verwerkt de GPS data en zet deze om in een linked list met waypoints. GPS data wordt gehaald uit \doxylink{gps_8c}{gps.\+c} via de functie \doxylink{gps_8c_ad1ebb3252081d2411aefcb941109edd1}{getlatest\+\_\+\+GNRMC()} Er zijn drie acties mogelijk\+: }{\pageref{GPS__Route__Setter_8c}}{}
+\item\contentsline{section}{Core/\+My\+App/\+App/\mbox{\hyperlink{GPS__Route__Setter_8h}{GPS\+\_\+\+Route\+\_\+\+Setter.\+h}} }{\pageref{GPS__Route__Setter_8h}}{}
+\item\contentsline{section}{Core/\+My\+App/\+App/\mbox{\hyperlink{ledjes_8c}{ledjes.\+c}} \\*Laat de werking van mutexes en tasknotification zien.~\newline
+ {\bfseries{Demonstreert\+: , x\+Semaphore\+Take(), x\+Semaphore\+Give(), x\+Task\+Notify\+Give(), ul\+Task\+Notify\+Take(), task\+YIELD().}}~\newline
+ }{\pageref{ledjes_8c}}{}
+\item\contentsline{section}{Core/\+My\+App/\+App/\mbox{\hyperlink{NRF__driver_8c}{NRF\+\_\+driver.\+c}} \\*Driver voor de NRF24 module in receiver mode. Checkt continu op nieuwe data, en kopieert deze vanuit de module naar een RX buffer }{\pageref{NRF__driver_8c}}{}
+\item\contentsline{section}{Core/\+My\+App/\+App/\mbox{\hyperlink{NRF__driver_8h}{NRF\+\_\+driver.\+h}} }{\pageref{NRF__driver_8h}}{}
+\item\contentsline{section}{Core/\+My\+App/\+App/\mbox{\hyperlink{student_8c}{student.\+c}} \\*Hier kunnen studenten hun eigen tasks aanmaken }{\pageref{student_8c}}{}
+\item\contentsline{section}{Core/\+My\+App/\+App/\mbox{\hyperlink{UART__keys_8c}{UART\+\_\+keys.\+c}} \\*Behandelt de communicatie met de UART.~\newline
+ {\bfseries{Demonstreert\+: IRQ-\/handling, queue-\/handling, tasknotifcation, string-\/handling (strtok, pointers).}}~\newline
+ Aan de UART is een interrupt gekoppeld, waarvan de ISR (zie\+: \doxylink{main_8c_ae494a9643f29b87d6d81e5264e60e57b}{HAL\+\_\+\+UART\+\_\+\+Rx\+Cplt\+Callback()}) in \doxylink{main_8c}{main.\+c} gegenereerd is. Elke toets (character), die in een terminalprogramma ingedrukt wordt, wordt in de ISR in een queue gezet.~\newline
+ De task \doxylink{UART__keys_8c_a2f8c9b40e09f1da12285de5c47e13856}{UART\+\_\+keys\+\_\+\+IRQ()} leest de queue uit nadat het LINEFEED-\/character is gevonden (nadat ENTER gedrukt is). De task leest de queue uit en vult een eigen buffer. Deze buffer wordt via Task\+Notify doorgestuurd naar de task die deze buffer interpreteert\+: \doxylink{UART__keys_8c_a54d4ec6474d826f35cbf28a391cc68a0}{UART\+\_\+menu()} }{\pageref{UART__keys_8c}}{}
+\item\contentsline{section}{Core/\+Src/\mbox{\hyperlink{main_8c}{main.\+c}} \\*\+: Main program body }{\pageref{main_8c}}{}
+\end{DoxyCompactList}

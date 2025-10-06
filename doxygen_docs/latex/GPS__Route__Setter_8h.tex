@@ -1,0 +1,148 @@
+\doxysection{Core/\+My\+App/\+App/\+GPS\+\_\+\+Route\+\_\+\+Setter.h File Reference}
+\hypertarget{GPS__Route__Setter_8h}{}\label{GPS__Route__Setter_8h}\index{Core/MyApp/App/GPS\_Route\_Setter.h@{Core/MyApp/App/GPS\_Route\_Setter.h}}
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct__GPS__Route}{\+\_\+\+GPS\+\_\+\+Route}}
+\begin{DoxyCompactList}\small\item\em Struct voor het opslaan van GPS coördinaten in een linked list. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{struct__GPS__Route}{\+\_\+\+GPS\+\_\+\+Route}} \mbox{\hyperlink{GPS__Route__Setter_8h_abaf7f2a5f92fa80200324b7686faa66b}{GPS\+\_\+\+Route}}
+\begin{DoxyCompactList}\small\item\em Struct voor het opslaan van GPS coördinaten in een linked list. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{GPS__Route__Setter_8h_a323587e3d46e386b76cfa39b2b084bf2}{GPS\+\_\+\+Route\+\_\+\+Maker}} ()
+\begin{DoxyCompactList}\small\item\em creates a node for the linked list containing coordinates in Long, Lapt\+\_\+\+Route\+\_\+\+Parser which are pulled from the global gps data struct\+: "{}pt\+\_\+\+Route\+\_\+\+Parser"{} if the data recieved is valid. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{doc-typedef-members}
+\Hypertarget{GPS__Route__Setter_8h_doc-typedef-members}
+\doxysubsection{Typedef Documentation}
+\Hypertarget{GPS__Route__Setter_8h_abaf7f2a5f92fa80200324b7686faa66b}\index{GPS\_Route\_Setter.h@{GPS\_Route\_Setter.h}!GPS\_Route@{GPS\_Route}}
+\index{GPS\_Route@{GPS\_Route}!GPS\_Route\_Setter.h@{GPS\_Route\_Setter.h}}
+\doxysubsubsection{\texorpdfstring{GPS\_Route}{GPS\_Route}}
+{\footnotesize\ttfamily \label{GPS__Route__Setter_8h_abaf7f2a5f92fa80200324b7686faa66b} 
+typedef struct \mbox{\hyperlink{struct__GPS__Route}{\+\_\+\+GPS\+\_\+\+Route}} \mbox{\hyperlink{GPS__Route__Setter_8h_abaf7f2a5f92fa80200324b7686faa66b}{GPS\+\_\+\+Route}}}
+
+
+
+Struct voor het opslaan van GPS coördinaten in een linked list. 
+
+
+
+\label{doc-func-members}
+\Hypertarget{GPS__Route__Setter_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{GPS__Route__Setter_8h_a323587e3d46e386b76cfa39b2b084bf2}\index{GPS\_Route\_Setter.h@{GPS\_Route\_Setter.h}!GPS\_Route\_Maker@{GPS\_Route\_Maker}}
+\index{GPS\_Route\_Maker@{GPS\_Route\_Maker}!GPS\_Route\_Setter.h@{GPS\_Route\_Setter.h}}
+\doxysubsubsection{\texorpdfstring{GPS\_Route\_Maker()}{GPS\_Route\_Maker()}}
+{\footnotesize\ttfamily \label{GPS__Route__Setter_8h_a323587e3d46e386b76cfa39b2b084bf2} 
+uint8\+\_\+t GPS\+\_\+\+Route\+\_\+\+Maker (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+creates a node for the linked list containing coordinates in Long, Lapt\+\_\+\+Route\+\_\+\+Parser which are pulled from the global gps data struct\+: "{}pt\+\_\+\+Route\+\_\+\+Parser"{} if the data recieved is valid. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Void} & \texorpdfstring{$\ast$}{*}arg not in use \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+GPS\+\_\+\+Route\texorpdfstring{$\ast$}{*} returns a pointer to the head of the linked list 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{GPS__Route__Setter_8c_source_l00100}{100}} of file \mbox{\hyperlink{GPS__Route__Setter_8c_source}{GPS\+\_\+\+Route\+\_\+\+Setter.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00101\ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keywordtype}{char}\ Float\_buffer[100];\ \textcolor{comment}{//\ char\ buffer\ so\ the\ floats\ can\ be\ made\ visible\ for\ the\ user}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{comment}{//\ 'V'\ is\ invalid\ 'A'\ is\ valid\ }}
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{GPS__Route__Setter_8c_a8e0c53a74f9f823a22f79a7e767262f8}{pt\_Route\_Parser}}-\/>status\ ==\ \textcolor{charliteral}{'V'})}
+\DoxyCodeLine{00106\ \ \ \ \ \{\ }
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Data\ from\ GPS\ is\ not\ valid\ or\ is\ currently\ busy\ locking"{}});}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ posibility\ for\ lcd\ screen\ debuging}}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;\ }
+\DoxyCodeLine{00110\ \ \ \ \ \}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{comment}{//\ free\ memory\ so\ a\ struct\ can\ be\ added\ returning\ a\ pointer\ to\ that\ memory\ address}}
+\DoxyCodeLine{00113\ \ \ \ \ \mbox{\hyperlink{GPS__Route__Setter_8h_abaf7f2a5f92fa80200324b7686faa66b}{GPS\_Route}}\ *Node=\ malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{GPS__Route__Setter_8h_abaf7f2a5f92fa80200324b7686faa66b}{GPS\_Route}}));}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{comment}{//\ error\ malloc\ failed}}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keywordflow}{if}(Node==NULL)}
+\DoxyCodeLine{00117\ \ \ \ \ \{\ }
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Malloc\ failed!"{}});}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00120\ \ \ \ \ \}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{comment}{//\ if\ there\ is\ no\ head(first\ node\ of\ a\ linked\ list)\ \ }}
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{GPS__Route__Setter_8c_adb2c62dd349ccf9f8ec2614a64f90791}{pt\_Route}}\ ==\ NULL)}
+\DoxyCodeLine{00124\ \ \ \ \ \{\ }
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ Node-\/>\mbox{\hyperlink{struct__GPS__Route_ae5a5dd3df2f2114e2cf0d287e6b38ef4}{longitude}}=\ \mbox{\hyperlink{GPS__Route__Setter_8c_a26e24df8db9294ca41506dad23837f62}{convert\_decimal\_degrees}}(\mbox{\hyperlink{GPS__Route__Setter_8c_a5995b958899bd405b88701c42271afac}{GNRMC\_localcopy3}}.longitude,\ \&\mbox{\hyperlink{GPS__Route__Setter_8c_a5995b958899bd405b88701c42271afac}{GNRMC\_localcopy3}}.EW\_ind);\ \textcolor{comment}{//\ make\ a\ float\ out\ of\ the\ ascii\ char\ of\ the\ gps\ data}}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ Node-\/>\mbox{\hyperlink{struct__GPS__Route_aa61b46911a0379e3e3c673d4207b0719}{latitude}}=\ \mbox{\hyperlink{GPS__Route__Setter_8c_a26e24df8db9294ca41506dad23837f62}{convert\_decimal\_degrees}}(\mbox{\hyperlink{GPS__Route__Setter_8c_a5995b958899bd405b88701c42271afac}{GNRMC\_localcopy3}}.latitude,\ \&\mbox{\hyperlink{GPS__Route__Setter_8c_a5995b958899bd405b88701c42271afac}{GNRMC\_localcopy3}}.NS\_ind);\ \ \ \ \textcolor{comment}{//\ make\ a\ float\ out\ of\ the\ ascii\ char\ of\ the\ gps\ data}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ Node-\/>\mbox{\hyperlink{struct__GPS__Route_ade4f5167bbb15bf9bd35191bead79c72}{nodeNumber}}\ =\ 0;}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ Node-\/>\mbox{\hyperlink{struct__GPS__Route_a5caf46243f1649ed348c9d8f13723998}{Next\_point}}\ =\ NULL;\ }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Head\ created"{}});}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\ Waypoint\ number:\ "{}});\ UART\_putint(Node-\/>\mbox{\hyperlink{struct__GPS__Route_ade4f5167bbb15bf9bd35191bead79c72}{nodeNumber}});\ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ sprintf(Float\_buffer,\ \textcolor{stringliteral}{"{}\ Long:\%2.9f"{}},Node-\/>\mbox{\hyperlink{struct__GPS__Route_ae5a5dd3df2f2114e2cf0d287e6b38ef4}{longitude}});\ \textcolor{comment}{//\ So\ the\ float\ can\ read\ by\ the\ user\ in\ terminal\ }}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ UART\_puts(Float\_buffer);\ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ posibility\ for\ lcd\ screen\ debuging\ and\ showing\ user\ the\ coordinates}}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ sprintf(Float\_buffer,\ \textcolor{stringliteral}{"{}\ Lat:\%2.9f"{}},Node-\/>\mbox{\hyperlink{struct__GPS__Route_aa61b46911a0379e3e3c673d4207b0719}{latitude}});\ \textcolor{comment}{//\ So\ the\ float\ can\ read\ by\ the\ user\ in\ terminal\ }}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ UART\_puts(Float\_buffer);\ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{GPS__Route__Setter_8c_adb2c62dd349ccf9f8ec2614a64f90791}{pt\_Route}}\ =\ Node;}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00142\ \ \ \ \ \}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{comment}{//\ adding\ a\ node\ other\ then\ the\ head(first)}}
+\DoxyCodeLine{00145\ \ \ \ \ \mbox{\hyperlink{GPS__Route__Setter_8h_abaf7f2a5f92fa80200324b7686faa66b}{GPS\_Route}}\ *temp\ =\ \mbox{\hyperlink{GPS__Route__Setter_8c_adb2c62dd349ccf9f8ec2614a64f90791}{pt\_Route}};\ \textcolor{comment}{//\ creating\ a\ temp\ so\ the\ original\ pointer\ does\ not\ get\ lost\ when\ searching\ for\ a\ next\ point}}
+\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keywordtype}{int}\ i=1;}
+\DoxyCodeLine{00147\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}begin\ search\ for\ next\ point.\ \(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{comment}{//\ searching\ for\ the\ next\ node\ with\ no\ next\ point\ so\ one\ can\ be\ added}}
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keywordflow}{while}(temp-\/>\mbox{\hyperlink{struct__GPS__Route_a5caf46243f1649ed348c9d8f13723998}{Next\_point}}\ !=\ NULL)}
+\DoxyCodeLine{00151\ \ \ \ \ \{\ }
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ i++;}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ temp\ =\ temp-\/>\mbox{\hyperlink{struct__GPS__Route_a5caf46243f1649ed348c9d8f13723998}{Next\_point}};\ }
+\DoxyCodeLine{00154\ \ \ \ \ \}}
+\DoxyCodeLine{00155\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00156\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Node\ in\ linked\ list:"{}});\ UART\_putint(i);\ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \ \ \ \ \textcolor{comment}{//\ Filling\ node\ elements}}
+\DoxyCodeLine{00159\ \ \ \ \ Node-\/>\mbox{\hyperlink{struct__GPS__Route_ae5a5dd3df2f2114e2cf0d287e6b38ef4}{longitude}}=\ \mbox{\hyperlink{GPS__Route__Setter_8c_a26e24df8db9294ca41506dad23837f62}{convert\_decimal\_degrees}}(\mbox{\hyperlink{GPS__Route__Setter_8c_a5995b958899bd405b88701c42271afac}{GNRMC\_localcopy3}}.longitude,\ \&\mbox{\hyperlink{GPS__Route__Setter_8c_a5995b958899bd405b88701c42271afac}{GNRMC\_localcopy3}}.EW\_ind);\ \textcolor{comment}{//\ make\ a\ float\ out\ of\ the\ ascii\ char\ of\ the\ gps\ data}}
+\DoxyCodeLine{00160\ \ \ \ \ Node-\/>\mbox{\hyperlink{struct__GPS__Route_aa61b46911a0379e3e3c673d4207b0719}{latitude}}=\ \mbox{\hyperlink{GPS__Route__Setter_8c_a26e24df8db9294ca41506dad23837f62}{convert\_decimal\_degrees}}(\mbox{\hyperlink{GPS__Route__Setter_8c_a5995b958899bd405b88701c42271afac}{GNRMC\_localcopy3}}.latitude,\ \&\mbox{\hyperlink{GPS__Route__Setter_8c_a5995b958899bd405b88701c42271afac}{GNRMC\_localcopy3}}.NS\_ind);\ \ \ \ \textcolor{comment}{//\ make\ a\ float\ out\ of\ the\ ascii\ char\ of\ the\ gps\ data}}
+\DoxyCodeLine{00161\ \ \ \ \ Node-\/>\mbox{\hyperlink{struct__GPS__Route_ade4f5167bbb15bf9bd35191bead79c72}{nodeNumber}}\ =\ i;}
+\DoxyCodeLine{00162\ \ \ \ \ Node-\/>\mbox{\hyperlink{struct__GPS__Route_a5caf46243f1649ed348c9d8f13723998}{Next\_point}}\ =\ NULL;}
+\DoxyCodeLine{00163\ \ \ \ \ temp-\/>\mbox{\hyperlink{struct__GPS__Route_a5caf46243f1649ed348c9d8f13723998}{Next\_point}}\ =\ Node;}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\ Waypoint\ number:\ "{}});\ UART\_putint(Node-\/>\mbox{\hyperlink{struct__GPS__Route_ade4f5167bbb15bf9bd35191bead79c72}{nodeNumber}});\ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \ \ \ \ sprintf(Float\_buffer,\ \textcolor{stringliteral}{"{}\ Long:\%2.9f"{}},Node-\/>\mbox{\hyperlink{struct__GPS__Route_ae5a5dd3df2f2114e2cf0d287e6b38ef4}{longitude}});}
+\DoxyCodeLine{00168\ \ \ \ \ UART\_puts(Float\_buffer);\ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \ \ \ \ sprintf(Float\_buffer,\ \textcolor{stringliteral}{"{}\ Lat:\%2.9f"{}},Node-\/>\mbox{\hyperlink{struct__GPS__Route_aa61b46911a0379e3e3c673d4207b0719}{latitude}});}
+\DoxyCodeLine{00171\ \ \ \ \ UART\_puts(Float\_buffer);\ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}New\ node\ created\ succesfully"{}});}
+\DoxyCodeLine{00174\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00177\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{GPS__Route__Setter_8c_source_l00039}{convert\+\_\+decimal\+\_\+degrees()}}, \mbox{\hyperlink{GPS__Route__Setter_8c_source_l00025}{GNRMC\+\_\+localcopy3}}, \mbox{\hyperlink{GPS__Route__Setter_8h_source_l00016}{\+\_\+\+GPS\+\_\+\+Route\+::latitude}}, \mbox{\hyperlink{GPS__Route__Setter_8h_source_l00017}{\+\_\+\+GPS\+\_\+\+Route\+::longitude}}, \mbox{\hyperlink{GPS__Route__Setter_8h_source_l00019}{\+\_\+\+GPS\+\_\+\+Route\+::\+Next\+\_\+point}}, \mbox{\hyperlink{GPS__Route__Setter_8h_source_l00018}{\+\_\+\+GPS\+\_\+\+Route\+::node\+Number}}, \mbox{\hyperlink{GPS__Route__Setter_8c_source_l00030}{pt\+\_\+\+Route}}, and \mbox{\hyperlink{GPS__Route__Setter_8c_source_l00026}{pt\+\_\+\+Route\+\_\+\+Parser}}.
+
+
+
+Referenced by \mbox{\hyperlink{GPS__Route__Setter_8c_source_l00226}{Route\+\_\+\+Setter()}}.
+

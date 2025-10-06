@@ -8,6 +8,10 @@
 #ifndef MYAPP_APP_GPS_ROUTE_SETTER_H_
 #define MYAPP_APP_GPS_ROUTE_SETTER_H_
 
+/**
+ * @brief Struct voor het opslaan van GPS coördinaten in een linked list.
+ * 
+ */
 typedef struct _GPS_Route{
     double    latitude;
     double   longitude;

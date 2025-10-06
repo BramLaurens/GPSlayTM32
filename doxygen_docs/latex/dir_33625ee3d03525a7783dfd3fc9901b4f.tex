@@ -1,0 +1,44 @@
+\doxysection{Core/\+My\+App/\+App Directory Reference}
+\hypertarget{dir_33625ee3d03525a7783dfd3fc9901b4f}{}\label{dir_33625ee3d03525a7783dfd3fc9901b4f}\index{Core/MyApp/App Directory Reference@{Core/MyApp/App Directory Reference}}
+\doxysubsubsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \mbox{\hyperlink{admin_8c}{admin.\+c}}
+\begin{DoxyCompactList}\small\item\em Bestaat uit 3 onderdelen\+: ~\newline
+ Deel 1. {\bfseries{Initialisatieoutput naar uart en lcd-\/scherm}}.~\newline
+ Deel 2. De functies voor de {\bfseries{initialisatie van de handles}}. ~\newline
+ Deel 3. De functies voor opzet en {\bfseries{handling van tasks}}. Dit deel bevat de functies die tasks aanmaakt én hulpfuncties voor tasks.~\newline
+ {\bfseries{Demonstreert\+: os\+Thread\+New(), v\+Task\+Suspend\+All(), x\+Task\+Resume\+All(), ux\+Task\+Get\+Stack\+High\+Water\+Mark(), v\+Task\+Priority\+Set() en c-\/stuff als array-\/handling, structures,}} en let op\+: het gebruiken van specifieke structure-\/members binnen andere structures, zie tasks\mbox{[}\mbox{]}!~\newline
+ \end{DoxyCompactList}\item 
+file \mbox{\hyperlink{admin_8h}{admin.\+h}}
+\begin{DoxyCompactList}\small\item\em Bevat de defines \& externals voor deze applicatie. \end{DoxyCompactList}\item 
+file \mbox{\hyperlink{ARM__keys_8c}{ARM\+\_\+keys.\+c}}
+\begin{DoxyCompactList}\small\item\em Behandelt de communicatie met de ARM-\/toetsjes met\+: Eventgroups, Task\+Notify, Interrupt-\/handling.~\newline
+ {\bfseries{Demonstreert\+: x\+Event\+Group\+Wait\+Bits(), x\+Task\+Get\+Handle(), x\+Task\+Notify(), x\+Task\+Notify\+Wait(),x\+Semaphoregive(), x\+Semaphore\+Take(). }}~\newline
+ \end{DoxyCompactList}\item 
+file \mbox{\hyperlink{gps_8c}{gps.\+c}}
+\begin{DoxyCompactList}\small\item\em Behandelt de gps input-\/strings (NMEA-\/protocol) van UART1.~\newline
+ {\bfseries{Demonstreert\+: x\+Message\+Buffer\+Read() }}~\newline
+ Aan UART1 is een interrupt gekoppeld (zie \doxylink{main_8c}{main.\+c}\+: \doxylink{main_8c_ae494a9643f29b87d6d81e5264e60e57b}{HAL\+\_\+\+UART\+\_\+\+Rx\+Cplt\+Callback()}, die de inkomende string op een messagebuffer zet, die we hier uitlezen en verwerken.~\newline
+ \end{DoxyCompactList}\item 
+file \mbox{\hyperlink{gps_8h}{gps.\+h}}
+\item 
+file \mbox{\hyperlink{GPS__Route__Setter_8c}{GPS\+\_\+\+Route\+\_\+\+Setter.\+c}}
+\begin{DoxyCompactList}\small\item\em Verwerkt de GPS data en zet deze om in een linked list met waypoints. GPS data wordt gehaald uit \doxylink{gps_8c}{gps.\+c} via de functie \doxylink{gps_8c_ad1ebb3252081d2411aefcb941109edd1}{getlatest\+\_\+\+GNRMC()} Er zijn drie acties mogelijk\+: \end{DoxyCompactList}\item 
+file \mbox{\hyperlink{GPS__Route__Setter_8h}{GPS\+\_\+\+Route\+\_\+\+Setter.\+h}}
+\item 
+file \mbox{\hyperlink{ledjes_8c}{ledjes.\+c}}
+\begin{DoxyCompactList}\small\item\em Laat de werking van mutexes en tasknotification zien.~\newline
+ {\bfseries{Demonstreert\+: , x\+Semaphore\+Take(), x\+Semaphore\+Give(), x\+Task\+Notify\+Give(), ul\+Task\+Notify\+Take(), task\+YIELD().}}~\newline
+ \end{DoxyCompactList}\item 
+file \mbox{\hyperlink{NRF__driver_8c}{NRF\+\_\+driver.\+c}}
+\begin{DoxyCompactList}\small\item\em Driver voor de NRF24 module in receiver mode. Checkt continu op nieuwe data, en kopieert deze vanuit de module naar een RX buffer. \end{DoxyCompactList}\item 
+file \mbox{\hyperlink{NRF__driver_8h}{NRF\+\_\+driver.\+h}}
+\item 
+file \mbox{\hyperlink{student_8c}{student.\+c}}
+\begin{DoxyCompactList}\small\item\em Hier kunnen studenten hun eigen tasks aanmaken. \end{DoxyCompactList}\item 
+file \mbox{\hyperlink{UART__keys_8c}{UART\+\_\+keys.\+c}}
+\begin{DoxyCompactList}\small\item\em Behandelt de communicatie met de UART.~\newline
+ {\bfseries{Demonstreert\+: IRQ-\/handling, queue-\/handling, tasknotifcation, string-\/handling (strtok, pointers).}}~\newline
+ Aan de UART is een interrupt gekoppeld, waarvan de ISR (zie\+: \doxylink{main_8c_ae494a9643f29b87d6d81e5264e60e57b}{HAL\+\_\+\+UART\+\_\+\+Rx\+Cplt\+Callback()}) in \doxylink{main_8c}{main.\+c} gegenereerd is. Elke toets (character), die in een terminalprogramma ingedrukt wordt, wordt in de ISR in een queue gezet.~\newline
+ De task \doxylink{admin_8h_af42059fd155a512774c89e7fc38bc03c}{UART\+\_\+keys\+\_\+\+IRQ()} leest de queue uit nadat het LINEFEED-\/character is gevonden (nadat ENTER gedrukt is). De task leest de queue uit en vult een eigen buffer. Deze buffer wordt via Task\+Notify doorgestuurd naar de task die deze buffer interpreteert\+: \doxylink{admin_8h_af909ca669055035da2246051d81ae747}{UART\+\_\+menu()}. \end{DoxyCompactList}\end{DoxyCompactItemize}

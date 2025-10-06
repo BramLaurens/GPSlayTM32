@@ -1,10 +1,13 @@
-/*
- * NRF_driver.c
- *
- *  Created on: Sep 23, 2025
- *      Author: braml
+/**
+ * @file NRF_driver.c
+ * @author Bram Laurens
+ * @brief Driver voor de NRF24 module in receiver mode. Checkt continu op nieuwe data, en kopieert deze vanuit de module naar een RX buffer. 
+ * @version 0.1
+ * @date 2025-10-04
+ * 
+ * @copyright Copyright (c) 2025
+ * 
  */
-
 
 #include <admin.h>
 #include "main.h"

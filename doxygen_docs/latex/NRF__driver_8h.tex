@@ -1,0 +1,99 @@
+\doxysection{Core/\+My\+App/\+App/\+NRF\+\_\+driver.h File Reference}
+\hypertarget{NRF__driver_8h}{}\label{NRF__driver_8h}\index{Core/MyApp/App/NRF\_driver.h@{Core/MyApp/App/NRF\_driver.h}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{NRF__driver_8h_a54ef642fbc9fda4162e4cbb4cecd13ef}{nrf24\+\_\+\+SPI\+\_\+commscheck}} (void)
+\item 
+void \mbox{\hyperlink{NRF__driver_8h_ac43aa7997511f82f9f390a9fd8b6d478}{NRF\+\_\+\+Driver}} (void \texorpdfstring{$\ast$}{*})
+\begin{DoxyCompactList}\small\item\em Driver for the NRF24 module in receiver mode. Checks continously for new data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{NRF__driver_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{NRF__driver_8h_a54ef642fbc9fda4162e4cbb4cecd13ef}\index{NRF\_driver.h@{NRF\_driver.h}!nrf24\_SPI\_commscheck@{nrf24\_SPI\_commscheck}}
+\index{nrf24\_SPI\_commscheck@{nrf24\_SPI\_commscheck}!NRF\_driver.h@{NRF\_driver.h}}
+\doxysubsubsection{\texorpdfstring{nrf24\_SPI\_commscheck()}{nrf24\_SPI\_commscheck()}}
+{\footnotesize\ttfamily \label{NRF__driver_8h_a54ef642fbc9fda4162e4cbb4cecd13ef} 
+uint8\+\_\+t nrf24\+\_\+\+SPI\+\_\+commscheck (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Definition at line \mbox{\hyperlink{NRF__driver_8c_source_l00085}{85}} of file \mbox{\hyperlink{NRF__driver_8c_source}{NRF\+\_\+driver.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00086\ \ \ \ \ uint8\_t\ tx[2]\ =\ \{0x00,\ 0xFF\};\ \ \ \textcolor{comment}{//\ R\_REGISTER\ +\ CONFIG(0x00),\ then\ dummy\ 0xFF}}
+\DoxyCodeLine{00087\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{NRF__driver_8c_ac59fc6e2a4487cbaeecd8091ace8ed5b}{rx}}[2]\ =\ \{0\};}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ HAL\_GPIO\_WritePin(csn\_gpio\_port,\ csn\_gpio\_pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{volatile}\ \textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 50;\ i++)\ \_\_NOP();}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ HAL\_SPI\_TransmitReceive(\&\mbox{\hyperlink{main_8c_a9c6222bae4d0328dd843ae099623b40b}{hspi1}},\ tx,\ \mbox{\hyperlink{NRF__driver_8c_ac59fc6e2a4487cbaeecd8091ace8ed5b}{rx}},\ 2,\ HAL\_MAX\_DELAY);}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{volatile}\ \textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 50;\ i++)\ \_\_NOP();}
+\DoxyCodeLine{00095\ \ \ \ \ HAL\_GPIO\_WritePin(csn\_gpio\_port,\ csn\_gpio\_pin,\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{comment}{//\ rx[0]\ =\ STATUS,\ rx[1]\ =\ CONFIG}}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{NRF__driver_8c_ac59fc6e2a4487cbaeecd8091ace8ed5b}{rx}}[1];}
+\DoxyCodeLine{00099\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{main_8c_source_l00053}{hspi1}}, and \mbox{\hyperlink{NRF__driver_8c_source_l00024}{rx}}.
+
+
+
+Referenced by \mbox{\hyperlink{UART__keys_8c_source_l00134}{UART\+\_\+menu()}}.
+
+\Hypertarget{NRF__driver_8h_ac43aa7997511f82f9f390a9fd8b6d478}\index{NRF\_driver.h@{NRF\_driver.h}!NRF\_Driver@{NRF\_Driver}}
+\index{NRF\_Driver@{NRF\_Driver}!NRF\_driver.h@{NRF\_driver.h}}
+\doxysubsubsection{\texorpdfstring{NRF\_Driver()}{NRF\_Driver()}}
+{\footnotesize\ttfamily \label{NRF__driver_8h_ac43aa7997511f82f9f390a9fd8b6d478} 
+void NRF\+\_\+\+Driver (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argument}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Driver for the NRF24 module in receiver mode. Checks continously for new data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argument} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{NRF__driver_8c_source_l00033}{33}} of file \mbox{\hyperlink{NRF__driver_8c_source}{NRF\+\_\+driver.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00034\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ osDelay(100);}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}\ started\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00038\ \ \ \ \ uint8\_t\ addr[5]\ =\ \{0xE7,\ 0xE7,\ 0xE7,\ 0xE7,\ 0xE7\};}
+\DoxyCodeLine{00039\ \ \ \ \ HAL\_GPIO\_WritePin(ce\_gpio\_port,\ ce\_gpio\_pin,\ 0);\ \textcolor{comment}{//\ Set\ CE\ low}}
+\DoxyCodeLine{00040\ \ \ \ \ HAL\_GPIO\_WritePin(csn\_gpio\_port,\ csn\_gpio\_pin,\ 1);\ \textcolor{comment}{//\ Set\ CSN\ high}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ nrf24\_init();\ \textcolor{comment}{//\ Initialize\ NRF24L01+}}
+\DoxyCodeLine{00044\ \ \ \ \ nrf24\_tx\_pwr(\_0dbm);\ \textcolor{comment}{//\ Set\ TX\ power\ to\ 0dBm}}
+\DoxyCodeLine{00045\ \ \ \ \ nrf24\_data\_rate(\_1mbps);\ \textcolor{comment}{//\ Set\ data\ rate\ to\ 1Mbps}}
+\DoxyCodeLine{00046\ \ \ \ \ nrf24\_set\_channel(78);\ \textcolor{comment}{//\ Set\ channel\ to\ 76}}
+\DoxyCodeLine{00047\ \ \ \ \ nrf24\_pipe\_pld\_size(0,\ \mbox{\hyperlink{NRF__driver_8c_ade4aebf4c08c8234d4e46ebb7d182e7c}{PLD\_SIZE}});\ \textcolor{comment}{//\ Set\ payload\ size\ for\ pipe\ 0}}
+\DoxyCodeLine{00048\ \ \ \ \ nrf24\_set\_crc(en\_crc,\ \_1byte);\ \textcolor{comment}{//\ Enable\ CRC\ with\ 1\ byte}}
+\DoxyCodeLine{00049\ \ \ \ \ nrf24\_open\_rx\_pipe(0,\ addr);\ \textcolor{comment}{//\ Open\ TX\ pipe\ with\ address}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ nrf24\_pwr\_up();\ \textcolor{comment}{//\ Power\ up\ the\ NRF24L01+}}
+\DoxyCodeLine{00052\ \ \ \ \ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordflow}{while}\ (\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
+\DoxyCodeLine{00054\ \ \ \ \ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{NRF__driver_8c_ad6e1d383782ce6b0b5bbcb68ab6e7528}{NRF\_receive}}();}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ osDelay(1);\ \textcolor{comment}{//\ Placeholder\ delay}}
+\DoxyCodeLine{00057\ \ \ \ \ \}}
+\DoxyCodeLine{00058\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,210 @@
+\doxysection{UART\+\_\+keys.\+c}
+\hypertarget{UART__keys_8c_source}{}\label{UART__keys_8c_source}\index{Core/MyApp/App/UART\_keys.c@{Core/MyApp/App/UART\_keys.c}}
+\mbox{\hyperlink{UART__keys_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{admin_8h}{admin.h}}>}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00017}00017\ \textcolor{preprocessor}{\#include\ "{}main.h"{}}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00018}00018\ \textcolor{preprocessor}{\#include\ "{}cmsis\_os.h"{}}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00019}00019\ \textcolor{preprocessor}{\#include\ "{}uart.h"{}}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00020}00020\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{NRF__driver_8h}{NRF\_driver.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00022}00022\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{ledjes_8c_ac0e8ff7c2f49b0988165336ca423dcea}{os\_delay}};\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00031}\mbox{\hyperlink{admin_8h_a390831b4b34c463c81b188d9973d2a52}{00031}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{UART__keys_8c_a8301f294cdbb72fd9830d388af6e8725}{UART\_keys\_poll}}\ (\textcolor{keywordtype}{void}\ *argument)}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00032}00032\ \{}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00033}00033\ \ \ \ \ \textcolor{keywordtype}{char}\ buffer[\mbox{\hyperlink{admin_8h_a18901836d92cf76a93826b9e1116292d}{QSIZE\_UART}}];}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00035}00035\ \ \ \ \ osThreadId\_t\ hTask\ =\ xTaskGetHandle(\textcolor{stringliteral}{"{}UART\_menu"{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00037}00037\ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}started,\ enter\ key\ on\ terminal\(\backslash\)n\(\backslash\)r"{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00039}00039\ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00040}00040\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00041}00041\ \ \ \ \ \ \ \ \ UART\_gets(buffer,\ \mbox{\hyperlink{admin_8h_a18901836d92cf76a93826b9e1116292d}{QSIZE\_UART}},\ \mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}});\ \textcolor{comment}{//\ wait\ for\ string}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00043}00043\ \ \ \ \ \ \ \ \ xTaskNotify(hTask,\ buffer,\ eSetValueWithOverwrite);\ \textcolor{comment}{//\ notify\ task2\ with\ value}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_a4fb4ecb0210feec08883b3c4a1d401e3}{UART\_DEBUG\_OUT}})}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00046}00046\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)r"{}});\ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}-\/\ notified\ with\ "{}});\ UART\_puts(buffer);}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00050}00050\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00051}00051\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00052}00052\ \}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00062}\mbox{\hyperlink{admin_8h_af42059fd155a512774c89e7fc38bc03c}{00062}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{UART__keys_8c_a2f8c9b40e09f1da12285de5c47e13856}{UART\_keys\_IRQ}}\ (\textcolor{keywordtype}{void}\ *argument)}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00063}00063\ \{}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00064}00064\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ \ \ \ \ buffer[\mbox{\hyperlink{admin_8h_a18901836d92cf76a93826b9e1116292d}{QSIZE\_UART}}];}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00065}00065\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ \ \ \ \ buffer\_copy[\mbox{\hyperlink{admin_8h_a18901836d92cf76a93826b9e1116292d}{QSIZE\_UART}}];}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00066}00066\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ pos\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00067}00067\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ finish\ =\ \mbox{\hyperlink{admin_8h_aa93f0eb578d23995850d61f7d61c55c1}{FALSE}};}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00068}00068\ \ \ \ \ osThreadId\_t\ \ \ \ hTask;}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00070}00070\ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}started,\ enter\ key\ on\ terminal...\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00072}00072\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(hTask\ =\ xTaskGetHandle(\textcolor{stringliteral}{"{}UART\_menu"{}})))}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00073}00073\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Err:UART\_hndl\ 0"{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00075}00075\ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00076}00076\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00077}00077\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ laat\ de\ VIC\ de\ q\ vullen,\ die\ per\ char\ in\ onze\ eigen\ string\ geplaatst\ wordt}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00078}00078\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ tot\ LFEED\ gedrukt\ is\ of\ qsize-\/1\ bereikt\ is.}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ nb:\ argument\ 2\ is\ het\ adres\ waar\ ik\ het\ q-\/char\ in\ zet}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00080}00080\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ nb:\ q-\/receive\ haalt\ gelijk\ de\ buffer\ leeg\ (q-\/peek\ niet).}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00081}00081\ \ \ \ \ \ \ \ \ xQueueReceive(\mbox{\hyperlink{admin_8c_a1db415a0f7c5ecff145e4bb53cc54dbe}{hUART\_Queue}},\ \&buffer[pos],\ portMAX\_DELAY);}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00083}00083\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ negeer\ dit\ char\ bij\ geen\ data:\ -\/1,\ 255,\ of\ CR\ of\ spatie}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00084}00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buffer[pos]\ ==\ 0\ ||\ buffer[pos]\ ==\ -\/1\ ||\ buffer[pos]\ ==\ 255\ ||\ buffer[pos]\ ==\ CRETURN\ ||\ buffer[pos]\ ==\ 32)}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00087}00087\ \ \ \ \ \ \ \ \ \textcolor{comment}{//UART\_putchar(buffer[pos]);\ \ //\ echo}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00089}00089\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ check\ of\ de\ string\ gesloten\ was\ of\ gesloten\ moet\ worden...}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00090}00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buffer[pos]\ ==\ LFEED)\ \ \ \ \ \textcolor{comment}{//\ close\ als\ LF\ gedrukt}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00091}00091\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ buffer[pos]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ finish\ =\ \mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}};}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00095}00095\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00096}00096\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (pos\ ==\ \mbox{\hyperlink{admin_8h_a18901836d92cf76a93826b9e1116292d}{QSIZE\_UART}}\ -\/\ 2)\ \textcolor{comment}{//\ close\ if\ end\ of\ buf}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00097}00097\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ buffer[++pos]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};\ \ \ \ \ \ \ \textcolor{comment}{//\ first,\ skip\ to\ last\ position,\ then\ close\ string}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ finish\ =\ \mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}};}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00100}00100\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (finish)}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00103}00103\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ de\ volgende\ taak\ krijgt\ een\ copy\ van\ de\ string}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ mijn\ eigen\ buffer\ kan\ zo\ gelijk\ weer\ gevuld\ worden\ door\ de\ ISR}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ strcpy(buffer\_copy,\ buffer);}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ memset(buffer,\ 0,\ \mbox{\hyperlink{admin_8h_a18901836d92cf76a93826b9e1116292d}{QSIZE\_UART}});\ \textcolor{comment}{//\ clear\ original\ buffer}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ finish\ =\ \mbox{\hyperlink{admin_8h_aa93f0eb578d23995850d61f7d61c55c1}{FALSE}};}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ pos\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ xTaskNotify(hTask,\ buffer\_copy,\ eSetValueWithOverwrite);\ \textcolor{comment}{//\ notify\ task2\ with\ copy}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//hello\ test}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_a4fb4ecb0210feec08883b3c4a1d401e3}{UART\_DEBUG\_OUT}})}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)r"{}});\ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}:\ UART\_menu\ notified\ with\ "{}});\ UART\_puts(buffer\_copy);}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00120}00120\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ pos++;}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00123}00123\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00124}00124\ \}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00126}00126\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00134}\mbox{\hyperlink{admin_8h_af909ca669055035da2246051d81ae747}{00134}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{UART__keys_8c_a54d4ec6474d826f35cbf28a391cc68a0}{UART\_menu}}\ (\textcolor{keywordtype}{void}\ *argument)}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00135}00135\ \{}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00136}00136\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ *s;}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00137}00137\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ *tok\ =\ \textcolor{stringliteral}{"{},"{}};\ \ \textcolor{comment}{//\ token\ if\ command\ is\ more\ than\ 1\ char}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00138}00138\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ val1,\ val2;}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00140}00140\ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}started\(\backslash\)n\(\backslash\)r"{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00142}00142\ \ \ \ \ \textcolor{keywordflow}{while}\ (\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00143}00143\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00144}00144\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ wacht\ op\ de\ string;\ let\ op\ de\ cast\ van\ (unsigned\ long)\ naar\ (char\ *)!}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00145}00145\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ want\ de\ waarde\ die\ ik\ terug\ krijg\ is\ een\ pointer.}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00146}00146\ \ \ \ \ \ \ \ \ s\ =\ (\textcolor{keywordtype}{char}\ *)ulTaskNotifyTake(pdTRUE,\ portMAX\_DELAY);}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00148}00148\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ check\ het\ eerste\ (en\ vaak\ enige)\ karakter\ van\ de\ inkomende\ command-\/string}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00149}00149\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ toupper()\ zorgt\ ervoor\ dat\ het\ eerste\ karakter\ hoofdletter\ wordt,\ zo\ hoef\ ik\ niet\ op\ kleine}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00150}00150\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ letters\ te\ checken.}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00151}00151\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (toupper((\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char})s[0]))}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00152}00152\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00153}00153\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \ UART\_puts(s);}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\ (unkown\ command)\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00158}00158\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'0'}:\ \mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ =\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ ?\ \mbox{\hyperlink{admin_8h_aecec3b7ee8e67b05c23fe851e7115999}{DEBUG\_OUT\_NONE}}\ :\ \mbox{\hyperlink{admin_8h_adf61e71f815198fd487984a437f413fe}{DEBUG\_OUT\_ALL}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)nall\ debug\ output\ =\ "{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ ==\ \mbox{\hyperlink{admin_8h_adf61e71f815198fd487984a437f413fe}{DEBUG\_OUT\_ALL}}\ ?\ \textcolor{stringliteral}{"{}ON\(\backslash\)r\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}OFF\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00161}00161\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ als\ alle\ output\ uitgezet\ wordt,\ is\ het\ handig\ om\ gelijk\ het\ menu\ te\ laten\ zien.}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ ==\ \mbox{\hyperlink{admin_8h_aecec3b7ee8e67b05c23fe851e7115999}{DEBUG\_OUT\_NONE}})}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a93467475af28d4b75cafb508f95578bf}{DisplayMenu}}();}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00167}00167\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'1'}:\ \mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \string^=\ \mbox{\hyperlink{admin_8h_a367617a9804f8aeeb1b5b09d17af0d1a}{LEDS\_DEBUG\_OUT}};\ \textcolor{comment}{//\ toggle\ output\ on/off}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)nleds\ output\ =\ "{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_a367617a9804f8aeeb1b5b09d17af0d1a}{LEDS\_DEBUG\_OUT}}\ ?\ \textcolor{stringliteral}{"{}ON\(\backslash\)r\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}OFF\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00172}00172\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'2'}:\ \mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \string^=\ \mbox{\hyperlink{admin_8h_ae2de7e45f2168abc45779a2d5dce35e2}{ARMKEYS\_DEBUG\_OUT}};\ \textcolor{comment}{//\ toggle\ output\ on/off}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)narmkeys\ output\ =\ "{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_ae2de7e45f2168abc45779a2d5dce35e2}{ARMKEYS\_DEBUG\_OUT}}\ ?\ \textcolor{stringliteral}{"{}ON\(\backslash\)r\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}OFF\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00176}00176\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00177}00177\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'3'}:\ \mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \string^=\ \mbox{\hyperlink{admin_8h_a4fb4ecb0210feec08883b3c4a1d401e3}{UART\_DEBUG\_OUT}};\ \textcolor{comment}{//\ toggle\ output\ on/off}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)nuart\ output\ =\ "{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_a4fb4ecb0210feec08883b3c4a1d401e3}{UART\_DEBUG\_OUT}}\ ?\ \textcolor{stringliteral}{"{}ON\(\backslash\)r\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}OFF\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00182}00182\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'4'}:\ \mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \string^=\ \mbox{\hyperlink{admin_8h_a6fcd7c2c8ee6e408e84e96747933027c}{STUDENT\_DEBUG\_OUT}};\ \textcolor{comment}{//\ toggle\ output\ on/off}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)nstudent\ output\ =\ "{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_a6fcd7c2c8ee6e408e84e96747933027c}{STUDENT\_DEBUG\_OUT}}\ ?\ \textcolor{stringliteral}{"{}ON\(\backslash\)r\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}OFF\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00186}00186\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00187}00187\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'5'}:\ \mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \string^=\ \mbox{\hyperlink{admin_8h_aaaa64fd595cb0468a82ae3c5c19df4fd}{GPS\_DEBUG\_OUT}};\ \textcolor{comment}{//\ toggle\ output\ on/off}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)nGPS\ output\ =\ "{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_aaaa64fd595cb0468a82ae3c5c19df4fd}{GPS\_DEBUG\_OUT}}\ ?\ \textcolor{stringliteral}{"{}ON\(\backslash\)r\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}OFF\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00191}00191\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00193}00193\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'D'}:\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ledjes_8c_ac0e8ff7c2f49b0988165336ca423dcea}{os\_delay}}\ =\ atoi(s+2);\ \textcolor{comment}{//\ skip\ first\ 2\ characters}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\ os\_delay\ set\ to:\ "{}});\ UART\_putint(\mbox{\hyperlink{ledjes_8c_ac0e8ff7c2f49b0988165336ca423dcea}{os\_delay}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00198}00198\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00199}00199\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'M'}:\ \mbox{\hyperlink{admin_8c_a93467475af28d4b75cafb508f95578bf}{DisplayMenu}}();\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00201}00201\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00202}00202\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'T'}:\ \mbox{\hyperlink{admin_8c_a8d78f01ecc2ff5ebf5c8c6450b175671}{DisplayTaskData}}();\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00204}00204\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00205}00205\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'P'}:\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ eerst:\ de\ 2\ waarden\ worden\ uit\ de\ string\ gehaald\ met\ strtok()}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ dan:\ de\ strings\ worden\ naar\ int\ geconverteerd}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ nb.\ dit\ is\ wel\ grof\ geprogrammeerd\ zo,\ in\ het\ echt\ maak\ je\ hier\ een\ mooie\ functie\ van.}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ s\ =\ strtok(s,\ \ \ \ tok);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ naar\ start\ van\ string,\ negeer\ 't,'}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ s\ =\ strtok(NULL,\ tok);\ val1\ =\ atoi(s);\ \textcolor{comment}{//\ volgende\ =\ task\_id}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ s\ =\ strtok(NULL,\ tok);\ val2\ =\ atoi(s);\ \textcolor{comment}{//\ volgende\ =\ priority}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (val1\ \&\&\ val2)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ kleine\ validiteitscontrole}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a08f97e6c32e65d04aa2425dadff927e1}{SetTaskPriority}}(val1,\ val2);}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00216}00216\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00217}00217\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'S'}:\ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ eerst:\ de\ waarde\ worden\ uit\ de\ string\ gehaald\ met\ strtok()}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ dan:\ de\ string\ wordt\ naar\ int\ geconverteerd}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ nb.\ dit\ is\ wel\ grof\ geprogrammeerd\ zo,\ in\ het\ echt\ maak\ je\ hier\ een\ mooie\ functie\ van.}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ s\ =\ strtok(s,\ \ \ \ tok);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ naar\ start\ van\ string,\ negeer\ 's,'}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ s\ =\ strtok(NULL,\ tok);\ val1\ =\ atoi(s);\ \textcolor{comment}{//\ volgende\ =\ task\_id}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (val1)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ kleine\ validiteitscontrole}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a3c09afd4e5fad01fc4adbb0c77ecbd6d}{StartStopTask}}(val1);}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00227}00227\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00228}00228\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'X'}:}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Testing\ NRF24\ SPI\ communication...,\ should\ return\ 0x08\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ cfg\ =\ \mbox{\hyperlink{NRF__driver_8c_a54ef642fbc9fda4162e4cbb4cecd13ef}{nrf24\_SPI\_commscheck}}();}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ tmp[8];}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ snprintf(tmp,\ \textcolor{keyword}{sizeof}(tmp),\ \textcolor{stringliteral}{"{}\%02X"{}},\ cfg);\ \ \ \textcolor{comment}{//\ prints\ two\ hex\ digits}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}CONFIG\ register:\ 0x"{}});\ UART\_puts(tmp);\ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00235}00235\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00236}00236\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'N'}:\ \textcolor{comment}{//\ Print\ NRF24\ debug\ output}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \string^=\ \mbox{\hyperlink{admin_8h_ad5d05d8c156f18a819b22c97b2096241}{NRF24\_DEBUG\_OUT}};\ \textcolor{comment}{//\ toggle\ output\ on/off}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)nNRF24\ output\ =\ "{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_ad5d05d8c156f18a819b22c97b2096241}{NRF24\_DEBUG\_OUT}}\ ?\ \textcolor{stringliteral}{"{}ON\(\backslash\)r\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}OFF\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00241}00241\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00242}00242\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UART__keys_8c_source_l00243}00243\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,292 @@
+\doxysection{admin.\+c}
+\hypertarget{admin_8c_source}{}\label{admin_8c_source}\index{Core/MyApp/App/admin.c@{Core/MyApp/App/admin.c}}
+\mbox{\hyperlink{admin_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00028}00028\ \textcolor{preprocessor}{\#include\ "{}main.h"{}}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00029}00029\ \textcolor{preprocessor}{\#include\ "{}cmsis\_os.h"{}}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00030}00030\ \textcolor{preprocessor}{\#include\ "{}task.h"{}}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00031}00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{admin_8h}{admin.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00032}00032\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{NRF__driver_8h}{NRF\_driver.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00033}00033\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{GPS__Route__Setter_8h}{GPS\_Route\_Setter.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00036}\mbox{\hyperlink{admin_8c_a12914590e31661b0e85237aad859c6d6}{00036}}\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{admin_8c_a12914590e31661b0e85237aad859c6d6}{app\_name}}\ \ \ \ =\ \textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n===\ freeRTOS\_GPS\ 407\ ===\(\backslash\)r\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00037}\mbox{\hyperlink{admin_8c_aa4ffb2c1a26cc25e00186214c03a73a6}{00037}}\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{admin_8c_aa4ffb2c1a26cc25e00186214c03a73a6}{app\_nameLCD}}\ =\ \textcolor{stringliteral}{"{}freeRTOS\_GPS\ 407"{}};\ \textcolor{comment}{//\ max\ 16\ chars\ //\ user\ updated\ tot\ 32\ chars\ changed\ this\ in\ lcd.c}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00040}\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{00040}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ =\ \mbox{\hyperlink{admin_8h_aecec3b7ee8e67b05c23fe851e7115999}{DEBUG\_OUT\_NONE}};\(\backslash\)}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00043}\mbox{\hyperlink{admin_8c_a618e81754d5fcde12f47688e73f33350}{00043}}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{admin_8c_a618e81754d5fcde12f47688e73f33350}{NRF24\_new\_value}}\ =\ 0;\ \textcolor{comment}{//\ set\ to\ 1\ when\ new\ value\ is\ received}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00046}\mbox{\hyperlink{admin_8c_a93bac35e38487669b25b5653c3a1ebbf}{00046}}\ QueueHandle\_t\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a93bac35e38487669b25b5653c3a1ebbf}{hKey\_Queue}};}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00047}\mbox{\hyperlink{admin_8c_a1db415a0f7c5ecff145e4bb53cc54dbe}{00047}}\ QueueHandle\_t\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a1db415a0f7c5ecff145e4bb53cc54dbe}{hUART\_Queue}};\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00048}\mbox{\hyperlink{admin_8c_a77d12f838c966d96a18a31e503b7955c}{00048}}\ QueueHandle\_t\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a77d12f838c966d96a18a31e503b7955c}{hGPS\_Queue}};\ \ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00049}\mbox{\hyperlink{admin_8c_a011b1349f4d8c02977b852c7587f0581}{00049}}\ SemaphoreHandle\_t\ \ \ \ \ \mbox{\hyperlink{admin_8c_a011b1349f4d8c02977b852c7587f0581}{hLED\_Sem}};}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00050}\mbox{\hyperlink{admin_8c_ada55e3a3cc32b9d16e1bbc08d83431c9}{00050}}\ EventGroupHandle\_t\ \ \ \ \mbox{\hyperlink{admin_8c_ada55e3a3cc32b9d16e1bbc08d83431c9}{hKEY\_Event}};}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00051}\mbox{\hyperlink{admin_8c_af1a9410a47225cac12eb96a84b51b035}{00051}}\ TimerHandle\_t\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_af1a9410a47225cac12eb96a84b51b035}{hTimer1}};}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00052}\mbox{\hyperlink{admin_8c_a5f9ab1293c7ef76b78e15194fd04da8b}{00052}}\ SemaphoreHandle\_t\ \ \ \ \ \mbox{\hyperlink{admin_8c_a5f9ab1293c7ef76b78e15194fd04da8b}{hGPS\_Mutex}};\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00074}\mbox{\hyperlink{admin_8c_a3759c2b4aa705e22db51d0174f889570}{00074}}\ \mbox{\hyperlink{admin_8h_a7f8e353159968ff0f0becfe26d3bf630}{TASKDATA}}\ \mbox{\hyperlink{admin_8c_a3759c2b4aa705e22db51d0174f889570}{tasks}}[]\ =}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00075}00075\ \{}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00076}00076\ \textcolor{comment}{//\ function\ \ \ \ \ \ arg\ \ \ name\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stacksize\ (*\ 4\ =\ 32bit)\ \ \ \ \ priority}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00077}00077\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00078}00078\ \ \ \textcolor{comment}{//\ in\ ARM\_keys.c}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00079}00079\ \{\ \mbox{\hyperlink{admin_8h_a0c660e87fd3fb5216355c32e3a72f95e}{ARM\_keys\_IRQ}},\ NULL,\ .attr.name\ =\ \textcolor{stringliteral}{"{}ARM\_keys\_IRQ"{}},\ .attr.stack\_size\ =\ 600,\ .attr.priority\ =\ osPriorityNormal1\ \},}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00080}00080\ \{\ \mbox{\hyperlink{admin_8h_af21164a48742d972455d2ce8c6317262}{ARM\_keys\_task}},NULL,\ .attr.name\ =\ \textcolor{stringliteral}{"{}ARM\_keys\_task"{}},.attr.stack\_size\ =\ 600,\ .attr.priority\ =\ osPriorityNormal2\ \},}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00082}00082\ \ \ \textcolor{comment}{//\ UART\_keys.c}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00083}00083\ \{\ \mbox{\hyperlink{admin_8h_af42059fd155a512774c89e7fc38bc03c}{UART\_keys\_IRQ}},NULL,\ .attr.name\ =\ \textcolor{stringliteral}{"{}UART\_keys\_IRQ"{}},.attr.stack\_size\ =\ 600,\ .attr.priority\ =\ osPriorityBelowNormal5\ \},}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00084}00084\ \{\ \mbox{\hyperlink{admin_8h_af909ca669055035da2246051d81ae747}{UART\_menu}},\ \ \ \ NULL,\ .attr.name\ =\ \textcolor{stringliteral}{"{}UART\_menu"{}},\ \ \ \ .attr.stack\_size\ =\ 600,\ .attr.priority\ =\ osPriorityBelowNormal6\ \},}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00086}00086\ \ \ \textcolor{comment}{//\ gps.c}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00087}00087\ \{\ \mbox{\hyperlink{admin_8h_aa858cc1bd518e1f551603a78e90c53be}{GPS\_getNMEA}},\ \ NULL,\ .attr.name\ =\ \textcolor{stringliteral}{"{}GPS\_getNMEA"{}},\ \ .attr.stack\_size\ =\ 600,\ .attr.priority\ =\ osPriorityNormal2\ \},}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00089}00089\ \ \ \textcolor{comment}{//\ student.c}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00090}00090\ \{\ \mbox{\hyperlink{admin_8h_a23fe84bfb739ead3f3005b8378170b62}{Student\_task1}},NULL,\ .attr.name\ =\ \textcolor{stringliteral}{"{}Student\_task1"{}},.attr.stack\_size\ =\ 600,\ .attr.priority\ =\ osPriorityBelowNormal7\ \},}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00092}00092\ \ \ \textcolor{comment}{//\ ledjes.c}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00093}00093\ \ \ \textcolor{comment}{//\ NOTE:\ ledtasks\ 1\ \&\ 2\ moeten\ dezelfde\ priority\ hebben,\ anders\ 'sterft'\ de\ taak\ met\ de\ laagste\ priority}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00094}00094\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ wat\ wel\ kan:\ afdwingen\ dat\ taken\ aan\ de\ beurt\ komen\ door\ notifications,\ zie\ ledasks\ 3\ \&\ 4}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00095}00095\ \{\ \mbox{\hyperlink{admin_8h_a8fa46093b138efd9f745379e50aaebb1}{LED\_Task1}},\ \ \ \ NULL,\ .attr.name\ =\ \textcolor{stringliteral}{"{}LED\_Task1"{}},\ \ \ \ .attr.stack\_size\ =\ 450,\ .attr.priority\ =\ osPriorityBelowNormal4\ \},}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00096}00096\ \{\ \mbox{\hyperlink{admin_8h_aa6578679005e0ded1868835daa8fbede}{LED\_Task2}},\ \ \ \ NULL,\ .attr.name\ =\ \textcolor{stringliteral}{"{}LED\_Task2"{}},\ \ \ \ .attr.stack\_size\ =\ 450,\ .attr.priority\ =\ osPriorityBelowNormal4\ \},}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00097}00097\ \{\ \mbox{\hyperlink{admin_8h_a379c01dd4fb15e45ca6e00a95c761cc7}{LED\_Task3}},\ \ \ \ NULL,\ .attr.name\ =\ \textcolor{stringliteral}{"{}LED\_Task3"{}},\ \ \ \ .attr.stack\_size\ =\ 450,\ .attr.priority\ =\ osPriorityBelowNormal5\ \},}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00098}00098\ \{\ \mbox{\hyperlink{admin_8h_a549798a0f2a6d88c91a8297567a018c1}{LED\_Task4}},\ \ \ \ NULL,\ .attr.name\ =\ \textcolor{stringliteral}{"{}LED\_Task4"{}},\ \ \ \ .attr.stack\_size\ =\ 450,\ .attr.priority\ =\ osPriorityBelowNormal4\ \},}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00100}00100\ \ \ \textcolor{comment}{//\ NRF\ Driver}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00101}00101\ \{\ \mbox{\hyperlink{admin_8h_ac43aa7997511f82f9f390a9fd8b6d478}{NRF\_Driver}},\ \ \ \ NULL,\ .attr.name\ =\textcolor{stringliteral}{"{}GPS\_parser"{}},\ \ \ \ .attr.stack\_size\ =\ 600,\ .attr.priority\ =\ osPriorityBelowNormal7\ \},}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00103}00103\ \textcolor{comment}{//\ Route\ setter}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00104}00104\ \{\ \mbox{\hyperlink{admin_8h_aba588db1df75c5962e95e3a72baffa24}{Route\_Setter}},\ \ \ \ NULL,\ .attr.name\ =\textcolor{stringliteral}{"{}Route\_setter"{}},\ \ \ \ .attr.stack\_size\ =\ 1200,\ .attr.priority\ =\ osPriorityBelowNormal7\ \},}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00106}00106\ \ \ \textcolor{comment}{//\ deze\ laatste\ niet\ wissen,\ wordt\ gebruik\ als\ 'terminator'\ in\ for-\/loops}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00107}00107\ \{\ NULL,\ \ \ \ \ \ \ \ \ NULL,\ .attr.name\ =\ NULL,\ \ \ \ \ \ \ \ \ \ \ .attr.stack\_size\ =\ 0,\ \ \ \ \ \ \ .attr.priority\ =\ 0\ \}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00108}00108\ \};}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00126}\mbox{\hyperlink{admin_8c_a9dec45875121142b6466b9475691b40a}{00126}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{admin_8c_a9dec45875121142b6466b9475691b40a}{DisplayVersion}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00127}00127\ \{}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00128}00128\ \ \ \ \ \textcolor{keywordtype}{char}\ infobuf[100];}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00129}00129\ \ \ \ \ osVersion\_t\ osv;}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00131}00131\ \ \ \ \ \textcolor{keywordtype}{char}\ *functionality\ =}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00132}00132\ \textcolor{stringliteral}{"{}Deze\ applicatie\ laat\ verschillende\ FreeRTOS-\/mechanismen\ zien,\ zoals\ \(\backslash\)r\(\backslash\)n\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00133}00133\ \textcolor{stringliteral}{queues,\ notifications,\ eventgroups,\ mutex-\/semaphores,\ message-\/buffers,\ interrupt\ handling\ \(\backslash\)r\(\backslash\)n\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00134}00134\ \textcolor{stringliteral}{en\ hoe\ je\ makkelijk\ tasks\ aanmaakt\ (admin.c)\ en\ hoe\ je\ de\ bidirectionele\ omgang\ \(\backslash\)r\(\backslash\)n\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00135}00135\ \textcolor{stringliteral}{met\ de\ UART-\/comport\ gebruikt.\(\backslash\)r\(\backslash\)n\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00136}00136\ \textcolor{stringliteral}{Zie\ verder\ de\ Doxygen\ documentatie\ van\ de\ applicatie.\(\backslash\)r\(\backslash\)n\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00137}00137\ \textcolor{stringliteral}{Michiel\ Scager\ (update:\ april\ 2023)\(\backslash\)r\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00138}00138\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00139}00139\ \ \ \ \ LCD\_clear();}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00140}00140\ \ \ \ \ LCD\_puts(\mbox{\hyperlink{admin_8c_aa4ffb2c1a26cc25e00186214c03a73a6}{app\_nameLCD}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00142}00142\ \ \ \ \ UART\_puts(\mbox{\hyperlink{admin_8c_a12914590e31661b0e85237aad859c6d6}{app\_name}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00143}00143\ \ \ \ \ UART\_puts(functionality);}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00145}00145\ \ \ \ \ osKernelGetInfo(\&osv,\ infobuf,\ \textcolor{keyword}{sizeof}(infobuf));}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00146}00146\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)t-\/-\/-\/-\/-\/"{}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00147}00147\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)t"{}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(infobuf);}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00148}00148\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)tVersion:\ "{}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_putint(osv.kernel);}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00149}00149\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)tOS\ Timer\ freq\ (MHz):\ "{}}\ );\ UART\_putint(osKernelGetSysTimerFreq()/1000000);}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00150}00150\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)tOS\ Tick\ freq\ (Hz):\ "{}}\ );\ \ \ UART\_putint(osKernelGetTickFreq());}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00151}00151\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)t-\/-\/-\/-\/-\/\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00153}00153\ \ \ \ \ \mbox{\hyperlink{admin_8c_a93467475af28d4b75cafb508f95578bf}{DisplayMenu}}();}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00154}00154\ \}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00155}00155\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00162}\mbox{\hyperlink{admin_8c_a93467475af28d4b75cafb508f95578bf}{00162}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{admin_8c_a93467475af28d4b75cafb508f95578bf}{DisplayMenu}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00163}00163\ \{}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00164}00164\ \ \ \ \ \textcolor{keywordtype}{char}\ *menu\ =}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00165}00165\ \textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00166}00166\ \textcolor{stringliteral}{Menu:===============================================================\(\backslash\)r\(\backslash\)n\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00167}00167\ \textcolor{stringliteral}{key:\ function\(\backslash\)r\(\backslash\)n\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00168}00168\ \textcolor{stringliteral}{\ 0\ :\ [on/off]\ ALL\ TEST\ OUTPUT\(\backslash\)r\(\backslash\)n\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00169}00169\ \textcolor{stringliteral}{\ 1\ :\ [on/off]\ LEDS\ output\(\backslash\)r\(\backslash\)n\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00170}00170\ \textcolor{stringliteral}{\ 2\ :\ [on/off]\ ARM\_keys\ output\(\backslash\)r\(\backslash\)n\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00171}00171\ \textcolor{stringliteral}{\ 3\ :\ [on/off]\ UART\_keys\ output\(\backslash\)r\(\backslash\)n\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00172}00172\ \textcolor{stringliteral}{\ 4\ :\ [on/off]\ STUDENT\ output\(\backslash\)r\(\backslash\)n\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00173}00173\ \textcolor{stringliteral}{\ 5\ :\ [on/off]\ GPS\ output\(\backslash\)r\(\backslash\)n\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00174}00174\ \textcolor{stringliteral}{\ d\ :\ change\ DELAY\ time\ (default\ 200),\ eg.\ 'd,50'\(\backslash\)r\(\backslash\)n\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00175}00175\ \textcolor{stringliteral}{\ p\ :\ change\ TASK\ PRIORITY,\ eg.\ 'p,7,20'\ sets\ priority\ of\ task\ 7\ to\ 20\(\backslash\)r\(\backslash\)n\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00176}00176\ \textcolor{stringliteral}{\ t\ :\ display\ TASK\ DATA\ (number,\ priority,\ stack\ usage,\ status)\(\backslash\)r\(\backslash\)n\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00177}00177\ \textcolor{stringliteral}{\ s\ :\ start/stop\ TASK,\ eg.\ s,7\ starts\ or\ stops\ task\ 7\(\backslash\)r\(\backslash\)n\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00178}00178\ \textcolor{stringliteral}{=====================================================================\(\backslash\)r\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00180}00180\ \ \ \ \ UART\_puts(menu);}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00181}00181\ \}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00182}00182\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00183}00183\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00192}00192\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00193}00193\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00202}\mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{00202}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{keywordtype}{char}\ *msg)}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00203}00203\ \{}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00204}00204\ \ \ \ \ LCD\_puts(msg);}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00205}00205\ \ \ \ \ UART\_puts(msg);\ UART\_puts(\textcolor{stringliteral}{"{}.\ Application\ halted\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00206}00206\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00207}00207\ \ \ \ \ BUZZER\_put(1000);}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00208}00208\ \ \ \ \ vTaskSuspendAll();\ \textcolor{comment}{//\ stop\ alle\ tasks}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00209}00209\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00210}00210\ \ \ \ \ \textcolor{keywordflow}{while}\ (\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00211}00211\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00212}00212\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00213}00213\ \}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00215}00215\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00220}\mbox{\hyperlink{admin_8c_a183387e08a88262f831be8b883ce8754}{00220}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{admin_8c_a183387e08a88262f831be8b883ce8754}{CreateHandles}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00221}00221\ \{}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00222}00222\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(\mbox{\hyperlink{admin_8c_a011b1349f4d8c02977b852c7587f0581}{hLED\_Sem}}\ =\ xSemaphoreCreateMutex()))}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00223}00223\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Error\ hLED\_Sem"{}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00224}00224\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00225}00225\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(\mbox{\hyperlink{admin_8c_a1db415a0f7c5ecff145e4bb53cc54dbe}{hUART\_Queue}}\ =\ xQueueCreate(\mbox{\hyperlink{admin_8h_a18901836d92cf76a93826b9e1116292d}{QSIZE\_UART}},\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}))))}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00226}00226\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Error\ hUART\_Q"{}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00227}00227\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00228}00228\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(\mbox{\hyperlink{admin_8c_a77d12f838c966d96a18a31e503b7955c}{hGPS\_Queue}}\ =\ xQueueCreate(\mbox{\hyperlink{admin_8h_a40d33106a4ed541fd00a0f928caeee64}{GPS\_MAXLEN}},\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}))))}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00229}00229\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Error\ hGPS\_Q"{}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00231}00231\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(\mbox{\hyperlink{admin_8c_ada55e3a3cc32b9d16e1bbc08d83431c9}{hKEY\_Event}}\ =\ xEventGroupCreate()))}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00232}00232\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Error\ hLCD\_Event"{}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00233}00233\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00234}00234\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(\mbox{\hyperlink{admin_8c_af1a9410a47225cac12eb96a84b51b035}{hTimer1}}\ =\ xTimerCreate(\textcolor{stringliteral}{"{}Timer\_1"{}},\ pdMS\_TO\_TICKS(\mbox{\hyperlink{admin_8h_a13315792b47dcf5207ce4e06daeab518}{TIMER1\_DELAY}}),\ pdTRUE,\ 0,\ (TimerCallbackFunction\_t)\mbox{\hyperlink{admin_8c_a96c9e7d4608bbcbb1f89460ea7d8da6f}{Timer1\_Handler}})))}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00235}00235\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Error\ hTimer1"{}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00236}00236\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00237}00237\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(\mbox{\hyperlink{admin_8c_a5f9ab1293c7ef76b78e15194fd04da8b}{hGPS\_Mutex}}\ =\ xSemaphoreCreateMutex()))}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00238}00238\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Error\ hGPS\_Mutex"{}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00240}00240\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)rAll\ handles\ created\ successfully."{}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00241}00241\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00242}00242\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)rTimer\ set\ to:\ "{}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00243}00243\ \ \ \ \ UART\_putint((\textcolor{keywordtype}{int})\mbox{\hyperlink{admin_8h_a13315792b47dcf5207ce4e06daeab518}{TIMER1\_DELAY}});\ \textcolor{comment}{//\ (int)-\/cast\ is\ nodig!}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00244}00244\ \ \ \ \ xTimerStart(\mbox{\hyperlink{admin_8c_af1a9410a47225cac12eb96a84b51b035}{hTimer1}},\ 0);\ \textcolor{comment}{//\ start\ de\ timer...}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00245}00245\ \}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00246}00246\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00252}\mbox{\hyperlink{admin_8c_a96c9e7d4608bbcbb1f89460ea7d8da6f}{00252}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{admin_8c_a96c9e7d4608bbcbb1f89460ea7d8da6f}{Timer1\_Handler}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00253}00253\ \{}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00254}00254\ \ \ \ \ \textcolor{comment}{//\ HAL\_GPIO\_TogglePin(GPIOD,\ LEDBLUE);\ \ \ //\ turns\ led\ on/off}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00255}00255\ \}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00256}00256\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00257}00257\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00258}00258\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00259}00259\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00268}00268\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00269}00269\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00270}00270\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00277}\mbox{\hyperlink{admin_8c_a7f983159a50cdcaaad786c6c7a216cd9}{00277}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{admin_8c_a7f983159a50cdcaaad786c6c7a216cd9}{CreateTasks}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00278}00278\ \{}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00279}00279\ \ \ \ \ \mbox{\hyperlink{admin_8h_aa1b44409a93fa486a84d312252b5cf7c}{PTASKDATA}}\ ptd\ =\ \mbox{\hyperlink{admin_8c_a3759c2b4aa705e22db51d0174f889570}{tasks}};\ \textcolor{comment}{//\ tasks\ ==\ \&tasks[0]:\ both\ are\ addresses\ of\ first\ struct}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00280}00280\ \ \ \ \ vTaskSuspendAll();\ \textcolor{comment}{//\ zet\ de\ scheduler\ stil\ en\ dwing\ FreeRTOS\ om\ eerst\ alle\ taken\ te\ starten}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00281}00281\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00282}00282\ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ ptd-\/>\mbox{\hyperlink{structTaskData_a480fd8fbf96e415daf1428fbbcfffdfd}{func}}\ !=\ NULL;\ ptd++)\ \textcolor{comment}{//\ loopje\ zonder\ teller;\ gewoon\ de\ pointer\ steeds\ ophogen...}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00283}00283\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00284}00284\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)nCreated:\ "{}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00285}00285\ \ \ \ \ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)ptd-\/>\mbox{\hyperlink{structTaskData_a158302b7866c800c8bef26227e275d6b}{attr}}.name);}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00286}00286\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00287}00287\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ nb.\ kijk\ naar\ de\ haakjes\ van\ argument\ 3:\ het\ gaat\ om\ het\ adres\ van\ (structure\ attr).}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00288}00288\ \ \ \ \ \ \ \ \ ptd-\/>\mbox{\hyperlink{structTaskData_aac11dd095b7ef45ad8cc8f3c5c9fe7e3}{hTask}}\ =\ osThreadNew(ptd-\/>\mbox{\hyperlink{structTaskData_a480fd8fbf96e415daf1428fbbcfffdfd}{func}},\ ptd-\/>\mbox{\hyperlink{structTaskData_aa77988455b06d56b4b1b54b272efdbb1}{argument}},\ \&(ptd-\/>\mbox{\hyperlink{structTaskData_a158302b7866c800c8bef26227e275d6b}{attr}}));}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00289}00289\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00290}00290\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00291}00291\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00292}00292\ \ \ \ \ xTaskResumeAll();\ \ \ \textcolor{comment}{//\ start\ nu\ de\ scheduler:\ play\ ball}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00293}00293\ \ \ \ \ \mbox{\hyperlink{admin_8c_a8d78f01ecc2ff5ebf5c8c6450b175671}{DisplayTaskData}}();\ \ \textcolor{comment}{//\ display\ alle\ taskdata\ op\ UART}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00294}00294\ \}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00295}00295\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00296}00296\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00304}\mbox{\hyperlink{admin_8c_abb419791c78bd67bbea178c06a96f684}{00304}}\ osThreadId\_t\ \mbox{\hyperlink{admin_8c_abb419791c78bd67bbea178c06a96f684}{GetTaskhandle}}(\textcolor{keywordtype}{char}\ *taskname)}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00305}00305\ \{}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00306}00306\ \ \ \ \ \mbox{\hyperlink{admin_8h_aa1b44409a93fa486a84d312252b5cf7c}{PTASKDATA}}\ ptd\ =\ \mbox{\hyperlink{admin_8c_a3759c2b4aa705e22db51d0174f889570}{tasks}};}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00307}00307\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00308}00308\ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ ptd-\/>\mbox{\hyperlink{structTaskData_a480fd8fbf96e415daf1428fbbcfffdfd}{func}}\ !=\ NULL;\ ptd++)}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00309}00309\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!strcmp(taskname,\ ptd-\/>\mbox{\hyperlink{structTaskData_a158302b7866c800c8bef26227e275d6b}{attr}}.name))}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (ptd-\/>\mbox{\hyperlink{structTaskData_aac11dd095b7ef45ad8cc8f3c5c9fe7e3}{hTask}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00311}00311\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00312}00312\ \ \ \ \ \textcolor{keywordflow}{return}\ (NULL);\ \textcolor{comment}{//\ if\ task\ was\ not\ found...}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00313}00313\ \}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00314}00314\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00315}00315\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00325}\mbox{\hyperlink{admin_8c_a08f97e6c32e65d04aa2425dadff927e1}{00325}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{admin_8c_a08f97e6c32e65d04aa2425dadff927e1}{SetTaskPriority}}(\textcolor{keywordtype}{int}\ task\_id,\ \textcolor{keywordtype}{int}\ new\_priority)}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00326}00326\ \{}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00327}00327\ \ \ \ \ \mbox{\hyperlink{admin_8h_aa1b44409a93fa486a84d312252b5cf7c}{PTASKDATA}}\ ptd\ =\ \mbox{\hyperlink{admin_8c_a3759c2b4aa705e22db51d0174f889570}{tasks}};}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00328}00328\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ task\_nr;}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00329}00329\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00330}00330\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00331}00331\ \ \ \ \ \textcolor{keywordflow}{for}\ (task\_nr\ =\ 1;\ ptd-\/>\mbox{\hyperlink{structTaskData_a480fd8fbf96e415daf1428fbbcfffdfd}{func}}\ !=\ NULL;\ ptd++,\ task\_nr++)}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00332}00332\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (task\_nr\ ==\ task\_id)\ \textcolor{comment}{//\ hebbes}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00333}00333\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00334}00334\ \ \ \ \ \ \ \ \ \ \ \ \ ptd-\/>\mbox{\hyperlink{structTaskData_a158302b7866c800c8bef26227e275d6b}{attr}}.priority\ =\ new\_priority;\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ struct-\/member}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00335}00335\ \ \ \ \ \ \ \ \ \ \ \ \ vTaskPrioritySet(ptd-\/>\mbox{\hyperlink{structTaskData_aac11dd095b7ef45ad8cc8f3c5c9fe7e3}{hTask}},\ new\_priority);\ \textcolor{comment}{//\ taskpriority}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ of}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ osThreadSetPriority(ptd-\/>hTask,\ new\_priority);}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00338}00338\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)nSet\ task\ "{}});\ UART\_puts(ptd-\/>\mbox{\hyperlink{structTaskData_a158302b7866c800c8bef26227e275d6b}{attr}}.name);}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}'s\ priority\ to:\ "{}});\ UART\_putint(new\_priority);}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00342}00342\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00343}00343\ \}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00344}00344\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00345}00345\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00353}\mbox{\hyperlink{admin_8c_a3c09afd4e5fad01fc4adbb0c77ecbd6d}{00353}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{admin_8c_a3c09afd4e5fad01fc4adbb0c77ecbd6d}{StartStopTask}}(\textcolor{keywordtype}{int}\ task\_id)}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00354}00354\ \{}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00355}00355\ \ \ \ \ \mbox{\hyperlink{admin_8h_aa1b44409a93fa486a84d312252b5cf7c}{PTASKDATA}}\ ptd\ =\ \mbox{\hyperlink{admin_8c_a3759c2b4aa705e22db51d0174f889570}{tasks}};}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00356}00356\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ task\_nr;}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00357}00357\ \ \ \ \ TaskStatus\_t\ \ \ \ xTaskDetails;}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00358}00358\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00359}00359\ \ \ \ \ \textcolor{keywordflow}{for}\ (task\_nr\ =\ 1;\ ptd-\/>\mbox{\hyperlink{structTaskData_a480fd8fbf96e415daf1428fbbcfffdfd}{func}}\ !=\ NULL;\ ptd++,\ task\_nr++)}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00360}00360\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (task\_nr\ ==\ task\_id)\ \textcolor{comment}{//\ hebbes}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00361}00361\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00362}00362\ \ \ \ \ \ \ \ \ \ \ \ \ vTaskGetInfo\ (ptd-\/>\mbox{\hyperlink{structTaskData_aac11dd095b7ef45ad8cc8f3c5c9fe7e3}{hTask}},\ \&xTaskDetails,\ pdTRUE,\ eInvalid);}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00363}00363\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00364}00364\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(ptd-\/>\mbox{\hyperlink{structTaskData_a158302b7866c800c8bef26227e275d6b}{attr}}.name);}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00365}00365\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ een\ task\ kan\ meerdere\ statussen\ hebben;\ het\ wordt\ simpeler}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ als\ je\ alleen\ de\ eSuspended\ checkt.}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (xTaskDetails.eCurrentState\ ==\ eSuspended)}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00369}00369\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00370}00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vTaskResume(ptd-\/>\mbox{\hyperlink{structTaskData_aac11dd095b7ef45ad8cc8f3c5c9fe7e3}{hTask}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00371}00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\ resumed."{}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00372}00372\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00373}00373\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{comment}{//\ bv.\ eBlocked,\ eRunning,\ eInvalid\ etc.}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00374}00374\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00375}00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vTaskSuspend(ptd-\/>\mbox{\hyperlink{structTaskData_aac11dd095b7ef45ad8cc8f3c5c9fe7e3}{hTask}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\ suspended."{}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00378}00378\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00379}00379\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00380}00380\ \}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00381}00381\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00382}00382\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00387}\mbox{\hyperlink{admin_8c_a8d78f01ecc2ff5ebf5c8c6450b175671}{00387}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{admin_8c_a8d78f01ecc2ff5ebf5c8c6450b175671}{DisplayTaskData}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00388}00388\ \{}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00389}00389\ \ \ \ \ \mbox{\hyperlink{admin_8h_aa1b44409a93fa486a84d312252b5cf7c}{PTASKDATA}}\ \ \ \ ptd\ =\ \mbox{\hyperlink{admin_8c_a3759c2b4aa705e22db51d0174f889570}{tasks}};}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00390}00390\ \ \ \ \ UBaseType\_t\ \ highwatermark;}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00391}00391\ \ \ \ \ TaskStatus\_t\ xTaskDetails;}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00392}00392\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ free,\ totalalloc\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00393}00393\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00394}00394\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ task\_nr;\ \textcolor{comment}{//\ tasknr\ for\ changing\ priority}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00395}00395\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00396}00396\ \ \ \ \ \textcolor{keywordflow}{for}\ (task\_nr=1;\ ptd-\/>\mbox{\hyperlink{structTaskData_a480fd8fbf96e415daf1428fbbcfffdfd}{func}}\ !=\ NULL;\ ptd++,\ task\_nr++)}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00397}00397\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00398}00398\ \ \ \ \ \ \ \ \ highwatermark\ =\ uxTaskGetStackHighWaterMark(ptd-\/>\mbox{\hyperlink{structTaskData_aac11dd095b7ef45ad8cc8f3c5c9fe7e3}{hTask}});\ \ \ \textcolor{comment}{//\ amount\ of\ free\ bytes}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00399}00399\ \ \ \ \ \ \ \ \ free\ =\ (highwatermark\ *\ 100)\ /\ ptd-\/>\mbox{\hyperlink{structTaskData_a158302b7866c800c8bef26227e275d6b}{attr}}.stack\_size;\ \ \ \ \ \ \ \ \textcolor{comment}{//\ in\ percentage}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00400}00400\ \ \ \ \ \ \ \ \ totalalloc\ +=\ ptd-\/>\mbox{\hyperlink{structTaskData_a158302b7866c800c8bef26227e275d6b}{attr}}.stack\_size;}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00401}00401\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00402}00402\ \ \ \ \ \ \ \ \ vTaskGetInfo\ (ptd-\/>\mbox{\hyperlink{structTaskData_aac11dd095b7ef45ad8cc8f3c5c9fe7e3}{hTask}},\ \&xTaskDetails,\ pdTRUE,\ eInvalid);\ \textcolor{comment}{//\ get\ task\ status}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00403}00403\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00404}00404\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)t["{}});\ \ \ \ \ \ \ \ UART\_putint(task\_nr);\ UART\_puts(\textcolor{stringliteral}{"{}]\ "{}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00405}00405\ \ \ \ \ \ \ \ \ UART\_puts(ptd-\/>\mbox{\hyperlink{structTaskData_a158302b7866c800c8bef26227e275d6b}{attr}}.name);}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00406}00406\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)t\ priority:\ "{}});\ \ UART\_putint(ptd-\/>\mbox{\hyperlink{structTaskData_a158302b7866c800c8bef26227e275d6b}{attr}}.priority);}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00407}00407\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)t\ stacksize:\ "{}});\ UART\_putint(ptd-\/>\mbox{\hyperlink{structTaskData_a158302b7866c800c8bef26227e275d6b}{attr}}.stack\_size\ *\ 4);}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00408}00408\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)t\ free:\ "{}});\ \ UART\_putint(highwatermark*4);}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00409}00409\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)t\ used:\ "{}});\ \ \ \ \ \ UART\_putint(100\ -\/\ free);\ UART\_puts(\textcolor{stringliteral}{"{}\%"{}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00410}00410\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)t\ status:\ "{}});\ \ \ \ UART\_puts(xTaskDetails.eCurrentState\ ==\ eSuspended\ ?\ \textcolor{stringliteral}{"{}suspended"{}}:\ \textcolor{stringliteral}{"{}running"{}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00411}00411\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00412}00412\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)tTotal\ heap:\ "{}});\ UART\_putint(configTOTAL\_HEAP\_SIZE);}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00413}00413\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\ \ \ \ Allocated\ task\ stack:\ "{}});\ UART\_putint(totalalloc\ *\ 4);}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00414}00414\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\ \ \ \ Free\ heap\ space:\ "{}});\ UART\_putint(configTOTAL\_HEAP\_SIZE\ -\/\ (totalalloc\ *\ 4));}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00415}00415\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00416}00416\ \}}
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00417}00417\ }
+\DoxyCodeLine{\Hypertarget{admin_8c_source_l00418}00418\ }
+
+\end{DoxyCode}

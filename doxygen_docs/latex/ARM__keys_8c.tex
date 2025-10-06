@@ -1,0 +1,203 @@
+\doxysection{Core/\+My\+App/\+App/\+ARM\+\_\+keys.c File Reference}
+\hypertarget{ARM__keys_8c}{}\label{ARM__keys_8c}\index{Core/MyApp/App/ARM\_keys.c@{Core/MyApp/App/ARM\_keys.c}}
+
+
+Behandelt de communicatie met de ARM-\/toetsjes met\+: Eventgroups, Task\+Notify, Interrupt-\/handling.~\newline
+ {\bfseries{Demonstreert\+: x\+Event\+Group\+Wait\+Bits(), x\+Task\+Get\+Handle(), x\+Task\+Notify(), x\+Task\+Notify\+Wait(),x\+Semaphoregive(), x\+Semaphore\+Take(). }}~\newline
+  
+
+
+{\ttfamily \#include $<$admin.\+h$>$}\newline
+{\ttfamily \#include "{}main.\+h"{}}\newline
+{\ttfamily \#include "{}cmsis\+\_\+os.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{ARM__keys_8c_a38598fd3a3a66db7e4617f5d6d01749b}{ARM\+\_\+keys\+\_\+\+IRQ}} (void \texorpdfstring{$\ast$}{*}argument)
+\begin{DoxyCompactList}\small\item\em Deze task handelt de ARM-\/toets af, die ontvangen is van de ISR-\/handler (zie\+: stm32f4xx\+\_\+it.\+c). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{ARM__keys_8c_a877687ff1bd562c855d11d4941cd966d}{ARM\+\_\+keys\+\_\+task}} (void \texorpdfstring{$\ast$}{*}argument)
+\begin{DoxyCompactList}\small\item\em Task krijgt ARM-\/key met notificatie binnen, en zet ledjes op die waarde. Ook de gekleurde ledjes (behalve blauw, die wordt door de timer gebruikt) krijgen een schwung... \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{ARM__keys_8c_a1fd0008123c48c14439411716629af5a}{toggle\+\_\+led}} (uint32\+\_\+t color)
+\begin{DoxyCompactList}\small\item\em Zet een kleurenledje aan en uit. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Behandelt de communicatie met de ARM-\/toetsjes met\+: Eventgroups, Task\+Notify, Interrupt-\/handling.~\newline
+ {\bfseries{Demonstreert\+: x\+Event\+Group\+Wait\+Bits(), x\+Task\+Get\+Handle(), x\+Task\+Notify(), x\+Task\+Notify\+Wait(),x\+Semaphoregive(), x\+Semaphore\+Take(). }}~\newline
+ 
+
+Aan de ARM-\/keys is een interrupt gekoppeld (zie stm32f4xx\+\_\+it.\+c). Die stuurt een event door die opgevangen wordt door task \doxylink{ARM__keys_8c_a38598fd3a3a66db7e4617f5d6d01749b}{ARM\+\_\+keys\+\_\+\+IRQ()}. \begin{DoxyAuthor}{Author}
+MSC
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+5/5/2022 
+\end{DoxyDate}
+
+
+Definition in file \mbox{\hyperlink{ARM__keys_8c_source}{ARM\+\_\+keys.\+c}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{ARM__keys_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{ARM__keys_8c_a38598fd3a3a66db7e4617f5d6d01749b}\index{ARM\_keys.c@{ARM\_keys.c}!ARM\_keys\_IRQ@{ARM\_keys\_IRQ}}
+\index{ARM\_keys\_IRQ@{ARM\_keys\_IRQ}!ARM\_keys.c@{ARM\_keys.c}}
+\doxysubsubsection{\texorpdfstring{ARM\_keys\_IRQ()}{ARM\_keys\_IRQ()}}
+{\footnotesize\ttfamily \label{ARM__keys_8c_a38598fd3a3a66db7e4617f5d6d01749b} 
+void ARM\+\_\+keys\+\_\+\+IRQ (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argument}{}\end{DoxyParamCaption})}
+
+
+
+Deze task handelt de ARM-\/toets af, die ontvangen is van de ISR-\/handler (zie\+: stm32f4xx\+\_\+it.\+c). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \texorpdfstring{$\ast$}{*}argument} & Niet gebruikt, eventueel een waarde of string om te testen \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{ARM__keys_8c_source_l00036}{36}} of file \mbox{\hyperlink{ARM__keys_8c_source}{ARM\+\_\+keys.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00037\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ key;}
+\DoxyCodeLine{00039\ \ \ \ \ osThreadId\_t\ hTask;}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});\ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}\ started"{}});}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(hTask\ =\ xTaskGetHandle(\textcolor{stringliteral}{"{}ARM\_keys\_task"{}})))}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Err:ARM\_hndle"{}});}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordflow}{while}\ (1)}
+\DoxyCodeLine{00047\ \ \ \ \ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ wait\ for\ ISR\ (EXTI0\_IRQHandler())\ to\ signal\ that\ a\ key\ is\ pressed}}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ key\ =\ xEventGroupWaitBits(\mbox{\hyperlink{admin_8c_ada55e3a3cc32b9d16e1bbc08d83431c9}{hKEY\_Event}},\ 0xffff,\ pdTRUE,\ pdFALSE,\ portMAX\_DELAY\ );}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ xTaskNotify(hTask,\ key,\ eSetValueWithOverwrite);\ \textcolor{comment}{//\ notify\ task2\ with\ value}}
+\DoxyCodeLine{00052\ \ \ \ \ \}}
+\DoxyCodeLine{00053\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{admin_8c_source_l00202}{error\+\_\+\+Halt\+OS()}}, and \mbox{\hyperlink{admin_8c_source_l00050}{h\+KEY\+\_\+\+Event}}.
+
+\Hypertarget{ARM__keys_8c_a877687ff1bd562c855d11d4941cd966d}\index{ARM\_keys.c@{ARM\_keys.c}!ARM\_keys\_task@{ARM\_keys\_task}}
+\index{ARM\_keys\_task@{ARM\_keys\_task}!ARM\_keys.c@{ARM\_keys.c}}
+\doxysubsubsection{\texorpdfstring{ARM\_keys\_task()}{ARM\_keys\_task()}}
+{\footnotesize\ttfamily \label{ARM__keys_8c_a877687ff1bd562c855d11d4941cd966d} 
+void ARM\+\_\+keys\+\_\+task (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argument}{}\end{DoxyParamCaption})}
+
+
+
+Task krijgt ARM-\/key met notificatie binnen, en zet ledjes op die waarde. Ook de gekleurde ledjes (behalve blauw, die wordt door de timer gebruikt) krijgen een schwung... 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \texorpdfstring{$\ast$}{*}argument} & Niet gebruikt, eventueel een waarde of string om te testen. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{ARM__keys_8c_source_l00063}{63}} of file \mbox{\hyperlink{ARM__keys_8c_source}{ARM\+\_\+keys.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00064\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ uint32\_t\ \ \ \ \ key;}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ i,\ led;}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
+\DoxyCodeLine{00069\ \ \ \ \ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ WAITING\ FOR\ users\ key}}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ xTaskNotifyWait\ (0x00,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Don't\ clear\ any\ notification\ bits\ on\ entry.}}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0xffffffff,\ \ \ \ \ \ \ \ \textcolor{comment}{//\ ULONG\_MAX,\ reset\ the\ notification\ value\ to\ 0\ on\ exit.}}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&key,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Notified\ value.}}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ portMAX\_DELAY);\ \ \ \ \textcolor{comment}{//\ Block\ indefinitely.}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ xSemaphoreTake(\mbox{\hyperlink{admin_8c_a011b1349f4d8c02977b852c7587f0581}{hLED\_Sem}},\ portMAX\_DELAY);\ \textcolor{comment}{//\ krijg\ toegang\ (mutex)\ tot\ leds}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ LED\_put((\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char})key);\ \textcolor{comment}{//\ set\ 8\ leds-\/byte\ to\ key-\/value}}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ BUZZER\_put\ (500);}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ osDelay(500);}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)tARM\_key\ pressed\ to\ leds:\ "{}});\ UART\_putint(key);}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_ae2de7e45f2168abc45779a2d5dce35e2}{ARMKEYS\_DEBUG\_OUT}})}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)tARM\_key\ pressed\ to\ leds:\ "{}});\ UART\_putint(key);}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ xSemaphoreGive(\mbox{\hyperlink{admin_8c_a011b1349f4d8c02977b852c7587f0581}{hLED\_Sem}});\ \textcolor{comment}{//\ geef\ toegang\ (mutex)\ vrij}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ tot\ slot,\ laat\ de\ gekleurde\ ledjes\ meedoen}}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ maar\ niet\ blauw,\ want\ die\ is\ ingezet\ voor\ de\ timer}}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ kijk\ naar\ de\ manier\ waarop\ de\ if-\/elses\ er\ uitzien}}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (i=0;\ i<3;\ i++)}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ led\ =\ (i==0\ ?\ \mbox{\hyperlink{admin_8h_a4a865d371e7fdede347031acef7248a1}{LEDRED}}\ :\ (i==1\ ?\ \mbox{\hyperlink{admin_8h_a997de867fda1d8d8774cda7ef97c6f9d}{LEDORANGE}}\ :\ \mbox{\hyperlink{admin_8h_a5cd9ee80876b12602eb666a07b9cfe50}{LEDGREEN}}));}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ARM__keys_8c_a1fd0008123c48c14439411716629af5a}{toggle\_led}}(led);}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Also\ notify\ the\ Route\_Setter\ task\ so\ it\ can\ act\ on\ this\ key\ press.}}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Using\ a\ direct\ task\ notification\ avoids\ races\ that\ happen\ when\ multiple}}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ consumers\ try\ to\ read\ the\ shared\ event\ group\ bits.}}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ osThreadId\_t\ hRoute\ =\ \mbox{\hyperlink{admin_8c_abb419791c78bd67bbea178c06a96f684}{GetTaskhandle}}(\textcolor{stringliteral}{"{}Route\_setter"{}});}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (hRoute)}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ xTaskNotify(hRoute,\ key,\ eSetValueWithOverwrite);}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ taskYIELD();\ \textcolor{comment}{//\ done,\ force\ context\ switch}}
+\DoxyCodeLine{00110\ \ \ \ \ \}}
+\DoxyCodeLine{00111\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{admin_8h_source_l00079}{ARMKEYS\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{admin_8c_source_l00304}{Get\+Taskhandle()}}, \mbox{\hyperlink{admin_8c_source_l00049}{h\+LED\+\_\+\+Sem}}, \mbox{\hyperlink{admin_8h_source_l00096}{LEDGREEN}}, \mbox{\hyperlink{admin_8h_source_l00100}{LEDORANGE}}, \mbox{\hyperlink{admin_8h_source_l00098}{LEDRED}}, \mbox{\hyperlink{ARM__keys_8c_source_l00023}{toggle\+\_\+led()}}, \mbox{\hyperlink{admin_8h_source_l00023}{TRUE}}, and \mbox{\hyperlink{admin_8c_source_l00040}{Uart\+\_\+debug\+\_\+out}}.
+
+\Hypertarget{ARM__keys_8c_a1fd0008123c48c14439411716629af5a}\index{ARM\_keys.c@{ARM\_keys.c}!toggle\_led@{toggle\_led}}
+\index{toggle\_led@{toggle\_led}!ARM\_keys.c@{ARM\_keys.c}}
+\doxysubsubsection{\texorpdfstring{toggle\_led()}{toggle\_led()}}
+{\footnotesize\ttfamily \label{ARM__keys_8c_a1fd0008123c48c14439411716629af5a} 
+void toggle\+\_\+led (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{color}{}\end{DoxyParamCaption})}
+
+
+
+Zet een kleurenledje aan en uit. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & De kleur. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{ARM__keys_8c_source_l00023}{23}} of file \mbox{\hyperlink{ARM__keys_8c_source}{ARM\+\_\+keys.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00024\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ HAL\_GPIO\_TogglePin(GPIOD,\ color);\ \ \ \textcolor{comment}{//\ turns\ led\ on\ or\ off}}
+\DoxyCodeLine{00026\ \ \ \ \ osDelay(20);}
+\DoxyCodeLine{00027\ \ \ \ \ HAL\_GPIO\_TogglePin(GPIOD,\ color);\ \ \ \textcolor{comment}{//\ turns\ led\ on\ or\ off}}
+\DoxyCodeLine{00028\ \}}
+
+\end{DoxyCode}
+
+
+Referenced by \mbox{\hyperlink{ARM__keys_8c_source_l00063}{ARM\+\_\+keys\+\_\+task()}}.
+

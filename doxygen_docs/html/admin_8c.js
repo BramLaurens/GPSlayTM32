@@ -1,0 +1,25 @@
+var admin_8c =
+[
+    [ "CreateHandles", "admin_8c.html#a183387e08a88262f831be8b883ce8754", null ],
+    [ "CreateTasks", "admin_8c.html#a7f983159a50cdcaaad786c6c7a216cd9", null ],
+    [ "DisplayMenu", "admin_8c.html#a93467475af28d4b75cafb508f95578bf", null ],
+    [ "DisplayTaskData", "admin_8c.html#a8d78f01ecc2ff5ebf5c8c6450b175671", null ],
+    [ "DisplayVersion", "admin_8c.html#a9dec45875121142b6466b9475691b40a", null ],
+    [ "error_HaltOS", "admin_8c.html#a34a9c5eb09cae80d85d5d13a348ee1e8", null ],
+    [ "GetTaskhandle", "admin_8c.html#abb419791c78bd67bbea178c06a96f684", null ],
+    [ "SetTaskPriority", "admin_8c.html#a08f97e6c32e65d04aa2425dadff927e1", null ],
+    [ "StartStopTask", "admin_8c.html#a3c09afd4e5fad01fc4adbb0c77ecbd6d", null ],
+    [ "Timer1_Handler", "admin_8c.html#a96c9e7d4608bbcbb1f89460ea7d8da6f", null ],
+    [ "app_name", "admin_8c.html#a12914590e31661b0e85237aad859c6d6", null ],
+    [ "app_nameLCD", "admin_8c.html#aa4ffb2c1a26cc25e00186214c03a73a6", null ],
+    [ "hGPS_Mutex", "admin_8c.html#a5f9ab1293c7ef76b78e15194fd04da8b", null ],
+    [ "hGPS_Queue", "admin_8c.html#a77d12f838c966d96a18a31e503b7955c", null ],
+    [ "hKEY_Event", "admin_8c.html#ada55e3a3cc32b9d16e1bbc08d83431c9", null ],
+    [ "hKey_Queue", "admin_8c.html#a93bac35e38487669b25b5653c3a1ebbf", null ],
+    [ "hLED_Sem", "admin_8c.html#a011b1349f4d8c02977b852c7587f0581", null ],
+    [ "hTimer1", "admin_8c.html#af1a9410a47225cac12eb96a84b51b035", null ],
+    [ "hUART_Queue", "admin_8c.html#a1db415a0f7c5ecff145e4bb53cc54dbe", null ],
+    [ "NRF24_new_value", "admin_8c.html#a618e81754d5fcde12f47688e73f33350", null ],
+    [ "tasks", "admin_8c.html#a3759c2b4aa705e22db51d0174f889570", null ],
+    [ "Uart_debug_out", "admin_8c.html#a952449da34b356e2651de547daf4312c", null ]
+];

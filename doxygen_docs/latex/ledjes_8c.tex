@@ -1,0 +1,322 @@
+\doxysection{Core/\+My\+App/\+App/ledjes.c File Reference}
+\hypertarget{ledjes_8c}{}\label{ledjes_8c}\index{Core/MyApp/App/ledjes.c@{Core/MyApp/App/ledjes.c}}
+
+
+Laat de werking van mutexes en tasknotification zien.~\newline
+ {\bfseries{Demonstreert\+: , x\+Semaphore\+Take(), x\+Semaphore\+Give(), x\+Task\+Notify\+Give(), ul\+Task\+Notify\+Take(), task\+YIELD().}}~\newline
+  
+
+
+{\ttfamily \#include $<$admin.\+h$>$}\newline
+{\ttfamily \#include "{}main.\+h"{}}\newline
+{\ttfamily \#include "{}cmsis\+\_\+os.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{ledjes_8c_aaf63dace9f7f47a694f8950fbe086df3}{LED\+\_\+\+Task1}} (void \texorpdfstring{$\ast$}{*}argument)
+\begin{DoxyCompactList}\small\item\em Tasks die ledjes manipuleren nadat ze eerst afgeschermd zijn met mutex semaphores. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{ledjes_8c_a827d2f52992b1ba443aabe4ee4cbc89d}{LED\+\_\+\+Task2}} (void \texorpdfstring{$\ast$}{*}argument)
+\begin{DoxyCompactList}\small\item\em Tasks die ledjes manipuleren nadat ze eerst afgeschermd zijn met mutex semaphores. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{ledjes_8c_ad23f4088808e5ccc47e28a69fdf155e6}{LED\+\_\+\+Task3}} (void \texorpdfstring{$\ast$}{*}argument)
+\begin{DoxyCompactList}\small\item\em Tasks die ledjes manipuleren nadat ze eerst afgeschermd zijn met mutex semaphores. Task 3 en 4 werken daarnaast nog met tasknotification. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{ledjes_8c_a46ab630af9d7344d8968a7874ec71578}{LED\+\_\+\+Task4}} (void \texorpdfstring{$\ast$}{*}argument)
+\begin{DoxyCompactList}\small\item\em Tasks die ledjes manipuleren nadat ze eerst afgeschermd zijn met mutex semaphores. Task 3 en 4 werken daarnaast nog met tasknotification. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+unsigned int \mbox{\hyperlink{ledjes_8c_ac0e8ff7c2f49b0988165336ca423dcea}{os\+\_\+delay}} = 100
+\begin{DoxyCompactList}\small\item\em default value 100MSEC, kan veranderd worden via Terminal (user interface) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Laat de werking van mutexes en tasknotification zien.~\newline
+ {\bfseries{Demonstreert\+: , x\+Semaphore\+Take(), x\+Semaphore\+Give(), x\+Task\+Notify\+Give(), ul\+Task\+Notify\+Take(), task\+YIELD().}}~\newline
+ 
+
+\doxylink{ledjes_8c_aaf63dace9f7f47a694f8950fbe086df3}{LED\+\_\+\+Task1()}, \doxylink{ledjes_8c_a827d2f52992b1ba443aabe4ee4cbc89d}{LED\+\_\+\+Task2()}, \doxylink{ledjes_8c_ad23f4088808e5ccc47e28a69fdf155e6}{LED\+\_\+\+Task3()} en \doxylink{ledjes_8c_a46ab630af9d7344d8968a7874ec71578}{LED\+\_\+\+Task4()} tonen het mutual exclusion semaphore principe. ~\newline
+ Allemaal zetten ze de LEDs op een bepaalde manier aan en uit. {\itshape Doordat ze een semaphore gebruiken kunnen ze allemaal hun eigen loepje afmaken, zonder dat ze door een context switch onderbroken worden}. De semaphore zorgt ervoor dat ze steeds even zelf eigenaar zijn van de LEDs, en zolang ze de semaphore bezitten worden andere taken uitgesloten (hence\+: {\itshape Mutual Exclusion Semaphore}). Ze krijgen dan pas de beurt als de task die de mutex bezit, deze vrijgeeft (met semaphoregive). LED\+\_\+tasks 1 en 2 werken met het Round Robin principe. Dat kan door ze dezelfde prioriteit te geven.~\newline
+
+
+Stel, je wilt dat niet, dan moet je iets anders verzinnen, zie \doxylink{ledjes_8c_ad23f4088808e5ccc47e28a69fdf155e6}{LED\+\_\+\+Task3()} en \doxylink{ledjes_8c_a46ab630af9d7344d8968a7874ec71578}{LED\+\_\+\+Task4()}. Deze hebben een kleine toevoeging t.\+o.\+v. 1 en 2\+: Ze laten niet het OS bepalen wie aan de beurt is met Round Robin, maar bepalen het zelf met tasknotify! Ze geven steeds elkaar de beurt. Zo kun je werken met verschillende task-\/priorities, zonder dat tasks met een lage prioriteit \textquotesingle{}starven\textquotesingle{}, dus geen timeslices krijgen van het OS.~\newline
+ Want\+: Free\+RTOS bezit geen priority-\/inversion (u\+C//\+OSII bv. wel)! Daarbij gaat het OS een taak met een lage prioriteit die dreigt te \textquotesingle{}starven\textquotesingle{}, zelf ophogen zodat de taak wel aan de beurt komt.
+
+\begin{DoxyAuthor}{Author}
+MSC
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+5/5/2022 
+\end{DoxyDate}
+
+
+Definition in file \mbox{\hyperlink{ledjes_8c_source}{ledjes.\+c}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{ledjes_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{ledjes_8c_aaf63dace9f7f47a694f8950fbe086df3}\index{ledjes.c@{ledjes.c}!LED\_Task1@{LED\_Task1}}
+\index{LED\_Task1@{LED\_Task1}!ledjes.c@{ledjes.c}}
+\doxysubsubsection{\texorpdfstring{LED\_Task1()}{LED\_Task1()}}
+{\footnotesize\ttfamily \label{ledjes_8c_aaf63dace9f7f47a694f8950fbe086df3} 
+void LED\+\_\+\+Task1 (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argument}{}\end{DoxyParamCaption})}
+
+
+
+Tasks die ledjes manipuleren nadat ze eerst afgeschermd zijn met mutex semaphores. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \texorpdfstring{$\ast$}{*}argument} & Niet gebruikt, eventueel een waarde of string om te testen \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{ledjes_8c_source_l00044}{44}} of file \mbox{\hyperlink{ledjes_8c_source}{ledjes.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00045\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}\ started\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{int}\ i,\ leds;}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
+\DoxyCodeLine{00050\ \ \ \ \ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ xSemaphoreTake(\mbox{\hyperlink{admin_8c_a011b1349f4d8c02977b852c7587f0581}{hLED\_Sem}},\ portMAX\_DELAY);\ \textcolor{comment}{/*\ wacht\ op\ toegang\ tot\ de\ semaphore;}}
+\DoxyCodeLine{00052\ \textcolor{comment}{\ \ \ \ \ \ \ \ *\ de\ code\ hieronder\ wordt\ alleen\ uitgevoerd\ nadat\ ik\ de\ mutex\ heb\ gekregen.}}
+\DoxyCodeLine{00053\ \textcolor{comment}{\ \ \ \ \ \ \ \ *\ andere\ tasks\ die\ op\ deze\ mutex\ wachten,\ kunnen\ pas\ door\ nadat\ ik\ de\ mutex}}
+\DoxyCodeLine{00054\ \textcolor{comment}{\ \ \ \ \ \ \ \ *\ heb\ vrijgegeven\ met\ Give.}}
+\DoxyCodeLine{00055\ \textcolor{comment}{\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ leds\ =\ 128;\ \textcolor{comment}{//\ start\ at\ led\ nr.\ 8}}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (i=0;\ i<8;\ i++,\ leds>>=1)}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ LED\_put(leds);\ \textcolor{comment}{//\ set\ leds}}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ osDelay(\mbox{\hyperlink{ledjes_8c_ac0e8ff7c2f49b0988165336ca423dcea}{os\_delay}});}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_a367617a9804f8aeeb1b5b09d17af0d1a}{LEDS\_DEBUG\_OUT}})}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)nM1\ led:\ "{}});\ UART\_putint(leds);}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ xSemaphoreGive(\mbox{\hyperlink{admin_8c_a011b1349f4d8c02977b852c7587f0581}{hLED\_Sem}});\ \textcolor{comment}{//\ geef\ de\ semaphore\ weer\ vrij\ voor\ een\ ander}}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ taskYIELD();\ \textcolor{comment}{//\ done,\ force\ context\ switch,\ otherwise\ freeRTOS\ stays\ in\ this\ task}}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
+\DoxyCodeLine{00070\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{admin_8c_source_l00049}{h\+LED\+\_\+\+Sem}}, \mbox{\hyperlink{admin_8h_source_l00077}{LEDS\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{ledjes_8c_source_l00036}{os\+\_\+delay}}, \mbox{\hyperlink{admin_8h_source_l00023}{TRUE}}, and \mbox{\hyperlink{admin_8c_source_l00040}{Uart\+\_\+debug\+\_\+out}}.
+
+\Hypertarget{ledjes_8c_a827d2f52992b1ba443aabe4ee4cbc89d}\index{ledjes.c@{ledjes.c}!LED\_Task2@{LED\_Task2}}
+\index{LED\_Task2@{LED\_Task2}!ledjes.c@{ledjes.c}}
+\doxysubsubsection{\texorpdfstring{LED\_Task2()}{LED\_Task2()}}
+{\footnotesize\ttfamily \label{ledjes_8c_a827d2f52992b1ba443aabe4ee4cbc89d} 
+void LED\+\_\+\+Task2 (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argument}{}\end{DoxyParamCaption})}
+
+
+
+Tasks die ledjes manipuleren nadat ze eerst afgeschermd zijn met mutex semaphores. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \texorpdfstring{$\ast$}{*}argument} & Niet gebruikt, eventueel een waarde of string om te testen \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{ledjes_8c_source_l00077}{77}} of file \mbox{\hyperlink{ledjes_8c_source}{ledjes.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00078\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}\ started\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{int}\ i,\ leds;}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
+\DoxyCodeLine{00083\ \ \ \ \ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ xSemaphoreTake(\mbox{\hyperlink{admin_8c_a011b1349f4d8c02977b852c7587f0581}{hLED\_Sem}},\ portMAX\_DELAY);\ \textcolor{comment}{//\ wait\ to\ enter}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ leds\ =\ 1;}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (i=0;\ i<8;\ i++,\ leds<<=1)}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ LED\_put(leds);\ \textcolor{comment}{//\ set\ leds}}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ osDelay(\mbox{\hyperlink{ledjes_8c_ac0e8ff7c2f49b0988165336ca423dcea}{os\_delay}});}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_a367617a9804f8aeeb1b5b09d17af0d1a}{LEDS\_DEBUG\_OUT}})}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)tM2\ led:\ "{}});\ UART\_putint(leds);}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ xSemaphoreGive(\mbox{\hyperlink{admin_8c_a011b1349f4d8c02977b852c7587f0581}{hLED\_Sem}});\ \textcolor{comment}{//\ free\ mutex}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ taskYIELD();\ \textcolor{comment}{//\ done,\ force\ context\ switch,\ otherwise\ freeRTOS\ stays\ in\ this\ task}}
+\DoxyCodeLine{00098\ \ \ \ \ \}}
+\DoxyCodeLine{00099\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{admin_8c_source_l00049}{h\+LED\+\_\+\+Sem}}, \mbox{\hyperlink{admin_8h_source_l00077}{LEDS\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{ledjes_8c_source_l00036}{os\+\_\+delay}}, \mbox{\hyperlink{admin_8h_source_l00023}{TRUE}}, and \mbox{\hyperlink{admin_8c_source_l00040}{Uart\+\_\+debug\+\_\+out}}.
+
+\Hypertarget{ledjes_8c_ad23f4088808e5ccc47e28a69fdf155e6}\index{ledjes.c@{ledjes.c}!LED\_Task3@{LED\_Task3}}
+\index{LED\_Task3@{LED\_Task3}!ledjes.c@{ledjes.c}}
+\doxysubsubsection{\texorpdfstring{LED\_Task3()}{LED\_Task3()}}
+{\footnotesize\ttfamily \label{ledjes_8c_ad23f4088808e5ccc47e28a69fdf155e6} 
+void LED\+\_\+\+Task3 (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argument}{}\end{DoxyParamCaption})}
+
+
+
+Tasks die ledjes manipuleren nadat ze eerst afgeschermd zijn met mutex semaphores. Task 3 en 4 werken daarnaast nog met tasknotification. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \texorpdfstring{$\ast$}{*}argument} & Niet gebruikt, eventueel een waarde of string om te testen \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{ledjes_8c_source_l00107}{107}} of file \mbox{\hyperlink{ledjes_8c_source}{ledjes.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00108\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ i,\ leds;}
+\DoxyCodeLine{00110\ \ \ \ \ osThreadId\_t\ hTask4;}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(hTask4\ =\ xTaskGetHandle(\textcolor{stringliteral}{"{}LED\_Task4"{}})))}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Err:hTask4"{}});}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}\ started\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
+\DoxyCodeLine{00118\ \ \ \ \ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ xSemaphoreTake(\mbox{\hyperlink{admin_8c_a011b1349f4d8c02977b852c7587f0581}{hLED\_Sem}},\ portMAX\_DELAY);\ \textcolor{comment}{//\ wait\ to\ get\ in...}}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (i=0;\ i<4;\ i++)\ \textcolor{comment}{//\ voorbeeld\ hoe\ je\ je\ code\ zo\ overdraagbaar\ mogelijk\ maakt}}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \ \ \ \ \ (i==0)\ \ leds\ =\ 8+16;\ \textcolor{comment}{//\ zichtbaar:\ 1.\ waarde\ i,\ 2.\ welke\ leds\ aan\ gaan}}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (i==1)\ \ leds\ =\ 4+32;\ \textcolor{comment}{//\ ...\ had\ ook\ met\ switch-\/case\ gekund}}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (i==2)\ \ leds\ =\ 2+64;}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \ \ \ \ \ \ \ \ \ \ \ leds\ =\ 1+128;}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ LED\_put(leds);\ \ \ \ \ \textcolor{comment}{//\ set\ leds}}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ osDelay(\mbox{\hyperlink{ledjes_8c_ac0e8ff7c2f49b0988165336ca423dcea}{os\_delay}});\ \textcolor{comment}{//\ snelheid\ bepalen,\ kan\ veranderd\ worden\ via\ user\ interface}}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_a367617a9804f8aeeb1b5b09d17af0d1a}{LEDS\_DEBUG\_OUT}})}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)t\(\backslash\)tM3\ led:\ "{}});\ UART\_putint(leds);}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ xSemaphoreGive(\mbox{\hyperlink{admin_8c_a011b1349f4d8c02977b852c7587f0581}{hLED\_Sem}});\ \textcolor{comment}{//\ free\ mutex}}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ xTaskNotifyGive(hTask4);\ \textcolor{comment}{//\ give\ the\ ball\ to\ mutextask4}}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ osDelay(200);}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ ulTaskNotifyTake(pdTRUE,\ portMAX\_DELAY);\ \textcolor{comment}{//\ wait\ for\ task\ 4}}
+\DoxyCodeLine{00143\ \ \ \ \ \}}
+\DoxyCodeLine{00144\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{admin_8c_source_l00202}{error\+\_\+\+Halt\+OS()}}, \mbox{\hyperlink{admin_8c_source_l00049}{h\+LED\+\_\+\+Sem}}, \mbox{\hyperlink{admin_8h_source_l00077}{LEDS\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{ledjes_8c_source_l00036}{os\+\_\+delay}}, \mbox{\hyperlink{admin_8h_source_l00023}{TRUE}}, and \mbox{\hyperlink{admin_8c_source_l00040}{Uart\+\_\+debug\+\_\+out}}.
+
+\Hypertarget{ledjes_8c_a46ab630af9d7344d8968a7874ec71578}\index{ledjes.c@{ledjes.c}!LED\_Task4@{LED\_Task4}}
+\index{LED\_Task4@{LED\_Task4}!ledjes.c@{ledjes.c}}
+\doxysubsubsection{\texorpdfstring{LED\_Task4()}{LED\_Task4()}}
+{\footnotesize\ttfamily \label{ledjes_8c_a46ab630af9d7344d8968a7874ec71578} 
+void LED\+\_\+\+Task4 (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argument}{}\end{DoxyParamCaption})}
+
+
+
+Tasks die ledjes manipuleren nadat ze eerst afgeschermd zijn met mutex semaphores. Task 3 en 4 werken daarnaast nog met tasknotification. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \texorpdfstring{$\ast$}{*}argument} & Niet gebruikt, eventueel een waarde of string om te testen \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{ledjes_8c_source_l00152}{152}} of file \mbox{\hyperlink{ledjes_8c_source}{ledjes.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00153\ \{}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ i,\ leds;}
+\DoxyCodeLine{00155\ \ \ \ \ osThreadId\_t\ hTask3;}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(hTask3\ =\ xTaskGetHandle(\textcolor{stringliteral}{"{}LED\_Task3"{}})))}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Err:hTask3"{}});}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}\ started\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
+\DoxyCodeLine{00163\ \ \ \ \ \{}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ ulTaskNotifyTake(pdTRUE,\ portMAX\_DELAY);\ \textcolor{comment}{//\ wait\ for\ notification}}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ xSemaphoreTake(\mbox{\hyperlink{admin_8c_a011b1349f4d8c02977b852c7587f0581}{hLED\_Sem}},\ portMAX\_DELAY);\ \textcolor{comment}{//\ wait\ for\ mutex}}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (i=0;\ i<4;\ i++)\ \textcolor{comment}{//\ voorbeeld\ hoe\ je\ je\ code\ zo\ overdraagbaar\ mogelijk\ maakt}}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \ \ \ \ \ (i==0)\ \ leds\ =\ 1+128;\ \textcolor{comment}{//\ zichtbaar:\ 1.\ waarde\ i,\ 2.\ welke\ leds\ aan\ gaan}}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (i==1)\ \ leds\ =\ 2+64;\ \ \textcolor{comment}{//\ had\ ook\ met\ switch-\/case\ gekund,\ maar\ dit\ is\ korter...}}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (i==2)\ \ leds\ =\ 4+32;}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \ \ \ \ \ \ \ \ \ \ \ leds\ =\ 8+16;}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ LED\_put(leds);\ \ \ \ \ \textcolor{comment}{//\ set\ leds}}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ osDelay(\mbox{\hyperlink{ledjes_8c_ac0e8ff7c2f49b0988165336ca423dcea}{os\_delay}});\ \textcolor{comment}{//\ snelheid\ bepalen,\ waarde\ os\_delay\ kan\ veranderd\ worden\ via\ user\ interface}}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_a367617a9804f8aeeb1b5b09d17af0d1a}{LEDS\_DEBUG\_OUT}})}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)t\(\backslash\)t\(\backslash\)tM4\ led:\ "{}});\ UART\_putint(leds);}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ xSemaphoreGive(\mbox{\hyperlink{admin_8c_a011b1349f4d8c02977b852c7587f0581}{hLED\_Sem}});\ \textcolor{comment}{//\ free\ mutex}}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ osDelay(200);}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ xTaskNotifyGive(hTask3);\ \textcolor{comment}{//\ give\ the\ ball\ back\ to\ task\ 3}}
+\DoxyCodeLine{00188\ \ \ \ \ \}}
+\DoxyCodeLine{00189\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{admin_8c_source_l00202}{error\+\_\+\+Halt\+OS()}}, \mbox{\hyperlink{admin_8c_source_l00049}{h\+LED\+\_\+\+Sem}}, \mbox{\hyperlink{admin_8h_source_l00077}{LEDS\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{ledjes_8c_source_l00036}{os\+\_\+delay}}, \mbox{\hyperlink{admin_8h_source_l00023}{TRUE}}, and \mbox{\hyperlink{admin_8c_source_l00040}{Uart\+\_\+debug\+\_\+out}}.
+
+
+
+\label{doc-var-members}
+\Hypertarget{ledjes_8c_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{ledjes_8c_ac0e8ff7c2f49b0988165336ca423dcea}\index{ledjes.c@{ledjes.c}!os\_delay@{os\_delay}}
+\index{os\_delay@{os\_delay}!ledjes.c@{ledjes.c}}
+\doxysubsubsection{\texorpdfstring{os\_delay}{os\_delay}}
+{\footnotesize\ttfamily \label{ledjes_8c_ac0e8ff7c2f49b0988165336ca423dcea} 
+unsigned int os\+\_\+delay = 100}
+
+
+
+default value 100MSEC, kan veranderd worden via Terminal (user interface) 
+
+
+
+Definition at line \mbox{\hyperlink{ledjes_8c_source_l00036}{36}} of file \mbox{\hyperlink{ledjes_8c_source}{ledjes.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{ledjes_8c_source_l00044}{LED\+\_\+\+Task1()}}, \mbox{\hyperlink{ledjes_8c_source_l00077}{LED\+\_\+\+Task2()}}, \mbox{\hyperlink{ledjes_8c_source_l00107}{LED\+\_\+\+Task3()}}, \mbox{\hyperlink{ledjes_8c_source_l00152}{LED\+\_\+\+Task4()}}, and \mbox{\hyperlink{UART__keys_8c_source_l00134}{UART\+\_\+menu()}}.
+
