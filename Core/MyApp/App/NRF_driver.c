@@ -48,34 +48,37 @@ void GPS_getlatest_error(GPS_decimal_degrees_t *dest)
 void fill_GPSerror()
 {
     if(nrf24_data_available())
+        {
+            UART_puts("Data received: ");
+
+            nrf24_receive(rx, sizeof(rx)); // Receive data
+
+            //Copy received data to errorBuffer for further processing
+            memcpy(&errorBuffer, rx, sizeof(errorBuffer));
+
+            // Debug print
+            if(Uart_debug_out & NRF24_DEBUG_OUT)
             {
-                UART_puts("Data received: ");
-
-                nrf24_receive(rx, sizeof(rx)); // Receive data
-
-                //Copy received data to errorBuffer for further processing
-                memcpy(&errorBuffer, rx, sizeof(errorBuffer));
-
-                // Debug print
                 char msg[100];
                 sprintf(msg, "Lat: %.6f, Lon: %.6f", errorBuffer.latitude, errorBuffer.longitude);
                 UART_puts(msg);
                 UART_puts("\r\n");
             }
+        }
 
-            if(xSemaphoreTake(hdGPSerror_Mutex, portMAX_DELAY) == pdTRUE)
-            {
-                // Simple buffer swap mechanism
-                GPS_decimal_degrees_t *temp = frontendBuffer;
-                frontendBuffer = &errorBuffer; 
-                backendBuffer = temp;
-                xSemaphoreGive(hdGPSerror_Mutex); // Don't forget to give the mutex back
-            }
-            else
-            {
-                // Failed to take the mutex (should not happen with portMAX_DELAY)
-                error_HaltOS("Err:hdGPSerror_Mutex");
-            }
+        if(xSemaphoreTake(hdGPSerror_Mutex, portMAX_DELAY) == pdTRUE)
+        {
+            // Simple buffer swap mechanism
+            GPS_decimal_degrees_t *temp = frontendBuffer;
+            frontendBuffer = &errorBuffer; 
+            backendBuffer = temp;
+            xSemaphoreGive(hdGPSerror_Mutex); // Don't forget to give the mutex back
+        }
+        else
+        {
+            // Failed to take the mutex (should not happen with portMAX_DELAY)
+            error_HaltOS("Err:hdGPSerror_Mutex");
+        }
 }
 
 void NRF_Driver(void *argument)

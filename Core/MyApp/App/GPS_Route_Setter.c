@@ -17,6 +17,7 @@
 #include "cmsis_os.h"
 #include "GPS_Route_Setter.h"
 #include "gps.h"
+#include "NRF_driver.h"
 
 #define debug_routesetter
 
@@ -176,36 +177,6 @@ uint8_t GPS_Route_Maker()
 	return 0;
 }
 
-
-// return float if error -1
-// temp hierin wordt de Lat of Long gegeven zodat we weten welke we terug moeten geven
-double Error_calc_LongLat(char temp[10])
-{
-	if(!strcmp(temp,"Lat")) // if Lat it will return the latitude 
-	{
-		// then check if the data received from the gps over nrf is new and/or availible 
-
-		
-
-		
-	}
-	else if(!strcmp(temp,"Long"))
-	{
-
-
-
-	}
-
-	UART_puts("Unknown param given expected 'Lat or 'Long'. \r\n");
-	return -1;
-}
-
-
-
-
-
-
-
 /**
  * @brief Removes the last node from the linked list if the linked list is 
  * 
@@ -272,6 +243,7 @@ void Route_Setter(void *argument)
 				UART_puts("\r\n");
 			#endif
 			getlatest_GNRMC(&GNRMC_localcopy3);
+			correct_dGPS_error(&GNRMC_localcopy3);
 			GPS_Route_Maker(); // Creates a node for a linked list everytime the ARM key is pressed
 			break;
 

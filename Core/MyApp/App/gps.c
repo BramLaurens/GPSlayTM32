@@ -13,7 +13,9 @@
 #include "cmsis_os.h"
 #include "gps.h"
 #include "GPS_Route_Setter.h"
+#include "NRF_driver.h"
 
+#define dGPS_debug
 
 GNRMC gnrmc; // global struct for GNRMC-messages
 
@@ -23,8 +25,34 @@ static GNRMC bufferB;
 static GNRMC *volatile frontendBuffer = &bufferA; 
 static GNRMC *volatile backendBuffer  = &bufferB; 
 
-void correct_coordinate_d(double latlon){
+/**
+ * @brief Corrects the input coordinates with the latest GPS error received from the NRF24L01+ module
+ * 
+ * @param pinputCoordinates pointer to GPS_decimal_degrees_t struct containing the coordinates to be corrected
+ * @return void
+ */
+void correct_dGPS_error(PGPS_decimal_degrees_t pinputCoordinates)
+{
+	#ifdef dGPS_debug
+		char msg[100];
+		sprintf(msg, "Before correction - Lat: %.6f, Lon: %.6f\r\n", pinputCoordinates->latitude, pinputCoordinates->longitude);
+		UART_puts(msg);
+	#endif
 
+	// Get the latest error from the NRF24L01+ module
+	GPS_decimal_degrees_t latestError;
+	GPS_getlatest_error(&latestError);
+
+	// Apply the correction
+	pinputCoordinates->latitude -= latestError.latitude;
+	pinputCoordinates->longitude -= latestError.longitude;
+
+	#ifdef dGPS_debug
+		sprintf(msg, "After correction - Lat: %.6f, Lon: %.6f\r\n", pinputCoordinates->latitude, pinputCoordinates->longitude);
+		UART_puts(msg);
+	#endif
+
+	return;
 }
 
 /**
