@@ -38,11 +38,12 @@ void correct_dGPS_error(PGPS_decimal_degrees_t pinputCoordinates)
 	GPS_getlatest_error(&latestError);
 
 	#ifdef dGPS_debug
+		UART_puts("Correcting error\r\n");
 		char msg[100];
 		sprintf(msg, "Working Error - Lat: %.9f, Lon: %.9f\r\n", latestError.latitude, latestError.longitude);
 		UART_puts(msg);
 
-		sprintf(msg, "Before correction - Lat: %.6f, Lon: %.6f\r\n", pinputCoordinates->latitude, pinputCoordinates->longitude);
+		sprintf(msg, "Before correction - Lat: %.9f, Lon: %.9f\r\n", pinputCoordinates->latitude, pinputCoordinates->longitude);
 		UART_puts(msg);
 	#endif
 

@@ -76,7 +76,7 @@ void ARM_keys_task (void *argument)
 	    xSemaphoreTake(hLED_Sem, portMAX_DELAY); // krijg toegang (mutex) tot leds
 
     	LED_put((unsigned char)key); // set 8 leds-byte to key-value
-	    BUZZER_put (500);
+//	    BUZZER_put (500);
 		osDelay(500);
 
 		UART_puts("\r\n\tARM_key pressed to leds: "); UART_putint(key);

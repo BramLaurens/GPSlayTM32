@@ -102,7 +102,7 @@ TASKDATA tasks[] =
 { NRF_Driver,    NULL, .attr.name ="NRF_Driver",    .attr.stack_size = 1000, .attr.priority = osPriorityBelowNormal7 },
 
 // Route setter
-{ Route_Setter,    NULL, .attr.name ="Route_setter",    .attr.stack_size = 1200, .attr.priority = osPriorityBelowNormal7 },
+{ Route_Setter,    NULL, .attr.name ="Route_setter",    .attr.stack_size = 2000, .attr.priority = osPriorityBelowNormal7 },
 
   // deze laatste niet wissen, wordt gebruik als 'terminator' in for-loops
 { NULL,         NULL, .attr.name = NULL,           .attr.stack_size = 0,       .attr.priority = 0 }
@@ -205,7 +205,7 @@ void error_HaltOS(char *msg)
 	LCD_puts(msg);
 	UART_puts(msg); UART_puts(". Application halted\r\n");
 
-	BUZZER_put(1000);
+//	BUZZER_put(1000);
 	vTaskSuspendAll(); // stop alle tasks
 
 	while (TRUE)

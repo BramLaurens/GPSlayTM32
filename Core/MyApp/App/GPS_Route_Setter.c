@@ -19,6 +19,8 @@
 #include "gps.h"
 #include "NRF_driver.h"
 
+#define averagingN 5
+
 #define debug_routesetter
 
 
@@ -52,6 +54,57 @@ double convert_decimal_degrees(char *nmea_coordinate, char* ns)
     }
 
     return decimal_degrees; // Return the converted value
+}
+
+/**
+ * @brief Averages the GPS coordinates over a set number of samples.
+ * 
+ * @param averagedBuffer Pointer to the structure holding the averaged GPS coordinates.
+ */
+void averageGPS(PGPS_decimal_degrees_t averagedBuffer)
+{
+	GPS_decimal_degrees_t errorCorrectionbuffer;
+	GPS_decimal_degrees_t averageArray[averagingN];
+	PGPS_decimal_degrees_t ptd = averageArray;
+	averagedBuffer->latitude = 0;
+	averagedBuffer->longitude = 0;
+	int i = 0;
+
+	UART_puts("Starting averaging operation\r\n");
+
+	for(i=0; i<5; i++, ptd++)
+	{
+		getlatest_GNRMC(&GNRMC_localcopy3);
+
+		// 'V' is invalid 'A' is valid 
+		if(pt_Route_Parser->status != 'A')
+		{ 
+			UART_puts("Data from GPS is not valid or is currently busy locking");
+			// posibility for lcd screen debuging
+			return; 
+		}
+
+		// Errorcorrection
+		errorCorrectionbuffer.longitude = convert_decimal_degrees(GNRMC_localcopy3.longitude, &GNRMC_localcopy3.EW_ind);
+		errorCorrectionbuffer.latitude = convert_decimal_degrees(GNRMC_localcopy3.latitude, &GNRMC_localcopy3.NS_ind);
+		correct_dGPS_error(&errorCorrectionbuffer);
+
+		ptd->latitude = errorCorrectionbuffer.latitude;
+		ptd->longitude = errorCorrectionbuffer.longitude;
+
+		averagedBuffer->latitude += ptd->latitude;
+		averagedBuffer->longitude += ptd->longitude;
+
+		osDelay(200);
+	}
+
+	averagedBuffer->latitude = averagedBuffer->latitude / 5;
+	averagedBuffer->longitude = averagedBuffer->longitude /5;
+
+	char msg[100];
+	sprintf(msg, "Calculated Average - Lat: %.9f, Lon: %.9f\r\n", averagedBuffer->latitude, averagedBuffer->longitude);
+	UART_puts(msg);
+
 }
 
 /**
@@ -101,15 +154,7 @@ void View_Linkedlist()
 uint8_t GPS_Route_Maker()
 {
 	char Float_buffer[100]; // char buffer so the floats can be made visible for the user
-	GPS_decimal_degrees_t errorCorrectionbuffer;
-
-	// 'V' is invalid 'A' is valid 
-	if(pt_Route_Parser->status != 'A')
-	{ 
-		UART_puts("Data from GPS is not valid or is currently busy locking");
-		// posibility for lcd screen debuging
-		return 1; 
-	}
+	GPS_decimal_degrees_t averagedBuffer;
 
  	// free memory so a struct can be added returning a pointer to that memory address
 	GPS_Route *Node= malloc(sizeof(GPS_Route));
@@ -124,13 +169,9 @@ uint8_t GPS_Route_Maker()
 	// if there is no head(first node of a linked list)  
 	if(pt_Route == NULL)
 	{ 
-		// Errorcorrection
-		errorCorrectionbuffer.longitude = convert_decimal_degrees(GNRMC_localcopy3.longitude, &GNRMC_localcopy3.EW_ind);
-		errorCorrectionbuffer.latitude = convert_decimal_degrees(GNRMC_localcopy3.latitude, &GNRMC_localcopy3.NS_ind);
-		correct_dGPS_error(&errorCorrectionbuffer);
-
-		Node->longitude= convert_decimal_degrees(GNRMC_localcopy3.longitude, &GNRMC_localcopy3.EW_ind);	// make a float out of the ascii char of the gps data
-		Node->latitude= convert_decimal_degrees(GNRMC_localcopy3.latitude, &GNRMC_localcopy3.NS_ind);	// make a float out of the ascii char of the gps data
+		averageGPS(&averagedBuffer);
+		Node->longitude= averagedBuffer.longitude;
+		Node->latitude= averagedBuffer.latitude;
 		Node->nodeNumber = 0;
 		Node->Next_point = NULL; 
 		UART_puts("Head created");
@@ -161,15 +202,12 @@ uint8_t GPS_Route_Maker()
 	}
 	UART_puts("\r\n");
 	UART_puts("Node in linked list:"); UART_putint(i); UART_puts("\r\n");
-	
-	// Errorcorrection
-	errorCorrectionbuffer.longitude = convert_decimal_degrees(GNRMC_localcopy3.longitude, &GNRMC_localcopy3.EW_ind);
-	errorCorrectionbuffer.latitude = convert_decimal_degrees(GNRMC_localcopy3.latitude, &GNRMC_localcopy3.NS_ind);
-	correct_dGPS_error(&errorCorrectionbuffer);
+
+	averageGPS(&averagedBuffer);
 
 	// Filling node elements
-	Node->longitude= errorCorrectionbuffer.longitude;
-	Node->latitude= errorCorrectionbuffer.latitude;
+	Node->longitude= averagedBuffer.longitude;
+	Node->latitude= averagedBuffer.latitude;
 	Node->nodeNumber = i;
 	Node->Next_point = NULL;
 	temp->Next_point = Node;
@@ -253,7 +291,6 @@ void Route_Setter(void *argument)
 				UART_puts("Trying to set a waypoint...");
 				UART_puts("\r\n");
 			#endif
-			getlatest_GNRMC(&GNRMC_localcopy3);
 			GPS_Route_Maker(); // Creates a node for a linked list everytime the ARM key is pressed
 			break;
 
