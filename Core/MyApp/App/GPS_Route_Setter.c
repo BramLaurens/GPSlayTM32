@@ -249,7 +249,6 @@ void Route_Setter(void *argument)
 				UART_puts("\r\n");
 			#endif
 			getlatest_GNRMC(&GNRMC_localcopy3);
-			correct_dGPS_error(&GNRMC_localcopy3);
 			GPS_Route_Maker(); // Creates a node for a linked list everytime the ARM key is pressed
 			break;
 
