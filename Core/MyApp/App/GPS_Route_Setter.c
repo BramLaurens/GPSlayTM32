@@ -124,6 +124,11 @@ uint8_t GPS_Route_Maker()
 	// if there is no head(first node of a linked list)  
 	if(pt_Route == NULL)
 	{ 
+		// Errorcorrection
+		errorCorrectionbuffer.longitude = convert_decimal_degrees(GNRMC_localcopy3.longitude, &GNRMC_localcopy3.EW_ind);
+		errorCorrectionbuffer.latitude = convert_decimal_degrees(GNRMC_localcopy3.latitude, &GNRMC_localcopy3.NS_ind);
+		correct_dGPS_error(&errorCorrectionbuffer);
+
 		Node->longitude= convert_decimal_degrees(GNRMC_localcopy3.longitude, &GNRMC_localcopy3.EW_ind);	// make a float out of the ascii char of the gps data
 		Node->latitude= convert_decimal_degrees(GNRMC_localcopy3.latitude, &GNRMC_localcopy3.NS_ind);	// make a float out of the ascii char of the gps data
 		Node->nodeNumber = 0;

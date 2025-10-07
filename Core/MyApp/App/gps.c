@@ -33,15 +33,18 @@ static GNRMC *volatile backendBuffer  = &bufferB;
  */
 void correct_dGPS_error(PGPS_decimal_degrees_t pinputCoordinates)
 {
-	#ifdef dGPS_debug
-		char msg[100];
-		sprintf(msg, "Before correction - Lat: %.6f, Lon: %.6f\r\n", pinputCoordinates->latitude, pinputCoordinates->longitude);
-		UART_puts(msg);
-	#endif
-
 	// Get the latest error from the NRF24L01+ module
 	GPS_decimal_degrees_t latestError;
 	GPS_getlatest_error(&latestError);
+
+	#ifdef dGPS_debug
+		char msg[100];
+		sprintf(msg, "Working Error - Lat: %.9f, Lon: %.9f\r\n", latestError.latitude, latestError.longitude);
+		UART_puts(msg);
+
+		sprintf(msg, "Before correction - Lat: %.6f, Lon: %.6f\r\n", pinputCoordinates->latitude, pinputCoordinates->longitude);
+		UART_puts(msg);
+	#endif
 
 	// Apply the correction
 	pinputCoordinates->latitude -= latestError.latitude;
