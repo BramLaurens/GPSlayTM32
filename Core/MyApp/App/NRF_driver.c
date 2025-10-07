@@ -49,7 +49,9 @@ void fill_GPSerror()
 {
     if(nrf24_data_available())
         {
-            UART_puts("Data received: ");
+            #ifdef NRF24_debug
+                UART_puts("Data received: \r\n");
+            #endif
 
             nrf24_receive(rx, sizeof(rx)); // Receive data
 
@@ -60,7 +62,7 @@ void fill_GPSerror()
             if(Uart_debug_out & NRF24_DEBUG_OUT)
             {
                 char msg[100];
-                sprintf(msg, "Lat: %.6f, Lon: %.6f", errorBuffer.latitude, errorBuffer.longitude);
+                sprintf(msg, "Lat: %.9f, Lon: %.9f", errorBuffer.latitude, errorBuffer.longitude);
                 UART_puts(msg);
                 UART_puts("\r\n");
             }

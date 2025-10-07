@@ -101,6 +101,7 @@ void View_Linkedlist()
 uint8_t GPS_Route_Maker()
 {
 	char Float_buffer[100]; // char buffer so the floats can be made visible for the user
+	GPS_decimal_degrees_t errorCorrectionbuffer;
 
 	// 'V' is invalid 'A' is valid 
 	if(pt_Route_Parser->status != 'A')
@@ -155,10 +156,15 @@ uint8_t GPS_Route_Maker()
 	}
 	UART_puts("\r\n");
 	UART_puts("Node in linked list:"); UART_putint(i); UART_puts("\r\n");
+	
+	// Errorcorrection
+	errorCorrectionbuffer.longitude = convert_decimal_degrees(GNRMC_localcopy3.longitude, &GNRMC_localcopy3.EW_ind);
+	errorCorrectionbuffer.latitude = convert_decimal_degrees(GNRMC_localcopy3.latitude, &GNRMC_localcopy3.NS_ind);
+	correct_dGPS_error(&errorCorrectionbuffer);
 
 	// Filling node elements
-	Node->longitude= convert_decimal_degrees(GNRMC_localcopy3.longitude, &GNRMC_localcopy3.EW_ind);	// make a float out of the ascii char of the gps data
-	Node->latitude= convert_decimal_degrees(GNRMC_localcopy3.latitude, &GNRMC_localcopy3.NS_ind);	// make a float out of the ascii char of the gps data
+	Node->longitude= errorCorrectionbuffer.longitude;
+	Node->latitude= errorCorrectionbuffer.latitude;
 	Node->nodeNumber = i;
 	Node->Next_point = NULL;
 	temp->Next_point = Node;
