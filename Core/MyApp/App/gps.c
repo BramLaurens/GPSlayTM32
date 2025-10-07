@@ -12,6 +12,7 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "gps.h"
+#include "GPS_Route_Setter.h"
 
 
 GNRMC gnrmc; // global struct for GNRMC-messages
@@ -21,6 +22,10 @@ static GNRMC bufferB;
 
 static GNRMC *volatile frontendBuffer = &bufferA; 
 static GNRMC *volatile backendBuffer  = &bufferB; 
+
+void correct_coordinate_d(double latlon){
+
+}
 
 /**
  * @brief Function that gets a pointer to the latest complete GNRMC data

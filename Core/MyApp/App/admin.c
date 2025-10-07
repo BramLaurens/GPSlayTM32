@@ -50,6 +50,7 @@ SemaphoreHandle_t     hLED_Sem;
 EventGroupHandle_t 	  hKEY_Event;
 TimerHandle_t         hTimer1;
 SemaphoreHandle_t     hGPS_Mutex; /// mutex voor GPS-parsing
+SemaphoreHandle_t     hdGPSerror_Mutex; /// mutex voor GPS errorbuffer
 
 
 
@@ -236,6 +237,9 @@ void CreateHandles(void)
 
 	if (!(hGPS_Mutex = xSemaphoreCreateMutex()))
 		error_HaltOS("Error hGPS_Mutex");
+	
+	if (!(hdGPSerror_Mutex = xSemaphoreCreateMutex()))
+		error_HaltOS("Error hdGPSerror_Mutex");
 
 	UART_puts("\n\rAll handles created successfully.");
 
