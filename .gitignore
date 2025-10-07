@@ -10,6 +10,9 @@ debug/
 Release/
 release
 
+#vscode
+./vscode/
+
 # Prerequisites
 *.d
 
