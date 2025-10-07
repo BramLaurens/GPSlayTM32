@@ -47,6 +47,7 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
+extern TIM_HandleTypeDef htim9;
 
 /* USER CODE END ET */
 
@@ -60,6 +61,8 @@ extern "C" {
 
 /* USER CODE END EM */
 
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
@@ -70,6 +73,10 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define CS_I2C_SPI_Pin GPIO_PIN_3
 #define CS_I2C_SPI_GPIO_Port GPIOE
+#define PWM_LEFT_Pin GPIO_PIN_5
+#define PWM_LEFT_GPIO_Port GPIOE
+#define PWM_RIGHT_Pin GPIO_PIN_6
+#define PWM_RIGHT_GPIO_Port GPIOE
 #define PC14_OSC32_IN_Pin GPIO_PIN_14
 #define PC14_OSC32_IN_GPIO_Port GPIOC
 #define PC15_OSC32_OUT_Pin GPIO_PIN_15

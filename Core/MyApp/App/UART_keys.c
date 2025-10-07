@@ -18,6 +18,7 @@
 #include "cmsis_os.h"
 #include "uart.h"
 #include "NRF_driver.h"
+#include "motordriver.h"
 
 extern unsigned int os_delay; /// deze waarde kan hier veranderd worden.
 
