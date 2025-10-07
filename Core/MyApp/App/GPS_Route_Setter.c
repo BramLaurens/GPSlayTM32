@@ -103,7 +103,7 @@ uint8_t GPS_Route_Maker()
 	char Float_buffer[100]; // char buffer so the floats can be made visible for the user
 
 	// 'V' is invalid 'A' is valid 
-	if(pt_Route_Parser->status == 'V')
+	if(pt_Route_Parser->status != 'A')
 	{ 
 		UART_puts("Data from GPS is not valid or is currently busy locking");
 		// posibility for lcd screen debuging
