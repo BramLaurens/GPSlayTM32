@@ -54,6 +54,26 @@
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
+void configureTimerForRunTimeStats(void);
 
+unsigned long getRunTimeCounterValue(void); __weak void configureTimerForRunTimeStats(void)
+
+{
+
+  CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+
+  DWT->CTRL |= 1;
+
+  DWT->CYCCNT = 0;
+
+}
+
+ 
+
+__weak unsigned long getRunTimeCounterValue(void) {
+
+  return DWT->CYCCNT;
+
+}
 /* USER CODE END Application */
 
