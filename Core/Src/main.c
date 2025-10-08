@@ -97,6 +97,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
+  xTraceInitialize();
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -718,6 +719,9 @@ void StartDefaultTask(void *argument)
   /* init code for USB_HOST */
   MX_USB_HOST_Init();
   /* USER CODE BEGIN 5 */
+
+  /*Start FreeRTOS traceviewer*/
+  xTraceEnable(TRC_START);
 
 
   CreateHandles();
