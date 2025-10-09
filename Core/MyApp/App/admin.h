@@ -154,6 +154,7 @@ extern void NRF_Driver(void *);
 extern void Route_Setter(void *);
 
 // dGPS.c
-extern void dGPS(void *);
+extern void dGPS_parser(void *);
 
-
+// dGPS_calculator.c
+extern void dGPS_calculator(void *);

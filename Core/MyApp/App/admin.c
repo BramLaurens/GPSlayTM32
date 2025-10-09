@@ -108,7 +108,11 @@ TASKDATA tasks[] =
 { Route_Setter,    NULL, .attr.name ="Route_setter",    .attr.stack_size = 2000, .attr.priority = osPriorityBelowNormal7 },
 
 // dGPS
-{ dGPS,    NULL, .attr.name ="dGPS",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal3},
+{ dGPS_parser,    NULL, .attr.name ="dGPS_parser",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal3},
+
+// dGPS
+{ dGPS_parser,    NULL, .attr.name ="dGPS_parser",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal3},
+{ dGPS_calculator, NULL, .attr.name ="dGPS_calculator", .attr.stack_size = 2000, .attr.priority = osPriorityNormal3},
 
   // deze laatste niet wissen, wordt gebruik als 'terminator' in for-loops
 { NULL,         NULL, .attr.name = NULL,           .attr.stack_size = 0,       .attr.priority = 0 }

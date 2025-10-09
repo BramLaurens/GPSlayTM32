@@ -130,7 +130,7 @@ void parse_GPSdata()
     }
 }
 
-void dGPS(void *argument)
+void dGPS_parser(void *argument)
 {
     osDelay(100);
     UART_puts((char *)__func__); UART_puts(" started\r\n");
