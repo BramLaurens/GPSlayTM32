@@ -31,6 +31,8 @@
 #include "admin.h"
 #include "NRF_driver.h"
 #include "GPS_Route_Setter.h"
+#include "dGPS.h"
+#include "gps.h"
 
 /// output strings for initialization
 char *app_name    = "\r\n=== freeRTOS_GPS 407 ===\r\n";
@@ -46,6 +48,7 @@ char NRF24_new_value = 0; // set to 1 when new value is received
 QueueHandle_t 	      hKey_Queue;
 QueueHandle_t 	      hUART_Queue; /// uses UART2
 QueueHandle_t 	      hGPS_Queue;  /// uses UART1
+QueueHandle_t         hGNRMC_Queue; /// queue for complete GPS messages
 SemaphoreHandle_t     hLED_Sem;
 EventGroupHandle_t 	  hKEY_Event;
 TimerHandle_t         hTimer1;
@@ -85,7 +88,7 @@ TASKDATA tasks[] =
 { UART_menu,    NULL, .attr.name = "UART_menu",    .attr.stack_size = 600, .attr.priority = osPriorityBelowNormal6 },
 
   // gps.c
-{ GPS_getNMEA,  NULL, .attr.name = "GPS_getNMEA",  .attr.stack_size = 600, .attr.priority = osPriorityNormal2 },
+{ GPS_getNMEA,  NULL, .attr.name = "GPS_getNMEA",  .attr.stack_size = 600, .attr.priority = osPriorityNormal4 },
 
   // student.c
 { Student_task1,NULL, .attr.name = "Student_task1",.attr.stack_size = 600, .attr.priority = osPriorityBelowNormal7 },
@@ -103,6 +106,9 @@ TASKDATA tasks[] =
 
 // Route setter
 { Route_Setter,    NULL, .attr.name ="Route_setter",    .attr.stack_size = 2000, .attr.priority = osPriorityBelowNormal7 },
+
+// dGPS
+{ dGPS,    NULL, .attr.name ="dGPS",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal3},
 
   // deze laatste niet wissen, wordt gebruik als 'terminator' in for-loops
 { NULL,         NULL, .attr.name = NULL,           .attr.stack_size = 0,       .attr.priority = 0 }
@@ -228,6 +234,9 @@ void CreateHandles(void)
 
 	if (!(hGPS_Queue = xQueueCreate(GPS_MAXLEN, sizeof(unsigned char))))
 		error_HaltOS("Error hGPS_Q");
+
+	if (!(hGNRMC_Queue = xQueueCreate(32, sizeof(GNRMC))))
+		error_HaltOS("Error hGNRMC_Q");
 
 	if (!(hKEY_Event = xEventGroupCreate()))
 		error_HaltOS("Error hLCD_Event");

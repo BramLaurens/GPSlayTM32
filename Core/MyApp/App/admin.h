@@ -52,6 +52,8 @@ typedef struct TaskData
 extern QueueHandle_t 	  hUART_Queue;
 /// handle voor GPS-queue
 extern QueueHandle_t 	  hGPS_Queue;
+/// handle for GNRMC-queue
+extern QueueHandle_t     hGNRMC_Queue;
 /// handle voor LED-mutex
 extern SemaphoreHandle_t  hLED_Sem;
 /// handle voor ARM-keys-event
@@ -150,5 +152,8 @@ extern void NRF_Driver(void *);
 
 // Route_Setter.c
 extern void Route_Setter(void *);
+
+// dGPS.c
+extern void dGPS(void *);
 
 

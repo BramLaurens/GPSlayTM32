@@ -17,22 +17,23 @@
 #include "NRF24_conf.h"
 #include "gps.h"
 #include "GPS_Route_Setter.h"
+#include "dGPS.h"
 
 #define PLD_SIZE 32 // Payload size in bytes
 uint8_t ack[PLD_SIZE]; // Acknowledgment buffer
 uint8_t rx[PLD_SIZE];  // Receive buffer
 
-GPS_decimal_degrees_t errorBuffer;
+dGPS_errorData_t errorBuffer;
 
-static GPS_decimal_degrees_t bufferA;
-static GPS_decimal_degrees_t bufferB;
+static dGPS_errorData_t bufferA;
+static dGPS_errorData_t bufferB;
 
-static GPS_decimal_degrees_t *volatile frontendBuffer = &bufferA;
-static GPS_decimal_degrees_t *volatile backendBuffer  = &bufferB;
+static dGPS_errorData_t *volatile frontendBuffer = &bufferA;
+static dGPS_errorData_t *volatile backendBuffer  = &bufferB;
 
 extern SPI_HandleTypeDef hspiX;
 
-void GPS_getlatest_error(GPS_decimal_degrees_t *dest)
+void GPS_getlatest_error(dGPS_errorData_t *dest)
 {
     if(xSemaphoreTake(hdGPSerror_Mutex, portMAX_DELAY) == pdTRUE)
     {
@@ -71,7 +72,7 @@ void fill_GPSerror()
         if(xSemaphoreTake(hdGPSerror_Mutex, portMAX_DELAY) == pdTRUE)
         {
             // Simple buffer swap mechanism
-            GPS_decimal_degrees_t *temp = frontendBuffer;
+            dGPS_errorData_t *temp = frontendBuffer;
             frontendBuffer = &errorBuffer; 
             backendBuffer = temp;
             xSemaphoreGive(hdGPSerror_Mutex); // Don't forget to give the mutex back

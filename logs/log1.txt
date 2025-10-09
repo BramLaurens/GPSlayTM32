@@ -1,0 +1,209 @@
+New second detected. Resetting averaging buffer.
+Adding data to averaging buffer 1: for time: 145113 Lat: 52.084653333, Lon: 5.168292167
+Received new GNRMC data for processing
+Adding data to averaging buffer 2: for time: 145113 Lat: 52.084653000, Lon: 5.168291667
+Received new GNRMC data for processing
+Adding data to averaging buffer 3: for time: 145113 Lat: 52.084652833, Lon: 5.168291333
+Received new GNRMC data for processing
+Adding data to averaging buffer 4: for time: 145113 Lat: 52.084653000, Lon: 5.168291500
+Received new GNRMC data for processing
+Adding data to averaging buffer 5: for time: 145113 Lat: 52.084652833, Lon: 5.168291167
+Stored averaged coordinate in history at index 13: Time: 145113 Lat: 52.084653000, Lon: 5.168291567
+Received new GNRMC data for processing
+
+New second detected. Resetting averaging buffer.
+Adding data to averaging buffer 1: for time: 145114 Lat: 52.084652500, Lon: 5.168290667
+Received new GNRMC data for processing
+Adding data to averaging buffer 2: for time: 145114 Lat: 52.084652500, Lon: 5.168290167
+Received new GNRMC data for processing
+Adding data to averaging buffer 3: for time: 145114 Lat: 52.084652333, Lon: 5.168290000
+Received new GNRMC data for processing
+Adding data to averaging buffer 4: for time: 145114 Lat: 52.084652500, Lon: 5.168290000
+Received new GNRMC data for processing
+Adding data to averaging buffer 5: for time: 145114 Lat: 52.084652500, Lon: 5.168290000
+Stored averaged coordinate in history at index 14: Time: 145114 Lat: 52.084652467, Lon: 5.168290167
+Received new GNRMC data for processing
+
+New second detected. Resetting averaging buffer.
+Adding data to averaging buffer 1: for time: 145115 Lat: 52.084652500, Lon: 5.168289833
+Received new GNRMC data for processing
+Adding data to averaging buffer 2: for time: 145115 Lat: 52.084652500, Lon: 5.168290000
+Received new GNRMC data for processing
+Adding data to averaging buffer 3: for time: 145115 Lat: 52.084652500, Lon: 5.168289833
+Received new GNRMC data for processing
+Adding data to averaging buffer 4: for time: 145115 Lat: 52.084652500, Lon: 5.168289667
+Received new GNRMC data for processing
+Adding data to averaging buffer 5: for time: 145115 Lat: 52.084652500, Lon: 5.168289500
+Stored averaged coordinate in history at index 15: Time: 145115 Lat: 52.084652500, Lon: 5.168289767
+Received new GNRMC data for processing
+
+New second detected. Resetting averaging buffer.
+Adding data to averaging buffer 1: for time: 145116 Lat: 52.084652667, Lon: 5.168289333
+Received new GNRMC data for processing
+Adding data to averaging buffer 2: for time: 145116 Lat: 52.084652667, Lon: 5.168289333
+Received new GNRMC data for processing
+Adding data to averaging buffer 3: for time: 145116 Lat: 52.084652667, Lon: 5.168289333
+Received new GNRMC data for processing
+Adding data to averaging buffer 4: for time: 145116 Lat: 52.084652500, Lon: 5.168289167
+Received new GNRMC data for processing
+Adding data to averaging buffer 5: for time: 145116 Lat: 52.084652667, Lon: 5.168289333
+Stored averaged coordinate in history at index 16: Time: 145116 Lat: 52.084652633, Lon: 5.168289300
+Received new GNRMC data for processing
+
+New second detected. Resetting averaging buffer.
+Adding data to averaging buffer 1: for time: 145117 Lat: 52.084652500, Lon: 5.168289333
+Received new GNRMC data for processing
+Adding data to averaging buffer 2: for time: 145117 Lat: 52.084652667, Lon: 5.168289333
+Received new GNRMC data for processing
+Adding data to averaging buffer 3: for time: 145117 Lat: 52.084652833, Lon: 5.168289333
+Received new GNRMC data for processing
+Adding data to averaging buffer 4: for time: 145117 Lat: 52.084652833, Lon: 5.168289500
+Received new GNRMC data for processing
+Adding data to averaging buffer 5: for time: 145117 Lat: 52.084652833, Lon: 5.168289333
+Stored averaged coordinate in history at index 17: Time: 145117 Lat: 52.084652733, Lon: 5.168289367
+Received new GNRMC data for processing
+
+New second detected. Resetting averaging buffer.
+Adding data to averaging buffer 1: for time: 145118 Lat: 52.084653000, Lon: 5.168289167
+Received new GNRMC data for processing
+Adding data to averaging buffer 2: for time: 145118 Lat: 52.084653167, Lon: 5.168289333
+Received new GNRMC data for processing
+Adding data to averaging buffer 3: for time: 145118 Lat: 52.084653333, Lon: 5.168289500
+Received new GNRMC data for processing
+Adding data to averaging buffer 4: for time: 145118 Lat: 52.084653500, Lon: 5.168289667
+Received new GNRMC data for processing
+Adding data to averaging buffer 5: for time: 145118 Lat: 52.084653500, Lon: 5.168289833
+Stored averaged coordinate in history at index 18: Time: 145118 Lat: 52.084653300, Lon: 5.168289500
+Received new GNRMC data for processing
+
+New second detected. Resetting averaging buffer.
+Adding data to averaging buffer 1: for time: 145119 Lat: 52.084653667, Lon: 5.168290167
+Received new GNRMC data for processing
+Adding data to averaging buffer 2: for time: 145119 Lat: 52.084653667, Lon: 5.168290000
+Received new GNRMC data for processing
+Adding data to averaging buffer 3: for time: 145119 Lat: 52.084653667, Lon: 5.168290000
+Received new GNRMC data for processing
+Adding data to averaging buffer 4: for time: 145119 Lat: 52.084653833, Lon: 5.168290000
+Received new GNRMC data for processing
+Adding data to averaging buffer 5: for time: 145119 Lat: 52.084653833, Lon: 5.168290167
+Stored averaged coordinate in history at index 19: Time: 145119 Lat: 52.084653733, Lon: 5.168290067
+Received new GNRMC data for processing
+
+New second detected. Resetting averaging buffer.
+Adding data to averaging buffer 1: for time: 145120 Lat: 52.084654000, Lon: 5.168290500
+Received new GNRMC data for processing
+Adding data to averaging buffer 2: for time: 145120 Lat: 52.084654167, Lon: 5.168291000
+Received new GNRMC data for processing
+Adding data to averaging buffer 3: for time: 145120 Lat: 52.084654333, Lon: 5.168291500
+Received new GNRMC data for processing
+Adding data to averaging buffer 4: for time: 145120 Lat: 52.084654500, Lon: 5.168292000
+Received new GNRMC data for processing
+Adding data to averaging buffer 5: for time: 145120 Lat: 52.084654833, Lon: 5.168292667
+Stored averaged coordinate in history at index 20: Time: 145120 Lat: 52.084654367, Lon: 5.168291533
+Received new GNRMC data for processing
+
+New second detected. Resetting averaging buffer.
+Adding data to averaging buffer 1: for time: 145121 Lat: 52.084655000, Lon: 5.168293333
+Received new GNRMC data for processing
+Adding data to averaging buffer 2: for time: 145121 Lat: 52.084655167, Lon: 5.168293500
+Received new GNRMC data for processing
+Adding data to averaging buffer 3: for time: 145121 Lat: 52.084655333, Lon: 5.168293667
+Received new GNRMC data for processing
+Adding data to averaging buffer 4: for time: 145121 Lat: 52.084655333, Lon: 5.168293833
+Received new GNRMC data for processing
+Adding data to averaging buffer 5: for time: 145121 Lat: 52.084655500, Lon: 5.168294000
+Stored averaged coordinate in history at index 21: Time: 145121 Lat: 52.084655267, Lon: 5.168293667
+Received new GNRMC data for processing
+
+New second detected. Resetting averaging buffer.
+Adding data to averaging buffer 1: for time: 145122 Lat: 52.084655500, Lon: 5.168294167
+Received new GNRMC data for processing
+Adding data to averaging buffer 2: for time: 145122 Lat: 52.084655667, Lon: 5.168294333
+Received new GNRMC data for processing
+Adding data to averaging buffer 3: for time: 145122 Lat: 52.084655667, Lon: 5.168294667
+Received new GNRMC data for processing
+Adding data to averaging buffer 4: for time: 145122 Lat: 52.084655833, Lon: 5.168295000
+Received new GNRMC data for processing
+Adding data to averaging buffer 5: for time: 145122 Lat: 52.084656000, Lon: 5.168295333
+Stored averaged coordinate in history at index 22: Time: 145122 Lat: 52.084655733, Lon: 5.168294700
+Received new GNRMC data for processing
+
+New second detected. Resetting averaging buffer.
+Adding data to averaging buffer 1: for time: 145123 Lat: 52.084656167, Lon: 5.168295500
+Received new GNRMC data for processing
+Adding data to averaging buffer 2: for time: 145123 Lat: 52.084656333, Lon: 5.168295667
+Received new GNRMC data for processing
+Adding data to averaging buffer 3: for time: 145123 Lat: 52.084656500, Lon: 5.168296000
+Received new GNRMC data for processing
+Adding data to averaging buffer 4: for time: 145123 Lat: 52.084656667, Lon: 5.168296167
+Received new GNRMC data for processing
+Adding data to averaging buffer 5: for time: 145123 Lat: 52.084656833, Lon: 5.168296500
+Stored averaged coordinate in history at index 23: Time: 145123 Lat: 52.084656500, Lon: 5.168295967
+Received new GNRMC data for processing
+
+New second detected. Resetting averaging buffer.
+Adding data to averaging buffer 1: for time: 145124 Lat: 52.084657000, Lon: 5.168296833
+Received new GNRMC data for processing
+Adding data to averaging buffer 2: for time: 145124 Lat: 52.084657167, Lon: 5.168297000
+Received new GNRMC data for processing
+Adding data to averaging buffer 3: for time: 145124 Lat: 52.084657333, Lon: 5.168297167
+Received new GNRMC data for processing
+Adding data to averaging buffer 4: for time: 145124 Lat: 52.084657500, Lon: 5.168297333
+Received new GNRMC data for processing
+Adding data to averaging buffer 5: for time: 145124 Lat: 52.084657667, Lon: 5.168297500
+Stored averaged coordinate in history at index 24: Time: 145124 Lat: 52.084657333, Lon: 5.168297167
+Received new GNRMC data for processing
+
+New second detected. Resetting averaging buffer.
+Adding data to averaging buffer 1: for time: 145125 Lat: 52.084657833, Lon: 5.168297667
+Received new GNRMC data for processing
+Adding data to averaging buffer 2: for time: 145125 Lat: 52.084658000, Lon: 5.168298000
+Received new GNRMC data for processing
+Adding data to averaging buffer 3: for time: 145125 Lat: 52.084658167, Lon: 5.168298333
+Received new GNRMC data for processing
+Adding data to averaging buffer 4: for time: 145125 Lat: 52.084658167, Lon: 5.168298500
+Received new GNRMC data for processing
+Adding data to averaging buffer 5: for time: 145125 Lat: 52.084658333, Lon: 5.168298833
+Stored averaged coordinate in history at index 25: Time: 145125 Lat: 52.084658100, Lon: 5.168298267
+Received new GNRMC data for processing
+
+New second detected. Resetting averaging buffer.
+Adding data to averaging buffer 1: for time: 145126 Lat: 52.084658500, Lon: 5.168299167
+Received new GNRMC data for processing
+Adding data to averaging buffer 2: for time: 145126 Lat: 52.084658667, Lon: 5.168299333
+Received new GNRMC data for processing
+Adding data to averaging buffer 3: for time: 145126 Lat: 52.084658667, Lon: 5.168299667
+Received new GNRMC data for processing
+Adding data to averaging buffer 4: for time: 145126 Lat: 52.084658833, Lon: 5.168299833
+Received new GNRMC data for processing
+Adding data to averaging buffer 5: for time: 145126 Lat: 52.084658833, Lon: 5.168300167
+Stored averaged coordinate in history at index 26: Time: 145126 Lat: 52.084658700, Lon: 5.168299633
+Received new GNRMC data for processing
+
+New second detected. Resetting averaging buffer.
+Adding data to averaging buffer 1: for time: 145127 Lat: 52.084659000, Lon: 5.168300500
+Received new GNRMC data for processing
+Adding data to averaging buffer 2: for time: 145127 Lat: 52.084659167, Lon: 5.168301000
+Received new GNRMC data for processing
+Adding data to averaging buffer 3: for time: 145127 Lat: 52.084659333, Lon: 5.168301333
+Received new GNRMC data for processing
+Adding data to averaging buffer 4: for time: 145127 Lat: 52.084659500, Lon: 5.168301667
+Received new GNRMC data for processing
+Adding data to averaging buffer 5: for time: 145127 Lat: 52.084659667, Lon: 5.168302167
+Stored averaged coordinate in history at index 27: Time: 145127 Lat: 52.084659333, Lon: 5.168301333
+Received new GNRMC data for processing
+
+New second detected. Resetting averaging buffer.
+Adding data to averaging buffer 1: for time: 145128 Lat: 52.084659667, Lon: 5.168302333
+Received new GNRMC data for processing
+Adding data to averaging buffer 2: for time: 145128 Lat: 52.084659833, Lon: 5.168302667
+Received new GNRMC data for processing
+Adding data to averaging buffer 3: for time: 145128 Lat: 52.084659667, Lon: 5.168303000
+Received new GNRMC data for processing
+Adding data to averaging buffer 4: for time: 145128 Lat: 52.084659500, Lon: 5.168303167
+Received new GNRMC data for processing
+Adding data to averaging buffer 5: for time: 145128 Lat: 52.084659333, Lon: 5.168303500
+Stored averaged coordinate in history at index 28: Time: 145128 Lat: 52.084659600, Lon: 5.168302933
+Received new GNRMC data for processing
+
+New second detected. Resetting averaging buffer.

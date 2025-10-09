@@ -31,10 +31,10 @@ static GNRMC *volatile backendBuffer  = &bufferB;
  * @param pinputCoordinates pointer to GPS_decimal_degrees_t struct containing the coordinates to be corrected
  * @return void
  */
-void correct_dGPS_error(PGPS_decimal_degrees_t pinputCoordinates)
+void correct_dGPS_error(PdGPS_errorData_t pinputCoordinates)
 {
 	// Get the latest error from the NRF24L01+ module
-	GPS_decimal_degrees_t latestError;
+	dGPS_errorData_t latestError;
 	GPS_getlatest_error(&latestError);
 
 	#ifdef dGPS_debug
@@ -79,6 +79,22 @@ void getlatest_GNRMC(GNRMC *dest)
 }
 
 /**
+ * @brief Checks the GPS fix status and updates the green LED accordingly.
+ * If the GPS status is 'A' (valid), the green LED is turned on, otherwise it is turned off.
+ */
+void check_gpsfix(GNRMC *gnrmc)
+{
+	if(gnrmc->status == 'A') // If status is 'A' (valid)
+	{
+		HAL_GPIO_WritePin(GPIOD, LEDGREEN, GPIO_PIN_SET); // Turn on green LED for GPS LOCK
+	}
+	else
+	{
+		HAL_GPIO_WritePin(GPIOD, LEDGREEN, GPIO_PIN_RESET); // Turn off green LED if no GPS lock
+	}
+}
+
+/**
 * @brief De chars van de binnengekomen GNRMC-string worden in data omgezet, dwz in een
 * GNRMC-struct, mbv strtok(); De struct bevat nu alleen chars - je kunt er ook voor kiezen
 * om gelijk met doubles te werken, die je dan met atof(); omzet.
@@ -102,6 +118,7 @@ void fill_GNRMC(char *message)
 	strcpy(localBuffer->head, s);
 
 	s = strtok(NULL, tok);    // 1. time; not used
+	strcpy(localBuffer->time, s);
 
 	s = strtok(NULL, tok);    // 2. valid;
 	localBuffer->status = s[0];
@@ -151,6 +168,18 @@ void fill_GNRMC(char *message)
 	else
 	{
 		error_HaltOS("Err:GPS_mutex");
+	}
+
+	check_gpsfix(frontendBuffer);
+
+	// Send a copy of the latest GNRMC data to the dGPS task via a queue so the
+	// dGPS task can process every incoming data point
+	if (xQueueSend(hGNRMC_Queue, frontendBuffer, 0) != pdPASS)
+	{
+		// Queue full: drop oldest item then enqueue
+		GNRMC tmp;
+		xQueueReceive(hGNRMC_Queue, &tmp, 0);
+		xQueueSend(hGNRMC_Queue, frontendBuffer, 0);
 	}
 }
 
