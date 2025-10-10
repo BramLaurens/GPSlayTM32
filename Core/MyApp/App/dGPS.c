@@ -5,6 +5,7 @@
 #include "NRF_driver.h"
 #include "dGPS.h"
 #include "GPS_Route_Setter.h"
+#include <string.h>
 
 #define dGPS_debug
 
@@ -21,7 +22,26 @@ char c_received_GPS_time[10] = "000000.000"; // Current received GPS time
 uint32_t u_last_GPS_time = 0;
 uint32_t u_working_GPS_time = 0; // Working time variable
 
-int i = 0; // Index for averaging counter
+int i = 0; // Index for averaging counter RENAME!!
+
+/**
+ * @brief Function to copy the latest GPS data from the circular history buffer
+ * 
+ * @param dest Pointer to dGPS_decimalData_t struct where the latest GPS buffer will be copied
+ */
+void GPS_getlatest_ringbuffer(dGPS_decimalData_t *dest)
+{
+    /* Copy the ringbuffer safely */
+    if(xSemaphoreTake(hGPS_Ringbuffer_Mutex, portMAX_DELAY) == pdTRUE)
+    {
+        memcpy(dest, GPS_history, sizeof(GPS_history));
+        xSemaphoreGive(hGPS_Ringbuffer_Mutex);
+    }
+    else
+    {
+        error_HaltOS("Err:GPS_Ringbuffer_mutex");
+    }
+}
 
 /**
  * @brief Function to store the latest averaged GPS data into the circular history buffer
@@ -31,7 +51,17 @@ int i = 0; // Index for averaging counter
 void GPS_store_in_history(uint32_t time)
 {
     int index = time % 100; // Circular buffer index (0-59)
-    GPS_history[index] = GPS_latest_averaged; // Store the latest averaged data
+    
+    if(xSemaphoreTake(hGPS_Ringbuffer_Mutex, portMAX_DELAY) == pdTRUE)
+    {
+        // Critical section: safely update the history buffer
+        GPS_history[index] = GPS_latest_averaged; // Store the latest averaged data
+        xSemaphoreGive(hGPS_Ringbuffer_Mutex);
+    }
+    else
+    {
+        error_HaltOS("Err:GPS_Ringbuffer_mutex");
+    }
 
     #ifdef dGPS_debug
         char msg[100];
@@ -42,6 +72,12 @@ void GPS_store_in_history(uint32_t time)
 
 void AVG_gpscalc(uint32_t time)
 {
+    if (i <= 0)
+    {
+        /* nothing to average */
+        return;
+    }
+
     GPS_workingavgbuffer.latitude /= i;
     GPS_workingavgbuffer.longitude /= i;
     GPS_latest_averaged.latitude = GPS_workingavgbuffer.latitude;
@@ -90,7 +126,7 @@ void parse_GPSdata()
     if(gnrmc_localbuffer.status != 'A') // If status is not valid, skip processing
     {
         #ifdef dGPS_debug
-            UART_puts("Invalid GPS data received (status N). Skipping error calculation.\r\n");
+            UART_puts("Invalid GPS data received (status N). Skipping averaging addition.\r\n");
         #endif
         return;
     }
@@ -127,6 +163,9 @@ void parse_GPSdata()
     {
         AVG_gpscalc(u_working_GPS_time);
         GPS_store_in_history(u_working_GPS_time);
+        /* After storing averaged value, reset averaging state so next second starts fresh */
+        i = 0;
+        AVG_gpsinit();
     }
 }
 
@@ -141,7 +180,7 @@ void dGPS_parser(void *argument)
         GNRMC incoming;
         if (xQueueReceive(hGNRMC_Queue, &incoming, portMAX_DELAY) == pdTRUE)
         {
-            UART_puts("Received new GNRMC data for processing\r\n");
+            // UART_puts("\r\nReceived new GNRMC data for processing\r\n");
             // process the received message
             gnrmc_localbuffer = incoming;
             parse_GPSdata();

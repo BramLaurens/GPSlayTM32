@@ -49,24 +49,25 @@ void GPS_getlatest_error(dGPS_errorData_t *dest)
 void fill_GPSerror()
 {
     if(nrf24_data_available())
+    {
+        osThreadId_t hTask;
+
+        #ifdef NRF24_debug
+            UART_puts("Data received: \r\n");
+        #endif
+
+        nrf24_receive(rx, sizeof(rx)); // Receive data
+
+        //Copy received data to errorBuffer for further processing
+        memcpy(&errorBuffer, rx, sizeof(errorBuffer));
+
+        // Debug print
+        if(Uart_debug_out & NRF24_DEBUG_OUT)
         {
-            #ifdef NRF24_debug
-                UART_puts("Data received: \r\n");
-            #endif
-
-            nrf24_receive(rx, sizeof(rx)); // Receive data
-
-            //Copy received data to errorBuffer for further processing
-            memcpy(&errorBuffer, rx, sizeof(errorBuffer));
-
-            // Debug print
-            if(Uart_debug_out & NRF24_DEBUG_OUT)
-            {
-                char msg[100];
-                sprintf(msg, "Lat: %.9f, Lon: %.9f", errorBuffer.latitude, errorBuffer.longitude);
-                UART_puts(msg);
-                UART_puts("\r\n");
-            }
+            char msg[100];
+            sprintf(msg, "Lat: %.9f, Lon: %.9f", errorBuffer.latitude, errorBuffer.longitude);
+            UART_puts(msg);
+            UART_puts("\r\n");
         }
 
         if(xSemaphoreTake(hdGPSerror_Mutex, portMAX_DELAY) == pdTRUE)
@@ -82,6 +83,13 @@ void fill_GPSerror()
             // Failed to take the mutex (should not happen with portMAX_DELAY)
             error_HaltOS("Err:hdGPSerror_Mutex");
         }
+
+
+        if (!(hTask = xTaskGetHandle("dGPS_calculator")))
+            error_HaltOS("Err:dGPS_calculator");
+
+        xTaskNotifyGive(hTask); // Notify dGPS_calculator task that new error is available
+    }
 }
 
 void NRF_Driver(void *argument)

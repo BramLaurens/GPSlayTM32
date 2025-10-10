@@ -85,9 +85,6 @@ void averageGPS(PGPS_decimal_degrees_t averagedBuffer)
 		}
 
 		// Errorcorrection
-		errorCorrectionbuffer.longitude = convert_decimal_degrees(GNRMC_localcopy3.longitude, &GNRMC_localcopy3.EW_ind);
-		errorCorrectionbuffer.latitude = convert_decimal_degrees(GNRMC_localcopy3.latitude, &GNRMC_localcopy3.NS_ind);
-		correct_dGPS_error(&errorCorrectionbuffer);
 
 		ptd->latitude = errorCorrectionbuffer.latitude;
 		ptd->longitude = errorCorrectionbuffer.longitude;

@@ -54,6 +54,8 @@ EventGroupHandle_t 	  hKEY_Event;
 TimerHandle_t         hTimer1;
 SemaphoreHandle_t     hGPS_Mutex; /// mutex voor GPS-parsing
 SemaphoreHandle_t     hdGPSerror_Mutex; /// mutex voor GPS errorbuffer
+SemaphoreHandle_t	  hGPS_Ringbuffer_Mutex; /// mutex voor GPS ringbuffer
+SemaphoreHandle_t     hdGPSlatest_Mutex; /// mutex voor latest corrected GPS data
 
 
 
@@ -108,11 +110,9 @@ TASKDATA tasks[] =
 { Route_Setter,    NULL, .attr.name ="Route_setter",    .attr.stack_size = 2000, .attr.priority = osPriorityBelowNormal7 },
 
 // dGPS
-{ dGPS_parser,    NULL, .attr.name ="dGPS_parser",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal3},
+{ dGPS_parser,    NULL, .attr.name = "dGPS_parser",    .attr.stack_size = 2300, .attr.priority = osPriorityNormal3},
 
-// dGPS
-{ dGPS_parser,    NULL, .attr.name ="dGPS_parser",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal3},
-{ dGPS_calculator, NULL, .attr.name ="dGPS_calculator", .attr.stack_size = 2000, .attr.priority = osPriorityNormal3},
+{ dGPS_calculator, NULL, .attr.name ="dGPS_calculator", .attr.stack_size = 3000, .attr.priority = osPriorityNormal3},
 
   // deze laatste niet wissen, wordt gebruik als 'terminator' in for-loops
 { NULL,         NULL, .attr.name = NULL,           .attr.stack_size = 0,       .attr.priority = 0 }
@@ -253,6 +253,12 @@ void CreateHandles(void)
 	
 	if (!(hdGPSerror_Mutex = xSemaphoreCreateMutex()))
 		error_HaltOS("Error hdGPSerror_Mutex");
+	
+	if (!(hGPS_Ringbuffer_Mutex = xSemaphoreCreateMutex()))
+		error_HaltOS("Error hGPS_Ringbuffer_Mutex");
+	
+	if (!(hdGPSlatest_Mutex = xSemaphoreCreateMutex()))
+		error_HaltOS("Error hdGPSlatest_Mutex");
 
 	UART_puts("\n\rAll handles created successfully.");
 

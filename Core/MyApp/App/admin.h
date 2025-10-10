@@ -62,8 +62,12 @@ extern EventGroupHandle_t hKEY_Event;
 extern TimerHandle_t      hTimer1;
 /// handle voor GPS parser Mutex
 extern SemaphoreHandle_t  hGPS_Mutex;
+/// handle for GPS ringbuffer Mutex
+extern SemaphoreHandle_t  hGPS_Ringbuffer_Mutex;
 /// handle for GPS errorbuffer Mutex
 extern SemaphoreHandle_t  hdGPSerror_Mutex;
+/// handle for latest corrected GPS data Mutex
+extern SemaphoreHandle_t  hdGPSlatest_Mutex;
 
 
 /// debug naar uart output, zie uart_keys.c
