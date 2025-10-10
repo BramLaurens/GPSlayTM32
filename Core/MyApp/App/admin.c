@@ -105,6 +105,8 @@ TASKDATA tasks[] =
 // Route setter
 { Route_Setter,    NULL, .attr.name ="Route_setter",    .attr.stack_size = 1200, .attr.priority = osPriorityBelowNormal7 },
 
+// PID controller
+{ PID_Controller,    NULL, .attr.name ="PID_Controller",    .attr.stack_size = 900, .attr.priority = osPriorityBelowNormal7 },
   // deze laatste niet wissen, wordt gebruik als 'terminator' in for-loops
 { NULL,         NULL, .attr.name = NULL,           .attr.stack_size = 0,       .attr.priority = 0 }
 };

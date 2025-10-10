@@ -19,15 +19,63 @@
 
 #define Error_marge_completed_waypoint      //error marge for when the leaphy is within x meters of the waypoint 
 
-/* Todo
-Curr waypoint call 
-distance call
-when waypoint is achieved with error marge
-
-*/
 
 GNRMC GNRMC_localcopy4;
 GPS_Route *pRoute_copy;
+int *pNext_Waypoint;
+
+
+
+/**
+ * @brief gives the current waypoint nr the leaphy is going to
+ * 
+ * @return int 
+ */
+int Give_NodeNumber(void *argument)
+{
+    return *pNext_Waypoint; // gives the value the pointer is pointed at
+}
+
+
+
+/**
+ * @brief checks if the structs exist and have valid data
+ * if the data is not valid or structs dont excist corretly then NULL
+ * 
+ * @param Next_routing_point 
+ * @return GPS_Route* 
+ */
+GPS_Route *check_structs(int Next_routing_point)
+{
+    getlatest_GNRMC(&GNRMC_localcopy4);
+    pRoute_copy = Route_Pointer_Request(); // returns the pointer to the waypoints
+
+    if(GNRMC_localcopy4.status != 'a') // invalid data or no data is received
+    {
+        UART_puts("Error no Valid data recieved form gps (GNRMC) \r \n");
+        return NULL;
+    }
+
+    if(pRoute_copy == NULL) //struct is empty
+    {
+        UART_puts("Error no data in waypoint structs received \r \n");
+        return NULL;
+    }
+
+    GPS_Route *temp = pRoute_copy;
+    while(Next_routing_point != temp->nodeNumber) // maybe change to for loop 
+    { // goes through the struct searching for the node number which it is supposed to be going to
+        temp = temp->Next_point;
+
+        if((temp == NULL)) // error the end of the struct should be caught before the struct walkthrough
+        { 
+            UART_puts("Error end of struct reached without catch or excisting node nr \r \n");
+            return NULL; 
+        }
+    }
+    return temp;
+}
+
 
 /**
  * @brief 
@@ -51,7 +99,7 @@ double Calc_Angle(GPS_Route *pRoute)
     if(dLong == 0 && dLat > 0) return (90.0);                   // the angle is straight right  (arctan(dLat/0))
     if(dLong == 0 && dLat == 0) return 0.0;                     // the angle has no deviation of the current heading
     UART_puts("error something went wrong in receiving the data or calculating the error \r \n");
-return -1.0;
+    return -1.0;
 }
 
 
@@ -64,37 +112,11 @@ return -1.0;
 double Deg_Heading(int Next_routing_point)
 {
     UART_puts("Starting angle calculation \r \n");
-
-    getlatest_GNRMC(&GNRMC_localcopy4);
-    pRoute_copy = Route_Pointer_Request(); // returns the pointer to the waypoints
-
-    if(GNRMC_localcopy4.status != 'a') // invalid data or no data is received
-    {
-        UART_puts("Error no Valid data recieved form gps (GNRMC) \r \n");
-        return -1.0;
-    }
-
-    if(pRoute_copy == NULL) //struct is empty
-    {
-        UART_puts("Error no data in waypoint structs received \r \n");
-        return -1.0;
-    }
-
-    double Angle = -2; // 0 is valid angle, -1 is error so -2 so other errors will still be visible 
+    double Angle = -2; // 0 is valid angle, -1 is error so -2 so other errors will still be visible
     
     // zorg dat de struct wel afgegaan wordt.
     UART_puts("Starting to view the next point \r \n");
-    GPS_Route *temp = pRoute_copy;
-    while(Next_routing_point != temp->nodeNumber) // maybe change to for loop 
-    { // goes through the struct searching for the node number which it is supposed to be going to
-        temp = temp->Next_point;
-
-        if((temp == NULL)) // error the end of the struct should be caught before the struct walkthrough
-        { 
-            UART_puts("Error end of struct reached without catch \r \n");
-            return -1; 
-        }
-    }
+    GPS_Route *temp = check_structs(Next_routing_point);
 
     char Buffer[100]; // buffer for sprintf for debugging the float
     if((temp->Next_point != NULL))
@@ -116,13 +138,31 @@ double Deg_Heading(int Next_routing_point)
     return Angle;
 }
 
-double Distance_Till_Waypoint(){
+
+
+
+/**
+ * @brief gives the distance to a waypoint or the current waypoint by calling: Give_NodeNumber()
+ * 
+ * @param Next_routing_point 
+ * @return double 
+ */
+double Distance_Till_Waypoint(int Next_routing_point)
+{
+    GPS_Route *temp = pRoute_copy;
+    temp = check_structs(Next_routing_point); 
+
+    if(temp == NULL){
+        UART_puts("Error one of the structs is not filled or correct \r \n");
+        return -1;
+    }
+    double dLat = convert_decimal_degrees(GNRMC_localcopy4.latitude,  &GNRMC_localcopy4.EW_ind) - temp->latitude;
+    double dLong = convert_decimal_degrees(GNRMC_localcopy4.longitude,  &GNRMC_localcopy4.NS_ind) - temp->longitude;
+    // calc from lat, long to x, y 
+
 
     return -1;
 }
-
-
-
 
 
 
@@ -131,11 +171,12 @@ void PID_Controller()
 {
     double Angle=-2, Distance=0;
     int Next_routing_point=-1; // -1 till init aka button press or other function calls this
-
+    pNext_Waypoint = &Next_routing_point;
 
     while(1)
     {
         Angle = Deg_Heading(Next_routing_point); // returns the angle or error code
+        Distance = Distance_Till_Waypoint(Next_routing_point); // returns the distance in m 
 
         osDelay(1);
     }
