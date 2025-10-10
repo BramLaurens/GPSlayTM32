@@ -239,6 +239,13 @@ void UART_menu (void *argument)
 		  	  	UART_puts("\r\nNRF24 output = ");
 		  	  	UART_puts(Uart_debug_out & NRF24_DEBUG_OUT ? "ON\r\n" : "OFF\r\n");
 				break;
+
+		//TEST
+		case 'I':
+				speed = atoi(s+2); // skip first 2 characters
+				Motor_Set_Speed(speed, speed);
+				UART_puts("Speed: "); UART_putint(speed ); UART_puts("\r\n");
+				break;
 		}
 	}
 }

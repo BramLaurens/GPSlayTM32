@@ -31,6 +31,7 @@
 #include "admin.h"
 #include "NRF_driver.h"
 #include "GPS_Route_Setter.h"
+#include "motordriver.h"
 
 /// output strings for initialization
 char *app_name    = "\r\n=== freeRTOS_GPS 407 ===\r\n";
@@ -102,6 +103,9 @@ TASKDATA tasks[] =
 
 // Route setter
 { Route_Setter,    NULL, .attr.name ="Route_setter",    .attr.stack_size = 1200, .attr.priority = osPriorityBelowNormal7 },
+
+  //Motor driver
+{ Motor_Driver,    NULL, .attr.name ="Motor_driver",    .attr.stack_size = 600, .attr.priority = osPriorityBelowNormal7 },
 
   // deze laatste niet wissen, wordt gebruik als 'terminator' in for-loops
 { NULL,         NULL, .attr.name = NULL,           .attr.stack_size = 0,       .attr.priority = 0 }

@@ -48,6 +48,8 @@ extern "C" {
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 extern TIM_HandleTypeDef htim9;
+extern TIM_HandleTypeDef htim12;
+extern TIM_HandleTypeDef htim4;
 
 /* USER CODE END ET */
 
@@ -73,10 +75,6 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define CS_I2C_SPI_Pin GPIO_PIN_3
 #define CS_I2C_SPI_GPIO_Port GPIOE
-#define PWM_LEFT_Pin GPIO_PIN_5
-#define PWM_LEFT_GPIO_Port GPIOE
-#define PWM_RIGHT_Pin GPIO_PIN_6
-#define PWM_RIGHT_GPIO_Port GPIOE
 #define PC14_OSC32_IN_Pin GPIO_PIN_14
 #define PC14_OSC32_IN_GPIO_Port GPIOC
 #define PC15_OSC32_OUT_Pin GPIO_PIN_15
@@ -98,6 +96,10 @@ void Error_Handler(void);
 #define BOOT1_GPIO_Port GPIOB
 #define CLK_IN_Pin GPIO_PIN_10
 #define CLK_IN_GPIO_Port GPIOB
+#define PWM_MOTOR_A2_Pin GPIO_PIN_14
+#define PWM_MOTOR_A2_GPIO_Port GPIOB
+#define PWM_MOTOR_A1_Pin GPIO_PIN_15
+#define PWM_MOTOR_A1_GPIO_Port GPIOB
 #define LD4_Pin GPIO_PIN_12
 #define LD4_GPIO_Port GPIOD
 #define LD3_Pin GPIO_PIN_13
@@ -134,14 +136,14 @@ void Error_Handler(void);
 #define SPI1_CSN_GPIO_Port GPIOB
 #define SPI1_CE_Pin GPIO_PIN_5
 #define SPI1_CE_GPIO_Port GPIOB
-#define Audio_SCL_Pin GPIO_PIN_6
-#define Audio_SCL_GPIO_Port GPIOB
+#define PWM_MOTOR_B2_Pin GPIO_PIN_6
+#define PWM_MOTOR_B2_GPIO_Port GPIOB
 #define SPI1_IRQ_IN_Pin GPIO_PIN_7
 #define SPI1_IRQ_IN_GPIO_Port GPIOB
 #define LED_SCK_Pin GPIO_PIN_8
 #define LED_SCK_GPIO_Port GPIOB
-#define Audio_SDA_Pin GPIO_PIN_9
-#define Audio_SDA_GPIO_Port GPIOB
+#define PWM_MOTOR_B1_Pin GPIO_PIN_9
+#define PWM_MOTOR_B1_GPIO_Port GPIOB
 #define MEMS_INT2_Pin GPIO_PIN_1
 #define MEMS_INT2_GPIO_Port GPIOE
 

@@ -52,7 +52,7 @@ void fill_GNRMC(char *message)
 	// example: $GNRMC,164435.000,A,5205.9505,N,00507.0873,E,0.49,21.70,140423,,,A
 	//          id    , time     ,s,
 
-	osThreadId_t hTask;
+	//osThreadId_t hTask;
 
 	char *tok = ",";
 	char *s;
