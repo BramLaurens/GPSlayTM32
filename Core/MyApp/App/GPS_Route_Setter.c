@@ -177,29 +177,12 @@ uint8_t GPS_Route_Maker()
 }
 
 
-// return float if error -1
-// temp hierin wordt de Lat of Long gegeven zodat we weten welke we terug moeten geven
-double Error_calc_LongLat(char temp[10])
+
+
+GPS_Route *Route_Pointer_Request()
 {
-	if(!strcmp(temp,"Lat")) // if Lat it will return the latitude 
-	{
-		// then check if the data received from the gps over nrf is new and/or availible 
-
-		
-
-		
-	}
-	else if(!strcmp(temp,"Long"))
-	{
-
-
-
-	}
-
-	UART_puts("Unknown param given expected 'Lat or 'Long'. \r\n");
-	return -1;
+	 return pt_Route;
 }
-
 
 
 

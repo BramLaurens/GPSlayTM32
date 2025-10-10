@@ -148,5 +148,3 @@ extern void NRF_Driver(void *);
 
 // Route_Setter.c
 extern void Route_Setter(void *);
-
-

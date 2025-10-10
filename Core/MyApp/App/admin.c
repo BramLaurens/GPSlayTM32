@@ -31,6 +31,8 @@
 #include "admin.h"
 #include "NRF_driver.h"
 #include "GPS_Route_Setter.h"
+#include "Heading.h" 
+
 
 /// output strings for initialization
 char *app_name    = "\r\n=== freeRTOS_GPS 407 ===\r\n";
