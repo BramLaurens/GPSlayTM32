@@ -12,6 +12,10 @@
 #ifndef MYAPP_APP_dGPS_H_
 #define MYAPP_APP_dGPS_H_
 
+/* Enable dGPS output and uncorrected GPS output */
+#define enable_dGPS_out
+#define enable_uncorrectedGPS_out
+
 typedef struct {
     double latitude;
     double longitude;

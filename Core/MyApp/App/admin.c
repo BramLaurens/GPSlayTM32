@@ -56,6 +56,8 @@ SemaphoreHandle_t     hGPS_Mutex; /// mutex voor GPS-parsing
 SemaphoreHandle_t     hdGPSerror_Mutex; /// mutex voor GPS errorbuffer
 SemaphoreHandle_t	  hGPS_Ringbuffer_Mutex; /// mutex voor GPS ringbuffer
 SemaphoreHandle_t     hdGPSlatest_Mutex; /// mutex voor latest corrected GPS data
+SemaphoreHandle_t     hdGPSlatestuncorrected_Mutex; /// mutex voor latest uncorrected GPS data
+
 
 
 
@@ -259,6 +261,9 @@ void CreateHandles(void)
 	
 	if (!(hdGPSlatest_Mutex = xSemaphoreCreateMutex()))
 		error_HaltOS("Error hdGPSlatest_Mutex");
+
+	if (!(hdGPSlatestuncorrected_Mutex = xSemaphoreCreateMutex()))
+		error_HaltOS("Error hdGPSlatestuncorrected_Mutex");
 
 	UART_puts("\n\rAll handles created successfully.");
 

@@ -68,6 +68,8 @@ extern SemaphoreHandle_t  hGPS_Ringbuffer_Mutex;
 extern SemaphoreHandle_t  hdGPSerror_Mutex;
 /// handle for latest corrected GPS data Mutex
 extern SemaphoreHandle_t  hdGPSlatest_Mutex;
+/// handle for latest uncorrected GPS data Mutex
+extern SemaphoreHandle_t  hdGPSlatestuncorrected_Mutex;
 
 
 /// debug naar uart output, zie uart_keys.c

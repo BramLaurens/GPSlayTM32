@@ -17,12 +17,52 @@ GPS_decimal_degrees_t GPS_workingavgbuffer; // Buffer to hold the current averag
 
 dGPS_decimalData_t GPS_latest_averaged; // Holds the latest averaged GPS data for adding to the history buffer
 
+dGPS_decimalData_t GPS_latestsafe_uncorrected; // Holds the latest uncorrected GPS data for external use
+
 char last_GPS_time[10] = "000000.000"; // To track time changes
 char c_received_GPS_time[10] = "000000.000"; // Current received GPS time
 uint32_t u_last_GPS_time = 0;
 uint32_t u_working_GPS_time = 0; // Working time variable
 
 int i = 0; // Index for averaging counter RENAME!!
+
+/**
+ * @brief Retrieves the latest uncorrected GPS data. (1 second worth of averaged data)
+ * 
+ * @param dest Destination pointer to store the latest uncorrected GPS data
+ */
+void GPS_getlatest_uncorrected(dGPS_decimalData_t *dest)
+{
+    /* Copy the latest uncorrected GPS data safely */
+    if(xSemaphoreTake(hdGPSlatestuncorrected_Mutex, portMAX_DELAY) == pdTRUE)
+    {
+        memcpy(dest, &GPS_latestsafe_uncorrected, sizeof(dGPS_decimalData_t));
+        xSemaphoreGive(hdGPSlatestuncorrected_Mutex);
+    }
+    else
+    {
+        error_HaltOS("Err:hdGPSlatestuncorrected_Mutex");
+    }
+}
+
+/**
+ * @brief Stores the latest uncorrected GPS data (1 second worth of averaged data) into a struct for external use
+ * 
+ * @param dest Destination pointer to store the latest uncorrected GPS data
+ */
+void GPS_storeUncorrected(dGPS_decimalData_t *dest)
+{
+    if(xSemaphoreTake(hdGPSlatestuncorrected_Mutex, portMAX_DELAY) == pdTRUE)
+    {
+        memcpy(dest, &GPS_latest_averaged, sizeof(dGPS_decimalData_t));
+
+        xSemaphoreGive(hdGPSlatestuncorrected_Mutex);
+    }
+    else
+    {
+        error_HaltOS("Err:hdGPSlatestuncorrected_Mutex");
+    }
+}
 
 /**
  * @brief Function to copy the latest GPS data from the circular history buffer
@@ -162,7 +202,16 @@ void parse_GPSdata()
     if (i >= 5)
     {
         AVG_gpscalc(u_working_GPS_time);
+
+        // Store the averaged data in the history buffer for dGPS matching
         GPS_store_in_history(u_working_GPS_time);
+
+        #ifdef enable_uncorrectedGPS_out
+            // Also store the averaged data in the uncorrected latest buffer for external use
+            GPS_storeUncorrected(&GPS_latestsafe_uncorrected);
+            /*Later a notify comes here to the GPS vector task */
+        #endif
+
         /* After storing averaged value, reset averaging state so next second starts fresh */
         i = 0;
         AVG_gpsinit();

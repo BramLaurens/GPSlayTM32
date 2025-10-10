@@ -8,20 +8,50 @@
 
 #define dGPS_calculator_debug
 
-dGPS_decimalData_t latestCorrectedGPS; // Holds the latest corrected GPS data
+dGPS_decimalData_t GPS_latestsafe_corrected; // Holds the latest corrected GPS data
 
 void GPS_getlatest_corrected(dGPS_decimalData_t *dest)
 {
     /* Copy the latest corrected GPS data safely */
     if(xSemaphoreTake(hdGPSlatest_Mutex, portMAX_DELAY) == pdTRUE)
     {
-        memcpy(dest, &latestCorrectedGPS, sizeof(dGPS_decimalData_t));
+        memcpy(dest, &GPS_latestsafe_corrected, sizeof(dGPS_decimalData_t));
         xSemaphoreGive(hdGPSlatest_Mutex);
     }
     else
     {
         error_HaltOS("Err:hdGPSlatest_Mutex");
     }
+}
+
+/**
+ * @brief Stores the latest corrected GPS data into the provided destination struct.
+ * 
+ * @param dest Destination pointer to store the latest corrected GPS data
+ * @param ptdGPS Pointer to the latest GPS data
+ * @param ptdError Pointer to the latest error data
+ */
+void GPS_store_latest_corrected(dGPS_decimalData_t *dest, dGPS_decimalData_t *ptdGPS, dGPS_errorData_t *ptdError)
+{
+    if (xSemaphoreTake(hdGPSlatest_Mutex, portMAX_DELAY) == pdTRUE)
+        {
+            dest->latitude = ptdGPS->latitude - ptdError->latitude;
+            dest->longitude = ptdGPS->longitude - ptdError->longitude;
+            dest->timestamp = ptdGPS->timestamp;
+            xSemaphoreGive(hdGPSlatest_Mutex);
+
+            #ifdef dGPS_calculator_debug
+                char msg[150];
+                sprintf(msg, "      Corrected GPS stored: Time: %ld Lat: %.9f, Lon: %.9f\r\n", dest->timestamp, dest->latitude, dest->longitude);
+                UART_puts(msg);
+            #endif
+        }
+        else
+        {
+            /* If mutex cannot be taken quickly, still return; caller may retry later */
+            UART_puts("         Warning: could not take hdGPSlatest_Mutex to store corrected GPS\r\n");
+        }
+
 }
 
 /**
@@ -57,25 +87,11 @@ void dGPS_comparator()
         UART_puts("     Matching timestamp found in GPS buffer for received error data\r\n");
 
         /* Correct for received GPS error and store result under mutex */
-        if (xSemaphoreTake(hdGPSlatest_Mutex, pdMS_TO_TICKS(100)) == pdTRUE)
-        {
-            latestCorrectedGPS.latitude  = ptdGPS->latitude - ptdError->latitude;
-            latestCorrectedGPS.longitude = ptdGPS->longitude - ptdError->longitude;
-            latestCorrectedGPS.timestamp = ptdGPS->timestamp;
-            xSemaphoreGive(hdGPSlatest_Mutex);
-
-            #ifdef dGPS_calculator_debug
-                char msg[150];
-                sprintf(msg, "      Corrected GPS stored: Time: %ld Lat: %.9f, Lon: %.9f\r\n", latestCorrectedGPS.timestamp, latestCorrectedGPS.latitude, latestCorrectedGPS.longitude);
-                UART_puts(msg);
-            #endif
-        }
-        else
-        {
-            /* If mutex cannot be taken quickly, still return; caller may retry later */
-            UART_puts("         Warning: could not take hdGPSlatest_Mutex to store corrected GPS\r\n");
-        }
-
+        #ifdef enable_dGPS_out
+            GPS_store_latest_corrected(&GPS_latestsafe_corrected, ptdGPS, ptdError);
+            /*Later a notify comes here to the GPS vector task */
+        #endif
+        
         return;
     }
 
@@ -99,10 +115,12 @@ void dGPS_calculator(void *argument)
     while (1)
     {
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY); // Wait for notification from NRF driver task
+
         osDelay(100);
-        UART_puts("\r\n     dGPS_calculator notified, new error received\r\n");
+        UART_puts("\r\n     dGPS_calculator notified, new error received, starting timestamp matching\r\n");
         /* Process the newly received error by searching the GPS history and computing corrected coords */
         dGPS_comparator();
+
         osDelay(1);
     }
 }
