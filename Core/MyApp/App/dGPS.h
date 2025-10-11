@@ -14,7 +14,7 @@
 
 /* Enable dGPS output and uncorrected GPS output */
 #define enable_dGPS_out
-#define enable_uncorrectedGPS_out
+// #define enable_uncorrectedGPS_out
 
 typedef struct {
     double latitude;
