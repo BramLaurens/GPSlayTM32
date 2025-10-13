@@ -71,8 +71,8 @@
 									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2"/>
 									<listOptionValue builtIn="false" value="../Middlewares/ST/STM32_USB_Host_Library/Core/Inc"/>
 									<listOptionValue builtIn="false" value="../Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Inc"/>
-									<listOptionValue builtIn="false" value="/home/bram-laurens/STM32CubeIDE/workspace_1.19.0/GPSlay32/Core/Inc/Tracerecorder_config"/>
 									<listOptionValue builtIn="false" value="/home/bram-laurens/STM32CubeIDE/workspace_1.19.0/GPSlay32/Core/Inc/Tracerecorder_inc"/>
+									<listOptionValue builtIn="false" value="/home/bram-laurens/STM32CubeIDE/workspace_1.19.0/GPSlay32/Core/Inc/Tracerecorder_config"/>
 									<listOptionValue builtIn="false" value="/home/bram-laurens/STM32CubeIDE/workspace_1.19.0/GPSlay32/Core/Inc/Tracerecorder_ringbuffer_config"/>
 									<listOptionValue builtIn="false" value="/home/bram-laurens/STM32CubeIDE/workspace_1.19.0/GPSlay32/Core/Inc/Tracerecorder_ringbuffer_inc"/>
 								</option>
@@ -180,8 +180,8 @@
 									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2"/>
 									<listOptionValue builtIn="false" value="../Middlewares/ST/STM32_USB_Host_Library/Core/Inc"/>
 									<listOptionValue builtIn="false" value="../Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Inc"/>
-									<listOptionValue builtIn="false" value="/home/bram-laurens/STM32CubeIDE/workspace_1.19.0/GPSlay32/Core/Inc/Tracerecorder_config"/>
 									<listOptionValue builtIn="false" value="/home/bram-laurens/STM32CubeIDE/workspace_1.19.0/GPSlay32/Core/Inc/Tracerecorder_inc"/>
+									<listOptionValue builtIn="false" value="/home/bram-laurens/STM32CubeIDE/workspace_1.19.0/GPSlay32/Core/Inc/Tracerecorder_config"/>
 									<listOptionValue builtIn="false" value="/home/bram-laurens/STM32CubeIDE/workspace_1.19.0/GPSlay32/Core/Inc/Tracerecorder_ringbuffer_config"/>
 									<listOptionValue builtIn="false" value="/home/bram-laurens/STM32CubeIDE/workspace_1.19.0/GPSlay32/Core/Inc/Tracerecorder_ringbuffer_inc"/>
 								</option>

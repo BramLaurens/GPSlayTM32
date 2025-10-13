@@ -10,7 +10,7 @@
 * @date 5/5/2022
 */
 
-#include <admin.h>
+#include "admin.h"
 #include "main.h"
 #include "cmsis_os.h"
 
@@ -49,6 +49,7 @@ void ARM_keys_IRQ (void *argument)
 		key = xEventGroupWaitBits(hKEY_Event, 0xffff, pdTRUE, pdFALSE, portMAX_DELAY );
 
 		xTaskNotify(hTask, key, eSetValueWithOverwrite); // notify task2 with value
+
 	}
 }
 
@@ -76,7 +77,7 @@ void ARM_keys_task (void *argument)
 	    xSemaphoreTake(hLED_Sem, portMAX_DELAY); // krijg toegang (mutex) tot leds
 
     	LED_put((unsigned char)key); // set 8 leds-byte to key-value
-//	    BUZZER_put (500);
+	    BUZZER_put (500);
 		osDelay(500);
 
 		UART_puts("\r\n\tARM_key pressed to leds: "); UART_putint(key);
@@ -97,14 +98,25 @@ void ARM_keys_task (void *argument)
 			toggle_led(led);
 	  	}
 
-		// Also notify the Route_Setter task so it can act on this key press.
-		// Using a direct task notification avoids races that happen when multiple
-		// consumers try to read the shared event group bits.
-		osThreadId_t hRoute = GetTaskhandle("Route_setter");
-		if (hRoute)
+		// Send key to the ARM-key route performer queue 
+		if (hKeyRP_Queue)
 		{
-			xTaskNotify(hRoute, key, eSetValueWithOverwrite);
-		}
+			// try to send without blocking; if queue is full, drop the key
+			if (xQueueSend(hKeyRP_Queue, &key, 0) != pdTRUE)
+			{
+
+			}
+		}	
+
+		// Send key to the ARM-key route performer queue 
+		if (hKeyRS_Queue)
+		{
+			// try to send without blocking; if queue is full, drop the key
+			if (xQueueSend(hKeyRS_Queue, &key, 0) != pdTRUE)
+			{
+
+			}
+		}	
 
 		taskYIELD(); // done, force context switch
 	}

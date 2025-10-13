@@ -17,9 +17,6 @@
 #include "cmsis_os.h"
 #include "GPS_Route_Setter.h"
 #include "gps.h"
-#include "NRF_driver.h"
-
-#define averagingN 5
 
 #define debug_routesetter
 
@@ -57,54 +54,6 @@ double convert_decimal_degrees(char *nmea_coordinate, char* ns)
 }
 
 /**
- * @brief Averages the GPS coordinates over a set number of samples.
- * 
- * @param averagedBuffer Pointer to the structure holding the averaged GPS coordinates.
- */
-void averageGPS(PGPS_decimal_degrees_t averagedBuffer)
-{
-	GPS_decimal_degrees_t errorCorrectionbuffer;
-	GPS_decimal_degrees_t averageArray[averagingN];
-	PGPS_decimal_degrees_t ptd = averageArray;
-	averagedBuffer->latitude = 0;
-	averagedBuffer->longitude = 0;
-	int i = 0;
-
-	UART_puts("Starting averaging operation\r\n");
-
-	for(i=0; i<5; i++, ptd++)
-	{
-		getlatest_GNRMC(&GNRMC_localcopy3);
-
-		// 'V' is invalid 'A' is valid 
-		if(pt_Route_Parser->status != 'A')
-		{ 
-			UART_puts("Data from GPS is not valid or is currently busy locking");
-			// posibility for lcd screen debuging
-			return; 
-		}
-
-		// Errorcorrection
-
-		ptd->latitude = errorCorrectionbuffer.latitude;
-		ptd->longitude = errorCorrectionbuffer.longitude;
-
-		averagedBuffer->latitude += ptd->latitude;
-		averagedBuffer->longitude += ptd->longitude;
-
-		osDelay(200);
-	}
-
-	averagedBuffer->latitude = averagedBuffer->latitude / 5;
-	averagedBuffer->longitude = averagedBuffer->longitude /5;
-
-	char msg[100];
-	sprintf(msg, "Calculated Average - Lat: %.9f, Lon: %.9f\r\n", averagedBuffer->latitude, averagedBuffer->longitude);
-	UART_puts(msg);
-
-}
-
-/**
  * @brief Views all nodes in the linked list and prints them using UART
  * 
  * @param not in use
@@ -122,7 +71,7 @@ void View_Linkedlist()
 	GPS_Route *temp = pt_Route;
 	if(temp->Next_point == NULL)
 	{
-		sprintf(buffer,"[%d]	Long:%2.9f Lat:%2.9f ",temp->nodeNumber, temp->longitude, temp->latitude);
+		sprintf(buffer,"Long:%2.9f\n Lat:%2.9f ", temp->longitude, temp->latitude);
 		UART_puts(buffer);
 		UART_puts("\r\n");
 		return;
@@ -130,7 +79,7 @@ void View_Linkedlist()
 
 	while(temp!= NULL) // go through and print all nodes while there is a node
 	{
-		sprintf(buffer,"[%d]	Long:%2.9f Lat:%2.9f ",temp->nodeNumber, temp->longitude, temp->latitude);
+		sprintf(buffer,"Long:%2.9f\n Lat:%2.9f ", temp->longitude, temp->latitude);
 		UART_puts(buffer);
 		UART_puts("\r\n");
 		temp=temp->Next_point;
@@ -151,7 +100,14 @@ void View_Linkedlist()
 uint8_t GPS_Route_Maker()
 {
 	char Float_buffer[100]; // char buffer so the floats can be made visible for the user
-	GPS_decimal_degrees_t averagedBuffer;
+
+	// 'V' is invalid 'A' is valid 
+	if(pt_Route_Parser->status == 'V')
+	{ 
+		UART_puts("Data from GPS is not valid or is currently busy locking");
+		// posibility for lcd screen debuging
+		return 1; 
+	}
 
  	// free memory so a struct can be added returning a pointer to that memory address
 	GPS_Route *Node= malloc(sizeof(GPS_Route));
@@ -166,9 +122,8 @@ uint8_t GPS_Route_Maker()
 	// if there is no head(first node of a linked list)  
 	if(pt_Route == NULL)
 	{ 
-		averageGPS(&averagedBuffer);
-		Node->longitude= averagedBuffer.longitude;
-		Node->latitude= averagedBuffer.latitude;
+		Node->longitude= convert_decimal_degrees(GNRMC_localcopy3.longitude, &GNRMC_localcopy3.EW_ind);	// make a float out of the ascii char of the gps data
+		Node->latitude= convert_decimal_degrees(GNRMC_localcopy3.latitude, &GNRMC_localcopy3.NS_ind);	// make a float out of the ascii char of the gps data
 		Node->nodeNumber = 0;
 		Node->Next_point = NULL; 
 		UART_puts("Head created");
@@ -200,11 +155,9 @@ uint8_t GPS_Route_Maker()
 	UART_puts("\r\n");
 	UART_puts("Node in linked list:"); UART_putint(i); UART_puts("\r\n");
 
-	averageGPS(&averagedBuffer);
-
 	// Filling node elements
-	Node->longitude= averagedBuffer.longitude;
-	Node->latitude= averagedBuffer.latitude;
+	Node->longitude= convert_decimal_degrees(GNRMC_localcopy3.longitude, &GNRMC_localcopy3.EW_ind);	// make a float out of the ascii char of the gps data
+	Node->latitude= convert_decimal_degrees(GNRMC_localcopy3.latitude, &GNRMC_localcopy3.NS_ind);	// make a float out of the ascii char of the gps data
 	Node->nodeNumber = i;
 	Node->Next_point = NULL;
 	temp->Next_point = Node;
@@ -223,6 +176,19 @@ uint8_t GPS_Route_Maker()
 	return 0;
 }
 
+
+
+
+GPS_Route *Route_Pointer_Request()
+{
+	 return pt_Route;
+}
+
+
+
+
+
+
 /**
  * @brief Removes the last node from the linked list if the linked list is 
  * 
@@ -235,14 +201,14 @@ uint8_t Remove_Last_Node()
 	if(pt_Route == NULL)
 	{	// if the linked list is empty then return -1
 		UART_puts("Linked list is empty \r\n");
-		return 2; // error code maybe other nr
+		return 0; // error code maybe other nr
 	}
 
 	if(pt_Route->Next_point == NULL)
 	{ // the last node of the linked list
 		free(pt_Route); // this frees the memory for the kernel to be used again
 		pt_Route = NULL; // the pointer will still point to the spot in memory so make it NULL so no exidental read write operation is done
-		UART_puts("Linked list is now cleared completly \r\n");
+		UART_puts("Linked list is now cleared completly");
 		return 1; // returns 1 when the linked list is completly empty 
 	}
 
@@ -259,7 +225,7 @@ uint8_t Remove_Last_Node()
     free(temp);
     prev->Next_point = NULL;
 
-    UART_puts("Removed last node \r\n ");
+    UART_puts("Removed last node");
     return 0;
 }
 
@@ -270,16 +236,23 @@ uint8_t Remove_Last_Node()
  */
 void Route_Setter(void *argument)
 {
+	osDelay(200); // wait a second to make sure everything is started
+	// Print route setter started
+	UART_puts("Route Setter started \r\n");
+
 	//Create a key variable to store the key pressed by the user
 	uint32_t key=0;
 
 	while(TRUE){
-		// Wait for a notification from the ARM key handler.
-		xTaskNotifyWait(0x00,            // Don't clear any notification bits on entry
-						0xffffffff,      // Clear the notification value on exit
-						&key,            // Notified value
-						portMAX_DELAY);  // Block indefinitely
-		UART_puts("\r\n");
+		if (hKeyRS_Queue)
+		{
+			if (xQueueReceive(hKeyRS_Queue, &key, portMAX_DELAY) != pdTRUE)
+			{
+				/* If receiving failed for some reason, skip this loop iteration */
+				continue;
+			}
+			UART_puts("\r\n");
+		}
 
 		switch(key){
 		case 0x01: // key 1 pressed (upper left)
@@ -288,6 +261,7 @@ void Route_Setter(void *argument)
 				UART_puts("Trying to set a waypoint...");
 				UART_puts("\r\n");
 			#endif
+			getlatest_GNRMC(&GNRMC_localcopy3);
 			GPS_Route_Maker(); // Creates a node for a linked list everytime the ARM key is pressed
 			break;
 
@@ -298,11 +272,11 @@ void Route_Setter(void *argument)
 
 		case 0x03: // remove all nodes 
 			UART_puts("Removing all nodes...");
-			while(Remove_Last_Node() == 0);
+			while(Remove_Last_Node() != 0);
 			break;
 
 		case 0x04:
-		UART_puts("Viewing all items in linked list... \r\n");
+		UART_puts("Viewing all items in linked list...");
 			View_Linkedlist();
 			break; 
 

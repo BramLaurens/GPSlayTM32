@@ -1,10 +1,13 @@
-/*
- * NRF_driver.c
- *
- *  Created on: Sep 23, 2025
- *      Author: braml
+/**
+ * @file NRF_driver.c
+ * @author Bram Laurens
+ * @brief Driver voor de NRF24 module in receiver mode. Checkt continu op nieuwe data, en kopieert deze vanuit de module naar een RX buffer. 
+ * @version 0.1
+ * @date 2025-10-04
+ * 
+ * @copyright Copyright (c) 2025
+ * 
  */
-
 
 #include <admin.h>
 #include "main.h"
@@ -107,18 +110,40 @@ void NRF_Driver(void *argument)
     nrf24_data_rate(_1mbps); // Set data rate to 1Mbps
     nrf24_set_channel(78); // Set channel to 76
     nrf24_pipe_pld_size(0, PLD_SIZE); // Set payload size for pipe 0
-    // nrf24_pipe_pld_size(0, sizeof(GPS_decimal_degrees_t)); // Set payload size for pipe 0
     nrf24_set_crc(en_crc, _1byte); // Enable CRC with 1 byte
     nrf24_open_rx_pipe(0, addr); // Open TX pipe with address
 
     nrf24_pwr_up(); // Power up the NRF24L01+
-
-    nrf24_listen(); // Enter listening mode
-
+    
     while (TRUE)
     {
-        fill_GPSerror();
+        NRF_receive();
         osDelay(1); // Placeholder delay
+    }
+}
+
+/**
+ * @brief Receiver function for the NRF24 module in receiver mode. Checks continously for new data and stores in RX buffer.
+ * 
+ * @param argument 
+ */
+void NRF_receive()
+{
+    nrf24_listen(); // Enter listening mode
+
+    if(nrf24_data_available())
+    {
+        nrf24_receive(rx, sizeof(rx)); // Receive data
+        NRF24_new_value = 1; // Set new value flag
+    }
+
+    if (Uart_debug_out & NRF24_DEBUG_OUT && NRF24_new_value)
+    {
+        char msg[50];
+        sprintf(msg, rx);
+        UART_puts(msg); 
+        UART_puts("\r\n");
+        NRF24_new_value = 0; // Reset new value flag
     }
 }
 

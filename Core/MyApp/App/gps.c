@@ -12,10 +12,7 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "gps.h"
-#include "GPS_Route_Setter.h"
-#include "NRF_driver.h"
 
-#define dGPS_debug
 
 GNRMC gnrmc; // global struct for GNRMC-messages
 
