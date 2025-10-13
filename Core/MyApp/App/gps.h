@@ -7,6 +7,8 @@
 *
 * @date 5/9/2023
 */
+#ifndef MYAPP_APP_GPS_H_
+#define MYAPP_APP_GPS_H_
 int hex2int(char *c);
 int hexchar2int(char c);
 int checksum_valid(char *string);
@@ -46,3 +48,5 @@ enum NMEA
 
 void getlatest_GNRMC(GNRMC *dest);
 void correct_dGPS_error(PdGPS_errorData_t pinputCoordinates);
+
+#endif /* MYAPP_APP_GPS_H_ */

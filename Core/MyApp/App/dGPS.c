@@ -7,7 +7,7 @@
 #include "GPS_Route_Setter.h"
 #include <string.h>
 
-#define dGPS_debug
+//#define dGPS_debug
 
 GNRMC gnrmc_localbuffer; // local struct for GNRMC-messages
 

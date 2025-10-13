@@ -17,24 +17,20 @@
 #include "gps.h"
 #include <math.h>
 #include <stdbool.h>   
+#include "dGPS.h"
 
 #define M_PI 3.14159265358979323846
 
 #define Error_marge_completed_waypoint 3   //error margin for when the leaphy is within x meters of the waypoint (+ or -) in meters
 
 
-GNRMC GNRMC_localcopy4;
+dGPS_decimalData_t dGPS_localcopy4;
 GPS_Route *pRoute_copy;
 int *pWorking_Waypoint;
 
 int update_GPS_loc()
 {
-    getlatest_GNRMC(&GNRMC_localcopy4);
-    if(GNRMC_localcopy4.status != 'A') // invalid data or no data is received
-    {
-        UART_puts("Error no Valid data recieved form gps (GNRMC) (update_GPS_loc) \r \n");
-        return -1;
-    }
+    GPS_getlatest_uncorrected(&dGPS_localcopy4); // get the latest uncorrected gps data
     return 0;
 }
 
@@ -92,8 +88,8 @@ GPS_Route *check_structs(int Next_routing_point)
 double Calc_Angle(GPS_Route *pRoute)
 {
     // Convert all positions to radians
-    double lat1 = convert_decimal_degrees(GNRMC_localcopy4.latitude, &GNRMC_localcopy4.NS_ind) * M_PI / 180.0;
-    double lon1 = convert_decimal_degrees(GNRMC_localcopy4.longitude, &GNRMC_localcopy4.EW_ind) * M_PI / 180.0;
+    double lat1 = dGPS_localcopy4.latitude * M_PI / 180.0;
+    double lon1 = dGPS_localcopy4.longitude * M_PI / 180.0;
     double lat2 = pRoute->latitude * M_PI / 180.0;
     double lon2 = pRoute->longitude * M_PI / 180.0;
 
@@ -169,10 +165,10 @@ double distance_tillwaypoint_FE(int Working_routing_point)
     }
 
     const double lat_to_m = 111320.0; // meters per degree latitude
-    const double lon_to_m = 111320.0 * cos(convert_decimal_degrees(GNRMC_localcopy4.latitude, &GNRMC_localcopy4.NS_ind) * M_PI / 180.0); // meters per degree longitude, adjusted for latitude
+    const double lon_to_m = 111320.0 * cos(dGPS_localcopy4.latitude * M_PI / 180.0); // meters per degree longitude, adjusted for latitude
 
-    double dLat = (convert_decimal_degrees(GNRMC_localcopy4.latitude,  &GNRMC_localcopy4.NS_ind) - temp->latitude);
-    double dLong = (convert_decimal_degrees(GNRMC_localcopy4.longitude,  &GNRMC_localcopy4.EW_ind) - temp->longitude);
+    double dLat = (dGPS_localcopy4.latitude - temp->latitude);
+    double dLong = (dGPS_localcopy4.longitude - temp->longitude);
 
     double dx = dLong * lon_to_m;
     double dy = dLat * lat_to_m;
@@ -209,8 +205,8 @@ double Distance_Till_Waypoint(int Working_routing_point)
 
 
     // Calculate the distance between the current location and the waypoint
-    double dLat = convert_decimal_degrees(GNRMC_localcopy4.latitude,  &GNRMC_localcopy4.EW_ind) - temp->latitude;
-    double dLong = convert_decimal_degrees(GNRMC_localcopy4.longitude,  &GNRMC_localcopy4.NS_ind) - temp->longitude;
+    double dLat = (dGPS_localcopy4.latitude - temp->latitude);
+    double dLong = (dGPS_localcopy4.longitude - temp->longitude);
 
 
     // calc from lat, long to x, y using Rijksdriehoeks conversion 
@@ -218,8 +214,8 @@ double Distance_Till_Waypoint(int Working_routing_point)
     const double phi0 = 52.15517440; // Lat
     const double lam0 = 5.38720621; // Long
 
-    double phi = (convert_decimal_degrees(GNRMC_localcopy4.latitude,  &GNRMC_localcopy4.EW_ind) - phi0) * 0.36; //Lat
-    double lambda = (convert_decimal_degrees(GNRMC_localcopy4.longitude,  &GNRMC_localcopy4.NS_ind) - lam0) * 0.36; // Long
+    double phi = (dGPS_localcopy4.latitude - phi0) * 0.36; //Lat
+    double lambda = (dGPS_localcopy4.longitude - lam0) * 0.36; // Long
 
     // Base coordinates of amersfoort change this to our using amersfoort as ref or dont and see the distance in X, Y from amersfoort
     const double x0 = 155000.0;
@@ -377,6 +373,7 @@ void PID_Controller()
         if (EnableRP_algo)
         {
             Distance = distance_tillwaypoint_FE(Working_routing_point); // Update distance to working waypoint
+            Angle = GET_workingHeading(Working_routing_point); // Update angle to working waypoint
             Working_routing_point = Completed_waypoint(Distance); // Check if waypoint is completed and get next waypoint if so
         }
         // Do other periodic PID work here, if any

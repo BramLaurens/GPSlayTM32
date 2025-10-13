@@ -14,7 +14,7 @@
 
 /* Enable dGPS output and uncorrected GPS output */
 #define enable_dGPS_out
-// #define enable_uncorrectedGPS_out
+#define enable_uncorrectedGPS_out
 
 typedef struct {
     double latitude;
@@ -28,7 +28,13 @@ typedef struct {
     uint32_t timestamp; // Timestamp in HHMMSS format (from NMEA time field)
 } dGPS_decimalData_t, *PdGPS_decimalData_t;
 
+typedef struct {
+	double latitude;
+	double longitude;
+} GPS_decimal_degrees_t, *PGPS_decimal_degrees_t;
+
 extern double convert_decimal_degrees(char *nmea_coordinate, char* ns);
 void GPS_getlatest_ringbuffer(dGPS_decimalData_t *dest);
+void GPS_getlatest_uncorrected(dGPS_decimalData_t *dest);
 
 #endif /* MYAPP_APP_dGPS_H_ */
