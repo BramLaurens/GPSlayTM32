@@ -3,7 +3,7 @@
 #include "stdlib.h"
 #include "motordriver.h"
 
-#define PWM_FREQUENCY 10000 // 10 kHz
+#define PWM_FREQUENCY 100 // 100 Hz
 #define MAX_DUTY_CYCLE 255
 #define CLOCK_DIVISION 2 	// APB1 prescaler is set to 2 in SystemClock_Config
 
@@ -30,7 +30,7 @@ void Motor_Init(void)
 /**
  * @brief Function to calculate and set frequency and duty cycle for PWM channel A1.
  * 
- * @param freq in Hz (usually 10kHz)
+ * @param freq in Hz (usually 100 - 10000 Hz)
  * @param dutyCycle range 0 - 255
  * @param htim pointer to the timer handler (eg &htim12)
  * @param channel timer channel (eg TIM_CHANNEL_1)
@@ -109,10 +109,10 @@ void Motor_Set_Speed(int16_t speedLeft, int16_t speedRight)
 void Motor_Driver(void *argument)
 {
 	Motor_Init();
-	PWM_Set(PWM_FREQUENCY, 100, &htim12, TIM_CHANNEL_1); // A1
-	PWM_Set(PWM_FREQUENCY, 100, &htim12, TIM_CHANNEL_2); // A2
-	PWM_Set(PWM_FREQUENCY, 100, &htim4,  TIM_CHANNEL_1); // B1
-	PWM_Set(PWM_FREQUENCY, 100, &htim4,  TIM_CHANNEL_4); // B2	
+	PWM_Set(PWM_FREQUENCY, 0, &htim12, TIM_CHANNEL_1); // A1
+	PWM_Set(PWM_FREQUENCY, 0, &htim12, TIM_CHANNEL_2); // A2
+	PWM_Set(PWM_FREQUENCY, 0, &htim4,  TIM_CHANNEL_1); // B1
+	PWM_Set(PWM_FREQUENCY, 0, &htim4,  TIM_CHANNEL_4); // B2	
 	while(1)
 	{
 		osDelay(100); // adjust delay as needed

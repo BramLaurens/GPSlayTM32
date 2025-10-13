@@ -179,6 +179,7 @@ key: function\r\n\
  p : change TASK PRIORITY, eg. 'p,7,20' sets priority of task 7 to 20\r\n\
  t : display TASK DATA (number, priority, stack usage, status)\r\n\
  s : start/stop TASK, eg. s,7 starts or stops task 7\r\n\
+ i : set motor speed, eg. 'i,100' sets speed to 100 (range 0-255)\r\n\
 =====================================================================\r\n";
 
     UART_puts(menu);
