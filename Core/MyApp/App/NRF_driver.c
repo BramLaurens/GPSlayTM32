@@ -18,18 +18,83 @@
 #include <string.h>
 #include "stm32f4xx_hal.h"
 #include "NRF24_conf.h"
+#include "gps.h"
+#include "GPS_Route_Setter.h"
+#include "dGPS.h"
 
 #define PLD_SIZE 32 // Payload size in bytes
 uint8_t ack[PLD_SIZE]; // Acknowledgment buffer
 uint8_t rx[PLD_SIZE];  // Receive buffer
 
+dGPS_errorData_t errorBuffer;
+
+static dGPS_errorData_t bufferA;
+static dGPS_errorData_t bufferB;
+
+static dGPS_errorData_t *volatile frontendBuffer = &bufferA;
+static dGPS_errorData_t *volatile backendBuffer  = &bufferB;
+
 extern SPI_HandleTypeDef hspiX;
 
-/**
- * @brief Driver for the NRF24 module in receiver mode. Checks continously for new data.
- * 
- * @param argument 
- */
+void GPS_getlatest_error(dGPS_errorData_t *dest)
+{
+    if(xSemaphoreTake(hdGPSerror_Mutex, portMAX_DELAY) == pdTRUE)
+    {
+        *dest = *frontendBuffer;
+        xSemaphoreGive(hdGPSerror_Mutex);
+    }
+    else
+    {
+        error_HaltOS("Err:hdGPSerror_Mutex");
+    }
+}
+
+void fill_GPSerror()
+{
+    if(nrf24_data_available())
+    {
+        osThreadId_t hTask;
+
+        #ifdef NRF24_debug
+            UART_puts("Data received: \r\n");
+        #endif
+
+        nrf24_receive(rx, sizeof(rx)); // Receive data
+
+        //Copy received data to errorBuffer for further processing
+        memcpy(&errorBuffer, rx, sizeof(errorBuffer));
+
+        // Debug print
+        if(Uart_debug_out & NRF24_DEBUG_OUT)
+        {
+            char msg[100];
+            sprintf(msg, "Lat: %.9f, Lon: %.9f", errorBuffer.latitude, errorBuffer.longitude);
+            UART_puts(msg);
+            UART_puts("\r\n");
+        }
+
+        if(xSemaphoreTake(hdGPSerror_Mutex, portMAX_DELAY) == pdTRUE)
+        {
+            // Simple buffer swap mechanism
+            dGPS_errorData_t *temp = frontendBuffer;
+            frontendBuffer = &errorBuffer; 
+            backendBuffer = temp;
+            xSemaphoreGive(hdGPSerror_Mutex); // Don't forget to give the mutex back
+        }
+        else
+        {
+            // Failed to take the mutex (should not happen with portMAX_DELAY)
+            error_HaltOS("Err:hdGPSerror_Mutex");
+        }
+
+
+        if (!(hTask = xTaskGetHandle("dGPS_calculator")))
+            error_HaltOS("Err:dGPS_calculator");
+
+        xTaskNotifyGive(hTask); // Notify dGPS_calculator task that new error is available
+    }
+}
+
 void NRF_Driver(void *argument)
 {
     osDelay(100);

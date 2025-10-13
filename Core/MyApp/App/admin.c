@@ -31,6 +31,8 @@
 #include "admin.h"
 #include "NRF_driver.h"
 #include "GPS_Route_Setter.h"
+#include "dGPS.h"
+#include "gps.h"
 #include "Heading.h" 
 
 
@@ -49,10 +51,16 @@ QueueHandle_t 	      hKeyRP_Queue;
 QueueHandle_t 	      hKeyRS_Queue;
 QueueHandle_t 	      hUART_Queue; /// uses UART2
 QueueHandle_t 	      hGPS_Queue;  /// uses UART1
+QueueHandle_t         hGNRMC_Queue; /// queue for complete GPS messages
 SemaphoreHandle_t     hLED_Sem;
 EventGroupHandle_t 	  hKEY_Event;
 TimerHandle_t         hTimer1;
 SemaphoreHandle_t     hGPS_Mutex; /// mutex voor GPS-parsing
+SemaphoreHandle_t     hdGPSerror_Mutex; /// mutex voor GPS errorbuffer
+SemaphoreHandle_t	  hGPS_Ringbuffer_Mutex; /// mutex voor GPS ringbuffer
+SemaphoreHandle_t     hdGPSlatest_Mutex; /// mutex voor latest corrected GPS data
+SemaphoreHandle_t     hdGPSlatestuncorrected_Mutex; /// mutex voor latest uncorrected GPS data
+
 
 
 
@@ -105,6 +113,11 @@ TASKDATA tasks[] =
 
 // Route setter
 { Route_Setter,    NULL, .attr.name ="Route_setter",    .attr.stack_size = 1200, .attr.priority = osPriorityNormal1 },
+
+// dGPS
+{ dGPS_parser,    NULL, .attr.name = "dGPS_parser",    .attr.stack_size = 2300, .attr.priority = osPriorityNormal3},
+
+{ dGPS_calculator, NULL, .attr.name ="dGPS_calculator", .attr.stack_size = 3000, .attr.priority = osPriorityNormal3},
 
 // PID controller
 { PID_Controller,    NULL, .attr.name ="PID_Controller",    .attr.stack_size = 1200, .attr.priority = osPriorityNormal2 },
@@ -241,6 +254,9 @@ void CreateHandles(void)
 	if (!(hGPS_Queue = xQueueCreate(GPS_MAXLEN, sizeof(unsigned char))))
 		error_HaltOS("Error hGPS_Q");
 
+	if (!(hGNRMC_Queue = xQueueCreate(32, sizeof(GNRMC))))
+		error_HaltOS("Error hGNRMC_Q");
+
 	if (!(hKEY_Event = xEventGroupCreate()))
 		error_HaltOS("Error hLCD_Event");
 
@@ -249,6 +265,18 @@ void CreateHandles(void)
 
 	if (!(hGPS_Mutex = xSemaphoreCreateMutex()))
 		error_HaltOS("Error hGPS_Mutex");
+	
+	if (!(hdGPSerror_Mutex = xSemaphoreCreateMutex()))
+		error_HaltOS("Error hdGPSerror_Mutex");
+	
+	if (!(hGPS_Ringbuffer_Mutex = xSemaphoreCreateMutex()))
+		error_HaltOS("Error hGPS_Ringbuffer_Mutex");
+	
+	if (!(hdGPSlatest_Mutex = xSemaphoreCreateMutex()))
+		error_HaltOS("Error hdGPSlatest_Mutex");
+
+	if (!(hdGPSlatestuncorrected_Mutex = xSemaphoreCreateMutex()))
+		error_HaltOS("Error hdGPSlatestuncorrected_Mutex");
 
 	UART_puts("\n\rAll handles created successfully.");
 

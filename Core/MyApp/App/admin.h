@@ -52,6 +52,8 @@ typedef struct TaskData
 extern QueueHandle_t 	  hUART_Queue;
 /// handle voor GPS-queue
 extern QueueHandle_t 	  hGPS_Queue;
+/// handle for GNRMC-queue
+extern QueueHandle_t     hGNRMC_Queue;
 /// handle voor ARM-keys to route performer queue (non-blocking delivery of key values)
 extern QueueHandle_t 	  hKeyRP_Queue;
 /// handle voor ARM-keys to route setter queue (non-blocking delivery of key values)
@@ -64,6 +66,14 @@ extern EventGroupHandle_t hKEY_Event;
 extern TimerHandle_t      hTimer1;
 /// handle voor GPS parser Mutex
 extern SemaphoreHandle_t  hGPS_Mutex;
+/// handle for GPS ringbuffer Mutex
+extern SemaphoreHandle_t  hGPS_Ringbuffer_Mutex;
+/// handle for GPS errorbuffer Mutex
+extern SemaphoreHandle_t  hdGPSerror_Mutex;
+/// handle for latest corrected GPS data Mutex
+extern SemaphoreHandle_t  hdGPSlatest_Mutex;
+/// handle for latest uncorrected GPS data Mutex
+extern SemaphoreHandle_t  hdGPSlatestuncorrected_Mutex;
 
 
 /// debug naar uart output, zie uart_keys.c
@@ -153,5 +163,10 @@ extern void NRF_Driver(void *);
 // Route_Setter.c
 extern void Route_Setter(void *);
 
+// dGPS.c
+extern void dGPS_parser(void *);
+
+// dGPS_calculator.c
+extern void dGPS_calculator(void *);
 // Heading.c
 extern void PID_Controller();

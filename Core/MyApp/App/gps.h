@@ -11,6 +11,8 @@ int hex2int(char *c);
 int hexchar2int(char c);
 int checksum_valid(char *string);
 
+#include "GPS_Route_Setter.h" // for GPS_decimal_degrees_t
+#include "dGPS.h"            // for dGPS_errorData_t, PdGPS_errorData_t
 
 // GNRMC struct: all with char-members - should/could be improved with proper data-elements
 typedef struct _GNRMC
@@ -43,3 +45,4 @@ enum NMEA
 // Expose function to get pointer to latest complete GNRMC data
 
 void getlatest_GNRMC(GNRMC *dest);
+void correct_dGPS_error(PdGPS_errorData_t pinputCoordinates);

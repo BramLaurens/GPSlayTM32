@@ -23,6 +23,40 @@ static GNRMC *volatile frontendBuffer = &bufferA;
 static GNRMC *volatile backendBuffer  = &bufferB; 
 
 /**
+ * @brief Corrects the input coordinates with the latest GPS error received from the NRF24L01+ module
+ * 
+ * @param pinputCoordinates pointer to GPS_decimal_degrees_t struct containing the coordinates to be corrected
+ * @return void
+ */
+void correct_dGPS_error(PdGPS_errorData_t pinputCoordinates)
+{
+	// Get the latest error from the NRF24L01+ module
+	dGPS_errorData_t latestError;
+	GPS_getlatest_error(&latestError);
+
+	#ifdef dGPS_debug
+		UART_puts("Correcting error\r\n");
+		char msg[100];
+		sprintf(msg, "Working Error - Lat: %.9f, Lon: %.9f\r\n", latestError.latitude, latestError.longitude);
+		UART_puts(msg);
+
+		sprintf(msg, "Before correction - Lat: %.9f, Lon: %.9f\r\n", pinputCoordinates->latitude, pinputCoordinates->longitude);
+		UART_puts(msg);
+	#endif
+
+	// Apply the correction
+	pinputCoordinates->latitude -= latestError.latitude;
+	pinputCoordinates->longitude -= latestError.longitude;
+
+	#ifdef dGPS_debug
+		sprintf(msg, "After correction - Lat: %.6f, Lon: %.6f\r\n", pinputCoordinates->latitude, pinputCoordinates->longitude);
+		UART_puts(msg);
+	#endif
+
+	return;
+}
+
+/**
  * @brief Function that gets a pointer to the latest complete GNRMC data
  * 
  * @param dest pointer of type GNRMC that will be pointing to the latest GNRMC data
@@ -38,6 +72,22 @@ void getlatest_GNRMC(GNRMC *dest)
 	else
 	{
 		error_HaltOS("Err:GPS_mutex");
+	}
+}
+
+/**
+ * @brief Checks the GPS fix status and updates the green LED accordingly.
+ * If the GPS status is 'A' (valid), the green LED is turned on, otherwise it is turned off.
+ */
+void check_gpsfix(GNRMC *gnrmc)
+{
+	if(gnrmc->status == 'A') // If status is 'A' (valid)
+	{
+		HAL_GPIO_WritePin(GPIOD, LEDGREEN, GPIO_PIN_SET); // Turn on green LED for GPS LOCK
+	}
+	else
+	{
+		HAL_GPIO_WritePin(GPIOD, LEDGREEN, GPIO_PIN_RESET); // Turn off green LED if no GPS lock
 	}
 }
 
@@ -65,6 +115,7 @@ void fill_GNRMC(char *message)
 	strcpy(localBuffer->head, s);
 
 	s = strtok(NULL, tok);    // 1. time; not used
+	strcpy(localBuffer->time, s);
 
 	s = strtok(NULL, tok);    // 2. valid;
 	localBuffer->status = s[0];
@@ -114,6 +165,18 @@ void fill_GNRMC(char *message)
 	else
 	{
 		error_HaltOS("Err:GPS_mutex");
+	}
+
+	check_gpsfix(frontendBuffer);
+
+	// Send a copy of the latest GNRMC data to the dGPS task via a queue so the
+	// dGPS task can process every incoming data point
+	if (xQueueSend(hGNRMC_Queue, frontendBuffer, 0) != pdPASS)
+	{
+		// Queue full: drop oldest item then enqueue
+		GNRMC tmp;
+		xQueueReceive(hGNRMC_Queue, &tmp, 0);
+		xQueueSend(hGNRMC_Queue, frontendBuffer, 0);
 	}
 }
 
