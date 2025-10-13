@@ -39,13 +39,14 @@ char *app_name    = "\r\n=== freeRTOS_GPS 407 ===\r\n";
 char *app_nameLCD = "freeRTOS_GPS 407"; // max 16 chars // user updated tot 32 chars changed this in lcd.c
 
 /// default: debug all output to uart
-int Uart_debug_out = DEBUG_OUT_NONE;\
+int Uart_debug_out = DEBUG_OUT_NONE;
 
 /// NRF24 new value bit
 char NRF24_new_value = 0; // set to 1 when new value is received
 
 /// all handles used, note: defined to 'extern' in admin.h
-QueueHandle_t 	      hKey_Queue;
+QueueHandle_t 	      hKeyRP_Queue;
+QueueHandle_t 	      hKeyRS_Queue;
 QueueHandle_t 	      hUART_Queue; /// uses UART2
 QueueHandle_t 	      hGPS_Queue;  /// uses UART1
 SemaphoreHandle_t     hLED_Sem;
@@ -78,15 +79,15 @@ TASKDATA tasks[] =
 // function      arg   name                        stacksize (* 4 = 32bit)     priority
 // ----------------------------------------------------------------------------------------------------------------------------
   // in ARM_keys.c
-{ ARM_keys_IRQ, NULL, .attr.name = "ARM_keys_IRQ", .attr.stack_size = 600, .attr.priority = osPriorityNormal1 },
-{ ARM_keys_task,NULL, .attr.name = "ARM_keys_task",.attr.stack_size = 600, .attr.priority = osPriorityNormal2 },
+{ ARM_keys_IRQ, NULL, .attr.name = "ARM_keys_IRQ", .attr.stack_size = 600, .attr.priority = osPriorityNormal6 },
+{ ARM_keys_task,NULL, .attr.name = "ARM_keys_task",.attr.stack_size = 600, .attr.priority = osPriorityNormal7 },
 
   // UART_keys.c
-{ UART_keys_IRQ,NULL, .attr.name = "UART_keys_IRQ",.attr.stack_size = 600, .attr.priority = osPriorityBelowNormal5 },
-{ UART_menu,    NULL, .attr.name = "UART_menu",    .attr.stack_size = 600, .attr.priority = osPriorityBelowNormal6 },
+{ UART_keys_IRQ,NULL, .attr.name = "UART_keys_IRQ",.attr.stack_size = 600, .attr.priority = osPriorityNormal4 },
+{ UART_menu,    NULL, .attr.name = "UART_menu",    .attr.stack_size = 600, .attr.priority = osPriorityNormal5 },
 
   // gps.c
-{ GPS_getNMEA,  NULL, .attr.name = "GPS_getNMEA",  .attr.stack_size = 600, .attr.priority = osPriorityNormal2 },
+{ GPS_getNMEA,  NULL, .attr.name = "GPS_getNMEA",  .attr.stack_size = 600, .attr.priority = osPriorityAboveNormal1 },
 
   // student.c
 { Student_task1,NULL, .attr.name = "Student_task1",.attr.stack_size = 600, .attr.priority = osPriorityBelowNormal7 },
@@ -100,13 +101,13 @@ TASKDATA tasks[] =
 { LED_Task4,    NULL, .attr.name = "LED_Task4",    .attr.stack_size = 450, .attr.priority = osPriorityBelowNormal4 },
 
   // NRF Driver
-{ NRF_Driver,    NULL, .attr.name ="GPS_parser",    .attr.stack_size = 600, .attr.priority = osPriorityBelowNormal7 },
+{ NRF_Driver,    NULL, .attr.name ="GPS_parser",    .attr.stack_size = 600, .attr.priority = osPriorityNormal3 },
 
 // Route setter
-{ Route_Setter,    NULL, .attr.name ="Route_setter",    .attr.stack_size = 1200, .attr.priority = osPriorityBelowNormal7 },
+{ Route_Setter,    NULL, .attr.name ="Route_setter",    .attr.stack_size = 1200, .attr.priority = osPriorityNormal1 },
 
 // PID controller
-{ PID_Controller,    NULL, .attr.name ="PID_Controller",    .attr.stack_size = 900, .attr.priority = osPriorityBelowNormal7 },
+{ PID_Controller,    NULL, .attr.name ="PID_Controller",    .attr.stack_size = 1200, .attr.priority = osPriorityNormal2 },
   // deze laatste niet wissen, wordt gebruik als 'terminator' in for-loops
 { NULL,         NULL, .attr.name = NULL,           .attr.stack_size = 0,       .attr.priority = 0 }
 };
@@ -223,6 +224,14 @@ void error_HaltOS(char *msg)
 */
 void CreateHandles(void)
 {
+
+		// Create queue for ARM keys (store unsigned int key values)
+	if (!(hKeyRP_Queue = xQueueCreate(QSIZE_UART, sizeof(unsigned int))))
+		error_HaltOS("Error hKeyRP_Queue");
+
+	if (!(hKeyRS_Queue = xQueueCreate(QSIZE_UART, sizeof(unsigned int))))
+		error_HaltOS("Error hKeyRS_Queue");
+
 	if (!(hLED_Sem = xSemaphoreCreateMutex()))
 		error_HaltOS("Error hLED_Sem");
 

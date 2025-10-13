@@ -52,6 +52,10 @@ typedef struct TaskData
 extern QueueHandle_t 	  hUART_Queue;
 /// handle voor GPS-queue
 extern QueueHandle_t 	  hGPS_Queue;
+/// handle voor ARM-keys to route performer queue (non-blocking delivery of key values)
+extern QueueHandle_t 	  hKeyRP_Queue;
+/// handle voor ARM-keys to route setter queue (non-blocking delivery of key values)
+extern QueueHandle_t 	  hKeyRS_Queue;
 /// handle voor LED-mutex
 extern SemaphoreHandle_t  hLED_Sem;
 /// handle voor ARM-keys-event

@@ -201,7 +201,7 @@ uint8_t Remove_Last_Node()
 	if(pt_Route == NULL)
 	{	// if the linked list is empty then return -1
 		UART_puts("Linked list is empty \r\n");
-		return 2; // error code maybe other nr
+		return 0; // error code maybe other nr
 	}
 
 	if(pt_Route->Next_point == NULL)
@@ -236,16 +236,23 @@ uint8_t Remove_Last_Node()
  */
 void Route_Setter(void *argument)
 {
+	osDelay(200); // wait a second to make sure everything is started
+	// Print route setter started
+	UART_puts("Route Setter started \r\n");
+
 	//Create a key variable to store the key pressed by the user
 	uint32_t key=0;
 
 	while(TRUE){
-		// Wait for a notification from the ARM key handler.
-		xTaskNotifyWait(0x00,            // Don't clear any notification bits on entry
-						0xffffffff,      // Clear the notification value on exit
-						&key,            // Notified value
-						portMAX_DELAY);  // Block indefinitely
-		UART_puts("\r\n");
+		if (hKeyRS_Queue)
+		{
+			if (xQueueReceive(hKeyRS_Queue, &key, portMAX_DELAY) != pdTRUE)
+			{
+				/* If receiving failed for some reason, skip this loop iteration */
+				continue;
+			}
+			UART_puts("\r\n");
+		}
 
 		switch(key){
 		case 0x01: // key 1 pressed (upper left)
