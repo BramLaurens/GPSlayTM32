@@ -49,6 +49,7 @@ QueueHandle_t 	      hGPS_Queue;  /// uses UART1
 SemaphoreHandle_t     hLED_Sem;
 EventGroupHandle_t 	  hKEY_Event;
 TimerHandle_t         hTimer1;
+TimerHandle_t         hTimerEnc;
 SemaphoreHandle_t     hGPS_Mutex; /// mutex voor GPS-parsing
 SemaphoreHandle_t     hdGPSerror_Mutex; /// mutex voor GPS errorbuffer
 
@@ -101,8 +102,11 @@ TASKDATA tasks[] =
   // NRF Driver
 { NRF_Driver,    NULL, .attr.name ="NRF_Driver",    .attr.stack_size = 1000, .attr.priority = osPriorityBelowNormal7 },
 
-// Route setter
+  // Route setter
 { Route_Setter,    NULL, .attr.name ="Route_setter",    .attr.stack_size = 2000, .attr.priority = osPriorityBelowNormal7 },
+
+  // Encoder task
+{ Enc_task,  NULL, .attr.name ="Encoder_task",    .attr.stack_size = 600, .attr.priority = osPriorityBelowNormal4 },
 
   // deze laatste niet wissen, wordt gebruik als 'terminator' in for-loops
 { NULL,         NULL, .attr.name = NULL,           .attr.stack_size = 0,       .attr.priority = 0 }
@@ -234,6 +238,8 @@ void CreateHandles(void)
 
 	if (!(hTimer1 = xTimerCreate("Timer_1", pdMS_TO_TICKS(TIMER1_DELAY), pdTRUE, 0, (TimerCallbackFunction_t)Timer1_Handler)))
 		error_HaltOS("Error hTimer1");
+	if (!(hTimerEnc = xTimerCreate("Timer_Enc", pdMS_TO_TICKS(1000), pdTRUE, 0, (TimerCallbackFunction_t)TimerEnc_Handler)))
+		error_HaltOS("Error hTimerEnc");
 
 	if (!(hGPS_Mutex = xSemaphoreCreateMutex()))
 		error_HaltOS("Error hGPS_Mutex");
@@ -246,6 +252,7 @@ void CreateHandles(void)
 	UART_puts("\n\rTimer set to: ");
 	UART_putint((int)TIMER1_DELAY); // (int)-cast is nodig!
 	xTimerStart(hTimer1, 0); // start de timer...
+	xTimerStart(hTimerEnc, 0); // start de timer...
 }
 
 /**
@@ -418,5 +425,4 @@ void DisplayTaskData(void)
 	UART_puts("    Free heap space: "); UART_putint(configTOTAL_HEAP_SIZE - (totalalloc * 4));
 	UART_puts("\r\n");
 }
-
 

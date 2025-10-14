@@ -71,10 +71,10 @@
 									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2"/>
 									<listOptionValue builtIn="false" value="../Middlewares/ST/STM32_USB_Host_Library/Core/Inc"/>
 									<listOptionValue builtIn="false" value="../Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Inc"/>
-									<listOptionValue builtIn="false" value="/home/bram-laurens/STM32CubeIDE/workspace_1.19.0/GPSlay32/Core/Inc/Tracerecorder_config"/>
-									<listOptionValue builtIn="false" value="/home/bram-laurens/STM32CubeIDE/workspace_1.19.0/GPSlay32/Core/Inc/Tracerecorder_inc"/>
-									<listOptionValue builtIn="false" value="/home/bram-laurens/STM32CubeIDE/workspace_1.19.0/GPSlay32/Core/Inc/Tracerecorder_ringbuffer_config"/>
-									<listOptionValue builtIn="false" value="/home/bram-laurens/STM32CubeIDE/workspace_1.19.0/GPSlay32/Core/Inc/Tracerecorder_ringbuffer_inc"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\Annej\Documents\Anne school\EE Jaar 2\GPSlay32\GPSlayTM32\Core\Inc\Tracerecorder_config&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\Annej\Documents\Anne school\EE Jaar 2\GPSlay32\GPSlayTM32\Core\Inc\Tracerecorder_inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\Annej\Documents\Anne school\EE Jaar 2\GPSlay32\GPSlayTM32\Core\Inc\Tracerecorder_ringbuffer_config&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\Annej\Documents\Anne school\EE Jaar 2\GPSlay32\GPSlayTM32\Core\Inc\Tracerecorder_ringbuffer_inc&quot;"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.otherflags.16289799" name="Other flags" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.otherflags" useByScannerDiscovery="true" valueType="stringList">
 									<listOptionValue builtIn="false" value="-fdiagnostics-color=always"/>
@@ -184,6 +184,10 @@
 									<listOptionValue builtIn="false" value="/home/bram-laurens/STM32CubeIDE/workspace_1.19.0/GPSlay32/Core/Inc/Tracerecorder_inc"/>
 									<listOptionValue builtIn="false" value="/home/bram-laurens/STM32CubeIDE/workspace_1.19.0/GPSlay32/Core/Inc/Tracerecorder_ringbuffer_config"/>
 									<listOptionValue builtIn="false" value="/home/bram-laurens/STM32CubeIDE/workspace_1.19.0/GPSlay32/Core/Inc/Tracerecorder_ringbuffer_inc"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\Annej\Documents\Anne school\EE Jaar 2\GPSlay32\GPSlayTM32\Core\Inc\Tracerecorder_config&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\Annej\Documents\Anne school\EE Jaar 2\GPSlay32\GPSlayTM32\Core\Inc\Tracerecorder_inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\Annej\Documents\Anne school\EE Jaar 2\GPSlay32\GPSlayTM32\Core\Inc\Tracerecorder_ringbuffer_config&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\Annej\Documents\Anne school\EE Jaar 2\GPSlay32\GPSlayTM32\Core\Inc\Tracerecorder_ringbuffer_inc&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.646833410" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>

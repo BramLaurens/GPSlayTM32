@@ -84,6 +84,10 @@ void Error_Handler(void);
 #define OTG_FS_PowerSwitchOn_GPIO_Port GPIOC
 #define PDM_OUT_Pin GPIO_PIN_3
 #define PDM_OUT_GPIO_Port GPIOC
+#define ENCODER_A_1_Pin GPIO_PIN_4
+#define ENCODER_A_1_GPIO_Port GPIOC
+#define ENCODER_A_2_Pin GPIO_PIN_5
+#define ENCODER_A_2_GPIO_Port GPIOC
 #define Key_int_Pin GPIO_PIN_0
 #define Key_int_GPIO_Port GPIOB
 #define Key_int_EXTI_IRQn EXTI0_IRQn
@@ -101,8 +105,10 @@ void Error_Handler(void);
 #define LD5_GPIO_Port GPIOD
 #define LD6_Pin GPIO_PIN_15
 #define LD6_GPIO_Port GPIOD
-#define I2S3_MCK_Pin GPIO_PIN_7
-#define I2S3_MCK_GPIO_Port GPIOC
+#define ENCODER_B_1_Pin GPIO_PIN_6
+#define ENCODER_B_1_GPIO_Port GPIOC
+#define ENCODER_B_2_Pin GPIO_PIN_7
+#define ENCODER_B_2_GPIO_Port GPIOC
 #define VBUS_FS_Pin GPIO_PIN_9
 #define VBUS_FS_GPIO_Port GPIOA
 #define OTG_FS_ID_Pin GPIO_PIN_10
