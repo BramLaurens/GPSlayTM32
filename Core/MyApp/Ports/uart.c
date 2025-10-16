@@ -34,6 +34,8 @@ In the interrupt routine the char is send back to the terminal
 
 #include "string.h"
 
+#include "uart.h"
+
 
 char string[100];
 int charcounter = 0;
