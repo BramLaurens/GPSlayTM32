@@ -148,7 +148,7 @@ int main(void)
   MX_UART4_Init();
   MX_SPI1_Init();
   MX_I2C3_Init();
-  HAL_Delay(100);
+  // HAL_Delay(100);
   /* USER CODE BEGIN 2 */
 
   UART_puts("\r\n\r\n\r\n Starting up...\r\n");
