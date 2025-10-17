@@ -87,32 +87,6 @@ void StartDefaultTask(void *argument);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void I2C_ScanBus(I2C_HandleTypeDef *hi2c) {
-    char msg[32];
-    for (uint8_t addr = 1; addr < 128; addr++) {
-        if (HAL_I2C_IsDeviceReady(hi2c, addr << 1, 1, 10) == HAL_OK) {
-            sprintf(msg, "Found device at 0x%02X\r\n", addr);
-            UART_puts(msg);
-        }
-    }
-}
-
-void LSM303_TestRegisters(void)
-{
-    uint8_t cra = 0, crb = 0;
-    HAL_StatusTypeDef ret;
-    char msg[64];
-
-    // Read CRA_REG_M (0x00)
-    ret = HAL_I2C_Mem_Read(&hi2c3, 0x1E << 1, 0x00, I2C_MEMADD_SIZE_8BIT, &cra, 1, HAL_MAX_DELAY);
-    sprintf(msg, "MAG CRA_REG_M (0x00): 0x%02X (status=%d)\r\n", cra, ret);
-    UART_puts(msg);
-
-    // Read CRB_REG_M (0x01)
-    ret = HAL_I2C_Mem_Read(&hi2c3, 0x1E << 1, 0x01, I2C_MEMADD_SIZE_8BIT, &crb, 1, HAL_MAX_DELAY);
-    sprintf(msg, "MAG CRB_REG_M (0x01): 0x%02X (status=%d)\r\n", crb, ret);
-    UART_puts(msg);
-}
 /* USER CODE END 0 */
 
 /**
@@ -152,8 +126,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   UART_puts("\r\n\r\n\r\n Starting up...\r\n");
-  I2C_ScanBus(&hi2c3);
-  LSM303_TestRegisters();
 
   LCD_init();
   KEYS_init();

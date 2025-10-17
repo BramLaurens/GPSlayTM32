@@ -18,7 +18,9 @@
 #include "stdio.h"
 #include "string.h" // strtok, strcpy
 #include "stdlib.h" // atoi
-#include "ctype.h"  // toupper
+#include "ctype.h"  // toupper`
+
+#include "compass_driver.h"
 
 #define TRUE  	   1
 #define FALSE      0
@@ -170,3 +172,5 @@ extern void dGPS_parser(void *);
 extern void dGPS_calculator(void *);
 // Heading.c
 extern void PID_Controller();
+
+extern void Compass_Heading(void *);
