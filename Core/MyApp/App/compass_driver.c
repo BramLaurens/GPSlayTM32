@@ -13,7 +13,15 @@
 HAL_StatusTypeDef status;
 
 
-
+/**
+ * @brief Read magnetometer data from LSM303M
+ *
+ * @param hi2c I2C handle
+ * @param mx Pointer to store X magnetometer data
+ * @param my Pointer to store Y magnetometer data
+ * @param mz Pointer to store Z magnetometer data
+ * @return HAL_StatusTypeDef HAL status
+ */
 HAL_StatusTypeDef LSM303M_ReadMag(I2C_HandleTypeDef *hi2c, int16_t *mx, int16_t *my, int16_t *mz) {
     uint8_t reg = 0x03; // OUT_X_H_M
     uint8_t buf[6];
@@ -26,6 +34,15 @@ HAL_StatusTypeDef LSM303M_ReadMag(I2C_HandleTypeDef *hi2c, int16_t *mx, int16_t 
     return HAL_OK;
 }
 
+/**
+ * @brief Read accelerometer data from LSM303A
+ *
+ * @param hi2c I2C handle
+ * @param ax Pointer to store X acceleration
+ * @param ay Pointer to store Y acceleration
+ * @param az Pointer to store Z acceleration
+ * @return HAL_StatusTypeDef HAL status
+ */
 HAL_StatusTypeDef LSM303A_ReadAccel(I2C_HandleTypeDef *hi2c, int16_t *ax, int16_t *ay, int16_t *az) {
     uint8_t reg = 0x28 | 0x80; // OUT_X_L_A (auto-increment), LSB first; note: accelerometer uses low byte first in this device
     uint8_t buf[6];
@@ -39,6 +56,17 @@ HAL_StatusTypeDef LSM303A_ReadAccel(I2C_HandleTypeDef *hi2c, int16_t *ax, int16_
     return HAL_OK;
 }
 
+/**
+ * @brief Calculate tilt-compensated heading from magnetometer and accelerometer data
+ *
+ * @param mx Magnetometer X
+ * @param my Magnetometer Y
+ * @param mz Magnetometer Z
+ * @param ax Accelerometer X
+ * @param ay Accelerometer Y
+ * @param az Accelerometer Z
+ * @return float Heading in degrees (0-360)
+ */
 float LSM303_HeadingTiltComp(int16_t mx, int16_t my, int16_t mz,
                              int16_t ax, int16_t ay, int16_t az)
 {
@@ -97,6 +125,12 @@ void LSM303M_Test()
     UART_puts(" deg\r\n");
 }
 
+/**
+ * @brief Initialize the LSM303M magnetometer
+ *
+ * @param hi2c I2C handle
+ * @return int HAL status
+ */
 int LSM303M_Init(I2C_HandleTypeDef *hi2c)
 {
     HAL_StatusTypeDef ret;
@@ -124,6 +158,12 @@ int LSM303M_Init(I2C_HandleTypeDef *hi2c)
     return HAL_OK;
 }
 
+/**
+ * @brief Initialize the LSM303A accelerometer
+ *
+ * @param hi2c I2C handle
+ * @return int HAL status
+ */
 int LSM303A_Init(I2C_HandleTypeDef *hi2c)
 {
     HAL_StatusTypeDef ret;
