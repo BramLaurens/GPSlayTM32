@@ -87,6 +87,16 @@ void StartDefaultTask(void *argument);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void I2C_ScanBus(I2C_HandleTypeDef *hi2c) {
+    char msg[32];
+    for (uint8_t addr = 1; addr < 128; addr++) {
+        if (HAL_I2C_IsDeviceReady(hi2c, addr << 1, 1, 10) == HAL_OK) {
+            sprintf(msg, "Found device at 0x%02X\r\n", addr);
+            UART_puts(msg);
+        }
+    }
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -125,6 +135,7 @@ int main(void)
   // HAL_Delay(100);
   /* USER CODE BEGIN 2 */
 
+  I2C_ScanBus(&hi2c3);
   UART_puts("\r\n\r\n\r\n Starting up...\r\n");
 
   LCD_init();

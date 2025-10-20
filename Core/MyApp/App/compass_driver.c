@@ -7,9 +7,14 @@
 
 #define LSM303M_ADDR_7BIT  0x1E
 #define LSM303M_ADDR       (LSM303M_ADDR_7BIT << 1)
-#define LSM303A_ADDR_7BIT  0x19
-#define LSM303A_ADDR      0x33 //(LSM303A_ADDR_7BIT << 1)
+#define LSM303A_ADDR_7BIT  0x18
+#define LSM303A_ADDR      (LSM303A_ADDR_7BIT << 1)
 #define M_PI 3.14159265358979323846f
+
+#define CAL_SAMPLES       1500
+#define CAL_DELAY_MS      10
+#define DEG_RAD           (180.0f / M_PI)
+
 HAL_StatusTypeDef status;
 
 
@@ -23,7 +28,7 @@ HAL_StatusTypeDef status;
  * @return HAL_StatusTypeDef HAL status
  */
 HAL_StatusTypeDef LSM303M_ReadMag(I2C_HandleTypeDef *hi2c, int16_t *mx, int16_t *my, int16_t *mz) {
-    uint8_t reg = 0x03; // OUT_X_H_M
+    uint8_t reg = 0x03 | 0x80; // OUT_X_H_M
     uint8_t buf[6];
     HAL_StatusTypeDef r = HAL_I2C_Mem_Read(hi2c, LSM303M_ADDR, reg, I2C_MEMADD_SIZE_8BIT, buf, 6, 100);
     if (r != HAL_OK) return r;
@@ -56,6 +61,47 @@ HAL_StatusTypeDef LSM303A_ReadAccel(I2C_HandleTypeDef *hi2c, int16_t *ax, int16_
     return HAL_OK;
 }
 
+void Mag_Mapping_Test(int16_t raw_mx, int16_t raw_my, int16_t raw_mz)
+{
+    float rx = (float)raw_mx, ry = (float)raw_my, rz = (float)raw_mz;
+    float mxs[8], mys[8], mzs[8];
+
+    // define mappings
+    mxs[0] =  rx; mys[0] =  ry; mzs[0] =  rz;   // identity
+    mxs[1] =  rx; mys[1] = -ry; mzs[1] = -rz;   // A
+    mxs[2] = -rx; mys[2] =  ry; mzs[2] = -rz;   // B
+    mxs[3] = -rx; mys[3] = -ry; mzs[3] =  rz;   // C
+    mxs[4] =  ry; mys[4] =  rx; mzs[4] =  rz;   // swap XY
+    mxs[5] =  ry; mys[5] = -rx; mzs[5] = -rz;   // swap+neg
+    mxs[6] = -ry; mys[6] =  rx; mzs[6] = -rz;   // swap+neg other
+    mxs[7] = -ry; mys[7] = -rx; mzs[7] =  rz;   // swap+neg both
+
+    char buf[256];
+    sprintf(buf, "raw=(%d,%d,%d) ", raw_mx, raw_my, raw_mz);
+    UART_puts(buf);
+
+    for (int i=0; i<8; ++i)
+    {
+        float mx = mxs[i];
+        float my = mys[i];
+        // We only need horizontal angle for mapping test (board is flat)
+        float ang = atan2f(my, mx) * 180.0f / M_PI;
+        if (ang < 0) ang += 360.0f;
+        sprintf(buf, "%d:%.1f ", i, ang);
+        UART_puts(buf);
+    }
+    UART_puts("\r\n");
+}
+
+void debug_mag_angle(int16_t mx, int16_t my)
+{
+    float ang = atan2f((float)my, (float)mx) * 180.0f / M_PI;
+    if (ang < 0) ang += 360.0f;
+    char b[64];
+    sprintf(b, "MAG angle = %.1f deg  raw=%d,%d\r\n", ang, mx, my);
+    UART_puts(b);
+}
+
 /**
  * @brief Calculate tilt-compensated heading from magnetometer and accelerometer data
  *
@@ -70,59 +116,59 @@ HAL_StatusTypeDef LSM303A_ReadAccel(I2C_HandleTypeDef *hi2c, int16_t *ax, int16_
 float LSM303_HeadingTiltComp(int16_t mx, int16_t my, int16_t mz,
                              int16_t ax, int16_t ay, int16_t az)
 {
-    // naar float
-    float fx = (float)mx;
-    float fy = (float)my;
-    float fz = (float)mz;
+    // remap magnetometer axes to match accelerometer frame
+    float fx =  (float)mx;
+    float fy = -(float)my;
+    float fz = -(float)mz;
 
     float fax = (float)ax;
     float fay = (float)ay;
     float faz = (float)az;
 
-    // normaliseer accelerometer
+    // normalize accelerometer
     float normA = sqrtf(fax*fax + fay*fay + faz*faz);
-    if (normA == 0.0f) return NAN;
+    if (normA == 0) return NAN;
     fax /= normA;
     fay /= normA;
     faz /= normA;
 
-    // roll en pitch
+    // roll and pitch
     float roll  = atan2f(fay, faz);
     float pitch = atan2f(-fax, sqrtf(fay*fay + faz*faz));
 
-    // tilt-compensatie
-    float cosR = cosf(roll),  sinR = sinf(roll);
+    float cosR = cosf(roll), sinR = sinf(roll);
     float cosP = cosf(pitch), sinP = sinf(pitch);
 
+    // tilt compensation
     float Xh = fx * cosP + fz * sinP;
     float Yh = fx * sinR * sinP + fy * cosR - fz * sinR * cosP;
 
-    // bereken heading in graden
-    float heading = atan2f(-Yh, Xh) * 180.0f / M_PI;
+    float heading = atan2f(Yh, Xh) * 180.0f / M_PI;
     if (heading < 0.0f)
         heading += 360.0f;
 
     return heading;
 }
 
-
 void LSM303M_Test()
 {
+    char msg[100];
+
     int16_t mx, my, mz;
     int16_t ax, ay, az;
     if (LSM303M_ReadMag(&hi2c3, &mx, &my, &mz) != HAL_OK) {
         UART_puts("LSM303M mag read error\r\n");
         return;
     }
+
     if (LSM303A_ReadAccel(&hi2c3, &ax, &ay, &az) != HAL_OK) {
         UART_puts("LSM303A accel read error\r\n");
-        UART_putint(LSM303A_ReadAccel(&hi2c3, &ax, &ay, &az));
         return;
     }
+
     float heading = LSM303_HeadingTiltComp(mx, my, mz, ax, ay, az);
-    UART_puts("Heading: ");
-    UART_putint(heading);
-    UART_puts(" deg\r\n");
+    sprintf(msg, "Heading: %.2f deg\r\n", heading);
+    UART_puts(msg);
 }
 
 /**
@@ -186,10 +232,14 @@ int LSM303A_Init(I2C_HandleTypeDef *hi2c)
 }
 
 
-
-
 void Compass_Heading(void *argument)
 {
+    if (status = HAL_I2C_IsDeviceReady(&hi2c3, LSM303M_ADDR, 2, 100) == HAL_OK)
+    UART_puts("Magnetometer aanwezig\r\n");
+    else
+    UART_puts("Magnetometer reageert niet!\r\n");
+    UART_putint(status);
+
     if (status = HAL_I2C_IsDeviceReady(&hi2c3, LSM303A_ADDR, 2, 100) == HAL_OK)
     UART_puts("Accelerometer aanwezig\r\n");
     else
@@ -198,9 +248,14 @@ void Compass_Heading(void *argument)
 
     LSM303M_Init(&hi2c3);
     LSM303A_Init(&hi2c3);
+
+    float offx, offy, offz, scalex, scaley, scalez;
+
+    osDelay(1000);
+    // LSM303M_Calibrate(&hi2c3, &offx, &offy, &offz, &scalex, &scaley, &scalez);
     while (1)
     {
         LSM303M_Test();
-        vTaskDelay(pdMS_TO_TICKS(1000)); // 1 seconde delay
+        osDelay(200); // 1 seconde delay
     }
 }
