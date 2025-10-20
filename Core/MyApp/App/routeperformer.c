@@ -6,7 +6,7 @@
  * @version 0.1
  * @date 2025-10-09
  * 
- * used https://rijksdriehoekscoordinaten.nl/ calculation of Lat, Long to X, Y. and converted it to C
+ * 
  */
 
 
@@ -348,16 +348,16 @@ void Route_performer(void *argument)
                 // Process key
                 switch(key)
                 {
-                    case 0x0D: // Get and print heading to next WP
+                    case 0x0D: // Get and print heading to next WP button 13
                         Angle = GET_workingHeading(Working_routing_point); // Get angle to working waypoint
                         break;
-                    case 0x0E: // Get and print distance to next WP
+                    case 0x0E: // Get and print distance to next WP button 14
                         Distance = distance_tillwaypoint_FE(Working_routing_point); // Get distance to working waypoint
                         break;
-                    case 0x0F: // Reset route to WP 0
+                    case 0x0F: // Reset route to WP 0 button 15
                         Working_routing_point = 0; // Reset to first waypoint
                         break;
-                    case 0x10: // Run route planning algorithm
+                    case 0x10: // Run route planning algorithm toggle button 16
                         EnableRP_algo = !EnableRP_algo; // Toggle RP algo
                         UART_puts(EnableRP_algo ? "Route Planning Algorithm Enabled\r\n" : "Route Planning Algorithm Disabled\r\n");
                         EnableRP_algo ? HAL_GPIO_WritePin(GPIOD, LEDORANGE, GPIO_PIN_SET) : HAL_GPIO_WritePin(GPIOD, LEDORANGE, GPIO_PIN_RESET); // Indicate RP algo status on LED
