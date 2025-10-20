@@ -25,6 +25,7 @@
 * @date 5/5/2022
 */
 
+#include "routeperformer.h"
 #include "main.h"
 #include "cmsis_os.h"
 #include "task.h"
@@ -33,7 +34,6 @@
 #include "GPS_Route_Setter.h"
 #include "dGPS.h"
 #include "gps.h"
-#include "Heading.h" 
 
 
 /// output strings for initialization
@@ -119,8 +119,8 @@ TASKDATA tasks[] =
 
 { dGPS_calculator, NULL, .attr.name ="dGPS_calculator", .attr.stack_size = 3000, .attr.priority = osPriorityNormal3},
 
-// PID controller
-{ PID_Controller,    NULL, .attr.name ="PID_Controller",    .attr.stack_size = 1200, .attr.priority = osPriorityNormal2 },
+// Route performer
+{ Route_performer,    NULL, .attr.name ="Route_performer",    .attr.stack_size = 1200, .attr.priority = osPriorityNormal2 },
   // deze laatste niet wissen, wordt gebruik als 'terminator' in for-loops
 { NULL,         NULL, .attr.name = NULL,           .attr.stack_size = 0,       .attr.priority = 0 }
 };

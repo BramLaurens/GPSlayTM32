@@ -5,6 +5,10 @@
  *      Author: SebeB
  */
 
+#include <stdlib.h>
+#include <stdint.h>
+#include "cmsis_os.h"
+
 #ifndef MYAPP_APP_GPS_ROUTE_SETTER_H_
 #define MYAPP_APP_GPS_ROUTE_SETTER_H_
 

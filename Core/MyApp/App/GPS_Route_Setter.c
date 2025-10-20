@@ -17,6 +17,7 @@
 #include "cmsis_os.h"
 #include "GPS_Route_Setter.h"
 #include "gps.h"
+#include <stdlib.h>
 
 #define debug_routesetter
 
