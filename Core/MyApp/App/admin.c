@@ -60,6 +60,7 @@ SemaphoreHandle_t     hdGPSerror_Mutex; /// mutex voor GPS errorbuffer
 SemaphoreHandle_t	  hGPS_Ringbuffer_Mutex; /// mutex voor GPS ringbuffer
 SemaphoreHandle_t     hdGPSlatest_Mutex; /// mutex voor latest corrected GPS data
 SemaphoreHandle_t     hdGPSlatestuncorrected_Mutex; /// mutex voor latest uncorrected GPS data
+SemaphoreHandle_t     hAngle_Mutex; /// mutex for heading angle
 
 
 
@@ -95,7 +96,7 @@ TASKDATA tasks[] =
 { UART_menu,    NULL, .attr.name = "UART_menu",    .attr.stack_size = 600, .attr.priority = osPriorityNormal5 },
 
   // gps.c
-{ GPS_getNMEA,  NULL, .attr.name = "GPS_getNMEA",  .attr.stack_size = 600, .attr.priority = osPriorityAboveNormal1 },
+{ GPS_getNMEA,  NULL, .attr.name = "GPS_getNMEA",  .attr.stack_size = 2000, .attr.priority = osPriorityAboveNormal2 },
 
   // student.c
 { Student_task1,NULL, .attr.name = "Student_task1",.attr.stack_size = 600, .attr.priority = osPriorityBelowNormal7 },
@@ -120,7 +121,10 @@ TASKDATA tasks[] =
 { dGPS_calculator, NULL, .attr.name ="dGPS_calculator", .attr.stack_size = 3000, .attr.priority = osPriorityNormal3},
 
 // Route performer
-{ Route_performer,    NULL, .attr.name ="Route_performer",    .attr.stack_size = 1200, .attr.priority = osPriorityNormal2 },
+{ Route_performer,    NULL, .attr.name ="Route_performer",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal2 },
+
+// PID controller
+{ PID_Controller,    NULL, .attr.name ="PID_Controller",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal2 },
   // deze laatste niet wissen, wordt gebruik als 'terminator' in for-loops
 { NULL,         NULL, .attr.name = NULL,           .attr.stack_size = 0,       .attr.priority = 0 }
 };
@@ -277,6 +281,9 @@ void CreateHandles(void)
 
 	if (!(hdGPSlatestuncorrected_Mutex = xSemaphoreCreateMutex()))
 		error_HaltOS("Error hdGPSlatestuncorrected_Mutex");
+
+	if (!(hAngle_Mutex = xSemaphoreCreateMutex()))
+		error_HaltOS("Error hAngle_Mutex");
 
 	UART_puts("\n\rAll handles created successfully.");
 

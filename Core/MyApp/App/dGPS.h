@@ -16,21 +16,27 @@
 // #define enable_dGPS_out
 #define enable_uncorrectedGPS_out
 
+// GPS averaging buffer size. Note that increasing this value increases the time per GPS fix
+#define GPS_AVG_BUFFER_SIZE 1
+
 typedef struct {
     double latitude;
     double longitude;
+    double course;
     uint32_t timestamp; // Timestamp in HHMMSS format (from NMEA time field)
 } dGPS_errorData_t, *PdGPS_errorData_t;
 
 typedef struct {
     double latitude;
     double longitude;
+    double course;
     uint32_t timestamp; // Timestamp in HHMMSS format (from NMEA time field)
 } dGPS_decimalData_t, *PdGPS_decimalData_t;
 
 typedef struct {
 	double latitude;
 	double longitude;
+	double course;
 } GPS_decimal_degrees_t, *PGPS_decimal_degrees_t;
 
 extern double convert_decimal_degrees(char *nmea_coordinate, char* ns);

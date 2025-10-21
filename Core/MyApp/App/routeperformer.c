@@ -23,10 +23,25 @@
 
 #define Error_marge_completed_waypoint 3   //error margin for when the leaphy is within x meters of the waypoint (+ or -) in meters
 
-
 dGPS_decimalData_t dGPS_localcopy4;
 GPS_Route *pRoute_copy;
 int *pWorking_Waypoint;
+
+double Angle=-2; // -2 for error, 0-360 for valid angle
+
+void getlatestAngle(double *dest)
+{
+    /* Copy the latest angle data safely */
+    if(xSemaphoreTake(hAngle_Mutex, portMAX_DELAY) == pdTRUE)
+    {
+        memcpy(dest, &Angle, sizeof(double));
+        xSemaphoreGive(hAngle_Mutex);
+    }
+    else
+    {
+        error_HaltOS("Err:hAngle_Mutex");
+    }
+}
 
 int update_GPS_loc()
 {
@@ -328,7 +343,7 @@ int run_RP_algo(double Distance, int Working_routing_point)
 void Route_performer(void *argument)
 {
     osDelay(200); // wait a second to make sure everything is started
-    double Angle=-2, Distance=999;
+    double Distance=999;
     static int Working_routing_point = 0; // static so pointer remains valid
     pWorking_Waypoint = &Working_routing_point;
 
@@ -373,10 +388,17 @@ void Route_performer(void *argument)
         if (EnableRP_algo)
         {
             Distance = distance_tillwaypoint_FE(Working_routing_point); // Update distance to working waypoint
-            Angle = GET_workingHeading(Working_routing_point); // Update angle to working waypoint
+
+            if(xSemaphoreTake(hAngle_Mutex, portMAX_DELAY) == pdTRUE) // Take mutex before updating shared angle variable
+            {
+                Angle = GET_workingHeading(Working_routing_point); // Update angle to working waypoint
+                xSemaphoreGive(hAngle_Mutex); // Release mutex after updating
+            }
+
             Working_routing_point = Completed_waypoint(Distance); // Check if waypoint is completed and get next waypoint if so
         }
-        // Do other periodic PID work here, if any
+
+        // Expose the latest angle
         osDelay(100); // small sleep so this task isn't busy-waiting
     }
 }

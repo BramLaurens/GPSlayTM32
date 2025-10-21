@@ -91,9 +91,90 @@ void check_gpsfix(GNRMC *gnrmc)
 	}
 }
 
+void fill_GNGGA(char *message)
+{
+	// To be implemented if needed
+
+	char *tok = ",";
+	char *s;
+
+	GNGGA localBuffer;
+	memset(&localBuffer, 0, sizeof(GNGGA)); // clear the struct
+
+	s = strsep(&message, tok); // 0. header;
+	strcpy(localBuffer.head, s);
+
+	s = strsep(&message, tok);    // 1. time; not used
+	strcpy(localBuffer.time, s);
+
+	s = strsep(&message, tok);    // 2. latitude;
+	strcpy(localBuffer.latitude, s);
+
+	s = strsep(&message, tok);    // 3. N/S; not used
+
+	s = strsep(&message, tok);    // 4. longitude;
+	/* Remove at most two leading zeros if present, but avoid turning "0.xxx" into ".xxx".
+	   Only strip a second leading '0' when the following character is a digit (not '.')
+	   and when there are at least two characters. */
+	if (s[0] == '0') {
+		size_t len = strlen(s);
+		if (len > 1 && s[1] == '0') {
+			/* s starts with "00" -> remove first zero */
+			memmove(s, s + 1, len);
+			/* Now s may still start with '0'. If the next char after the remaining leading '0' is a digit
+			   (not a dot) we can remove it too, otherwise leave the single leading zero to preserve values like "0.123" */
+			len = strlen(s);
+			if (len > 1 && s[0] == '0' && s[1] != '.') {
+				memmove(s, s + 1, len);
+			}
+		} else {
+			/* single leading zero: only remove it if the next char isn't '.' to avoid ".xxx" */
+			if (len > 1 && s[1] != '.') {
+				memmove(s, s + 1, strlen(s));
+			}
+		}
+	}
+	strcpy(localBuffer.longitude, s);
+
+	s = strsep(&message, tok);    // 5. E/W; not used
+
+	s = strsep(&message, tok);    // 6. fix quality;
+	localBuffer.fix_quality = s[0];
+
+	s = strsep(&message, tok);    // 7. number of satellites;
+	strcpy(localBuffer.num_satellites, s);
+
+	s = strsep(&message, tok);    // 8. horizontal dilution;
+	strcpy(localBuffer.horizontal_dilution, s);
+
+	s = strsep(&message, tok);    // 9. altitude;
+	strcpy(localBuffer.altitude, s);
+
+	s = strsep(&message, tok);    // 10. height of geoid above WGS84 ellipsoid;
+	strcpy(localBuffer.ellipsoid_height, s);
+
+	s = strsep(&message, tok);    // 11. time in seconds since last DGPS update;
+	strcpy(localBuffer.time_since_last_DGPS, s);
+
+	s = strsep(&message, tok);    // 12. DGPS station ID number;
+	strcpy(localBuffer.DGPS_station_ID, s);
+
+	if(localBuffer.fix_quality == '4' || localBuffer.fix_quality == '5'){
+		HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_SET); // RTK fix
+		LCD_clear();
+		LCD_puts("RTK fix! Wohoo");
+	}
+	else{
+		HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_RESET); // no RTK fix
+		LCD_clear();
+		LCD_puts("No RTK fix");
+	}
+
+}
+
 /**
 * @brief De chars van de binnengekomen GNRMC-string worden in data omgezet, dwz in een
-* GNRMC-struct, mbv strtok(); De struct bevat nu alleen chars - je kunt er ook voor kiezen
+* GNRMC-struct, mbv strsep(); De struct bevat nu alleen chars - je kunt er ook voor kiezen
 * om gelijk met doubles te werken, die je dan met atof(); omzet.
 * @return void
 */
@@ -111,31 +192,44 @@ void fill_GNRMC(char *message)
 
 	memset(localBuffer, 0, sizeof(GNRMC)); // clear the struct
 
-	s = strtok(message, tok); // 0. header;
+	s = strsep(&message, tok); // 0. header;
 	strcpy(localBuffer->head, s);
 
-	s = strtok(NULL, tok);    // 1. time; not used
+	s = strsep(&message, tok);    // 1. time; not used
 	strcpy(localBuffer->time, s);
 
-	s = strtok(NULL, tok);    // 2. valid;
+	s = strsep(&message, tok);    // 2. valid;
 	localBuffer->status = s[0];
 
-	s = strtok(NULL, tok);    // 3. latitude;
+	s = strsep(&message, tok);    // 3. latitude;
 	strcpy(localBuffer->latitude, s);
 
-	s = strtok(NULL, tok);    // 4. N/S; not used
+	s = strsep(&message, tok);    // 4. N/S; not used
 
-	s = strtok(NULL, tok);    // 5. longitude;
-	if (s[0] == '0') // if leading '0' is present, remove it
-		memmove(s, s + 1, strlen(s)); // remove leading '0' if present
+	s = strsep(&message, tok);    // 5. longitude;
+	/* Same robust handling for GNRMC longitude as above */
+	if (s[0] == '0') {
+		size_t len = strlen(s);
+		if (len > 1 && s[1] == '0') {
+			memmove(s, s + 1, len);
+			len = strlen(s);
+			if (len > 1 && s[0] == '0' && s[1] != '.') {
+				memmove(s, s + 1, len);
+			}
+		} else {
+			if (len > 1 && s[1] != '.') {
+				memmove(s, s + 1, strlen(s));
+			}
+		}
+	}
 	strcpy(localBuffer->longitude, s);
 
-	s = strtok(NULL, tok);    // 6. E/W; not used
+	s = strsep(&message, tok);    // 6. E/W; not used
 
-	s = strtok(NULL, tok);    // 7. speed;
+	s = strsep(&message, tok);    // 7. speed;
 	strcpy(localBuffer->speed, s);
 
-	s = strtok(NULL, tok);    // 8. course;
+	s = strsep(&message, tok);    // 8. course;
 	strcpy(localBuffer->course, s);
 
 	if (Uart_debug_out & GPS_DEBUG_OUT)
@@ -224,9 +318,11 @@ void GPS_getNMEA (void *argument)
 
 			// next, we decide which message types we want to interpret
 			// and we set the message-type for later use...
-			if      (!strncmp(&MSG_buff[1], "GNRMC", 5)) msg_type = eGNRMC;
-			else if (!strncmp(&MSG_buff[1], "GPGSA", 5)) msg_type = eGPGSA;
-			else if (!strncmp(&MSG_buff[1], "GNGGA", 5)) msg_type = eGNGGA;
+			// Accept sentences regardless of talker ID (e.g. GPGGA, GNGGA, etc.)
+			// Check the 3-letter sentence type (chars 3..5 of the header, indexes 3-5 in MSG_buff starting at 1)
+			// MSG_buff layout when pos==5: [0]='$', [1]='G', [2]='N'|'P'.., [3]='G', [4]='G', [5]='A'
+			if (MSG_buff[3] == 'R' && MSG_buff[4] == 'M' && MSG_buff[5] == 'C') msg_type = eGNRMC; // *RMC
+			else if (MSG_buff[3] == 'G' && MSG_buff[4] == 'G' && MSG_buff[5] == 'A') msg_type = eGNGGA; // *GGA
 
 			if (!msg_type) // not an interesting message type
 			{
@@ -258,13 +354,21 @@ void GPS_getNMEA (void *argument)
 			{
 				switch(msg_type) // extract data from msg into right struct
 				{
-				case eGNRMC: fill_GNRMC(MSG_buff);
+				case eGNRMC: 
+							fill_GNRMC(MSG_buff);
 						     // use the data...
 						     break;
 				case eGPGSA:
-				case eGNGGA: break;
+				case eGNGGA: 
+				// fill_GNGGA(MSG_buff);
+							 break;
 				default:     break;
 				}
+			}
+			else
+			{
+				if (Uart_debug_out & GPS_DEBUG_OUT)
+					UART_puts("GPS message dropped due to invalid checksum\r\n");
 			}
 
 			new_msg = FALSE; // new message possible

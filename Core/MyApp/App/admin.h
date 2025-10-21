@@ -74,6 +74,8 @@ extern SemaphoreHandle_t  hdGPSerror_Mutex;
 extern SemaphoreHandle_t  hdGPSlatest_Mutex;
 /// handle for latest uncorrected GPS data Mutex
 extern SemaphoreHandle_t  hdGPSlatestuncorrected_Mutex;
+/// handle for heading angle Mutex
+extern SemaphoreHandle_t  hAngle_Mutex;
 
 
 /// debug naar uart output, zie uart_keys.c
@@ -168,5 +170,7 @@ extern void dGPS_parser(void *);
 
 // dGPS_calculator.c
 extern void dGPS_calculator(void *);
-// Heading.c
+// Route_performer.c
 extern void Route_performer(void *);
+// PID_Controller.c
+extern void PID_Controller(void *);

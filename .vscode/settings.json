@@ -1,6 +1,9 @@
 {
     "files.associations": {
         "compare": "c",
-        "type_traits": "c"
+        "type_traits": "c",
+        "cmsis_os.h": "c",
+        "admin.h": "c",
+        "main.h": "c"
     }
 }

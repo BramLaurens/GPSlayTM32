@@ -1,0 +1,8 @@
+GPS (UART4): $GNRMC,155339.000,A,5205.015939,N,00510.100629,E,0.007,323.09,211025,,,F,V [cs:OK]
+
+	 GPS type: 	$GNRMC
+	 status: 		A
+	 latitude:		5205.015939
+	 longitude:	510.100629
+	 speed:    	0.007
+	 course:   	323.09

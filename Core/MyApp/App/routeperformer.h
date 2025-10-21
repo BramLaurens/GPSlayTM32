@@ -9,9 +9,9 @@
 #include "gps.h"
 #include "GPS_Route_Setter.h" // for GPS_Route declaration if needed
 
-double Deg_Heading(int Next_routing_point);
 int Give_NodeNumber(void *argument);
 double Distance_Till_Waypoint(int Next_routing_point);
 void Route_performer(void *argument);
+void getlatestAngle(double *dest);
 
 #endif // ROUTEPERFORMER_H
