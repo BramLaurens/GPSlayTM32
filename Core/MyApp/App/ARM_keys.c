@@ -118,6 +118,15 @@ void ARM_keys_task (void *argument)
 			}
 		}	
 
+		// Send key to the PID controller queue
+		if (hKeyPID_Queue)
+		{
+			// try to send without blocking; if queue is full, drop the key
+			if (xQueueSend(hKeyPID_Queue, &key, 0) != pdTRUE)
+			{
+			}
+		}
+
 		taskYIELD(); // done, force context switch
 	}
 }

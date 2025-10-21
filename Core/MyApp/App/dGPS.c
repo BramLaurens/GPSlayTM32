@@ -182,6 +182,8 @@ void parse_GPSdata()
     GPS_latest_averaged.latitude = convert_decimal_degrees(gnrmc_localbuffer.latitude, &gnrmc_localbuffer.NS_ind);
     GPS_latest_averaged.longitude = convert_decimal_degrees(gnrmc_localbuffer.longitude, &gnrmc_localbuffer.EW_ind);
     GPS_latest_averaged.course = atof(gnrmc_localbuffer.course);
+
+    GPS_storeUncorrected(&GPS_latestsafe_uncorrected); // Store the latest uncorrected GPS data safely 
 }
 
 void dGPS_parser(void *argument)

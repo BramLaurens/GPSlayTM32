@@ -171,6 +171,9 @@ uint8_t GPS_Route_Maker()
 	sprintf(Float_buffer, "	Lat:%2.9f",Node->latitude);
 	UART_puts(Float_buffer); UART_puts("\r\n");
 
+	LCD_clear();
+	LCD_puts("New node created");
+
 	UART_puts("New node created succesfully");
 	UART_puts("\r\n");
 

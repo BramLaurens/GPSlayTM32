@@ -372,13 +372,13 @@ void Route_performer(void *argument)
                     case 0x0F: // Reset route to WP 0 button 15
                         Working_routing_point = 0; // Reset to first waypoint
                         break;
-                    case 0x10: // Run route planning algorithm toggle button 16
+                    case 16: // Run route planning algorithm toggle button 16
                         EnableRP_algo = !EnableRP_algo; // Toggle RP algo
                         UART_puts(EnableRP_algo ? "Route Planning Algorithm Enabled\r\n" : "Route Planning Algorithm Disabled\r\n");
                         EnableRP_algo ? HAL_GPIO_WritePin(GPIOD, LEDORANGE, GPIO_PIN_SET) : HAL_GPIO_WritePin(GPIOD, LEDORANGE, GPIO_PIN_RESET); // Indicate RP algo status on LED
                         break;
                     default:
-                        UART_puts("\r\nInvalid key pressed for PID_Controller\r\n");
+                        UART_puts("\r\nInvalid key pressed for Route performer\r\n");
                         break; // continue loop
                 }
             }
@@ -387,6 +387,8 @@ void Route_performer(void *argument)
         // If RP algo is enabled, run it periodically
         if (EnableRP_algo)
         {
+            LCD_clear();
+            LCD_puts("Route perfomer enabled");
             Distance = distance_tillwaypoint_FE(Working_routing_point); // Update distance to working waypoint
 
             if(xSemaphoreTake(hAngle_Mutex, portMAX_DELAY) == pdTRUE) // Take mutex before updating shared angle variable
@@ -398,6 +400,7 @@ void Route_performer(void *argument)
             Working_routing_point = Completed_waypoint(Distance); // Check if waypoint is completed and get next waypoint if so
         }
 
+        Angle = GET_workingHeading(Working_routing_point);
         // Expose the latest angle
         osDelay(100); // small sleep so this task isn't busy-waiting
     }

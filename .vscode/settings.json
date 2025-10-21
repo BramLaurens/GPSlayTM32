@@ -4,6 +4,7 @@
         "type_traits": "c",
         "cmsis_os.h": "c",
         "admin.h": "c",
-        "main.h": "c"
+        "main.h": "c",
+        "routeperformer.h": "c"
     }
 }

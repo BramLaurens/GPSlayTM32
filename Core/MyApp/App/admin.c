@@ -52,6 +52,7 @@ QueueHandle_t 	      hKeyRS_Queue;
 QueueHandle_t 	      hUART_Queue; /// uses UART2
 QueueHandle_t 	      hGPS_Queue;  /// uses UART1
 QueueHandle_t         hGNRMC_Queue; /// queue for complete GPS messages
+QueueHandle_t		  hKeyPID_Queue; /// queue for keys to PID controller
 SemaphoreHandle_t     hLED_Sem;
 EventGroupHandle_t 	  hKEY_Event;
 TimerHandle_t         hTimer1;
@@ -125,6 +126,9 @@ TASKDATA tasks[] =
 
 // PID controller
 { PID_Controller,    NULL, .attr.name ="PID_Controller",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal2 },
+
+// Motordriver
+{ Motor_Driver,    NULL, .attr.name ="Motor_Driver",    .attr.stack_size = 1000, .attr.priority = osPriorityBelowNormal7 },
   // deze laatste niet wissen, wordt gebruik als 'terminator' in for-loops
 { NULL,         NULL, .attr.name = NULL,           .attr.stack_size = 0,       .attr.priority = 0 }
 };
@@ -254,6 +258,9 @@ void CreateHandles(void)
 
 	if (!(hUART_Queue = xQueueCreate(QSIZE_UART, sizeof(unsigned int))))
 		error_HaltOS("Error hUART_Q");
+
+	if (!(hKeyPID_Queue = xQueueCreate(QSIZE_UART, sizeof(unsigned int))))
+		error_HaltOS("Error hKeyPID_Queue");
 
 	if (!(hGPS_Queue = xQueueCreate(GPS_MAXLEN, sizeof(unsigned char))))
 		error_HaltOS("Error hGPS_Q");

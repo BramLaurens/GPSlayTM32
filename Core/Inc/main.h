@@ -47,6 +47,8 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
+extern TIM_HandleTypeDef htim4;
+extern TIM_HandleTypeDef htim12;
 
 /* USER CODE END ET */
 
@@ -59,6 +61,8 @@ extern "C" {
 /* USER CODE BEGIN EM */
 
 /* USER CODE END EM */
+
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
@@ -127,14 +131,10 @@ void Error_Handler(void);
 #define SPI1_CSN_GPIO_Port GPIOB
 #define SPI1_CE_Pin GPIO_PIN_5
 #define SPI1_CE_GPIO_Port GPIOB
-#define Audio_SCL_Pin GPIO_PIN_6
-#define Audio_SCL_GPIO_Port GPIOB
 #define SPI1_IRQ_IN_Pin GPIO_PIN_7
 #define SPI1_IRQ_IN_GPIO_Port GPIOB
 #define LED_SCK_Pin GPIO_PIN_8
 #define LED_SCK_GPIO_Port GPIOB
-#define Audio_SDA_Pin GPIO_PIN_9
-#define Audio_SDA_GPIO_Port GPIOB
 #define MEMS_INT2_Pin GPIO_PIN_1
 #define MEMS_INT2_GPIO_Port GPIOE
 

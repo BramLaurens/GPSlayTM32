@@ -58,6 +58,8 @@ extern QueueHandle_t     hGNRMC_Queue;
 extern QueueHandle_t 	  hKeyRP_Queue;
 /// handle voor ARM-keys to route setter queue (non-blocking delivery of key values)
 extern QueueHandle_t 	  hKeyRS_Queue;
+/// handle for PID controller keys queue
+extern QueueHandle_t 	  hKeyPID_Queue;
 /// handle voor LED-mutex
 extern SemaphoreHandle_t  hLED_Sem;
 /// handle voor ARM-keys-event
@@ -174,3 +176,5 @@ extern void dGPS_calculator(void *);
 extern void Route_performer(void *);
 // PID_Controller.c
 extern void PID_Controller(void *);
+// Motor_Driver.c
+extern void Motor_Driver(void *);
