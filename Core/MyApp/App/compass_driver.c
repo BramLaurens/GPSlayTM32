@@ -7,13 +7,20 @@
 
 #define LSM303M_ADDR_7BIT  0x1E
 #define LSM303M_ADDR       (LSM303M_ADDR_7BIT << 1)
-#define LSM303A_ADDR_7BIT  0x18
+#define LSM303A_ADDR_7BIT  0x19
 #define LSM303A_ADDR      (LSM303A_ADDR_7BIT << 1)
 #define M_PI 3.14159265358979323846f
 
 #define CAL_SAMPLES       1500
 #define CAL_DELAY_MS      10
 #define DEG_RAD           (180.0f / M_PI)
+
+typedef struct {
+    float offx, offy, offz;
+    float scalex, scaley, scalez;
+} MagCalibration;
+
+MagCalibration magCal;
 
 HAL_StatusTypeDef status;
 
@@ -27,15 +34,18 @@ HAL_StatusTypeDef status;
  * @param mz Pointer to store Z magnetometer data
  * @return HAL_StatusTypeDef HAL status
  */
-HAL_StatusTypeDef LSM303M_ReadMag(I2C_HandleTypeDef *hi2c, int16_t *mx, int16_t *my, int16_t *mz) {
-    uint8_t reg = 0x03 | 0x80; // OUT_X_H_M
+HAL_StatusTypeDef LSM303AGR_ReadMag(I2C_HandleTypeDef *hi2c, int16_t *mx, int16_t *my, int16_t *mz)
+{
+    uint8_t reg = 0x68; // OUTX_L_M
     uint8_t buf[6];
-    HAL_StatusTypeDef r = HAL_I2C_Mem_Read(hi2c, LSM303M_ADDR, reg, I2C_MEMADD_SIZE_8BIT, buf, 6, 100);
+
+    HAL_StatusTypeDef r = HAL_I2C_Mem_Read(hi2c, (0x1E << 1), reg, I2C_MEMADD_SIZE_8BIT, buf, 6, 100);
     if (r != HAL_OK) return r;
-    // datasheet: XH XL ZH ZL YH YL
-    *mx = (int16_t)((buf[0] << 8) | buf[1]);
-    *mz = (int16_t)((buf[2] << 8) | buf[3]);
-    *my = (int16_t)((buf[4] << 8) | buf[5]);
+
+    *mx = (int16_t)((buf[1] << 8) | buf[0]);
+    *my = (int16_t)((buf[3] << 8) | buf[2]);
+    *mz = (int16_t)((buf[5] << 8) | buf[4]);
+
     return HAL_OK;
 }
 
@@ -59,38 +69,6 @@ HAL_StatusTypeDef LSM303A_ReadAccel(I2C_HandleTypeDef *hi2c, int16_t *ax, int16_
     *ay = (int16_t)((buf[3] << 8) | buf[2]);
     *az = (int16_t)((buf[5] << 8) | buf[4]);
     return HAL_OK;
-}
-
-void Mag_Mapping_Test(int16_t raw_mx, int16_t raw_my, int16_t raw_mz)
-{
-    float rx = (float)raw_mx, ry = (float)raw_my, rz = (float)raw_mz;
-    float mxs[8], mys[8], mzs[8];
-
-    // define mappings
-    mxs[0] =  rx; mys[0] =  ry; mzs[0] =  rz;   // identity
-    mxs[1] =  rx; mys[1] = -ry; mzs[1] = -rz;   // A
-    mxs[2] = -rx; mys[2] =  ry; mzs[2] = -rz;   // B
-    mxs[3] = -rx; mys[3] = -ry; mzs[3] =  rz;   // C
-    mxs[4] =  ry; mys[4] =  rx; mzs[4] =  rz;   // swap XY
-    mxs[5] =  ry; mys[5] = -rx; mzs[5] = -rz;   // swap+neg
-    mxs[6] = -ry; mys[6] =  rx; mzs[6] = -rz;   // swap+neg other
-    mxs[7] = -ry; mys[7] = -rx; mzs[7] =  rz;   // swap+neg both
-
-    char buf[256];
-    sprintf(buf, "raw=(%d,%d,%d) ", raw_mx, raw_my, raw_mz);
-    UART_puts(buf);
-
-    for (int i=0; i<8; ++i)
-    {
-        float mx = mxs[i];
-        float my = mys[i];
-        // We only need horizontal angle for mapping test (board is flat)
-        float ang = atan2f(my, mx) * 180.0f / M_PI;
-        if (ang < 0) ang += 360.0f;
-        sprintf(buf, "%d:%.1f ", i, ang);
-        UART_puts(buf);
-    }
-    UART_puts("\r\n");
 }
 
 void debug_mag_angle(int16_t mx, int16_t my)
@@ -150,13 +128,70 @@ float LSM303_HeadingTiltComp(int16_t mx, int16_t my, int16_t mz,
     return heading;
 }
 
+void LSM303AGR_Calibrate(I2C_HandleTypeDef *hi2c, MagCalibration *cal)
+{
+    int16_t mx, my, mz;
+    int16_t minx = 32767, miny = 32767, minz = 32767;
+    int16_t maxx = -32768, maxy = -32768, maxz = -32768;
+
+    UART_puts("=== Magnetometer Calibration ===\r\n");
+    UART_puts("Rotate the board slowly in all directions...\r\n");
+
+    uint32_t start = HAL_GetTick();
+    while (HAL_GetTick() - start < 15000) // ~15 seconds
+    {
+        if (LSM303AGR_ReadMag(hi2c, &mx, &my, &mz) == HAL_OK)
+        {
+            if (mx < minx) minx = mx;
+            if (mx > maxx) maxx = mx;
+            if (my < miny) miny = my;
+            if (my > maxy) maxy = my;
+            if (mz < minz) minz = mz;
+            if (mz > maxz) maxz = mz;
+        }
+        osDelay(50);
+    }
+
+    cal->offx = (maxx + minx) / 2.0f;
+    cal->offy = (maxy + miny) / 2.0f;
+    cal->offz = (maxz + minz) / 2.0f;
+
+    cal->scalex = (maxx - minx) / 2.0f;
+    cal->scaley = (maxy - miny) / 2.0f;
+    cal->scalez = (maxz - minz) / 2.0f;
+
+    char msg[128];
+    sprintf(msg,
+            "Calibration done!\r\n"
+            "Offsets: X=%.1f Y=%.1f Z=%.1f\r\n"
+            "Scales : X=%.1f Y=%.1f Z=%.1f\r\n",
+            cal->offx, cal->offy, cal->offz,
+            cal->scalex, cal->scaley, cal->scalez);
+    UART_puts(msg);
+}
+
+void LSM303AGR_ApplyCalibration(const MagCalibration *cal, int16_t mx, int16_t my, int16_t mz,
+                                float *mx_corr, float *my_corr, float *mz_corr)
+{
+    float fx = mx - cal->offx;
+    float fy = my - cal->offy;
+    float fz = mz - cal->offz;
+
+    float avg_scale = (cal->scalex + cal->scaley + cal->scalez) / 3.0f;
+
+    *mx_corr = fx * (avg_scale / cal->scalex);
+    *my_corr = fy * (avg_scale / cal->scaley);
+    *mz_corr = fz * (avg_scale / cal->scalez);
+}
+
+
 void LSM303M_Test()
 {
     char msg[100];
 
     int16_t mx, my, mz;
     int16_t ax, ay, az;
-    if (LSM303M_ReadMag(&hi2c3, &mx, &my, &mz) != HAL_OK) {
+    if (LSM303AGR_ReadMag(&hi2c3, &mx, &my, &mz) != HAL_OK) {
         UART_puts("LSM303M mag read error\r\n");
         return;
     }
@@ -166,9 +201,16 @@ void LSM303M_Test()
         return;
     }
 
-    float heading = LSM303_HeadingTiltComp(mx, my, mz, ax, ay, az);
-    sprintf(msg, "Heading: %.2f deg\r\n", heading);
-    UART_puts(msg);
+    // float mx_corr, my_corr, mz_corr;
+    // LSM303AGR_ApplyCalibration(&magCal, mx, my, mz, &mx_corr, &my_corr, &mz_corr);
+
+    // float heading = LSM303_HeadingTiltComp(mx_corr, my_corr, mz_corr, ax, ay, az);
+    // sprintf(msg, "Heading: %.2f deg\r\n", heading);
+    // UART_puts(msg);
+
+    // snprintf(msg, sizeof(msg), "Mag: X=%d Y=%d Z=%d | Accel: X=%d Y=%d Z=%d\r\n", mx, my, mz, ax, ay, az);
+    // UART_puts(msg);
+    debug_mag_angle(mx, my);
 }
 
 /**
@@ -177,30 +219,30 @@ void LSM303M_Test()
  * @param hi2c I2C handle
  * @return int HAL status
  */
-int LSM303M_Init(I2C_HandleTypeDef *hi2c)
+int LSM303AGR_Mag_Init(I2C_HandleTypeDef *hi2c)
 {
     HAL_StatusTypeDef ret;
     uint8_t cfg[2];
 
-    // 1. CRA_REG_M (0x00): data rate = 15 Hz, temperatuurmeting uit
-    cfg[0] = 0x00;
-    cfg[1] = 0b00010000; // DO2..0 = 100 (15 Hz), TEMP_EN=0
-    ret = HAL_I2C_Master_Transmit(hi2c, LSM303M_ADDR, cfg, 2, 100);
+    // CFG_REG_A_M (0x60): Continuous mode, ODR = 10 Hz
+    cfg[0] = 0x60;
+    cfg[1] = 0b10000000;  // COMP_TEMP_EN=1, MD=00 (continuous), ODR=10Hz
+    ret = HAL_I2C_Master_Transmit(hi2c, (0x1E << 1), cfg, 2, 100);
     if (ret != HAL_OK) return ret;
 
-    // 2. CRB_REG_M (0x01): gain = ±1.3 gauss (default)
-    cfg[0] = 0x01;
-    cfg[1] = 0b00100000; // GN2..0 = 001
-    ret = HAL_I2C_Master_Transmit(hi2c, LSM303M_ADDR, cfg, 2, 100);
+    // CFG_REG_B_M (0x61): Default gain config
+    cfg[0] = 0x61;
+    cfg[1] = 0x02;
+    ret = HAL_I2C_Master_Transmit(hi2c, (0x1E << 1), cfg, 2, 100);
     if (ret != HAL_OK) return ret;
 
-    // 3. MR_REG_M (0x02): continuous-conversion mode
-    cfg[0] = 0x02;
-    cfg[1] = 0x00;
-    ret = HAL_I2C_Master_Transmit(hi2c, LSM303M_ADDR, cfg, 2, 100);
+    // CFG_REG_C_M (0x62): BDU=1
+    cfg[0] = 0x62;
+    cfg[1] = 0x10;
+    ret = HAL_I2C_Master_Transmit(hi2c, (0x1E << 1), cfg, 2, 100);
     if (ret != HAL_OK) return ret;
 
-    HAL_Delay(10); // kleine opstartpauze
+    HAL_Delay(10);
     return HAL_OK;
 }
 
@@ -231,27 +273,39 @@ int LSM303A_Init(I2C_HandleTypeDef *hi2c)
     return HAL_OK;
 }
 
+void LSM303AGR_CFG_Read(void)
+{
+    uint8_t cfg;
+    HAL_I2C_Mem_Read(&hi2c3, (0x1E << 1), 0x60, I2C_MEMADD_SIZE_8BIT, &cfg, 1, 100);
+    char msg[32];
+    sprintf(msg, "CFG_REG_A_M=0x%02X\r\n", cfg);
+    UART_puts(msg);
+}
+
 
 void Compass_Heading(void *argument)
 {
-    if (status = HAL_I2C_IsDeviceReady(&hi2c3, LSM303M_ADDR, 2, 100) == HAL_OK)
-    UART_puts("Magnetometer aanwezig\r\n");
-    else
-    UART_puts("Magnetometer reageert niet!\r\n");
-    UART_putint(status);
+    osDelay(2000); // wait for system to stabilize
 
-    if (status = HAL_I2C_IsDeviceReady(&hi2c3, LSM303A_ADDR, 2, 100) == HAL_OK)
-    UART_puts("Accelerometer aanwezig\r\n");
+    if ((status = HAL_I2C_IsDeviceReady(&hi2c3, LSM303M_ADDR, 2, 100)) == HAL_OK)
+        UART_puts("Magnetometer aanwezig\r\n");
     else
-    UART_puts("Accelerometer reageert niet!\r\n");
-    UART_putint(status);
+        UART_puts("Magnetometer reageert niet!\r\n");
+    UART_putint((unsigned int)status);
 
-    LSM303M_Init(&hi2c3);
+    if ((status = HAL_I2C_IsDeviceReady(&hi2c3, LSM303A_ADDR, 2, 100)) == HAL_OK)
+        UART_puts("Accelerometer aanwezig\r\n");
+    else
+        UART_puts("Accelerometer reageert niet!\r\n");
+    UART_putint((unsigned int)status);
+
+    LSM303AGR_Mag_Init(&hi2c3);
     LSM303A_Init(&hi2c3);
 
-    float offx, offy, offz, scalex, scaley, scalez;
-
     osDelay(1000);
+    LSM303AGR_CFG_Read();
+    LSM303AGR_Calibrate(&hi2c3, &magCal);
+
     // LSM303M_Calibrate(&hi2c3, &offx, &offy, &offz, &scalex, &scaley, &scalez);
     while (1)
     {
