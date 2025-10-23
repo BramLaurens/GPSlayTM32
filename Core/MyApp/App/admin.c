@@ -53,6 +53,7 @@ QueueHandle_t 	      hKeyRS_Queue;
 QueueHandle_t 	      hUART_Queue; /// uses UART2
 QueueHandle_t 	      hGPS_Queue;  /// uses UART1
 QueueHandle_t         hGNRMC_Queue; /// queue for complete GPS messages
+
 SemaphoreHandle_t     hLED_Sem;
 EventGroupHandle_t 	  hKEY_Event;
 TimerHandle_t         hTimer1;
@@ -61,6 +62,7 @@ SemaphoreHandle_t     hdGPSerror_Mutex; /// mutex voor GPS errorbuffer
 SemaphoreHandle_t	  hGPS_Ringbuffer_Mutex; /// mutex voor GPS ringbuffer
 SemaphoreHandle_t     hdGPSlatest_Mutex; /// mutex voor latest corrected GPS data
 SemaphoreHandle_t     hdGPSlatestuncorrected_Mutex; /// mutex voor latest uncorrected GPS data
+SemaphoreHandle_t	  hCompass_Mutex; /// mutex for compass data
 
 
 
@@ -279,6 +281,9 @@ void CreateHandles(void)
 
 	if (!(hdGPSlatestuncorrected_Mutex = xSemaphoreCreateMutex()))
 		error_HaltOS("Error hdGPSlatestuncorrected_Mutex");
+
+	if (!(hCompass_Mutex = xSemaphoreCreateMutex()))
+		error_HaltOS("Error hCompass_Mutex");
 
 	UART_puts("\n\rAll handles created successfully.");
 

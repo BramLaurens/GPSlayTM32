@@ -15,6 +15,8 @@
 #define CAL_DELAY_MS      10
 #define DEG_RAD           (180.0f / M_PI)
 
+#define DEBUG_COMPASS      
+
 typedef struct {
     float offx, offy, offz;
     float scalex, scaley, scalez;
@@ -24,6 +26,19 @@ MagCalibration magCal;
 
 HAL_StatusTypeDef status;
 
+double externAngle;
+double angleAvgBuffer;
+
+void getlatestAngle(double *dest) {
+    if(xSemaphoreTake(hCompass_Mutex, portMAX_DELAY) == pdTRUE) {
+        // critical section
+        *dest = externAngle;
+        xSemaphoreGive(hCompass_Mutex);
+    } else {
+        // failed to take mutex, return some default value
+        *dest = -1.0;
+    }
+}
 
 /**
  * @brief Read magnetometer data from LSM303M
@@ -71,13 +86,18 @@ HAL_StatusTypeDef LSM303A_ReadAccel(I2C_HandleTypeDef *hi2c, int16_t *ax, int16_
     return HAL_OK;
 }
 
-void debug_mag_angle(int16_t mx, int16_t my)
+double debug_mag_angle(int16_t mx, int16_t my)
 {
     float ang = atan2f((float)my, (float)mx) * 180.0f / M_PI;
+    ang = -ang;
+
+    // Sensor is mounted 180 offset
+    ang += 180.0f;
     if (ang < 0) ang += 360.0f;
-    char b[64];
-    sprintf(b, "MAG angle = %.1f deg  raw=%d,%d\r\n", ang, mx, my);
-    UART_puts(b);
+    // char b[64];
+    // sprintf(b, "MAG angle = %.1f deg  raw=%d,%d\r\n", ang, mx, my);
+    // UART_puts(b);
+    return ang;
 }
 
 /**
@@ -185,8 +205,14 @@ void LSM303AGR_ApplyCalibration(const MagCalibration *cal, int16_t mx, int16_t m
 }
 
 
-void LSM303M_Test()
+/**
+ * @brief Calculate and return the current heading angle from LSM303M
+ *
+ * @return double Heading angle in degrees
+ */
+double LSM303M_RawAngle()
 {
+    double angle;
     char msg[100];
 
     int16_t mx, my, mz;
@@ -210,7 +236,10 @@ void LSM303M_Test()
 
     // snprintf(msg, sizeof(msg), "Mag: X=%d Y=%d Z=%d | Accel: X=%d Y=%d Z=%d\r\n", mx, my, mz, ax, ay, az);
     // UART_puts(msg);
-    debug_mag_angle(mx, my);
+
+
+    angle = debug_mag_angle(mx, my);
+    return angle;
 }
 
 /**
@@ -302,14 +331,40 @@ void Compass_Heading(void *argument)
     LSM303AGR_Mag_Init(&hi2c3);
     LSM303A_Init(&hi2c3);
 
+    double externAngle = 0.0;  // filtered output
+    double filteredSin = 0.0;
+    double filteredCos = 0.0;
+    const double alpha = 0.1; // smoothing factor
+
     osDelay(1000);
-    LSM303AGR_CFG_Read();
-    LSM303AGR_Calibrate(&hi2c3, &magCal);
+    // LSM303AGR_CFG_Read();
+    // LSM303AGR_Calibrate(&hi2c3, &magCal);
 
     // LSM303M_Calibrate(&hi2c3, &offx, &offy, &offz, &scalex, &scaley, &scalez);
     while (1)
     {
-        LSM303M_Test();
-        osDelay(200); // 1 seconde delay
+        double a = LSM303M_RawAngle(); // in degrees
+        double rad = a * M_PI / 180.0;
+
+        // Low-pass filter on sin and cos components
+        filteredSin = alpha * sin(rad) + (1.0 - alpha) * filteredSin;
+        filteredCos = alpha * cos(rad) + (1.0 - alpha) * filteredCos;
+
+        // Reconstruct filtered angle
+        double filtAngle = atan2(filteredSin, filteredCos) * 180.0 / M_PI;
+        if (filtAngle < 0) filtAngle += 360.0;
+
+        #ifdef DEBUG_COMPASS
+            char b[64];
+            sprintf(b, "Raw angle: %.2f deg, Filtered angle: %.2f deg\r\n", a, filtAngle);
+            UART_puts(b);
+        #endif
+
+        if (xSemaphoreTake(hCompass_Mutex, portMAX_DELAY) == pdTRUE) {
+            externAngle = filtAngle;
+            xSemaphoreGive(hCompass_Mutex);
+        }
+
+        osDelay(10); // 10 ms delay between samples
     }
 }
