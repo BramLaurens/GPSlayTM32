@@ -18,7 +18,9 @@
 #include "stdio.h"
 #include "string.h" // strtok, strcpy
 #include "stdlib.h" // atoi
-#include "ctype.h"  // toupper
+#include "ctype.h"  // toupper`
+
+#include "compass_driver.h"
 
 #define TRUE  	   1
 #define FALSE      0
@@ -78,6 +80,8 @@ extern SemaphoreHandle_t  hdGPSlatest_Mutex;
 extern SemaphoreHandle_t  hdGPSlatestuncorrected_Mutex;
 /// handle for heading angle Mutex
 extern SemaphoreHandle_t  hAngle_Mutex;
+/// handle for compass data Mutex
+extern SemaphoreHandle_t  hCompass_Mutex;
 
 
 /// debug naar uart output, zie uart_keys.c
@@ -178,3 +182,5 @@ extern void Route_performer(void *);
 extern void PID_Controller(void *);
 // Motor_Driver.c
 extern void Motor_Driver(void *);
+
+extern void Compass_Heading(void *);

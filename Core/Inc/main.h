@@ -47,6 +47,8 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
+extern I2C_HandleTypeDef hi2c3;
+
 extern TIM_HandleTypeDef htim4;
 extern TIM_HandleTypeDef htim12;
 

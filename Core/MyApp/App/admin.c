@@ -34,6 +34,7 @@
 #include "GPS_Route_Setter.h"
 #include "dGPS.h"
 #include "gps.h"
+#include "compass_driver.h"
 
 
 /// output strings for initialization
@@ -61,6 +62,7 @@ SemaphoreHandle_t     hdGPSerror_Mutex; /// mutex voor GPS errorbuffer
 SemaphoreHandle_t	  hGPS_Ringbuffer_Mutex; /// mutex voor GPS ringbuffer
 SemaphoreHandle_t     hdGPSlatest_Mutex; /// mutex voor latest corrected GPS data
 SemaphoreHandle_t     hdGPSlatestuncorrected_Mutex; /// mutex voor latest uncorrected GPS data
+SemaphoreHandle_t	  hCompass_Mutex; /// mutex for compass data
 SemaphoreHandle_t     hAngle_Mutex; /// mutex for heading angle
 
 
@@ -89,32 +91,32 @@ TASKDATA tasks[] =
 // function      arg   name                        stacksize (* 4 = 32bit)     priority
 // ----------------------------------------------------------------------------------------------------------------------------
   // in ARM_keys.c
-{ ARM_keys_IRQ, NULL, .attr.name = "ARM_keys_IRQ", .attr.stack_size = 600, .attr.priority = osPriorityNormal6 },
-{ ARM_keys_task,NULL, .attr.name = "ARM_keys_task",.attr.stack_size = 600, .attr.priority = osPriorityNormal7 },
+{ ARM_keys_IRQ,   NULL, .attr.name = "ARM_keys_IRQ", .attr.stack_size = 600, .attr.priority = osPriorityNormal6 },
+{ ARM_keys_task,  NULL, .attr.name = "ARM_keys_task",.attr.stack_size = 600, .attr.priority = osPriorityNormal7 },
 
   // UART_keys.c
-{ UART_keys_IRQ,NULL, .attr.name = "UART_keys_IRQ",.attr.stack_size = 600, .attr.priority = osPriorityNormal4 },
-{ UART_menu,    NULL, .attr.name = "UART_menu",    .attr.stack_size = 600, .attr.priority = osPriorityNormal5 },
+{ UART_keys_IRQ,  NULL, .attr.name = "UART_keys_IRQ",.attr.stack_size = 600, .attr.priority = osPriorityNormal4 },
+{ UART_menu,      NULL, .attr.name = "UART_menu",    .attr.stack_size = 600, .attr.priority = osPriorityNormal5 },
 
   // gps.c
 { GPS_getNMEA,  NULL, .attr.name = "GPS_getNMEA",  .attr.stack_size = 2000, .attr.priority = osPriorityAboveNormal2 },
 
   // student.c
-{ Student_task1,NULL, .attr.name = "Student_task1",.attr.stack_size = 600, .attr.priority = osPriorityBelowNormal7 },
+{ Student_task1,  NULL, .attr.name = "Student_task1",.attr.stack_size = 600, .attr.priority = osPriorityBelowNormal7 },
 
   // ledjes.c
   // NOTE: ledtasks 1 & 2 moeten dezelfde priority hebben, anders 'sterft' de taak met de laagste priority
   //       wat wel kan: afdwingen dat taken aan de beurt komen door notifications, zie ledasks 3 & 4
-{ LED_Task1,    NULL, .attr.name = "LED_Task1",    .attr.stack_size = 450, .attr.priority = osPriorityBelowNormal4 },
-{ LED_Task2,    NULL, .attr.name = "LED_Task2",    .attr.stack_size = 450, .attr.priority = osPriorityBelowNormal4 },
-{ LED_Task3,    NULL, .attr.name = "LED_Task3",    .attr.stack_size = 450, .attr.priority = osPriorityBelowNormal5 },
-{ LED_Task4,    NULL, .attr.name = "LED_Task4",    .attr.stack_size = 450, .attr.priority = osPriorityBelowNormal4 },
+{ LED_Task1,      NULL, .attr.name = "LED_Task1",    .attr.stack_size = 450, .attr.priority = osPriorityBelowNormal4 },
+{ LED_Task2,      NULL, .attr.name = "LED_Task2",    .attr.stack_size = 450, .attr.priority = osPriorityBelowNormal4 },
+{ LED_Task3,      NULL, .attr.name = "LED_Task3",    .attr.stack_size = 450, .attr.priority = osPriorityBelowNormal5 },
+{ LED_Task4,      NULL, .attr.name = "LED_Task4",    .attr.stack_size = 450, .attr.priority = osPriorityBelowNormal4 },
 
   // NRF Driver
-{ NRF_Driver,    NULL, .attr.name ="GPS_parser",    .attr.stack_size = 600, .attr.priority = osPriorityNormal3 },
+{ NRF_Driver,     NULL, .attr.name ="GPS_parser",    .attr.stack_size = 600, .attr.priority = osPriorityNormal3 },
 
 // Route setter
-{ Route_Setter,    NULL, .attr.name ="Route_setter",    .attr.stack_size = 1200, .attr.priority = osPriorityNormal1 },
+{ Route_Setter,   NULL, .attr.name ="Route_setter",    .attr.stack_size = 1200, .attr.priority = osPriorityNormal1 },
 
 // dGPS
 { dGPS_parser,    NULL, .attr.name = "dGPS_parser",    .attr.stack_size = 2300, .attr.priority = osPriorityNormal3},
@@ -124,13 +126,14 @@ TASKDATA tasks[] =
 // Route performer
 { Route_performer,    NULL, .attr.name ="Route_performer",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal2 },
 
+{ Compass_Heading,NULL, .attr.name ="Compass_Heading", .attr.stack_size = 1200, .attr.priority = osPriorityNormal2},
 // PID controller
 { PID_Controller,    NULL, .attr.name ="PID_Controller",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal2 },
 
 // Motordriver
 { Motor_Driver,    NULL, .attr.name ="Motor_Driver",    .attr.stack_size = 1000, .attr.priority = osPriorityBelowNormal7 },
   // deze laatste niet wissen, wordt gebruik als 'terminator' in for-loops
-{ NULL,         NULL, .attr.name = NULL,           .attr.stack_size = 0,       .attr.priority = 0 }
+{ NULL,           NULL, .attr.name = NULL,           .attr.stack_size = 0,       .attr.priority = 0 }
 };
 
 
@@ -291,6 +294,9 @@ void CreateHandles(void)
 
 	if (!(hAngle_Mutex = xSemaphoreCreateMutex()))
 		error_HaltOS("Error hAngle_Mutex");
+
+	if (!(hCompass_Mutex = xSemaphoreCreateMutex()))
+		error_HaltOS("Error hCompass_Mutex");
 
 	UART_puts("\n\rAll handles created successfully.");
 

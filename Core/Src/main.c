@@ -48,6 +48,9 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+I2C_HandleTypeDef hi2c1;
+I2C_HandleTypeDef hi2c3;
+
 SPI_HandleTypeDef hspi1;
 
 TIM_HandleTypeDef htim4;
@@ -66,6 +69,9 @@ const osThreadAttr_t defaultTask_attributes = {
 /* USER CODE BEGIN PV */
 // UART RX and TX buffers
 unsigned char       uart4_char, uart2_char;
+
+#define LSM303_MAG_ADDR     (0x1E << 1)   // Magnetometer I2C address for HAL
+#define LSM303_WHO_AM_I_REG 0x4F          // WHO_AM_I register address
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -76,6 +82,7 @@ static void MX_UART4_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_TIM4_Init(void);
 static void MX_TIM12_Init(void);
+static void MX_I2C3_Init(void);
 void StartDefaultTask(void *argument);
 
 /* USER CODE BEGIN PFP */
@@ -84,6 +91,16 @@ void StartDefaultTask(void *argument);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void I2C_ScanBus(I2C_HandleTypeDef *hi2c) {
+    char msg[32];
+    for (uint8_t addr = 1; addr < 128; addr++) {
+        if (HAL_I2C_IsDeviceReady(hi2c, addr << 1, 1, 10) == HAL_OK) {
+            sprintf(msg, "Found device at 0x%02X\r\n", addr);
+            UART_puts(msg);
+        }
+    }
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -119,7 +136,12 @@ int main(void)
   MX_SPI1_Init();
   MX_TIM4_Init();
   MX_TIM12_Init();
+  MX_I2C3_Init();
+  // HAL_Delay(100);
   /* USER CODE BEGIN 2 */
+
+  I2C_ScanBus(&hi2c3);
+  UART_puts("\r\n\r\n\r\n Starting up...\r\n");
 
   LCD_init();
   KEYS_init();
@@ -221,6 +243,74 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief I2C1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_I2C1_Init(void)
+{
+
+  /* USER CODE BEGIN I2C1_Init 0 */
+
+  /* USER CODE END I2C1_Init 0 */
+
+  /* USER CODE BEGIN I2C1_Init 1 */
+
+  /* USER CODE END I2C1_Init 1 */
+  hi2c1.Instance = I2C1;
+  hi2c1.Init.ClockSpeed = 100000;
+  hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  hi2c1.Init.OwnAddress1 = 0;
+  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c1.Init.OwnAddress2 = 0;
+  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2C1_Init 2 */
+
+  /* USER CODE END I2C1_Init 2 */
+
+}
+
+/**
+  * @brief I2C3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_I2C3_Init(void)
+{
+
+  /* USER CODE BEGIN I2C3_Init 0 */
+
+  /* USER CODE END I2C3_Init 0 */
+
+  /* USER CODE BEGIN I2C3_Init 1 */
+
+  /* USER CODE END I2C3_Init 1 */
+  hi2c3.Instance = I2C3;
+  hi2c3.Init.ClockSpeed = 100000;
+  hi2c3.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  hi2c3.Init.OwnAddress1 = 0;
+  hi2c3.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c3.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c3.Init.OwnAddress2 = 0;
+  hi2c3.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c3.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2C3_Init 2 */
+
+  /* USER CODE END I2C3_Init 2 */
+
 }
 
 /**
@@ -582,7 +672,24 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  
+  /*----------------------*/
+  /* I2C3 pins (SCL/SDA) */
+  /* PA8 -> I2C3_SCL, PC9 -> I2C3_SDA */
+  /* Configure as AF Open-Drain with pull-ups so HAL I2C works correctly */
+  GPIO_InitStruct.Pin = GPIO_PIN_8;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF4_I2C3;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+  GPIO_InitStruct.Pin = GPIO_PIN_9;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF4_I2C3;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
   /* USER CODE END MX_GPIO_Init_2 */
 }
 
@@ -625,6 +732,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	}
 
 }
+
+
 
 /* USER CODE END 4 */
 
