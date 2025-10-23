@@ -18,15 +18,23 @@
 #include "routeperformer.h"
 #include "dGPS.h"
 #include "motordriver.h"
+#include "compass_driver.h"
+
+#define DEBUG_PID_CONTROLLER
 
 // ==== PID constants ====
-#define KP  0.35
-#define KI  0.001
-#define KD  0.05
+#define KP  0.8
+#define KI  0.0001
+#define KD  0.09
 
 // ==== Control parameters ====
-#define BASE_SPEED 100     // normalized 0–1 (or map to PWM)
+#define BASE_SPEED 0     // normalized 0–1 (or map to PWM)
 #define MAX_SPEED  255
+// Minimum effective PWM value to actually move the tracks. Commands with
+// absolute value below this will be clamped to this value so the motors
+// overcome static friction. When the desired action is effectively zero
+// (error near zero and BASE_SPEED == 0) the motors remain off.
+#define MIN_SPEED 85
 
 
 // ==== Shared variables (updated by GPS task) ====
@@ -71,10 +79,12 @@ double pidCompute(double error, double dt) {
 
 void PID_check(){
 
-    // Get latest GPS data
-    GPS_getlatest_uncorrected(&latest_dGPS_data);
-    currentHeading = latest_dGPS_data.course;
-    getlatestAngle(&desiredHeading);
+    // Get latest heading and desired heading
+    // GPS_getlatest_uncorrected(&latest_dGPS_data);
+    // getlatestAngle(&desiredHeading);
+
+    getlatestHeading(&currentHeading);
+    desiredHeading = 180.0; // For testing, set desired heading to 180 degrees
 
     double dt;
     TickType_t now = xTaskGetTickCount();
@@ -87,15 +97,39 @@ void PID_check(){
     double leftSpeed = BASE_SPEED + steering;
     double rightSpeed = BASE_SPEED - steering;
 
-    // Clamp and apply
+    // If the desired action is effectively zero (no base speed and very
+    // small heading error), keep motors off so they don't waste power.
+    const double EPS_ERROR = 10; // degrees (tolerance for considering error zero)
+    bool keepMotorsOff = (fabs(error) < EPS_ERROR) && (BASE_SPEED == 0);
+
+    // Clamp to max limits first
     if (leftSpeed > MAX_SPEED) leftSpeed = MAX_SPEED;
     if (leftSpeed < -MAX_SPEED) leftSpeed = -MAX_SPEED;
     if (rightSpeed > MAX_SPEED) rightSpeed = MAX_SPEED;
     if (rightSpeed < -MAX_SPEED) rightSpeed = -MAX_SPEED;
 
+    // Apply minimum effective speed to overcome stiction when a non-zero
+    // command is requested. Preserve exact zero when keepMotorsOff is true.
+    if (!keepMotorsOff) {
+        if ((leftSpeed > 0) && (leftSpeed < MIN_SPEED)) leftSpeed = MIN_SPEED;
+        if ((leftSpeed < 0) && (leftSpeed > -MIN_SPEED)) leftSpeed = -MIN_SPEED;
+
+        if ((rightSpeed > 0) && (rightSpeed < MIN_SPEED)) rightSpeed = MIN_SPEED;
+        if ((rightSpeed < 0) && (rightSpeed > -MIN_SPEED)) rightSpeed = -MIN_SPEED;
+    } else {
+        leftSpeed = 0;
+        rightSpeed = 0;
+    }
+
     Motor_Set_Speed((int16_t)leftSpeed, (int16_t)rightSpeed);
 
-    osDelay(100); // Control loop delay
+    #ifdef DEBUG_PID_CONTROLLER
+    char msg[128];
+    sprintf(msg, "PID Debug: DH=%.2f CH=%.2f Err=%.2f LSpd=%.2f RSpd=%.2f\r\n",
+            desiredHeading, currentHeading, error, leftSpeed, rightSpeed);
+    UART_puts(msg);
+    #endif
+    osDelay(10); // Control loop delay
 }
 
 void PID_Controller(void *argument)
@@ -137,6 +171,6 @@ void PID_Controller(void *argument)
         {
             Motor_Set_Speed(0, 0); // Stop motors when PID is disabled
         }
-        osDelay(10); // Idle delay when PID is disabled
+        osDelay(1); // Idle delay when PID is disabled
     }
 }

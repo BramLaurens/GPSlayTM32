@@ -115,6 +115,7 @@ void Motor_Driver(void *argument)
 	PWM_Set(PWM_FREQUENCY, 0, &htim4,  TIM_CHANNEL_4); // B2	
 	while(1)
 	{
+		// Motor_Set_Speed(100, 100);
 		osDelay(100); // adjust delay as needed
 	}
 }

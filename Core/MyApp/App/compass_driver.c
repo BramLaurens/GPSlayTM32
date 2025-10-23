@@ -15,7 +15,7 @@
 #define CAL_DELAY_MS      10
 #define DEG_RAD           (180.0f / M_PI)
 
-#define DEBUG_COMPASS      
+// #define DEBUG_COMPASS      
 
 typedef struct {
     float offx, offy, offz;
@@ -26,10 +26,10 @@ MagCalibration magCal;
 
 HAL_StatusTypeDef status;
 
-double externAngle;
-double angleAvgBuffer;
+double externAngle = 0.0;
+double angleAvgBuffer = 0.0;
 
-void getlatestAngle(double *dest) {
+void getlatestHeading(double *dest) {
     if(xSemaphoreTake(hCompass_Mutex, portMAX_DELAY) == pdTRUE) {
         // critical section
         *dest = externAngle;
@@ -331,7 +331,6 @@ void Compass_Heading(void *argument)
     LSM303AGR_Mag_Init(&hi2c3);
     LSM303A_Init(&hi2c3);
 
-    double externAngle = 0.0;  // filtered output
     double filteredSin = 0.0;
     double filteredCos = 0.0;
     const double alpha = 0.1; // smoothing factor
@@ -343,6 +342,7 @@ void Compass_Heading(void *argument)
     // LSM303M_Calibrate(&hi2c3, &offx, &offy, &offz, &scalex, &scaley, &scalez);
     while (1)
     {
+        char b[64];
         double a = LSM303M_RawAngle(); // in degrees
         double rad = a * M_PI / 180.0;
 
@@ -355,13 +355,14 @@ void Compass_Heading(void *argument)
         if (filtAngle < 0) filtAngle += 360.0;
 
         #ifdef DEBUG_COMPASS
-            char b[64];
-            sprintf(b, "Raw angle: %.2f deg, Filtered angle: %.2f deg\r\n", a, filtAngle);
+            sprintf(b, "        Raw angle: %.2f deg, Filtered angle: %.2f deg\r\n", a, filtAngle);
             UART_puts(b);
         #endif
 
         if (xSemaphoreTake(hCompass_Mutex, portMAX_DELAY) == pdTRUE) {
             externAngle = filtAngle;
+            // sprintf(b, "Compass angle updated: %.2f deg\r\n", externAngle);
+            // UART_puts(b);
             xSemaphoreGive(hCompass_Mutex);
         }
 

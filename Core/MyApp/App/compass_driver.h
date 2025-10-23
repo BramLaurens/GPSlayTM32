@@ -15,5 +15,6 @@
 
 
 void Compass_Heading(void *);
+void getlatestHeading(double* dest);
 
 #endif /* MYAPP_APP_compass_driver_H_ */
