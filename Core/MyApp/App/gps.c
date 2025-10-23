@@ -356,13 +356,12 @@ void GPS_getNMEA (void *argument)
 				{
 				case eGNRMC: 
 							fill_GNRMC(MSG_buff);
-						     // use the data...
-						     break;
+						    break;
 				case eGPGSA:
 				case eGNGGA: 
-				// fill_GNGGA(MSG_buff);
-							 break;
-				default:     break;
+							fill_GNGGA(MSG_buff);
+							break;
+				default:    break;
 				}
 			}
 			else

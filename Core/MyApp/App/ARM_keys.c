@@ -121,9 +121,11 @@ void ARM_keys_task (void *argument)
 		// Send key to the PID controller queue
 		if (hKeyPID_Queue)
 		{
+			UART_puts("\r\n Sending key to PID_Controller queue: "); UART_putint(key); UART_puts("\r\n");
 			// try to send without blocking; if queue is full, drop the key
 			if (xQueueSend(hKeyPID_Queue, &key, 0) != pdTRUE)
 			{
+				UART_puts("Err: PID key Q full\r\n");
 			}
 		}
 

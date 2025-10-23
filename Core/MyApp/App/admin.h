@@ -29,7 +29,7 @@
 /// set software timer 500 msecs
 #define TIMER1_DELAY 500
 
-#define GPS_MAXLEN 79+4 /// $+CR+LF+'\0'
+#define GPS_MAXLEN 256 /// $+CR+LF+'\0'
 /** The carriage return [CR] and the line feed [LF] combination terminate the sentence.
 * NMEA 0 83 sentences vary in length, but each sentence is limited to 79 characters
 * or less. This length limit excludes the $ and the [CR][LF] characters.

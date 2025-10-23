@@ -28,6 +28,13 @@ GPS_Route *pRoute_copy;
 int *pWorking_Waypoint;
 
 double Angle=-2; // -2 for error, 0-360 for valid angle
+volatile bool EnableRP_algo = false; // Set to true to enable route planning algorithm, false to disable
+
+
+void set_RP_algoState(bool state)
+{
+    EnableRP_algo = state;
+}
 
 void getlatestAngle(double *dest)
 {
@@ -347,8 +354,6 @@ void Route_performer(void *argument)
     static int Working_routing_point = 0; // static so pointer remains valid
     pWorking_Waypoint = &Working_routing_point;
 
-    volatile bool EnableRP_algo = false; // Set to true to enable route planning algorithm, false to disable
-
     uint32_t key=0;
 
     UART_puts("PID_Controller started, polling hKey_Queue for key events\r\n");
@@ -360,27 +365,7 @@ void Route_performer(void *argument)
         {
             if (xQueueReceive(hKeyRP_Queue, &key, 0) == pdTRUE)
             {
-                // Process key
-                switch(key)
-                {
-                    case 0x0D: // Get and print heading to next WP button 13
-                        Angle = GET_workingHeading(Working_routing_point); // Get angle to working waypoint
-                        break;
-                    case 0x0E: // Get and print distance to next WP button 14
-                        Distance = distance_tillwaypoint_FE(Working_routing_point); // Get distance to working waypoint
-                        break;
-                    case 0x0F: // Reset route to WP 0 button 15
-                        Working_routing_point = 0; // Reset to first waypoint
-                        break;
-                    case 16: // Run route planning algorithm toggle button 16
-                        EnableRP_algo = !EnableRP_algo; // Toggle RP algo
-                        UART_puts(EnableRP_algo ? "Route Planning Algorithm Enabled\r\n" : "Route Planning Algorithm Disabled\r\n");
-                        EnableRP_algo ? HAL_GPIO_WritePin(GPIOD, LEDORANGE, GPIO_PIN_SET) : HAL_GPIO_WritePin(GPIOD, LEDORANGE, GPIO_PIN_RESET); // Indicate RP algo status on LED
-                        break;
-                    default:
-                        UART_puts("\r\nInvalid key pressed for Route performer\r\n");
-                        break; // continue loop
-                }
+
             }
         }
 
@@ -399,10 +384,7 @@ void Route_performer(void *argument)
 
             Working_routing_point = Completed_waypoint(Distance); // Check if waypoint is completed and get next waypoint if so
         }
-
-        Angle = GET_workingHeading(Working_routing_point);
-        // Expose the latest angle
-        osDelay(100); // small sleep so this task isn't busy-waiting
+        osDelay(10); // small sleep so this task isn't busy-waiting
     }
 }
 

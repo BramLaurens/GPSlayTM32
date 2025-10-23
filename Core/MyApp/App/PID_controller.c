@@ -105,9 +105,9 @@ void PID_Controller(void *argument)
     while (1)
     {
         // Non-blocking: Try to read a key from the queue. If none available, continue doing other work.
-        if (hKeyRP_Queue != NULL)
+        if (hKeyPID_Queue != NULL)
         {
-            if (xQueueReceive(hKeyRP_Queue, &key, 0) == pdTRUE)
+            if (xQueueReceive(hKeyPID_Queue, &key, 0) == pdTRUE)
             {
                 // Process key
                 switch(key)
@@ -115,6 +115,12 @@ void PID_Controller(void *argument)
                     case 5:
                         UART_puts("\r\n Toggle received in PID_Controller\r\n");
                         enablePID = !enablePID;
+                        set_RP_algoState(enablePID);
+
+                        if (enablePID)
+                            UART_puts("PID Controller enabled\r\n");
+                        else
+                            UART_puts("PID Controller disabled\r\n");   
                         break;
                     default:
                         UART_puts("\r\nInvalid key pressed for PID_Controller\r\n");
