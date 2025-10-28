@@ -159,17 +159,26 @@ void fill_GNGGA(char *message)
 	s = strsep(&message, tok);    // 12. DGPS station ID number;
 	strcpy(localBuffer.DGPS_station_ID, s);
 
-	if(localBuffer.fix_quality == '4' || localBuffer.fix_quality == '5'){
+	if(localBuffer.fix_quality == '5'){
 		HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_SET); // RTK fix
 		LCD_clear();
-		LCD_puts("RTK fix! Wohoo");
+		LCD_puts("RTK float! Wohoo");
 	}
-	else{
-		HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_RESET); // no RTK fix
+	if(localBuffer.fix_quality == '4'){
+		HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_SET); // Float RTK fix
 		LCD_clear();
-		LCD_puts("No RTK fix");
+		LCD_puts("RTK fix!");
 	}
-
+	if(localBuffer.fix_quality == '2'){
+		HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_RESET); // DGPS fix
+		LCD_clear();
+		LCD_puts("DGPS fix");
+	}
+	if(localBuffer.fix_quality == '1'){
+		HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_RESET); // GPS fix
+		LCD_clear();
+		LCD_puts("SPS GPS fix");
+	}
 }
 
 /**

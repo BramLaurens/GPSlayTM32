@@ -21,7 +21,7 @@
 
 #define M_PI 3.14159265358979323846
 
-#define Error_marge_completed_waypoint 3   //error margin for when the leaphy is within x meters of the waypoint (+ or -) in meters
+#define Error_marge_completed_waypoint 1   //error margin for when the leaphy is within x meters of the waypoint (+ or -) in meters
 
 dGPS_decimalData_t dGPS_localcopy4;
 GPS_Route *pRoute_copy;
@@ -408,8 +408,6 @@ void Route_performer(void *argument)
         // If RP algo is enabled, run it periodically
         if (EnableRP_algo)
         {
-            LCD_clear();
-            LCD_puts("Route perfomer enabled");
             Distance = distance_tillwaypoint_FE(Working_routing_point); // Update distance to working waypoint
 
             if(xSemaphoreTake(hAngle_Mutex, portMAX_DELAY) == pdTRUE) // Take mutex before updating shared angle variable

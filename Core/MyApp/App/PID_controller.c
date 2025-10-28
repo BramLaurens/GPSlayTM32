@@ -23,9 +23,9 @@
 // #define DEBUG_PID_CONTROLLER
 
 // ==== PID constants ====
-#define KP  0.8
-#define KI  0.0001
-#define KD  0.09
+#define KP  1.1
+#define KI  0.001
+#define KD  0.1
 
 /*Good base tuning
 Kp = 0.8
@@ -136,7 +136,6 @@ void PID_trigger(){
             desiredHeading, currentHeading, error, leftSpeed, rightSpeed);
     UART_puts(msg);
     #endif
-    osDelay(10); // Control loop delay
 }
 
 void PID_Controller(void *argument)
@@ -177,6 +176,8 @@ void PID_Controller(void *argument)
         if (enablePID && !pid_waypoint_hold)
         {
             PID_trigger();
+            osDelay(10); // Control loop delay
+
         }
         else
         {
