@@ -13,7 +13,9 @@
 int Give_NodeNumber(void *argument);
 double Distance_Till_Waypoint(int Next_routing_point);
 void Route_performer(void *argument);
-void getlatestAngle(double *dest);
+void getlatestCourse(double *dest);
 void set_RP_algoState(bool state);
+void get_waypointhold(bool *dest);
+void set_waypointhold(bool state);
 
 #endif // ROUTEPERFORMER_H

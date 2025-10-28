@@ -30,13 +30,39 @@ int *pWorking_Waypoint;
 double Angle=-2; // -2 for error, 0-360 for valid angle
 volatile bool EnableRP_algo = false; // Set to true to enable route planning algorithm, false to disable
 
+volatile bool rp_waypoint_hold = false; // for future use to pause at waypoints
 
+void set_waypointhold(bool state)
+{
+    rp_waypoint_hold = state;
+}
+
+/**
+ * @brief Get the current waypoint hold status
+ * 
+ * @param dest 
+ */
+void get_waypointhold(bool *dest)
+{
+    *dest = rp_waypoint_hold;
+}
+
+/**
+ * @brief Set the RP algoState object, enabling or disabling the route performer algorithm
+ * 
+ * @param state 
+ */
 void set_RP_algoState(bool state)
 {
     EnableRP_algo = state;
 }
 
-void getlatestAngle(double *dest)
+/**
+ * @brief Get the latest heading course to the next waypoint, for external use
+ * 
+ * @param dest 
+ */
+void getlatestCourse(double *dest)
 {
     /* Copy the latest angle data safely */
     if(xSemaphoreTake(hAngle_Mutex, portMAX_DELAY) == pdTRUE)
@@ -122,9 +148,16 @@ double Calc_Angle(GPS_Route *pRoute)
     double angle = atan2(y, x) * 180.0 / M_PI;
 
     if (angle < 0) angle += 360.0;
+
+    // --- Apply Utrecht magnetic declination (≈ +3.5° East) ---
+    double declination_deg = 3.5;
+    angle -= declination_deg;  // subtract because declination is east-positive
+
+    if (angle < 0) angle += 360.0;
+    else if (angle >= 360) angle -= 360.0;
+
     return angle;
 }
-
 
 
 /**
@@ -135,7 +168,7 @@ double Calc_Angle(GPS_Route *pRoute)
  */
 double GET_workingHeading(int Working_routing_point)
 {
-    UART_puts("\r\n Starting angle calculation \r \n");
+    // UART_puts("\r\n Starting angle calculation \r \n");
     double Angle = -2; // 0 is valid angle, -1 is error so -2 so other errors will still be visible
     
     // Check de struct validity, and get the right element
@@ -169,7 +202,7 @@ double GET_workingHeading(int Working_routing_point)
 
 double distance_tillwaypoint_FE(int Working_routing_point)
 {
-    UART_puts("\r\n Starting distance calculation using flat earth (FE) model\r \n");
+    // UART_puts("\r\n Starting distance calculation using flat earth (FE) model\r \n");
     GPS_Route *temp = pRoute_copy;
 
     if(update_GPS_loc() < 0) // update the gps location and check for errors
@@ -210,7 +243,7 @@ double distance_tillwaypoint_FE(int Working_routing_point)
  */
 double Distance_Till_Waypoint(int Working_routing_point)
 {
-    UART_puts("\r\n Starting distance calculation \r \n");
+    // UART_puts("\r\n Starting distance calculation \r \n");
     GPS_Route *temp = pRoute_copy;
 
     if(update_GPS_loc() < 0) // update the gps location and check for errors
@@ -304,9 +337,12 @@ int Completed_waypoint(double Distance_to_point)
     }
 
     // Check if close enough to the next waypoint
-    if(Distance_to_point < Error_marge_completed_waypoint ) // Check if the leaphy is close enough to the waypoint see header for #define
+    if(Distance_to_point < Error_marge_completed_waypoint ) // Check if the rover is close enough to the waypoint see header for #define
     {
         int Working_routing_point = Give_NodeNumber();
+
+        rp_waypoint_hold = true; // Pause at waypoint
+
         UART_puts("Waypoint reached! Calculating next waypoint...\r \n");
         UART_puts(" Current waypoint got: ");
         UART_putint(Working_routing_point); // shows the nr of the waypoint got
@@ -383,6 +419,13 @@ void Route_performer(void *argument)
             }
 
             Working_routing_point = Completed_waypoint(Distance); // Check if waypoint is completed and get next waypoint if so
+        }
+
+        // Wait at waypoint for a few seconds when reached
+        if(rp_waypoint_hold)
+        {
+            osDelay(4000);
+            rp_waypoint_hold = false;
         }
         osDelay(10); // small sleep so this task isn't busy-waiting
     }

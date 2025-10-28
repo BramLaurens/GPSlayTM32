@@ -20,26 +20,35 @@
 #include "motordriver.h"
 #include "compass_driver.h"
 
-#define DEBUG_PID_CONTROLLER
+// #define DEBUG_PID_CONTROLLER
 
 // ==== PID constants ====
 #define KP  0.8
 #define KI  0.0001
 #define KD  0.09
 
+/*Good base tuning
+Kp = 0.8
+Ki = 0.0001
+Kd = 0.09
+ */
+
 // ==== Control parameters ====
-#define BASE_SPEED 0     // normalized 0–1 (or map to PWM)
+#define BASE_SPEED 100     // normalized 0–1 (or map to PWM)
 #define MAX_SPEED  255
 // Minimum effective PWM value to actually move the tracks. Commands with
 // absolute value below this will be clamped to this value so the motors
 // overcome static friction. When the desired action is effectively zero
 // (error near zero and BASE_SPEED == 0) the motors remain off.
-#define MIN_SPEED 85
+#define MIN_SPEED 0
 
 
 // ==== Shared variables (updated by GPS task) ====
 volatile double desiredHeading = 0.0;   // degrees
 volatile double currentHeading = 0.0;   // degrees
+
+// Waypoint hold status
+volatile bool pid_waypoint_hold = false;    // from route performer
 
 // ==== Internal PID state ====
 static double integral = 0.0;
@@ -77,14 +86,12 @@ double pidCompute(double error, double dt) {
     return output;
 }
 
-void PID_check(){
+void PID_trigger(){
 
-    // Get latest heading and desired heading
-    // GPS_getlatest_uncorrected(&latest_dGPS_data);
-    // getlatestAngle(&desiredHeading);
-
+    // Get latest heading and course to calculate error
     getlatestHeading(&currentHeading);
-    desiredHeading = 180.0; // For testing, set desired heading to 180 degrees
+    getlatestCourse(&desiredHeading);
+    // desiredHeading = 180.0; // For testing, set desired heading to 180 degrees
 
     double dt;
     TickType_t now = xTaskGetTickCount();
@@ -99,7 +106,7 @@ void PID_check(){
 
     // If the desired action is effectively zero (no base speed and very
     // small heading error), keep motors off so they don't waste power.
-    const double EPS_ERROR = 10; // degrees (tolerance for considering error zero)
+    const double EPS_ERROR = 0.5; // degrees (tolerance for considering error zero)
     bool keepMotorsOff = (fabs(error) < EPS_ERROR) && (BASE_SPEED == 0);
 
     // Clamp to max limits first
@@ -139,6 +146,9 @@ void PID_Controller(void *argument)
     while (1)
     {
         // Non-blocking: Try to read a key from the queue. If none available, continue doing other work.
+
+        get_waypointhold(&pid_waypoint_hold);
+
         if (hKeyPID_Queue != NULL)
         {
             if (xQueueReceive(hKeyPID_Queue, &key, 0) == pdTRUE)
@@ -148,6 +158,7 @@ void PID_Controller(void *argument)
                 {
                     case 5:
                         UART_puts("\r\n Toggle received in PID_Controller\r\n");
+                        // Toggle PID controller state and inform Route Performer with same state
                         enablePID = !enablePID;
                         set_RP_algoState(enablePID);
 
@@ -163,14 +174,15 @@ void PID_Controller(void *argument)
             }
         }
 
-        if (enablePID)
+        if (enablePID && !pid_waypoint_hold)
         {
-            PID_check();
+            PID_trigger();
         }
         else
         {
             Motor_Set_Speed(0, 0); // Stop motors when PID is disabled
         }
+
         osDelay(1); // Idle delay when PID is disabled
     }
 }
