@@ -23,14 +23,14 @@
 // #define DEBUG_PID_CONTROLLER
 
 // ==== PID constants ====
-#define KP  1.1
-#define KI  0.001
+#define KP  1.2
+#define KI  0.005
 #define KD  0.1
 
 /*Good base tuning
-Kp = 0.8
-Ki = 0.0001
-Kd = 0.09
+Kp = 1.1
+Ki = 0.001
+Kd = 0.1
  */
 
 // ==== Control parameters ====
