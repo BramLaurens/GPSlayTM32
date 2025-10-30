@@ -99,7 +99,7 @@ TASKDATA tasks[] =
 { UART_menu,      NULL, .attr.name = "UART_menu",    .attr.stack_size = 600, .attr.priority = osPriorityNormal5 },
 
   // gps.c
-{ GPS_getNMEA,  NULL, .attr.name = "GPS_getNMEA",  .attr.stack_size = 2000, .attr.priority = osPriorityAboveNormal2 },
+{ GPS_getNMEA,  NULL, .attr.name = "GPS_getNMEA",  .attr.stack_size = 2000, .attr.priority = osPriorityAboveNormal1 },
 
   // student.c
 { Student_task1,  NULL, .attr.name = "Student_task1",.attr.stack_size = 600, .attr.priority = osPriorityBelowNormal7 },
@@ -126,7 +126,7 @@ TASKDATA tasks[] =
 // Route performer
 { Route_performer,    NULL, .attr.name ="Route_performer",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal2 },
 
-{ Compass_Heading,NULL, .attr.name ="Compass_Heading", .attr.stack_size = 2000, .attr.priority = osPriorityNormal2},
+{ Compass_Heading,NULL, .attr.name ="Compass_Heading", .attr.stack_size = 2000, .attr.priority = osPriorityAboveNormal3},
 // PID controller
 { PID_Controller,    NULL, .attr.name ="PID_Controller",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal2 },
 

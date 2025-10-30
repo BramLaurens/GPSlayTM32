@@ -21,7 +21,7 @@
 
 #define M_PI 3.14159265358979323846
 
-#define Error_marge_completed_waypoint 1   //error margin for when the leaphy is within x meters of the waypoint (+ or -) in meters
+#define Error_marge_completed_waypoint 0.5   //error margin for when the leaphy is within x meters of the waypoint (+ or -) in meters
 
 dGPS_decimalData_t dGPS_localcopy4;
 GPS_Route *pRoute_copy;

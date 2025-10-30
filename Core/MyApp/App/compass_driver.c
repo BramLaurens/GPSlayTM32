@@ -366,7 +366,7 @@ void Compass_Heading(void *argument)
         #endif
 
         if (xSemaphoreTake(hCompass_Mutex, portMAX_DELAY) == pdTRUE) {
-            externAngle = filtAngle;
+            externAngle = filtAngle - (double)compass_offset;
             // sprintf(b, "Compass angle updated: %.2f deg\r\n", externAngle);
             // UART_puts(b);
             xSemaphoreGive(hCompass_Mutex);
