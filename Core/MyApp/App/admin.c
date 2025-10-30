@@ -126,7 +126,7 @@ TASKDATA tasks[] =
 // Route performer
 { Route_performer,    NULL, .attr.name ="Route_performer",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal2 },
 
-{ Compass_Heading,NULL, .attr.name ="Compass_Heading", .attr.stack_size = 1200, .attr.priority = osPriorityNormal2},
+{ Compass_Heading,NULL, .attr.name ="Compass_Heading", .attr.stack_size = 2000, .attr.priority = osPriorityNormal2},
 // PID controller
 { PID_Controller,    NULL, .attr.name ="PID_Controller",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal2 },
 

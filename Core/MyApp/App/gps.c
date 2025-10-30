@@ -15,6 +15,7 @@
 
 
 GNRMC gnrmc; // global struct for GNRMC-messages
+GNGGA gngga;
 
 static GNRMC bufferA;
 static GNRMC bufferB;
@@ -89,6 +90,13 @@ void check_gpsfix(GNRMC *gnrmc)
 	{
 		HAL_GPIO_WritePin(GPIOD, LEDGREEN, GPIO_PIN_RESET); // Turn off green LED if no GPS lock
 	}
+
+	if(gngga.fix_quality == '4' || gngga.fix_quality == '5'){
+		HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_SET); // RTK fix
+	}
+	else{
+		HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_RESET); // No RTK fix
+	}
 }
 
 void fill_GNGGA(char *message)
@@ -159,26 +167,28 @@ void fill_GNGGA(char *message)
 	s = strsep(&message, tok);    // 12. DGPS station ID number;
 	strcpy(localBuffer.DGPS_station_ID, s);
 
-	if(localBuffer.fix_quality == '5'){
-		HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_SET); // RTK fix
-		LCD_clear();
-		LCD_puts("RTK float! Wohoo");
-	}
-	if(localBuffer.fix_quality == '4'){
-		HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_SET); // Float RTK fix
-		LCD_clear();
-		LCD_puts("RTK fix!");
-	}
-	if(localBuffer.fix_quality == '2'){
-		HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_RESET); // DGPS fix
-		LCD_clear();
-		LCD_puts("DGPS fix");
-	}
-	if(localBuffer.fix_quality == '1'){
-		HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_RESET); // GPS fix
-		LCD_clear();
-		LCD_puts("SPS GPS fix");
-	}
+	// if(localBuffer.fix_quality == '5'){
+	// 	HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_SET); // RTK fix
+	// 	LCD_clear();
+	// 	LCD_puts("RTK float! Wohoo");
+	// }
+	// if(localBuffer.fix_quality == '4'){
+	// 	HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_SET); // Float RTK fix
+	// 	LCD_clear();
+	// 	LCD_puts("RTK fix!");
+	// }
+	// if(localBuffer.fix_quality == '2'){
+	// 	HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_RESET); // DGPS fix
+	// 	LCD_clear();
+	// 	LCD_puts("DGPS fix");
+	// }
+	// if(localBuffer.fix_quality == '1'){
+	// 	HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_RESET); // GPS fix
+	// 	LCD_clear();
+	// 	LCD_puts("SPS GPS fix");
+	// }
+
+	gngga = localBuffer;
 }
 
 /**

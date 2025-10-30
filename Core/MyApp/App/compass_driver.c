@@ -15,6 +15,8 @@
 #define CAL_DELAY_MS      10
 #define DEG_RAD           (180.0f / M_PI)
 
+#define compass_offset 2
+
 // #define DEBUG_COMPASS      
 
 typedef struct {
@@ -217,8 +219,12 @@ double LSM303M_RawAngle()
 
     int16_t mx, my, mz;
     int16_t ax, ay, az;
-    if (LSM303AGR_ReadMag(&hi2c3, &mx, &my, &mz) != HAL_OK) {
-        UART_puts("LSM303M mag read error\r\n");
+
+    HAL_StatusTypeDef HALreturn;
+    if ((HALreturn = LSM303AGR_ReadMag(&hi2c3, &mx, &my, &mz)) != HAL_OK) {
+        UART_puts("LSM303M mag read error:  ");
+        UART_putint(HALreturn);
+        UART_puts("\r\n");
         return;
     }
 

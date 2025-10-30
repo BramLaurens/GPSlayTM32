@@ -138,6 +138,7 @@ int main(void)
   MX_TIM12_Init();
   /* USER CODE BEGIN 2 */
 
+  UART_puts("\r\n\r\n\r\n I2C Bus scan:\r\n");
   I2C_ScanBus(&hi2c3);
   UART_puts("\r\n\r\n\r\n Starting up...\r\n");
 
