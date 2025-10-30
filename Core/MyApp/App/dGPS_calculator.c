@@ -2,7 +2,6 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "gps.h"
-#include "NRF_driver.h"
 #include "dGPS.h"
 #include "GPS_Route_Setter.h"
 
@@ -70,7 +69,7 @@ void dGPS_comparator()
     PdGPS_errorData_t ptdError = &receivedError;
 
     GPS_getlatest_ringbuffer(latestGPSbuffer);
-    GPS_getlatest_error(&receivedError);
+//    GPS_getlatest_error(&receivedError);
 
     /* Search the copied buffer for a matching timestamp.*/
     PdGPS_decimalData_t end = &latestGPSbuffer[60]; /* one past the last element */

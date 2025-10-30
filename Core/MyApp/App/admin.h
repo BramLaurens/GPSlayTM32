@@ -182,5 +182,7 @@ extern void Route_performer(void *);
 extern void PID_Controller(void *);
 // Motor_Driver.c
 extern void Motor_Driver(void *);
-
+// Compass_Heading.c
 extern void Compass_Heading(void *);
+//TFT.c
+extern void TFT_task(void *);

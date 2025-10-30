@@ -30,6 +30,7 @@
 #include "admin.h"
 #include "NRF24.h"
 #include "NRF24_reg_addresses.h"
+#include "st7735.h"
 
 /* USER CODE END Includes */
 
@@ -138,11 +139,15 @@ int main(void)
   MX_TIM12_Init();
   /* USER CODE BEGIN 2 */
 
+  // ST7735_Init();
+  // ST7735_FillScreen(ST7735_BLACK);
+
+
   UART_puts("\r\n\r\n\r\n I2C Bus scan:\r\n");
   I2C_ScanBus(&hi2c3);
   UART_puts("\r\n\r\n\r\n Starting up...\r\n");
 
-  LCD_init();
+  // LCD_init();
   KEYS_init();
   KEYS_initISR(1); // set all lines high once
   LED_init();
@@ -507,7 +512,8 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(OTG_FS_PowerSwitchOn_GPIO_Port, OTG_FS_PowerSwitchOn_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, LED_RCK_Pin|SPI1_CSN_Pin|SPI1_CE_Pin|LED_SCK_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, LED_RCK_Pin|TFT_SPI_CS_Pin|TFT_SPI_RESET_Pin|TFT_A0DC_Pin
+                          |LED_SCK_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, LD4_Pin|LD6_Pin|Audio_RST_Pin, GPIO_PIN_RESET);
@@ -546,18 +552,20 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(Key_int_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LED_RCK_Pin SPI1_CSN_Pin SPI1_CE_Pin LED_SCK_Pin */
-  GPIO_InitStruct.Pin = LED_RCK_Pin|SPI1_CSN_Pin|SPI1_CE_Pin|LED_SCK_Pin;
+  /*Configure GPIO pins : LED_RCK_Pin TFT_SPI_CS_Pin TFT_SPI_RESET_Pin TFT_A0DC_Pin
+                           LED_SCK_Pin */
+  GPIO_InitStruct.Pin = LED_RCK_Pin|TFT_SPI_CS_Pin|TFT_SPI_RESET_Pin|TFT_A0DC_Pin
+                          |LED_SCK_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : BOOT1_Pin SPI1_IRQ_IN_Pin */
-  GPIO_InitStruct.Pin = BOOT1_Pin|SPI1_IRQ_IN_Pin;
+  /*Configure GPIO pin : BOOT1_Pin */
+  GPIO_InitStruct.Pin = BOOT1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  HAL_GPIO_Init(BOOT1_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : CLK_IN_Pin */
   GPIO_InitStruct.Pin = CLK_IN_Pin;

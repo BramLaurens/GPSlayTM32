@@ -30,7 +30,6 @@
 #include "cmsis_os.h"
 #include "task.h"
 #include "admin.h"
-#include "NRF_driver.h"
 #include "GPS_Route_Setter.h"
 #include "dGPS.h"
 #include "gps.h"
@@ -112,8 +111,8 @@ TASKDATA tasks[] =
 { LED_Task3,      NULL, .attr.name = "LED_Task3",    .attr.stack_size = 450, .attr.priority = osPriorityBelowNormal5 },
 { LED_Task4,      NULL, .attr.name = "LED_Task4",    .attr.stack_size = 450, .attr.priority = osPriorityBelowNormal4 },
 
-  // NRF Driver
-{ NRF_Driver,     NULL, .attr.name ="GPS_parser",    .attr.stack_size = 600, .attr.priority = osPriorityNormal3 },
+// TFT
+{ TFT_task,      NULL, .attr.name = "TFT_task",    .attr.stack_size = 450, .attr.priority = osPriorityBelowNormal4 },
 
 // Route setter
 { Route_Setter,   NULL, .attr.name ="Route_setter",    .attr.stack_size = 1200, .attr.priority = osPriorityNormal1 },
@@ -165,8 +164,8 @@ met de UART-comport gebruikt.\r\n\
 Zie verder de Doxygen documentatie van de applicatie.\r\n\
 Michiel Scager (update: april 2023)\r\n";
 
-	LCD_clear();
-	LCD_puts(app_nameLCD);
+	// LCD_clear();
+	// LCD_puts(app_nameLCD);
 
 	UART_puts(app_name);
 	UART_puts(functionality);
@@ -230,7 +229,7 @@ key: function\r\n\
 */
 void error_HaltOS(char *msg)
 {
-	LCD_puts(msg);
+	// LCD_puts(msg);
 	UART_puts(msg); UART_puts(". Application halted\r\n");
 
 	BUZZER_put(1000);
