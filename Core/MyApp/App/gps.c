@@ -21,7 +21,17 @@ static GNRMC bufferA;
 static GNRMC bufferB;
 
 static GNRMC *volatile frontendBuffer = &bufferA; 
-static GNRMC *volatile backendBuffer  = &bufferB; 
+static GNRMC *volatile backendBuffer  = &bufferB;
+
+char GPS_fix_quality = 0;
+
+void GPS_get_fix_quality(char *dest)
+{
+	*dest = GPS_fix_quality;
+	// UART_puts("GPS fix quality requested: ");
+	// UART_putint((int)GPS_fix_quality);
+	// UART_puts("\r\n");
+}
 
 /**
  * @brief Corrects the input coordinates with the latest GPS error received from the NRF24L01+ module
@@ -167,28 +177,26 @@ void fill_GNGGA(char *message)
 	s = strsep(&message, tok);    // 12. DGPS station ID number;
 	strcpy(localBuffer.DGPS_station_ID, s);
 
-	// if(localBuffer.fix_quality == '5'){
-	// 	HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_SET); // RTK fix
-	// 	LCD_clear();
-	// 	LCD_puts("RTK float! Wohoo");
-	// }
-	// if(localBuffer.fix_quality == '4'){
-	// 	HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_SET); // Float RTK fix
-	// 	LCD_clear();
-	// 	LCD_puts("RTK fix!");
-	// }
-	// if(localBuffer.fix_quality == '2'){
-	// 	HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_RESET); // DGPS fix
-	// 	LCD_clear();
-	// 	LCD_puts("DGPS fix");
-	// }
-	// if(localBuffer.fix_quality == '1'){
-	// 	HAL_GPIO_WritePin(GPIOD, LEDBLUE, GPIO_PIN_RESET); // GPS fix
-	// 	LCD_clear();
-	// 	LCD_puts("SPS GPS fix");
-	// }
-
 	gngga = localBuffer;
+
+	if(gngga.fix_quality == '0'){
+		GPS_fix_quality = 0; // invalid
+	}
+	else if(gngga.fix_quality == '1'){
+		GPS_fix_quality = 1; // GPS fix
+	}
+	else if(gngga.fix_quality == '2'){
+		GPS_fix_quality = 2; // DGPS fix
+	}
+	else if(gngga.fix_quality == '4'){
+		GPS_fix_quality = 4; // RTK fix
+	}
+	else if(gngga.fix_quality == '5'){
+		GPS_fix_quality = 5; // RTK float
+	}
+	else{
+		GPS_fix_quality = 6; // unknown
+	}
 }
 
 /**

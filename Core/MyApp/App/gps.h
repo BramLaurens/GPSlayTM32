@@ -67,5 +67,6 @@ enum NMEA
 
 void getlatest_GNRMC(GNRMC *dest);
 void correct_dGPS_error(PdGPS_errorData_t pinputCoordinates);
+void GPS_get_fix_quality(char *dest);
 
 #endif /* MYAPP_APP_GPS_H_ */

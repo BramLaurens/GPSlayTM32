@@ -30,7 +30,14 @@ int *pWorking_Waypoint;
 double Angle=-2; // -2 for error, 0-360 for valid angle
 volatile bool EnableRP_algo = false; // Set to true to enable route planning algorithm, false to disable
 
-volatile bool rp_waypoint_hold = false; // for future use to pause at waypoints
+volatile bool rp_waypoint_hold = false;
+
+int RP_wpCurrent = 0; // Current waypoint number the route performer is heading to
+
+void RP_get_wpCurrent(int *dest)
+{
+    *dest = RP_wpCurrent;
+}
 
 void set_waypointhold(bool state)
 {
@@ -406,8 +413,7 @@ void Route_performer(void *argument)
         }
 
         // If RP algo is enabled, run it periodically
-        if (EnableRP_algo)
-        {
+        if (EnableRP_algo)        {
             Distance = distance_tillwaypoint_FE(Working_routing_point); // Update distance to working waypoint
 
             if(xSemaphoreTake(hAngle_Mutex, portMAX_DELAY) == pdTRUE) // Take mutex before updating shared angle variable
@@ -417,6 +423,7 @@ void Route_performer(void *argument)
             }
 
             Working_routing_point = Completed_waypoint(Distance); // Check if waypoint is completed and get next waypoint if so
+            RP_wpCurrent = Working_routing_point; // Update current waypoint number for external use
         }
 
         // Wait at waypoint for a few seconds when reached
