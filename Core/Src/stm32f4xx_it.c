@@ -65,6 +65,8 @@ extern UART_HandleTypeDef huart2;
 extern TIM_HandleTypeDef htim1;
 
 /* USER CODE BEGIN EV */
+extern TIM_HandleTypeDef htim12;
+extern EventGroupHandle_t hEcho_Event;
 
 /* USER CODE END EV */
 
@@ -199,6 +201,52 @@ void EXTI0_IRQHandler(void)
   /* USER CODE BEGIN EXTI0_IRQn 1 */
 
   /* USER CODE END EXTI0_IRQn 1 */
+}
+
+/**
+  * @brief This function handles EXTI line[9:5] interrupts.
+  */
+void EXTI9_5_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI9_5_IRQn 0 */
+
+  /**
+   * In deze interrupthandler wordt bepaalt of EXTI5 op de rising of falling edge van de puls wordt aangeroepen,
+  * waarna timer 12 aan of uit wordt gezet. Bij het uitzetten wordt ook een event group geupdate. <br>
+  * Dit wordt gedaan zodat ultrasoon_sensor.c weet dat de puls voorbij is.
+  *
+  * @attention Er wordt nu vanuit gegaan dat alleen EXTI5 wordt gebruikt,
+  * wordt er een andere interrupt tussen 5 en 9 gebruikt, zal deze code falen.
+  *
+  * @author Anne Kamphuis
+   *
+   */
+  HAL_GPIO_EXTI_IRQHandler(Echo_EXTI_Pin);
+
+  if (HAL_GPIO_ReadPin(GPIOC, Echo_EXTI_Pin) == GPIO_PIN_SET)
+	{
+	  // This means the interrupt is called on rising edge
+	  // Reset timer counter
+	  __HAL_TIM_SET_COUNTER(&htim12, 0);
+	  __HAL_TIM_ENABLE(&htim12);
+	}
+	else
+	{
+	  // This means the interrupt is called on the falling edge
+	  // Set event group bit
+//		UART_putint(xTaskGetSchedulerState());
+
+		// Make sure the taskScheduler is running, otherwise the handle hHCSR04_Event isn't made and the programs crashes.
+	  if (xTaskGetSchedulerState() == taskSCHEDULER_RUNNING)
+	  {
+		  xEventGroupSetBitsFromISR(hEcho_Event, 1, NULL);
+			__HAL_TIM_DISABLE(&htim12);
+	  }
+
+}
+  /* USER CODE BEGIN EXTI9_5_IRQn 1 */
+
+  /* USER CODE END EXTI9_5_IRQn 1 */
 }
 
 /**

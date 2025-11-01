@@ -56,9 +56,10 @@ extern QueueHandle_t 	  hGPS_Queue;
 extern SemaphoreHandle_t  hLED_Sem;
 /// handle voor ARM-keys-event
 extern EventGroupHandle_t hKEY_Event;
+/// handle voor Echo_sign-event
+extern EventGroupHandle_t hEcho_Event;
 /// handle voor software timer
 extern TimerHandle_t      hTimer1;
-extern TimerHandle_t      hTimerEnc;
 /// handle voor GPS parser Mutex
 extern SemaphoreHandle_t  hGPS_Mutex;
 /// handle for GPS errorbuffer Mutex
@@ -152,6 +153,6 @@ extern void NRF_Driver(void *);
 // Route_Setter.c
 extern void Route_Setter(void *);
 
-// encoder.c
-extern void Enc_task(void);
-extern void TimerEnc_Handler(void);
+extern void Echo_sign_task(void *);
+extern void Ultrasoon_trig(void);
+

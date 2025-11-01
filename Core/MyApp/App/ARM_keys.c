@@ -88,6 +88,10 @@ void ARM_keys_task (void *argument)
 
 	    xSemaphoreGive(hLED_Sem); // geef toegang (mutex) vrij
 
+	    if (key == 0x0F)
+	    {
+	    	Ultrasoon_trig();
+	    }
 	    // tot slot, laat de gekleurde ledjes meedoen
 	    // maar niet blauw, want die is ingezet voor de timer
 	    // kijk naar de manier waarop de if-elses er uitzien

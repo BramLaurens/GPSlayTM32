@@ -84,10 +84,11 @@ void Error_Handler(void);
 #define OTG_FS_PowerSwitchOn_GPIO_Port GPIOC
 #define PDM_OUT_Pin GPIO_PIN_3
 #define PDM_OUT_GPIO_Port GPIOC
-#define ENCODER_A_1_Pin GPIO_PIN_4
-#define ENCODER_A_1_GPIO_Port GPIOC
-#define ENCODER_A_2_Pin GPIO_PIN_5
-#define ENCODER_A_2_GPIO_Port GPIOC
+#define Trigger_Pin GPIO_PIN_4
+#define Trigger_GPIO_Port GPIOC
+#define Echo_EXTI_Pin GPIO_PIN_5
+#define Echo_EXTI_GPIO_Port GPIOC
+#define Echo_EXTI_EXTI_IRQn EXTI9_5_IRQn
 #define Key_int_Pin GPIO_PIN_0
 #define Key_int_GPIO_Port GPIOB
 #define Key_int_EXTI_IRQn EXTI0_IRQn

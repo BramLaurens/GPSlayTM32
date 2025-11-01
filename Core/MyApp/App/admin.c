@@ -48,6 +48,7 @@ QueueHandle_t 	      hUART_Queue; /// uses UART2
 QueueHandle_t 	      hGPS_Queue;  /// uses UART1
 SemaphoreHandle_t     hLED_Sem;
 EventGroupHandle_t 	  hKEY_Event;
+EventGroupHandle_t	  hEcho_Event;
 TimerHandle_t         hTimer1;
 TimerHandle_t         hTimerEnc;
 SemaphoreHandle_t     hGPS_Mutex; /// mutex voor GPS-parsing
@@ -105,8 +106,8 @@ TASKDATA tasks[] =
   // Route setter
 { Route_Setter,    NULL, .attr.name ="Route_setter",    .attr.stack_size = 2000, .attr.priority = osPriorityBelowNormal7 },
 
-  // Encoder task
-{ Enc_task,  NULL, .attr.name ="Encoder_task",    .attr.stack_size = 600, .attr.priority = osPriorityBelowNormal4 },
+// Ultrasoon task
+{ Echo_sign_task,    NULL, .attr.name ="Echo_sign_task",    .attr.stack_size = 800, .attr.priority = osPriorityBelowNormal4 },
 
   // deze laatste niet wissen, wordt gebruik als 'terminator' in for-loops
 { NULL,         NULL, .attr.name = NULL,           .attr.stack_size = 0,       .attr.priority = 0 }
@@ -236,10 +237,11 @@ void CreateHandles(void)
 	if (!(hKEY_Event = xEventGroupCreate()))
 		error_HaltOS("Error hLCD_Event");
 
+	if (!(hEcho_Event = xEventGroupCreate()))
+		error_HaltOS("Error hEcho_Event");
+
 	if (!(hTimer1 = xTimerCreate("Timer_1", pdMS_TO_TICKS(TIMER1_DELAY), pdTRUE, 0, (TimerCallbackFunction_t)Timer1_Handler)))
 		error_HaltOS("Error hTimer1");
-	if (!(hTimerEnc = xTimerCreate("Timer_Enc", pdMS_TO_TICKS(1000), pdTRUE, 0, (TimerCallbackFunction_t)TimerEnc_Handler)))
-		error_HaltOS("Error hTimerEnc");
 
 	if (!(hGPS_Mutex = xSemaphoreCreateMutex()))
 		error_HaltOS("Error hGPS_Mutex");
@@ -252,7 +254,6 @@ void CreateHandles(void)
 	UART_puts("\n\rTimer set to: ");
 	UART_putint((int)TIMER1_DELAY); // (int)-cast is nodig!
 	xTimerStart(hTimer1, 0); // start de timer...
-	xTimerStart(hTimerEnc, 0); // start de timer...
 }
 
 /**
