@@ -28,6 +28,7 @@ void Echo_sign_task(void *argument) // calculations for distance
 
 	while(TRUE)
 	{
+		Ultrasoon_trig();
 		xEventGroupWaitBits(hEcho_Event, 1, pdTRUE, pdFALSE, HAL_MAX_DELAY);
 
 		Echo_time = __HAL_TIM_GetCounter(&htim12); // amount of time receiving pulse

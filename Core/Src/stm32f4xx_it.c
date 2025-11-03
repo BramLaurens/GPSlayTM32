@@ -210,17 +210,7 @@ void EXTI9_5_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI9_5_IRQn 0 */
 
-  /**
-   * In deze interrupthandler wordt bepaalt of EXTI5 op de rising of falling edge van de puls wordt aangeroepen,
-  * waarna timer 12 aan of uit wordt gezet. Bij het uitzetten wordt ook een event group geupdate. <br>
-  * Dit wordt gedaan zodat Ultrasoon.c weet dat de puls voorbij is.
-  *
-  * @attention Er wordt nu vanuit gegaan dat alleen EXTI5 wordt gebruikt,
-  * wordt er een andere interrupt tussen 5 en 9 gebruikt, zal deze code falen.
-  *
-  * @author Anne Kamphuis
-   *
-   */
+  /* USER CODE END EXTI9_5_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(Echo_EXTI_Pin);
   /* USER CODE BEGIN EXTI9_5_IRQn 1 */
   if (HAL_GPIO_ReadPin(GPIOC, Echo_EXTI_Pin) == GPIO_PIN_SET)
@@ -243,12 +233,9 @@ void EXTI9_5_IRQHandler(void)
 			__HAL_TIM_DISABLE(&htim12);
 	  }
 
-	  /* USER CODE END EXTI9_5_IRQn 1 */
+  /* USER CODE END EXTI9_5_IRQn 1 */
 }
-
-
 }
-
 /**
   * @brief This function handles TIM1 update interrupt and TIM10 global interrupt.
   */
