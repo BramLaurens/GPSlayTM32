@@ -101,7 +101,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-  xTraceInitialize();
+//  xTraceInitialize();
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -802,8 +802,6 @@ void StartDefaultTask(void *argument)
   /* USER CODE BEGIN 5 */
 
   /*Start FreeRTOS traceviewer*/
-  xTraceEnable(TRC_START);
-
 
   CreateHandles();
   CreateTasks();
