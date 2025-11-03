@@ -231,6 +231,7 @@ void EXTI9_5_IRQHandler(void)
 		  xEventGroupSetBitsFromISR(hEcho_Event, 1, NULL);
 			__HAL_TIM_DISABLE(&htim9);
 	  }
+	}
 
   /* USER CODE END EXTI9_5_IRQn 1 */
 }

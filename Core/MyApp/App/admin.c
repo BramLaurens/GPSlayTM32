@@ -133,10 +133,10 @@ TASKDATA tasks[] =
 // PID controller
 { PID_Controller,    NULL, .attr.name ="PID_Controller",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal2 },
 
-{ Echo_sign_task,    NULL, .attr.name ="Echo_sign_task",    .attr.stack_size = 800, .attr.priority = osPriorityBelowNormal4 },
+{ Echo_sign_task,    NULL, .attr.name ="Echo_sign_task",    .attr.stack_size = 1200, .attr.priority = osPriorityBelowNormal7 },
 
 // Motordriver
-{ Motor_Driver,    NULL, .attr.name ="Motor_Driver",    .attr.stack_size = 1000, .attr.priority = osPriorityBelowNormal7 },
+{ Motor_Driver,    NULL, .attr.name ="Motor_Driver",    .attr.stack_size = 1000, .attr.priority = osPriorityAboveNormal2 },
   // deze laatste niet wissen, wordt gebruik als 'terminator' in for-loops
 { NULL,           NULL, .attr.name = NULL,           .attr.stack_size = 0,       .attr.priority = 0 }
 };

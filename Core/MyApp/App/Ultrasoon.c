@@ -67,6 +67,6 @@ void Echo_sign_task(void *argument) // calculations for distance
 			UART_putint(Echo_time);
 			UART_puts("\r\n");
 		#endif
-		osDelay(1000);
+		osDelay(200);
 	}
 }

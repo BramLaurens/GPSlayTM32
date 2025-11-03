@@ -148,6 +148,10 @@ int main(void)
   // ST7735_Init();
   // ST7735_FillScreen(ST7735_BLACK);
 
+  if (HAL_TIM_Base_Start_IT(&htim8) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
   UART_puts("\r\n\r\n\r\n I2C Bus scan:\r\n");
   I2C_ScanBus(&hi2c3);
