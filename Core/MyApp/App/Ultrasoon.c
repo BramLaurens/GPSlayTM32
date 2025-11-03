@@ -58,7 +58,7 @@ void Echo_sign_task(void *argument) // calculations for distance
 		xEventGroupWaitBits(hEcho_Event, 1, pdTRUE, pdFALSE, HAL_MAX_DELAY);
 
 		Echo_time = __HAL_TIM_GetCounter(&htim9); // amount of time receiving pulse
-		ObjectDistance = Echo_time*0.034;
+		ObjectDistance = (Echo_time*0.0343)/2;
 
 		#ifdef ultrasoon_debug
 			sprintf(Buffer, "Afstand is: %.2f.", ObjectDistance);
