@@ -34,6 +34,9 @@ volatile bool rp_waypoint_hold = false;
 
 int RP_wpCurrent = 0; // Current waypoint number the route performer is heading to
 
+double Distance=999;
+
+
 void RP_get_wpCurrent(int *dest)
 {
     *dest = RP_wpCurrent;
@@ -62,6 +65,17 @@ void get_waypointhold(bool *dest)
 void set_RP_algoState(bool state)
 {
     EnableRP_algo = state;
+}
+
+void get_RP_AlgoState(bool *dest)
+{
+    *dest = EnableRP_algo;
+}
+
+
+void get_RP_distance(double *dest)
+{
+    *dest = Distance; // using course variable to store distance temporarily
 }
 
 /**
@@ -201,8 +215,8 @@ double GET_workingHeading(int Working_routing_point)
         UART_puts("Error calculating the angle (GET_workingHeading) \r \n");
         return -1;
     }
-    sprintf(Buffer, "Angle is: %0.4f \r \n", Angle);
-    UART_puts(Buffer);
+    // sprintf(Buffer, "Angle is: %0.4f \r \n", Angle);
+    // UART_puts(Buffer);
 
     return Angle;
 }
@@ -235,11 +249,11 @@ double distance_tillwaypoint_FE(int Working_routing_point)
     double dx = dLong * lon_to_m;
     double dy = dLat * lat_to_m;
 
-    double distance = sqrt(dx * dx + dy * dy);
-    char Buffer[100]; // buffer for sprintf for debugging the float
-    sprintf(Buffer, "Distance calculated (FE model): %2.4f \r \n", distance);
-    UART_puts(Buffer);
-    return distance;
+    double distance_local = sqrt(dx * dx + dy * dy);
+    // char Buffer[100]; // buffer for sprintf for debugging the float
+    // sprintf(Buffer, "Distance calculated (FE model): %2.4f \r \n", distance_local);
+    // UART_puts(Buffer);
+    return distance_local;
 }
 
 /**
@@ -312,13 +326,13 @@ double Distance_Till_Waypoint(int Working_routing_point)
     double x = x0 + x_rd;
     double y = y0 + y_rd;
     double z = pow(x,2) + pow(y,2); // now in cartesian you can triangulate with pytharogrian theorem for you distance
-    double distance = sqrt(z);
+    double distance_local = sqrt(z);
     
-    UART_puts("Distance calculated: ");
-    char Buffer[100]; // buffer for sprintf for debugging the float
-    sprintf(Buffer, "%2.4f \r \n", distance);
-    UART_puts(Buffer);
-    return distance;
+    // UART_puts("Distance calculated: ");
+    // char Buffer[100]; // buffer for sprintf for debugging the float
+    // sprintf(Buffer, "%2.4f \r \n", distance_local);
+    // UART_puts(Buffer);
+    return distance_local;
 }
 
 
@@ -376,24 +390,23 @@ int Completed_waypoint(double Distance_to_point)
     return Give_NodeNumber(); 
 }
 
-int run_RP_algo(double Distance, int Working_routing_point)
+int run_RP_algo(double Distance_local, int Working_routing_point)
 {
     // This function can be used to run the route planning algorithm if needed
     // For now, it does nothing
 
-    if(Completed_waypoint(Distance) < 0) // error check if structs are valid
+    if(Completed_waypoint(Distance_local) < 0) // error check if structs are valid
     {
         return -1; // skip rest of loop and try again
     }
 
-    Working_routing_point = Completed_waypoint(Distance); // Check if waypoint is completed and get next waypoint if so
+    Working_routing_point = Completed_waypoint(Distance_local); // Check if waypoint is completed and get next waypoint if so
     return 0; // Success
 }
 
 void Route_performer(void *argument)
 {
     osDelay(200); // wait a second to make sure everything is started
-    double Distance=999;
     static int Working_routing_point = 0; // static so pointer remains valid
     pWorking_Waypoint = &Working_routing_point;
 

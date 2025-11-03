@@ -186,3 +186,5 @@ extern void Motor_Driver(void *);
 extern void Compass_Heading(void *);
 //TFT.c
 extern void TFT_task(void *);
+// LOS_algo.c
+extern void LOS_caller(void *);

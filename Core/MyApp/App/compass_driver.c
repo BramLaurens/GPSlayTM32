@@ -15,7 +15,8 @@
 #define CAL_DELAY_MS      10
 #define DEG_RAD           (180.0f / M_PI)
 
-#define compass_offset 2
+#define compass_offset 3.5f
+//Known good: 3.5f
 
 // #define DEBUG_COMPASS      
 

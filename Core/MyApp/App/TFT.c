@@ -5,6 +5,7 @@
 #include "gps.h"
 #include "routeperformer.h"
 #include "GPS_Route_Setter.h"
+#include "LOS_algo.h"
 
 #include <stdint.h>
 
@@ -20,43 +21,45 @@ void update_GPS_fix_quality_display()
             sprintf(GPS_fix_quality_str, "No Fix");
             ST7735_FillRectangleFast(0, 30, 160, 10, ST7735_RED);
             ST7735_WriteString(10, 30, "GPS Status: ", Font_7x10, ST7735_WHITE, ST7735_RED);
-            ST7735_WriteString(100, 30, GPS_fix_quality_str, Font_7x10, ST7735_WHITE, ST7735_RED);
+            ST7735_WriteString(90, 30, GPS_fix_quality_str, Font_7x10, ST7735_WHITE, ST7735_RED);
             break;
         case 1:
             sprintf(GPS_fix_quality_str, "GPS Fix");
             ST7735_FillRectangleFast(0, 30, 160, 10, ST7735_BLUE);
             ST7735_WriteString(10, 30, "GPS Status: ", Font_7x10, ST7735_WHITE, ST7735_BLUE);
-            ST7735_WriteString(100, 30, GPS_fix_quality_str, Font_7x10, ST7735_WHITE, ST7735_BLUE);
+            ST7735_WriteString(90, 30, GPS_fix_quality_str, Font_7x10, ST7735_WHITE, ST7735_BLUE);
             break;
         case 2:
             sprintf(GPS_fix_quality_str, "DGPS Fix");
             ST7735_FillRectangleFast(0, 30, 160, 10, ST7735_BLUE);
             ST7735_WriteString(10, 30, "GPS Status: ", Font_7x10, ST7735_WHITE, ST7735_BLUE);
-            ST7735_WriteString(100, 30, GPS_fix_quality_str, Font_7x10, ST7735_WHITE, ST7735_BLUE);
+            ST7735_WriteString(90, 30, GPS_fix_quality_str, Font_7x10, ST7735_WHITE, ST7735_BLUE);
             break;
         case 4:
             sprintf(GPS_fix_quality_str, "RTK Fix");
             ST7735_FillRectangleFast(0, 30, 160, 10, ST7735_GREEN);
             ST7735_WriteString(10, 30, "GPS Status: ", Font_7x10, ST7735_WHITE, ST7735_GREEN);
-            ST7735_WriteString(100, 30, GPS_fix_quality_str, Font_7x10, ST7735_WHITE, ST7735_GREEN);
+            ST7735_WriteString(90, 30, GPS_fix_quality_str, Font_7x10, ST7735_WHITE, ST7735_GREEN);
             break;
         case 5:
             sprintf(GPS_fix_quality_str, "RTK Float");
             ST7735_FillRectangleFast(0, 30, 160, 10, ST7735_GREEN);
             ST7735_WriteString(10, 30, "GPS Status: ", Font_7x10, ST7735_WHITE, ST7735_GREEN);
-            ST7735_WriteString(100, 30, GPS_fix_quality_str, Font_7x10, ST7735_WHITE, ST7735_GREEN);
+            ST7735_WriteString(90, 30, GPS_fix_quality_str, Font_7x10, ST7735_WHITE, ST7735_GREEN);
             break;
         default:
             sprintf(GPS_fix_quality_str, "Unknown");
             ST7735_FillRectangleFast(0, 30, 160, 10, ST7735_RED);
             ST7735_WriteString(10, 30, "GPS Status: ", Font_7x10, ST7735_WHITE, ST7735_RED);
-            ST7735_WriteString(100, 30, GPS_fix_quality_str, Font_7x10, ST7735_WHITE, ST7735_RED);
+            ST7735_WriteString(90, 30, GPS_fix_quality_str, Font_7x10, ST7735_WHITE, ST7735_RED);
             break;
     }
 }
 
 void updateWPdisplay()
 {
+    bool RP_algostate;
+
     ST7735_WriteString(10, 40, "WP Amount: ", Font_7x10, ST7735_WHITE, ST7735_BLACK);
     char wp_amount_str[5];
     char wp_amount = 0;
@@ -64,12 +67,45 @@ void updateWPdisplay()
     sprintf(wp_amount_str, "%d", wp_amount);
     ST7735_WriteString(100, 40, wp_amount_str, Font_7x10, ST7735_WHITE, ST7735_BLACK);
 
-    ST7735_WriteString(10, 50, "Going to: ", Font_7x10, ST7735_WHITE, ST7735_BLACK);
-    char wp_current_str[5];
-    int wp_current = 0;
-    RP_get_wpCurrent(&wp_current);
-    sprintf(wp_current_str, "%d", wp_current++);
-    ST7735_WriteString(100, 50, wp_current_str, Font_7x10, ST7735_WHITE, ST7735_BLACK);
+    get_RP_AlgoState(&RP_algostate);
+
+    if(RP_algostate)
+    {
+        ST7735_FillRectangleFast(10, 50, 160, 10, ST7735_BLACK);
+        ST7735_WriteString(10, 50, "Going to: ", Font_7x10, ST7735_WHITE, ST7735_BLACK);
+        char wp_current_str[5];
+        int wp_current = 0;
+        // RP_get_wpCurrent(&wp_current);
+        LOS_getcurrentWPnumber(&wp_current);
+        sprintf(wp_current_str, "%d", wp_current+1);
+        ST7735_WriteString(100, 50, wp_current_str, Font_7x10, ST7735_WHITE, ST7735_BLACK);
+    }
+    else
+    {   
+        ST7735_FillRectangleFast(10, 50, 160, 10, ST7735_BLUE);
+        ST7735_WriteString(10, 50, "Going to: ", Font_7x10, ST7735_WHITE, ST7735_BLUE);
+        ST7735_WriteString(100, 50, "PAUSED", Font_7x10, ST7735_WHITE, ST7735_BLUE);
+    }
+}
+
+void update_routedata_display()
+{
+    // This function can be used to update additional route data on the display if needed
+    ST7735_WriteString(10, 60, "Dist WP:", Font_7x10, ST7735_WHITE, ST7735_BLACK);
+    char distance_str[10];
+    double distance = 0.0;
+    // get_RP_distance(&distance);
+    LOS_getWPdistance(&distance);
+    sprintf(distance_str, "%2.2f m", distance);
+    ST7735_WriteString(100, 60, distance_str, Font_7x10, ST7735_WHITE, ST7735_BLACK);
+
+    ST7735_WriteString(10, 70, "Course WP:", Font_7x10, ST7735_WHITE, ST7735_BLACK);
+    char course_str[10];
+    double course = 0.0;
+    // getlatestCourse(&course);
+    LOS_getWPbearing(&course);
+    sprintf(course_str, "%2.2f", course);
+    ST7735_WriteString(100, 70, course_str, Font_7x10, ST7735_WHITE, ST7735_BLACK);
 }
 
 void TFT_task(void *argument)
@@ -100,5 +136,6 @@ void TFT_task(void *argument)
         ST7735_WriteString(10, 10, "GPSLAY Rover", Font_11x18, ST7735_WHITE, ST7735_BLACK);
         update_GPS_fix_quality_display();
         updateWPdisplay();
+        update_routedata_display();
     }
 }

@@ -112,7 +112,7 @@ TASKDATA tasks[] =
 { LED_Task4,      NULL, .attr.name = "LED_Task4",    .attr.stack_size = 450, .attr.priority = osPriorityBelowNormal4 },
 
 // TFT
-{ TFT_task,      NULL, .attr.name = "TFT_task",    .attr.stack_size = 450, .attr.priority = osPriorityBelowNormal4 },
+{ TFT_task,      NULL, .attr.name = "TFT_task",    .attr.stack_size = 1500, .attr.priority = osPriorityBelowNormal4 },
 
 // Route setter
 { Route_Setter,   NULL, .attr.name ="Route_setter",    .attr.stack_size = 1200, .attr.priority = osPriorityNormal1 },
@@ -124,6 +124,9 @@ TASKDATA tasks[] =
 
 // Route performer
 { Route_performer,    NULL, .attr.name ="Route_performer",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal2 },
+
+// LOS algorithm
+{ LOS_caller,    NULL, .attr.name ="LOS_algo",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal2 },
 
 { Compass_Heading,NULL, .attr.name ="Compass_Heading", .attr.stack_size = 2000, .attr.priority = osPriorityAboveNormal3},
 // PID controller

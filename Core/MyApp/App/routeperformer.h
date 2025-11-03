@@ -17,5 +17,7 @@ void getlatestCourse(double *dest);
 void set_RP_algoState(bool state);
 void get_waypointhold(bool *dest);
 void set_waypointhold(bool state);
+void get_RP_distance(double *dest);
+void get_RP_AlgoState(bool *dest);
 
 #endif // ROUTEPERFORMER_H

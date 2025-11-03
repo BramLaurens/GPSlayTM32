@@ -19,17 +19,18 @@
 #include "dGPS.h"
 #include "motordriver.h"
 #include "compass_driver.h"
+#include "LOS_algo.h"
 
 // #define DEBUG_PID_CONTROLLER
 
 // ==== PID constants ====
-#define KP  1.2
-#define KI  0.005
+#define KP  2.5
+#define KI  0.01
 #define KD  0.1
 
 /*Good base tuning
-Kp = 1.1
-Ki = 0.001
+Kp = 4.5
+Ki = 0.01
 Kd = 0.1
  */
 
@@ -90,8 +91,7 @@ void PID_trigger(){
 
     // Get latest heading and course to calculate error
     getlatestHeading(&currentHeading);
-    getlatestCourse(&desiredHeading);
-    // desiredHeading = 180.0; // For testing, set desired heading to 180 degrees
+    LOS_getdesiredheading(&desiredHeading);
 
     double dt;
     TickType_t now = xTaskGetTickCount();
@@ -146,7 +146,7 @@ void PID_Controller(void *argument)
     {
         // Non-blocking: Try to read a key from the queue. If none available, continue doing other work.
 
-        get_waypointhold(&pid_waypoint_hold);
+        LOS_getwaypointhold_status(&pid_waypoint_hold);
 
         if (hKeyPID_Queue != NULL)
         {
@@ -159,7 +159,8 @@ void PID_Controller(void *argument)
                         UART_puts("\r\n Toggle received in PID_Controller\r\n");
                         // Toggle PID controller state and inform Route Performer with same state
                         enablePID = !enablePID;
-                        set_RP_algoState(enablePID);
+                        // set_RP_algoState(enablePID);
+                        set_LOS_algoState(enablePID);
 
                         if (enablePID)
                             UART_puts("PID Controller enabled\r\n");

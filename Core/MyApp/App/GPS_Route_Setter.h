@@ -21,7 +21,6 @@ typedef struct _GPS_Route{
     double   longitude;
     uint8_t nodeNumber;
     struct _GPS_Route *Next_point;
-    uint8_t Point_Passed; // maybe unnecessary but let it be for now
 } GPS_Route;
 
 uint8_t GPS_Route_Maker();

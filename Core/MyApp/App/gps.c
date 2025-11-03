@@ -211,6 +211,7 @@ void fill_GNRMC(char *message)
 	//          id    , time     ,s,
 
 	osThreadId_t hTask;
+	UART_puts("Filling GNRMC\r\n");	
 
 	char *tok = ",";
 	char *s;
@@ -299,6 +300,12 @@ void fill_GNRMC(char *message)
 		xQueueReceive(hGNRMC_Queue, &tmp, 0);
 		xQueueSend(hGNRMC_Queue, frontendBuffer, 0);
 	}
+
+	osThreadId_t LOS_task;
+	if (!(LOS_task = xTaskGetHandle("LOS_algo")))
+		error_HaltOS("Err:LOS_algo");
+	xTaskNotifyGive(LOS_task);
+	UART_puts("LOS algo notify sent \r\n");
 }
 
 
