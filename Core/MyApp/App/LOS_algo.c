@@ -36,36 +36,76 @@ double los_desiredheading = 0.0;
 
 int current_LOS_waypoint_number = -1;
 
+/**
+ * @brief Exports current LOS bearing
+ * 
+ * @param dest 
+ */
 void LOS_getWPbearing(double *dest)
 {
     *dest = los.desired_bearing;
 }
 
+/**
+ * @brief Exports current LOS distance to next waypoint
+ * 
+ * @param dest 
+ */
 void LOS_getWPdistance(double *dest)
 {
     *dest = los.distance_to_wp;
 }
 
+/**
+ * @brief Exports current waypoint number
+ * 
+ * @param dest 
+ */
 void LOS_getcurrentWPnumber(int *dest)
 {
     *dest = current_LOS_waypoint_number;
 }
 
+/**
+ * @brief Exports current hold status
+ * 
+ * @param dest 
+ */
 void LOS_getwaypointhold_status(bool *dest)
 {
     *dest = hold_LOS_at_waypoint;
 }
 
+/**
+ * @brief Exports desired LOS heading
+ * 
+ * @param dest 
+ */
 void LOS_getdesiredheading(double *dest)
 {
     *dest = los_desiredheading;
 }
 
+/**
+ * @brief Set the LOS algoState object
+ * 
+ * @param state 
+ */
 void set_LOS_algoState(bool state)
 {
     enable_LOS_algo = state;
 }
 
+/**
+ * @brief Converts a latitude and logitude to local x and y meters, relative to a reference point
+ * 
+ * @param lat_ref 
+ * @param lon_ref 
+ * @param lat 
+ * @param lon 
+ * @param x 
+ * @param y 
+ */
 static void latlon_to_xy(double lat_ref, double lon_ref,
                          double lat, double lon,
                          double *x, double *y)
@@ -78,6 +118,15 @@ static void latlon_to_xy(double lat_ref, double lon_ref,
     *y = R * dLat;
 }
 
+/**
+ * @brief Calculates the bearing between two lat longs waypoint
+ * 
+ * @param lat1 
+ * @param lon1 
+ * @param lat2 
+ * @param lon2 
+ * @return double 
+ */
 static double bearing_deg(double lat1, double lon1, double lat2, double lon2)
 {
     double y = sin(deg2rad(lon2 - lon1)) * cos(deg2rad(lat2));
@@ -89,6 +138,15 @@ static double bearing_deg(double lat1, double lon1, double lat2, double lon2)
     return brng;
 }
 
+/**
+ * @brief Returns the distance between two lat long waypoints
+ * 
+ * @param lat1 
+ * @param lon1 
+ * @param lat2 
+ * @param lon2 
+ * @return double 
+ */
 static double distance_meters(double lat1, double lon1, double lat2, double lon2)
 {
     const double R = 6371000.0; // Earth radius in meters
@@ -104,12 +162,32 @@ static double distance_meters(double lat1, double lon1, double lat2, double lon2
     return R * c;
 }
 
+/**
+ * @brief Calculates the difference between two angles
+ * 
+ * @param a 
+ * @param b 
+ * @return double 
+ */
 static double angle_diff(double a, double b)
 {
     double diff = fmod(a - b + 540.0, 360.0) - 180.0;
     return diff;
 }
 
+/**
+ * @brief Line of Sight (LOS) navigation algorithm. Calculates vectors berween waypoints and projects the current rover position on this line.
+ * 
+ * @param prev_wp Pointer to previous waypoint
+ * @param curr_wp Pointer to current waypoint
+ * @param gps_lat Current GPS latitude
+ * @param gps_lon Current GPS longitude
+ * @param heading_deg Current compass heading
+ * @param ref_lat Reference latitude
+ * @param ref_lon Reference longitude
+ * @param los_out Pointer to LOS output structure
+ * @return GPS_Route* pointer to the current waypoint target
+ */
 GPS_Route *LOS_Navigate(
     GPS_Route *prev_wp,
     GPS_Route *curr_wp,
@@ -188,6 +266,13 @@ GPS_Route *LOS_Navigate(
     return curr_wp;
 }
 
+/**
+ * @brief Function to call on every received GPS update
+ * 
+ * @param gps_lat Latest GPS latitude
+ * @param gps_lon Latest GPS longitude
+ * @param heading_deg Latest GPS heading
+ */
 void onGPSupdate(double gps_lat, double gps_lon, double heading_deg)
 {
     // Get route head
