@@ -47,6 +47,10 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
+extern I2C_HandleTypeDef hi2c3;
+
+extern TIM_HandleTypeDef htim4;
+extern TIM_HandleTypeDef htim12;
 
 /* USER CODE END ET */
 
@@ -59,6 +63,8 @@ extern "C" {
 /* USER CODE BEGIN EM */
 
 /* USER CODE END EM */
+
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
@@ -82,6 +88,10 @@ void Error_Handler(void);
 #define OTG_FS_PowerSwitchOn_GPIO_Port GPIOC
 #define PDM_OUT_Pin GPIO_PIN_3
 #define PDM_OUT_GPIO_Port GPIOC
+#define TFT_SPI_MISO_Pin GPIO_PIN_6
+#define TFT_SPI_MISO_GPIO_Port GPIOA
+#define TFT_SPI_MOSI_Pin GPIO_PIN_7
+#define TFT_SPI_MOSI_GPIO_Port GPIOA
 #define Key_int_Pin GPIO_PIN_0
 #define Key_int_GPIO_Port GPIOB
 #define Key_int_EXTI_IRQn EXTI0_IRQn
@@ -93,10 +103,6 @@ void Error_Handler(void);
 #define CLK_IN_GPIO_Port GPIOB
 #define LD4_Pin GPIO_PIN_12
 #define LD4_GPIO_Port GPIOD
-#define LD3_Pin GPIO_PIN_13
-#define LD3_GPIO_Port GPIOD
-#define LD5_Pin GPIO_PIN_14
-#define LD5_GPIO_Port GPIOD
 #define LD6_Pin GPIO_PIN_15
 #define LD6_GPIO_Port GPIOD
 #define I2S3_MCK_Pin GPIO_PIN_7
@@ -123,18 +129,16 @@ void Error_Handler(void);
 #define Audio_RST_GPIO_Port GPIOD
 #define OTG_FS_OverCurrent_Pin GPIO_PIN_5
 #define OTG_FS_OverCurrent_GPIO_Port GPIOD
-#define SPI1_CSN_Pin GPIO_PIN_4
-#define SPI1_CSN_GPIO_Port GPIOB
-#define SPI1_CE_Pin GPIO_PIN_5
-#define SPI1_CE_GPIO_Port GPIOB
-#define Audio_SCL_Pin GPIO_PIN_6
-#define Audio_SCL_GPIO_Port GPIOB
-#define SPI1_IRQ_IN_Pin GPIO_PIN_7
-#define SPI1_IRQ_IN_GPIO_Port GPIOB
+#define TFT_SPI_SCK_Pin GPIO_PIN_3
+#define TFT_SPI_SCK_GPIO_Port GPIOB
+#define TFT_SPI_CS_Pin GPIO_PIN_4
+#define TFT_SPI_CS_GPIO_Port GPIOB
+#define TFT_SPI_RESET_Pin GPIO_PIN_5
+#define TFT_SPI_RESET_GPIO_Port GPIOB
+#define TFT_A0DC_Pin GPIO_PIN_7
+#define TFT_A0DC_GPIO_Port GPIOB
 #define LED_SCK_Pin GPIO_PIN_8
 #define LED_SCK_GPIO_Port GPIOB
-#define Audio_SDA_Pin GPIO_PIN_9
-#define Audio_SDA_GPIO_Port GPIOB
 #define MEMS_INT2_Pin GPIO_PIN_1
 #define MEMS_INT2_GPIO_Port GPIOE
 

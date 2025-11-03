@@ -18,7 +18,9 @@
 #include "stdio.h"
 #include "string.h" // strtok, strcpy
 #include "stdlib.h" // atoi
-#include "ctype.h"  // toupper
+#include "ctype.h"  // toupper`
+
+#include "compass_driver.h"
 
 #define TRUE  	   1
 #define FALSE      0
@@ -29,7 +31,7 @@
 /// set software timer 500 msecs
 #define TIMER1_DELAY 500
 
-#define GPS_MAXLEN 79+4 /// $+CR+LF+'\0'
+#define GPS_MAXLEN 256 /// $+CR+LF+'\0'
 /** The carriage return [CR] and the line feed [LF] combination terminate the sentence.
 * NMEA 0 83 sentences vary in length, but each sentence is limited to 79 characters
 * or less. This length limit excludes the $ and the [CR][LF] characters.
@@ -58,6 +60,8 @@ extern QueueHandle_t     hGNRMC_Queue;
 extern QueueHandle_t 	  hKeyRP_Queue;
 /// handle voor ARM-keys to route setter queue (non-blocking delivery of key values)
 extern QueueHandle_t 	  hKeyRS_Queue;
+/// handle for PID controller keys queue
+extern QueueHandle_t 	  hKeyPID_Queue;
 /// handle voor LED-mutex
 extern SemaphoreHandle_t  hLED_Sem;
 /// handle voor ARM-keys-event
@@ -74,6 +78,10 @@ extern SemaphoreHandle_t  hdGPSerror_Mutex;
 extern SemaphoreHandle_t  hdGPSlatest_Mutex;
 /// handle for latest uncorrected GPS data Mutex
 extern SemaphoreHandle_t  hdGPSlatestuncorrected_Mutex;
+/// handle for heading angle Mutex
+extern SemaphoreHandle_t  hAngle_Mutex;
+/// handle for compass data Mutex
+extern SemaphoreHandle_t  hCompass_Mutex;
 
 
 /// debug naar uart output, zie uart_keys.c
@@ -168,5 +176,15 @@ extern void dGPS_parser(void *);
 
 // dGPS_calculator.c
 extern void dGPS_calculator(void *);
-// Heading.c
+// Route_performer.c
 extern void Route_performer(void *);
+// PID_Controller.c
+extern void PID_Controller(void *);
+// Motor_Driver.c
+extern void Motor_Driver(void *);
+// Compass_Heading.c
+extern void Compass_Heading(void *);
+//TFT.c
+extern void TFT_task(void *);
+// LOS_algo.c
+extern void LOS_caller(void *);

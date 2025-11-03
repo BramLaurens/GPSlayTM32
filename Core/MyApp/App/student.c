@@ -25,11 +25,7 @@ void Student_task1 (void *argument)
 	while(TRUE)
 	{
        	osDelay(1000);
+		
 
-		if (Uart_debug_out & STUDENT_DEBUG_OUT)
-		{
-	       	sprintf(buf, "\r\n%s: %u", __func__, i++);
-			UART_puts(buf);
-    	}
 	}
 }

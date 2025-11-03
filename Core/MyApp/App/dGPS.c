@@ -2,7 +2,6 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "gps.h"
-#include "NRF_driver.h"
 #include "dGPS.h"
 #include "GPS_Route_Setter.h"
 #include <string.h>
@@ -105,7 +104,7 @@ void GPS_store_in_history(uint32_t time)
 
     #ifdef dGPS_debug
         char msg[100];
-        sprintf(msg, "Stored averaged coordinate in history at index %d: Time: %ld Lat: %.9f, Lon: %.9f\r\n", index, time, GPS_history[index].latitude, GPS_history[index].longitude);
+        sprintf(msg, "Stored averaged coordinate in history at index %d: Time: %ld Lat: %.9f, Lon: %.9f, Course: %.9f\r\n", index, time, GPS_history[index].latitude, GPS_history[index].longitude, GPS_history[index].course);
         UART_puts(msg);
     #endif
 }
@@ -120,8 +119,10 @@ void AVG_gpscalc(uint32_t time)
 
     GPS_workingavgbuffer.latitude /= i;
     GPS_workingavgbuffer.longitude /= i;
+    GPS_workingavgbuffer.course /= i;
     GPS_latest_averaged.latitude = GPS_workingavgbuffer.latitude;
     GPS_latest_averaged.longitude = GPS_workingavgbuffer.longitude;
+    GPS_latest_averaged.course = GPS_workingavgbuffer.course;
     GPS_latest_averaged.timestamp = time;
 }
 
@@ -138,10 +139,11 @@ void AVG_gpsadddata(int i, uint32_t time)
     double lon_dd = convert_decimal_degrees(gnrmc_localbuffer.longitude, &gnrmc_localbuffer.EW_ind);
     GPS_workingavgbuffer.latitude += lat_dd;
     GPS_workingavgbuffer.longitude += lon_dd;
+    GPS_workingavgbuffer.course += atof(gnrmc_localbuffer.course);
 
     #ifdef dGPS_debug
         char msg[100];
-        sprintf(msg, "Adding data to averaging buffer %d: for time: %ld Lat: %.9f, Lon: %.9f\r\n", i, time, lat_dd, lon_dd);
+        sprintf(msg, "Adding data to averaging buffer %d: for time: %ld Lat: %.9f, Lon: %.9f, Course: %.9f\r\n", i, time, lat_dd, lon_dd, GPS_workingavgbuffer.course);
         UART_puts(msg);
     #endif
 }
@@ -154,6 +156,7 @@ void AVG_gpsinit()
 {
     GPS_workingavgbuffer.latitude = 0.0;
     GPS_workingavgbuffer.longitude = 0.0;
+    GPS_workingavgbuffer.course = 0.0;
 }
 
 /**
@@ -175,47 +178,11 @@ void parse_GPSdata()
     GNRMC *ptd = &gnrmc_localbuffer;
     char *s;
 
-    strcpy(c_received_GPS_time, ptd->time);
-    s = strtok(c_received_GPS_time, "."); // Split at decimal point
-    u_working_GPS_time = atoi(s); // Convert to integer (hhmmss)
+    GPS_latest_averaged.latitude = convert_decimal_degrees(gnrmc_localbuffer.latitude, &gnrmc_localbuffer.NS_ind);
+    GPS_latest_averaged.longitude = convert_decimal_degrees(gnrmc_localbuffer.longitude, &gnrmc_localbuffer.EW_ind);
+    GPS_latest_averaged.course = atof(gnrmc_localbuffer.course);
 
-    // Check if the time has changed (new second), then we start a new averaging cycle
-    if (u_working_GPS_time != u_last_GPS_time)
-    {
-        /* New second, reset the averaging buffer and counter*/
-        #ifdef dGPS_debug
-            UART_puts("\r\nNew second detected. Resetting averaging buffer.\r\n");
-        #endif
-        i=0;
-        AVG_gpsinit();
-        AVG_gpsadddata(i+1, u_working_GPS_time);
-        u_last_GPS_time = u_working_GPS_time;
-        i++;
-    }
-    else
-    {
-        AVG_gpsadddata(i+1, u_working_GPS_time);
-        i++;
-    }
-
-    // If we have collected 5 data points, calculate the average and store it in the circular buffer
-    if (i >= 5)
-    {
-        AVG_gpscalc(u_working_GPS_time);
-
-        // Store the averaged data in the history buffer for dGPS matching
-        GPS_store_in_history(u_working_GPS_time);
-
-        #ifdef enable_uncorrectedGPS_out
-            // Also store the averaged data in the uncorrected latest buffer for external use
-            GPS_storeUncorrected(&GPS_latestsafe_uncorrected);
-            /*Later a notify comes here to the GPS vector task */
-        #endif
-
-        /* After storing averaged value, reset averaging state so next second starts fresh */
-        i = 0;
-        AVG_gpsinit();
-    }
+    GPS_storeUncorrected(&GPS_latestsafe_uncorrected); // Store the latest uncorrected GPS data safely 
 }
 
 void dGPS_parser(void *argument)

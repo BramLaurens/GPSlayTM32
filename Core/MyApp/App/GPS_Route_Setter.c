@@ -30,6 +30,13 @@ GNRMC *pt_Route_Parser = &GNRMC_localcopy3; // Pointer to the struct holding the
 // Create a pointer of type GPS_Route
 GPS_Route *pt_Route=NULL;
 
+char WP_amount = 0;
+
+void RS_getWPamount(char *dest)
+{
+	*dest = WP_amount;
+}
+
 /**
  * @brief Converts NMEA coordinate format (ddmm.mmmm) to decimal degrees. (+ for N/E, - for S/W)
  * 
@@ -102,8 +109,11 @@ uint8_t GPS_Route_Maker()
 {
 	char Float_buffer[100]; // char buffer so the floats can be made visible for the user
 
+	UART_puts("Checking GPS data validity: ");
+	UART_puts(pt_Route_Parser->status); UART_puts(" \r\n");
+
 	// 'V' is invalid 'A' is valid 
-	if(pt_Route_Parser->status == 'V')
+	if(pt_Route_Parser->status != 'A')
 	{ 
 		UART_puts("Data from GPS is not valid or is currently busy locking");
 		// posibility for lcd screen debuging
@@ -138,6 +148,10 @@ uint8_t GPS_Route_Maker()
 		sprintf(Float_buffer, "	Lat:%2.9f",Node->latitude);	// So the float can read by the user in terminal 
 		UART_puts(Float_buffer); UART_puts("\r\n");
 
+		WP_amount++;
+		// LCD_clear();
+		// LCD_puts("New node created");
+
 		pt_Route = Node;
 		return 0;
 	}
@@ -170,6 +184,10 @@ uint8_t GPS_Route_Maker()
 
 	sprintf(Float_buffer, "	Lat:%2.9f",Node->latitude);
 	UART_puts(Float_buffer); UART_puts("\r\n");
+
+	WP_amount++;
+	// LCD_clear();
+	// LCD_puts("New node created");
 
 	UART_puts("New node created succesfully");
 	UART_puts("\r\n");
@@ -274,6 +292,7 @@ void Route_Setter(void *argument)
 		case 0x03: // remove all nodes 
 			UART_puts("Removing all nodes...");
 			while(Remove_Last_Node() != 0);
+			WP_amount = 0;
 			break;
 
 		case 0x04:

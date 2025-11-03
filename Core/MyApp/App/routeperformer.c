@@ -21,12 +21,81 @@
 
 #define M_PI 3.14159265358979323846
 
-#define Error_marge_completed_waypoint 3   //error margin for when the leaphy is within x meters of the waypoint (+ or -) in meters
-
+#define Error_marge_completed_waypoint 0.5   //error margin for when the leaphy is within x meters of the waypoint (+ or -) in meters
 
 dGPS_decimalData_t dGPS_localcopy4;
 GPS_Route *pRoute_copy;
 int *pWorking_Waypoint;
+
+double Angle=-2; // -2 for error, 0-360 for valid angle
+volatile bool EnableRP_algo = false; // Set to true to enable route planning algorithm, false to disable
+
+volatile bool rp_waypoint_hold = false;
+
+int RP_wpCurrent = 0; // Current waypoint number the route performer is heading to
+
+double Distance=999;
+
+
+void RP_get_wpCurrent(int *dest)
+{
+    *dest = RP_wpCurrent;
+}
+
+void set_waypointhold(bool state)
+{
+    rp_waypoint_hold = state;
+}
+
+/**
+ * @brief Get the current waypoint hold status
+ * 
+ * @param dest 
+ */
+void get_waypointhold(bool *dest)
+{
+    *dest = rp_waypoint_hold;
+}
+
+/**
+ * @brief Set the RP algoState object, enabling or disabling the route performer algorithm
+ * 
+ * @param state 
+ */
+void set_RP_algoState(bool state)
+{
+    EnableRP_algo = state;
+}
+
+void get_RP_AlgoState(bool *dest)
+{
+    *dest = EnableRP_algo;
+}
+
+
+void get_RP_distance(double *dest)
+{
+    *dest = Distance; // using course variable to store distance temporarily
+}
+
+/**
+ * @brief Get the latest heading course to the next waypoint, for external use
+ * 
+ * @param dest 
+ */
+void getlatestCourse(double *dest)
+{
+    /* Copy the latest angle data safely */
+    if(xSemaphoreTake(hAngle_Mutex, portMAX_DELAY) == pdTRUE)
+    {
+        memcpy(dest, &Angle, sizeof(double));
+        xSemaphoreGive(hAngle_Mutex);
+    }
+    else
+    {
+        error_HaltOS("Err:hAngle_Mutex");
+    }
+}
 
 int update_GPS_loc()
 {
@@ -100,9 +169,16 @@ double Calc_Angle(GPS_Route *pRoute)
     double angle = atan2(y, x) * 180.0 / M_PI;
 
     if (angle < 0) angle += 360.0;
+
+    // --- Apply Utrecht magnetic declination (≈ +3.5° East) ---
+    double declination_deg = 3.5;
+    angle -= declination_deg;  // subtract because declination is east-positive
+
+    if (angle < 0) angle += 360.0;
+    else if (angle >= 360) angle -= 360.0;
+
     return angle;
 }
-
 
 
 /**
@@ -113,7 +189,7 @@ double Calc_Angle(GPS_Route *pRoute)
  */
 double GET_workingHeading(int Working_routing_point)
 {
-    UART_puts("\r\n Starting angle calculation \r \n");
+    // UART_puts("\r\n Starting angle calculation \r \n");
     double Angle = -2; // 0 is valid angle, -1 is error so -2 so other errors will still be visible
     
     // Check de struct validity, and get the right element
@@ -139,15 +215,15 @@ double GET_workingHeading(int Working_routing_point)
         UART_puts("Error calculating the angle (GET_workingHeading) \r \n");
         return -1;
     }
-    sprintf(Buffer, "Angle is: %0.4f \r \n", Angle);
-    UART_puts(Buffer);
+    // sprintf(Buffer, "Angle is: %0.4f \r \n", Angle);
+    // UART_puts(Buffer);
 
     return Angle;
 }
 
 double distance_tillwaypoint_FE(int Working_routing_point)
 {
-    UART_puts("\r\n Starting distance calculation using flat earth (FE) model\r \n");
+    // UART_puts("\r\n Starting distance calculation using flat earth (FE) model\r \n");
     GPS_Route *temp = pRoute_copy;
 
     if(update_GPS_loc() < 0) // update the gps location and check for errors
@@ -173,11 +249,11 @@ double distance_tillwaypoint_FE(int Working_routing_point)
     double dx = dLong * lon_to_m;
     double dy = dLat * lat_to_m;
 
-    double distance = sqrt(dx * dx + dy * dy);
-    char Buffer[100]; // buffer for sprintf for debugging the float
-    sprintf(Buffer, "Distance calculated (FE model): %2.4f \r \n", distance);
-    UART_puts(Buffer);
-    return distance;
+    double distance_local = sqrt(dx * dx + dy * dy);
+    // char Buffer[100]; // buffer for sprintf for debugging the float
+    // sprintf(Buffer, "Distance calculated (FE model): %2.4f \r \n", distance_local);
+    // UART_puts(Buffer);
+    return distance_local;
 }
 
 /**
@@ -188,7 +264,7 @@ double distance_tillwaypoint_FE(int Working_routing_point)
  */
 double Distance_Till_Waypoint(int Working_routing_point)
 {
-    UART_puts("\r\n Starting distance calculation \r \n");
+    // UART_puts("\r\n Starting distance calculation \r \n");
     GPS_Route *temp = pRoute_copy;
 
     if(update_GPS_loc() < 0) // update the gps location and check for errors
@@ -250,13 +326,13 @@ double Distance_Till_Waypoint(int Working_routing_point)
     double x = x0 + x_rd;
     double y = y0 + y_rd;
     double z = pow(x,2) + pow(y,2); // now in cartesian you can triangulate with pytharogrian theorem for you distance
-    double distance = sqrt(z);
+    double distance_local = sqrt(z);
     
-    UART_puts("Distance calculated: ");
-    char Buffer[100]; // buffer for sprintf for debugging the float
-    sprintf(Buffer, "%2.4f \r \n", distance);
-    UART_puts(Buffer);
-    return distance;
+    // UART_puts("Distance calculated: ");
+    // char Buffer[100]; // buffer for sprintf for debugging the float
+    // sprintf(Buffer, "%2.4f \r \n", distance_local);
+    // UART_puts(Buffer);
+    return distance_local;
 }
 
 
@@ -282,9 +358,12 @@ int Completed_waypoint(double Distance_to_point)
     }
 
     // Check if close enough to the next waypoint
-    if(Distance_to_point < Error_marge_completed_waypoint ) // Check if the leaphy is close enough to the waypoint see header for #define
+    if(Distance_to_point < Error_marge_completed_waypoint ) // Check if the rover is close enough to the waypoint see header for #define
     {
         int Working_routing_point = Give_NodeNumber();
+
+        rp_waypoint_hold = true; // Pause at waypoint
+
         UART_puts("Waypoint reached! Calculating next waypoint...\r \n");
         UART_puts(" Current waypoint got: ");
         UART_putint(Working_routing_point); // shows the nr of the waypoint got
@@ -311,28 +390,25 @@ int Completed_waypoint(double Distance_to_point)
     return Give_NodeNumber(); 
 }
 
-int run_RP_algo(double Distance, int Working_routing_point)
+int run_RP_algo(double Distance_local, int Working_routing_point)
 {
     // This function can be used to run the route planning algorithm if needed
     // For now, it does nothing
 
-    if(Completed_waypoint(Distance) < 0) // error check if structs are valid
+    if(Completed_waypoint(Distance_local) < 0) // error check if structs are valid
     {
         return -1; // skip rest of loop and try again
     }
 
-    Working_routing_point = Completed_waypoint(Distance); // Check if waypoint is completed and get next waypoint if so
+    Working_routing_point = Completed_waypoint(Distance_local); // Check if waypoint is completed and get next waypoint if so
     return 0; // Success
 }
 
 void Route_performer(void *argument)
 {
     osDelay(200); // wait a second to make sure everything is started
-    double Angle=-2, Distance=999;
     static int Working_routing_point = 0; // static so pointer remains valid
     pWorking_Waypoint = &Working_routing_point;
-
-    volatile bool EnableRP_algo = false; // Set to true to enable route planning algorithm, false to disable
 
     uint32_t key=0;
 
@@ -345,39 +421,31 @@ void Route_performer(void *argument)
         {
             if (xQueueReceive(hKeyRP_Queue, &key, 0) == pdTRUE)
             {
-                // Process key
-                switch(key)
-                {
-                    case 0x0D: // Get and print heading to next WP button 13
-                        Angle = GET_workingHeading(Working_routing_point); // Get angle to working waypoint
-                        break;
-                    case 0x0E: // Get and print distance to next WP button 14
-                        Distance = distance_tillwaypoint_FE(Working_routing_point); // Get distance to working waypoint
-                        break;
-                    case 0x0F: // Reset route to WP 0 button 15
-                        Working_routing_point = 0; // Reset to first waypoint
-                        break;
-                    case 0x10: // Run route planning algorithm toggle button 16
-                        EnableRP_algo = !EnableRP_algo; // Toggle RP algo
-                        UART_puts(EnableRP_algo ? "Route Planning Algorithm Enabled\r\n" : "Route Planning Algorithm Disabled\r\n");
-                        EnableRP_algo ? HAL_GPIO_WritePin(GPIOD, LEDORANGE, GPIO_PIN_SET) : HAL_GPIO_WritePin(GPIOD, LEDORANGE, GPIO_PIN_RESET); // Indicate RP algo status on LED
-                        break;
-                    default:
-                        UART_puts("\r\nInvalid key pressed for PID_Controller\r\n");
-                        break; // continue loop
-                }
+
             }
         }
 
         // If RP algo is enabled, run it periodically
-        if (EnableRP_algo)
-        {
+        if (EnableRP_algo)        {
             Distance = distance_tillwaypoint_FE(Working_routing_point); // Update distance to working waypoint
-            Angle = GET_workingHeading(Working_routing_point); // Update angle to working waypoint
+
+            if(xSemaphoreTake(hAngle_Mutex, portMAX_DELAY) == pdTRUE) // Take mutex before updating shared angle variable
+            {
+                Angle = GET_workingHeading(Working_routing_point); // Update angle to working waypoint
+                xSemaphoreGive(hAngle_Mutex); // Release mutex after updating
+            }
+
             Working_routing_point = Completed_waypoint(Distance); // Check if waypoint is completed and get next waypoint if so
+            RP_wpCurrent = Working_routing_point; // Update current waypoint number for external use
         }
-        // Do other periodic PID work here, if any
-        osDelay(100); // small sleep so this task isn't busy-waiting
+
+        // Wait at waypoint for a few seconds when reached
+        if(rp_waypoint_hold)
+        {
+            osDelay(4000);
+            rp_waypoint_hold = false;
+        }
+        osDelay(10); // small sleep so this task isn't busy-waiting
     }
 }
 
