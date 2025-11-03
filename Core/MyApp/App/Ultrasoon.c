@@ -14,10 +14,12 @@ void Ultrasoon_trig(void) // 10us pulse for Trigger pin
 	int delay = 10;
 
 	__HAL_TIM_SET_COUNTER(&htim8, 0);
-	while (__HAL_TIM_GET_COUNTER(&htim8)  < delay);
+	while (__HAL_TIM_GET_COUNTER(&htim8)  < delay); // wait 10us
 
 	HAL_GPIO_WritePin(GPIOC, Trigger_Pin, GPIO_PIN_RESET);
 }
+
+
 void Echo_sign_task(void *argument) // calculations for distance
 {
 	float Distance;
@@ -36,6 +38,6 @@ void Echo_sign_task(void *argument) // calculations for distance
 		UART_puts("\r\n");
 		UART_putint(Echo_time);
 		UART_puts("\r\n");
-		osDelay(60);
+		osDelay(300);
 	}
 }
