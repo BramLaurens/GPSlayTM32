@@ -62,8 +62,14 @@ double pidCompute(double error, double dt);
 
 bool enablePID = false;
 unsigned int key = 0;
+bool obstacleFlag = false;
 
 dGPS_decimalData_t latest_dGPS_data;
+
+void PID_setObstacleFlag(bool flag)
+{
+    obstacleFlag = flag;
+}
 
 double headingError(double target, double current) {
     double error = target - current;
@@ -71,7 +77,6 @@ double headingError(double target, double current) {
     while (error < -180.0) error += 360.0;
     return error;
 }
-
 
 double pidCompute(double error, double dt) {
     integral += error * dt;
@@ -85,6 +90,18 @@ double pidCompute(double error, double dt) {
     if (output < -255) output = -255;
 
     return output;
+}
+
+void obstacleAvoidance(){
+
+    Motor_Set_Speed(0, 0); // stop motors
+    osDelay(300); // wait 300 ms
+    Motor_Set_Speed(-100, 100); // turn left
+    osDelay(500); // turn for 500 ms
+    Motor_Set_Speed(0, 0); // stop motors
+    osDelay(300); // wait 300 ms
+    obstacleFlag = false; // reset obstacle flag
+
 }
 
 void PID_trigger(){
@@ -174,17 +191,25 @@ void PID_Controller(void *argument)
             }
         }
 
-        if (enablePID && !pid_waypoint_hold)
+        if (enablePID && !pid_waypoint_hold && !obstacleFlag)
         {
             PID_trigger();
             osDelay(10); // Control loop delay
 
         }
-        else
+        else if(!enablePID)
         {
             Motor_Set_Speed(0, 0); // Stop motors when PID is disabled
         }
-
-        osDelay(1); // Idle delay when PID is disabled
+        else if(pid_waypoint_hold)
+        {
+            Motor_Set_Speed(0, 0); // Stop motors when in waypoint hold
+        }
+        else if(obstacleFlag)
+        {
+            obstacleAvoidance();
+        }
+        
+        osDelay(10); // Idle delay when PID is disabled
     }
 }

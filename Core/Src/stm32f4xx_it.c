@@ -212,26 +212,27 @@ void EXTI9_5_IRQHandler(void)
   /* USER CODE END EXTI9_5_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(EchoEXTINT_Pin);
   /* USER CODE BEGIN EXTI9_5_IRQn 1 */
-  if (HAL_GPIO_ReadPin(GPIOC, EchoEXTINT_Pin) == GPIO_PIN_SET)
-	{
-	  // This means the interrupt is called on rising edge
-	  // Reset timer counter
-	  __HAL_TIM_SET_COUNTER(&htim9, 0);
-	  __HAL_TIM_ENABLE(&htim9);
-	}
-	else
-	{
-	  // This means the interrupt is called on the falling edge
-	  // Set event group bit
-//		UART_putint(xTaskGetSchedulerState());
+  {
+    /* Use ISR-safe wake mechanism so waiting task is resumed immediately when needed */
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 
-		// Make sure the taskScheduler is running, otherwise the handle hHCSR04_Event isn't made and the programs crashes.
-	  if (xTaskGetSchedulerState() == taskSCHEDULER_RUNNING)
-	  {
-		  xEventGroupSetBitsFromISR(hEcho_Event, 1, NULL);
-			__HAL_TIM_DISABLE(&htim9);
-	  }
-	}
+    if (HAL_GPIO_ReadPin(GPIOC, EchoEXTINT_Pin) == GPIO_PIN_SET)
+    {
+      /* Rising edge: start/reset the timer */
+      __HAL_TIM_SET_COUNTER(&htim9, 0);
+      __HAL_TIM_ENABLE(&htim9);
+    }
+    else
+    {
+      /* Falling edge: notify the task and stop the timer */
+      if (xTaskGetSchedulerState() == taskSCHEDULER_RUNNING)
+      {
+        xEventGroupSetBitsFromISR(hEcho_Event, 1, &xHigherPriorityTaskWoken);
+        __HAL_TIM_DISABLE(&htim9);
+        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+      }
+    }
+  }
 
   /* USER CODE END EXTI9_5_IRQn 1 */
 }
