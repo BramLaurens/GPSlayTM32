@@ -8,6 +8,24 @@
 #include "cmsis_os.h"
 #include "admin.h"
 
+float Distance;
+
+/**
+  * @brief  Returns distance value
+  * @param  None
+  * @retval Distance value in cm
+  */
+double Afstand() // returns distance value with Afstand function
+{
+	return Distance;
+}
+
+/**
+  * @brief  Generates a 10us pulse on Trigger pin
+  * @param  None
+  * @retval None
+  */
+
 void Ultrasoon_trig(void) // 10us pulse for Trigger pin
 {
 	HAL_GPIO_WritePin(GPIOC, Trigger_Pin, GPIO_PIN_SET);
@@ -19,10 +37,14 @@ void Ultrasoon_trig(void) // 10us pulse for Trigger pin
 	HAL_GPIO_WritePin(GPIOC, Trigger_Pin, GPIO_PIN_RESET);
 }
 
-
+/**
+  * @brief  Task for calculating distance (cm) based on Echo time
+  * @param  argument: Not used
+  * @retval None
+  */
 void Echo_sign_task(void *argument) // calculations for distance
 {
-	float Distance;
+
 	int Echo_time = 0;
 	char Buffer[70];
 
@@ -34,11 +56,11 @@ void Echo_sign_task(void *argument) // calculations for distance
 		Echo_time = __HAL_TIM_GetCounter(&htim12); // amount of time receiving pulse
 		Distance = Echo_time*0.034;
 
-		sprintf(Buffer, "Afstand is: %.2f.", Distance);
-		UART_puts(Buffer);
-		UART_puts("\r\n");
-		UART_putint(Echo_time);
-		UART_puts("\r\n");
-		osDelay(300);
+		// sprintf(Buffer, "Afstand is: %.2f.", Distance);
+		// UART_puts(Buffer);
+		// UART_puts("\r\n");
+		// UART_putint(Echo_time);
+		// UART_puts("\r\n");
+		osDelay(1000);
 	}
 }

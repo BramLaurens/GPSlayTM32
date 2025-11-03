@@ -14,6 +14,7 @@
 
 void Ultrasoon_trig(void);
 void Echo_sign_task(void *argument);
+double Afstand();
 
 extern TIM_HandleTypeDef htim8;
 extern TIM_HandleTypeDef htim12;
