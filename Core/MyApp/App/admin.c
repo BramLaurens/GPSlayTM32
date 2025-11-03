@@ -55,6 +55,7 @@ QueueHandle_t         hGNRMC_Queue; /// queue for complete GPS messages
 QueueHandle_t		  hKeyPID_Queue; /// queue for keys to PID controller
 SemaphoreHandle_t     hLED_Sem;
 EventGroupHandle_t 	  hKEY_Event;
+EventGroupHandle_t	  hEcho_Event;
 TimerHandle_t         hTimer1;
 SemaphoreHandle_t     hGPS_Mutex; /// mutex voor GPS-parsing
 SemaphoreHandle_t     hdGPSerror_Mutex; /// mutex voor GPS errorbuffer
@@ -131,6 +132,8 @@ TASKDATA tasks[] =
 { Compass_Heading,NULL, .attr.name ="Compass_Heading", .attr.stack_size = 2000, .attr.priority = osPriorityAboveNormal3},
 // PID controller
 { PID_Controller,    NULL, .attr.name ="PID_Controller",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal2 },
+
+{ Echo_sign_task,    NULL, .attr.name ="Echo_sign_task",    .attr.stack_size = 800, .attr.priority = osPriorityBelowNormal4 },
 
 // Motordriver
 { Motor_Driver,    NULL, .attr.name ="Motor_Driver",    .attr.stack_size = 1000, .attr.priority = osPriorityBelowNormal7 },
@@ -299,6 +302,9 @@ void CreateHandles(void)
 
 	if (!(hCompass_Mutex = xSemaphoreCreateMutex()))
 		error_HaltOS("Error hCompass_Mutex");
+
+	if (!(hEcho_Event = xEventGroupCreate()))
+			error_HaltOS("Error hEcho_Event");
 
 	UART_puts("\n\rAll handles created successfully.");
 

@@ -92,6 +92,11 @@ void Error_Handler(void);
 #define TFT_SPI_MISO_GPIO_Port GPIOA
 #define TFT_SPI_MOSI_Pin GPIO_PIN_7
 #define TFT_SPI_MOSI_GPIO_Port GPIOA
+#define Trigger_Pin GPIO_PIN_4
+#define Trigger_GPIO_Port GPIOC
+#define EchoEXTINT_Pin GPIO_PIN_5
+#define EchoEXTINT_GPIO_Port GPIOC
+#define EchoEXTINT_EXTI_IRQn EXTI9_5_IRQn
 #define Key_int_Pin GPIO_PIN_0
 #define Key_int_GPIO_Port GPIOB
 #define Key_int_EXTI_IRQn EXTI0_IRQn

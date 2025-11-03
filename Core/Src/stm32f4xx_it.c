@@ -65,7 +65,8 @@ extern UART_HandleTypeDef huart2;
 extern TIM_HandleTypeDef htim1;
 
 /* USER CODE BEGIN EV */
-
+extern TIM_HandleTypeDef htim9;
+extern EventGroupHandle_t hEcho_Event;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -199,6 +200,40 @@ void EXTI0_IRQHandler(void)
   /* USER CODE BEGIN EXTI0_IRQn 1 */
 
   /* USER CODE END EXTI0_IRQn 1 */
+}
+
+/**
+  * @brief This function handles EXTI line[9:5] interrupts.
+  */
+void EXTI9_5_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI9_5_IRQn 0 */
+
+  /* USER CODE END EXTI9_5_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(EchoEXTINT_Pin);
+  /* USER CODE BEGIN EXTI9_5_IRQn 1 */
+  if (HAL_GPIO_ReadPin(GPIOC, EchoEXTINT_Pin) == GPIO_PIN_SET)
+	{
+	  // This means the interrupt is called on rising edge
+	  // Reset timer counter
+	  __HAL_TIM_SET_COUNTER(&htim9, 0);
+	  __HAL_TIM_ENABLE(&htim9);
+	}
+	else
+	{
+	  // This means the interrupt is called on the falling edge
+	  // Set event group bit
+//		UART_putint(xTaskGetSchedulerState());
+
+		// Make sure the taskScheduler is running, otherwise the handle hHCSR04_Event isn't made and the programs crashes.
+	  if (xTaskGetSchedulerState() == taskSCHEDULER_RUNNING)
+	  {
+		  xEventGroupSetBitsFromISR(hEcho_Event, 1, NULL);
+			__HAL_TIM_DISABLE(&htim9);
+	  }
+
+  /* USER CODE END EXTI9_5_IRQn 1 */
+	}
 }
 
 /**

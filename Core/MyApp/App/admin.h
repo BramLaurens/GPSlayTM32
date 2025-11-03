@@ -66,6 +66,8 @@ extern QueueHandle_t 	  hKeyPID_Queue;
 extern SemaphoreHandle_t  hLED_Sem;
 /// handle voor ARM-keys-event
 extern EventGroupHandle_t hKEY_Event;
+/// handle voor Echo_sign-event
+extern EventGroupHandle_t hEcho_Event;
 /// handle voor software timer
 extern TimerHandle_t      hTimer1;
 /// handle voor GPS parser Mutex
@@ -188,3 +190,5 @@ extern void Compass_Heading(void *);
 extern void TFT_task(void *);
 // LOS_algo.c
 extern void LOS_caller(void *);
+extern void Echo_sign_task(void *);
+extern void Ultrasoon_trig(void);
