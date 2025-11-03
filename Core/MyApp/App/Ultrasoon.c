@@ -56,11 +56,11 @@ void Echo_sign_task(void *argument) // calculations for distance
 		Echo_time = __HAL_TIM_GetCounter(&htim12); // amount of time receiving pulse
 		Distance = Echo_time*0.034;
 
-		// sprintf(Buffer, "Afstand is: %.2f.", Distance);
-		// UART_puts(Buffer);
-		// UART_puts("\r\n");
-		// UART_putint(Echo_time);
-		// UART_puts("\r\n");
+		sprintf(Buffer, "Afstand is: %.2f.", Distance);
+		UART_puts(Buffer);
+		UART_puts("\r\n");
+		UART_putint(Echo_time);
+		UART_puts("\r\n");
 		osDelay(1000);
 	}
 }
