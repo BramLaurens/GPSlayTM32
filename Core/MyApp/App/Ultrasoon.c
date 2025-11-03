@@ -49,6 +49,8 @@ void Echo_sign_task(void *argument) // calculations for distance
 
 	int Echo_time = 0;
 	char Buffer[70];
+	osDelay(1000); // wait for system to stabilize
+	UART_puts("Echo task started \r\n");
 
 	while(TRUE)
 	{

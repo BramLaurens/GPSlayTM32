@@ -446,7 +446,7 @@ static void MX_TIM9_Init(void)
   htim9.Instance = TIM9;
   htim9.Init.Prescaler = 167;
   htim9.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim9.Init.Period = 65535;
+  htim9.Init.Period = 12000;
   htim9.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim9.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim9) != HAL_OK)
