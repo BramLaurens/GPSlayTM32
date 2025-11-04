@@ -26,7 +26,7 @@
 
 // --- Constants / tunable parameters ---
 #define ARRIVAL_RADIUS_M     1.0    // meters to consider a waypoint reached
-#define LOOKAHEAD_DISTANCE_M 2.0    // meters ahead on path segment
+#define LOOKAHEAD_DISTANCE_M 1.0    // meters ahead on path segment
 
 // --- Helper: degrees to radians ---
 static inline double deg2rad(double deg) { return deg * M_PI / 180.0; }
