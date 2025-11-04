@@ -6,6 +6,7 @@
 #include "routeperformer.h"
 #include "GPS_Route_Setter.h"
 #include "LOS_algo.h"
+#include "Ultrasoon.h"
 
 #include <stdint.h>
 
@@ -58,7 +59,7 @@ void update_GPS_fix_quality_display()
 
 void updateWPdisplay()
 {
-    bool RP_algostate;
+    bool LOS_algostate;
 
     ST7735_WriteString(10, 40, "WP Amount: ", Font_7x10, ST7735_WHITE, ST7735_BLACK);
     char wp_amount_str[5];
@@ -67,9 +68,9 @@ void updateWPdisplay()
     sprintf(wp_amount_str, "%d", wp_amount);
     ST7735_WriteString(100, 40, wp_amount_str, Font_7x10, ST7735_WHITE, ST7735_BLACK);
 
-    get_RP_AlgoState(&RP_algostate);
+    get_LOS_algoState(&LOS_algostate);
 
-    if(RP_algostate)
+    if(LOS_algostate)
     {
         ST7735_FillRectangleFast(10, 50, 160, 10, ST7735_BLACK);
         ST7735_WriteString(10, 50, "Going to: ", Font_7x10, ST7735_WHITE, ST7735_BLACK);
@@ -108,6 +109,30 @@ void update_routedata_display()
     ST7735_WriteString(100, 70, course_str, Font_7x10, ST7735_WHITE, ST7735_BLACK);
 }
 
+void update_obstacle_display()
+{
+    float distance = 0.0;
+    char ob_distancestr[10];
+    bool obstacleFlag_local = false;
+    PID_getObstacleFlag(&obstacleFlag_local);
+    US_getObjectDistance(&distance);
+
+    sprintf(ob_distancestr, "%2.2f", distance);
+
+    if(obstacleFlag_local)
+    {
+        ST7735_FillRectangleFast(0, 80, 160, 10, ST7735_RED);
+        ST7735_WriteString(10, 80, "Obstacle X:", Font_7x10, ST7735_WHITE, ST7735_RED);
+        ST7735_WriteString(100, 80, ob_distancestr, Font_7x10, ST7735_WHITE, ST7735_RED);
+    }
+    else
+    {
+        ST7735_FillRectangleFast(0, 80, 160, 10, ST7735_BLACK);
+        ST7735_WriteString(10, 80, "Obstacle X:", Font_7x10, ST7735_WHITE, ST7735_BLACK);
+        ST7735_WriteString(100, 80, ob_distancestr, Font_7x10, ST7735_WHITE, ST7735_BLACK);
+    }
+}
+
 void TFT_task(void *argument)
 {
     UART_puts((char *)__func__); UART_puts(" started\r\n");
@@ -137,5 +162,6 @@ void TFT_task(void *argument)
         update_GPS_fix_quality_display();
         updateWPdisplay();
         update_routedata_display();
+        update_obstacle_display();
     }
 }

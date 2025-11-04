@@ -96,6 +96,11 @@ void set_LOS_algoState(bool state)
     enable_LOS_algo = state;
 }
 
+void get_LOS_algoState(bool *state)
+{
+    *state = enable_LOS_algo;
+}
+
 /**
  * @brief Converts a latitude and logitude to local x and y meters, relative to a reference point
  * 

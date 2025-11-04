@@ -133,6 +133,7 @@ TASKDATA tasks[] =
 // PID controller
 { PID_Controller,    NULL, .attr.name ="PID_Controller",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal2 },
 
+// Ultrasoon
 { Echo_sign_task,    NULL, .attr.name ="Echo_sign_task",    .attr.stack_size = 1200, .attr.priority = osPriorityBelowNormal7 },
 
 // Motordriver

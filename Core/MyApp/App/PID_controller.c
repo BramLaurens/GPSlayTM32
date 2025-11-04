@@ -66,6 +66,11 @@ bool obstacleFlag = false;
 
 dGPS_decimalData_t latest_dGPS_data;
 
+void PID_getObstacleFlag(bool *flag)
+{
+    *flag = obstacleFlag;
+}
+
 void PID_setObstacleFlag(bool flag)
 {
     obstacleFlag = flag;
@@ -96,12 +101,15 @@ void obstacleAvoidance(){
 
     Motor_Set_Speed(0, 0); // stop motors
     osDelay(300); // wait 300 ms
+    Motor_Set_Speed(-100, -100); // reverse 
+    osDelay(1000); // reverse for 1 second
+    Motor_Set_Speed(0, 0); // stop motors
+    osDelay(300); // wait 300 ms
     Motor_Set_Speed(-100, 100); // turn left
-    osDelay(500); // turn for 500 ms
+    osDelay(1000); // turn left for 1 second
     Motor_Set_Speed(0, 0); // stop motors
     osDelay(300); // wait 300 ms
     obstacleFlag = false; // reset obstacle flag
-
 }
 
 void PID_trigger(){

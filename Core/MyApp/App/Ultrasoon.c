@@ -13,6 +13,11 @@
 float ObjectDistance;
 int obstacleCounter = 0;
 
+void US_getObjectDistance(float* distance)
+{
+	*distance = ObjectDistance;
+}
+
 /**
   * @brief  Returns distance value
   * @param  None
@@ -68,7 +73,6 @@ void Echo_sign_task(void *argument) // calculations for distance
 				/* Ensure timer is disabled in case it was left running */
 				__HAL_TIM_DISABLE(&htim9);
 				/* mark object as far away */
-				ObjectDistance = 999.0;
 			}
 			else
 			{
@@ -87,8 +91,9 @@ void Echo_sign_task(void *argument) // calculations for distance
 		if(ObjectDistance < 60.0) // obstacle detected within 60 cm
 		{
 			obstacleCounter++;
-			if(obstacleCounter >= 5) // obstacle confirmed after 5 readings (1 second)
+			if(obstacleCounter >= 6) // obstacle confirmed after 2 readings (200 ms)
 			{
+				UART_puts("Obstacle detected!\r\n");
 				PID_setObstacleFlag(true);
 			}
 		}
@@ -98,6 +103,6 @@ void Echo_sign_task(void *argument) // calculations for distance
 			obstacleCounter = 0;
 		}
 
-		osDelay(200);
+		osDelay(100);
 	}
 }

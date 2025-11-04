@@ -22,5 +22,6 @@ void LOS_getwaypointhold_status(bool *dest);
 void LOS_getcurrentWPnumber(int *dest);
 void LOS_getWPbearing(double *dest);
 void LOS_getWPdistance(double *dest);
+void get_LOS_algoState(bool *state);
 
 #endif /* MYAPP_APP_LOS_ALGO_H_ */
