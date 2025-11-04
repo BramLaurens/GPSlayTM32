@@ -1,0 +1,52 @@
+\doxysection{d\+GPS.\+h}
+\hypertarget{dGPS_8h_source}{}\label{dGPS_8h_source}\index{Core/MyApp/App/dGPS.h@{Core/MyApp/App/dGPS.h}}
+\mbox{\hyperlink{dGPS_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00001}00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00002}00002\ \textcolor{comment}{\ *\ dGPS.h}}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00003}00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00004}00004\ \textcolor{comment}{\ *\ \ Created\ on:\ Oct\ 8,\ 2025}}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00005}00005\ \textcolor{comment}{\ *\ \ \ \ \ \ Author:\ braml}}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00006}00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00008}00008\ \textcolor{preprocessor}{\#include\ "{}main.h"{}}}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00009}00009\ \textcolor{preprocessor}{\#include\ "{}cmsis\_os.h"{}}}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00012}00012\ \textcolor{preprocessor}{\#ifndef\ MYAPP\_APP\_dGPS\_H\_}}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00013}00013\ \textcolor{preprocessor}{\#define\ MYAPP\_APP\_dGPS\_H\_}}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00015}00015\ \textcolor{comment}{/*\ Enable\ dGPS\ output\ and\ uncorrected\ GPS\ output\ */}}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00016}00016\ \textcolor{comment}{//\ \#define\ enable\_dGPS\_out}}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00017}\mbox{\hyperlink{dGPS_8h_a1fdd16d5b5c2064fd7099d58564ce6e6}{00017}}\ \textcolor{preprocessor}{\#define\ enable\_uncorrectedGPS\_out}}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00019}00019\ \textcolor{comment}{//\ GPS\ averaging\ buffer\ size.\ Note\ that\ increasing\ this\ value\ increases\ the\ time\ per\ GPS\ fix}}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00020}\mbox{\hyperlink{dGPS_8h_a37bcb65cc89a974b0276d68be2ecf609}{00020}}\ \textcolor{preprocessor}{\#define\ GPS\_AVG\_BUFFER\_SIZE\ 1}}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00022}\mbox{\hyperlink{structdGPS__errorData__t}{00022}}\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00023}\mbox{\hyperlink{structdGPS__errorData__t_a57667532fea55d93567b05ceb83d8094}{00023}}\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structdGPS__errorData__t_a57667532fea55d93567b05ceb83d8094}{latitude}};}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00024}\mbox{\hyperlink{structdGPS__errorData__t_a3d7f0a13ccf7c3bf2579b758fc58ae73}{00024}}\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structdGPS__errorData__t_a3d7f0a13ccf7c3bf2579b758fc58ae73}{longitude}};}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00025}\mbox{\hyperlink{structdGPS__errorData__t_aa2af97e353013164dcf609cb0942190d}{00025}}\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structdGPS__errorData__t_aa2af97e353013164dcf609cb0942190d}{course}};}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00026}\mbox{\hyperlink{structdGPS__errorData__t_a362e94fe7d7f4bf63ed9605f083bdf30}{00026}}\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structdGPS__errorData__t_a362e94fe7d7f4bf63ed9605f083bdf30}{timestamp}};\ \textcolor{comment}{//\ Timestamp\ in\ HHMMSS\ format\ (from\ NMEA\ time\ field)}}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00027}\mbox{\hyperlink{dGPS_8h_a6e093e5bb5a0f41ef5b5d773cc8ec327}{00027}}\ \}\ \mbox{\hyperlink{structdGPS__errorData__t}{dGPS\_errorData\_t}},\ *\mbox{\hyperlink{dGPS_8h_a6e093e5bb5a0f41ef5b5d773cc8ec327}{PdGPS\_errorData\_t}};}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00029}\mbox{\hyperlink{structdGPS__decimalData__t}{00029}}\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00030}\mbox{\hyperlink{structdGPS__decimalData__t_af47f88269defd2f8c5540b0c22f80238}{00030}}\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structdGPS__decimalData__t_af47f88269defd2f8c5540b0c22f80238}{latitude}};}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00031}\mbox{\hyperlink{structdGPS__decimalData__t_ac97e76039c52e01a31e61e16216da51f}{00031}}\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structdGPS__decimalData__t_ac97e76039c52e01a31e61e16216da51f}{longitude}};}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00032}\mbox{\hyperlink{structdGPS__decimalData__t_a7965f18e49533cbb7ae6fa3806717f6a}{00032}}\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structdGPS__decimalData__t_a7965f18e49533cbb7ae6fa3806717f6a}{course}};}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00033}\mbox{\hyperlink{structdGPS__decimalData__t_a801b47e299e6b00f20bc62e26e9b4b23}{00033}}\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structdGPS__decimalData__t_a801b47e299e6b00f20bc62e26e9b4b23}{timestamp}};\ \textcolor{comment}{//\ Timestamp\ in\ HHMMSS\ format\ (from\ NMEA\ time\ field)}}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00034}\mbox{\hyperlink{dGPS_8h_a36d0c3c8cf9c85c300260b90cac7da63}{00034}}\ \}\ \mbox{\hyperlink{structdGPS__decimalData__t}{dGPS\_decimalData\_t}},\ *\mbox{\hyperlink{dGPS_8h_a36d0c3c8cf9c85c300260b90cac7da63}{PdGPS\_decimalData\_t}};}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00036}\mbox{\hyperlink{structGPS__decimal__degrees__t}{00036}}\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00037}\mbox{\hyperlink{structGPS__decimal__degrees__t_a671d9bd0ceb90f85b8537224e5cd3fe7}{00037}}\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structGPS__decimal__degrees__t_a671d9bd0ceb90f85b8537224e5cd3fe7}{latitude}};}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00038}\mbox{\hyperlink{structGPS__decimal__degrees__t_a0698b1dd412ceab30cadf0544af75a54}{00038}}\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structGPS__decimal__degrees__t_a0698b1dd412ceab30cadf0544af75a54}{longitude}};}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00039}\mbox{\hyperlink{structGPS__decimal__degrees__t_a4040fef9fdd790cb888124a89f6971b1}{00039}}\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structGPS__decimal__degrees__t_a4040fef9fdd790cb888124a89f6971b1}{course}};}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00040}\mbox{\hyperlink{dGPS_8h_add939c1880196da887576576b19c0c6b}{00040}}\ \}\ \mbox{\hyperlink{structGPS__decimal__degrees__t}{GPS\_decimal\_degrees\_t}},\ *\mbox{\hyperlink{dGPS_8h_add939c1880196da887576576b19c0c6b}{PGPS\_decimal\_degrees\_t}};}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00042}00042\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{dGPS_8h_a26e24df8db9294ca41506dad23837f62}{convert\_decimal\_degrees}}(\textcolor{keywordtype}{char}\ *nmea\_coordinate,\ \textcolor{keywordtype}{char}*\ ns);}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00043}00043\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{dGPS_8h_a47453f5e4aed575f1c58b057725d7b25}{GPS\_getlatest\_ringbuffer}}(\mbox{\hyperlink{structdGPS__decimalData__t}{dGPS\_decimalData\_t}}\ *dest);}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00044}00044\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{dGPS_8h_a5fc09e2ddaa0940dc24585a49e35eeb7}{GPS\_getlatest\_uncorrected}}(\mbox{\hyperlink{structdGPS__decimalData__t}{dGPS\_decimalData\_t}}\ *dest);}
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{dGPS_8h_source_l00046}00046\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ MYAPP\_APP\_dGPS\_H\_\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

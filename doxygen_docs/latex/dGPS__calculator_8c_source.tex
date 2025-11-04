@@ -1,0 +1,119 @@
+\doxysection{d\+GPS\+\_\+calculator.\+c}
+\hypertarget{dGPS__calculator_8c_source}{}\label{dGPS__calculator_8c_source}\index{Core/MyApp/App/dGPS\_calculator.c@{Core/MyApp/App/dGPS\_calculator.c}}
+\mbox{\hyperlink{dGPS__calculator_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00001}00001\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{admin_8h}{admin.h}}>}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}main.h"{}}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00003}00003\ \textcolor{preprocessor}{\#include\ "{}cmsis\_os.h"{}}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{gps_8h}{gps.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00005}00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{dGPS_8h}{dGPS.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00006}00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{GPS__Route__Setter_8h}{GPS\_Route\_Setter.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00008}\mbox{\hyperlink{dGPS__calculator_8c_af5885d0b1e474e375a01ca7ed99e6069}{00008}}\ \textcolor{preprocessor}{\#define\ dGPS\_calculator\_debug}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00010}\mbox{\hyperlink{dGPS__calculator_8c_a95066092043360110360e65fcb49a5c1}{00010}}\ \mbox{\hyperlink{structdGPS__decimalData__t}{dGPS\_decimalData\_t}}\ \mbox{\hyperlink{dGPS__calculator_8c_a95066092043360110360e65fcb49a5c1}{GPS\_latestsafe\_corrected}};\ \textcolor{comment}{//\ Holds\ the\ latest\ corrected\ GPS\ data}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00012}\mbox{\hyperlink{dGPS__calculator_8c_a7b3115c4b1bc2d6406b9cc939426c281}{00012}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{dGPS__calculator_8c_a7b3115c4b1bc2d6406b9cc939426c281}{GPS\_getlatest\_corrected}}(\mbox{\hyperlink{structdGPS__decimalData__t}{dGPS\_decimalData\_t}}\ *dest)}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00013}00013\ \{}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00014}00014\ \ \ \ \ \textcolor{comment}{/*\ Copy\ the\ latest\ corrected\ GPS\ data\ safely\ */}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00015}00015\ \ \ \ \ \textcolor{keywordflow}{if}(xSemaphoreTake(\mbox{\hyperlink{admin_8c_a18c30f8c1b66bc1827fa353ad0a03397}{hdGPSlatest\_Mutex}},\ portMAX\_DELAY)\ ==\ pdTRUE)}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00016}00016\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00017}00017\ \ \ \ \ \ \ \ \ memcpy(dest,\ \&\mbox{\hyperlink{dGPS__calculator_8c_a95066092043360110360e65fcb49a5c1}{GPS\_latestsafe\_corrected}},\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structdGPS__decimalData__t}{dGPS\_decimalData\_t}}));}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00018}00018\ \ \ \ \ \ \ \ \ xSemaphoreGive(\mbox{\hyperlink{admin_8c_a18c30f8c1b66bc1827fa353ad0a03397}{hdGPSlatest\_Mutex}});}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00019}00019\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00020}00020\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00021}00021\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00022}00022\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Err:hdGPSlatest\_Mutex"{}});}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00023}00023\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00024}00024\ \}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00033}\mbox{\hyperlink{dGPS__calculator_8c_a4a587fc37e57ba274cd566f99c6e2038}{00033}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{dGPS__calculator_8c_a4a587fc37e57ba274cd566f99c6e2038}{GPS\_store\_latest\_corrected}}(\mbox{\hyperlink{structdGPS__decimalData__t}{dGPS\_decimalData\_t}}\ *dest,\ \mbox{\hyperlink{structdGPS__decimalData__t}{dGPS\_decimalData\_t}}\ *ptdGPS,\ \mbox{\hyperlink{structdGPS__errorData__t}{dGPS\_errorData\_t}}\ *ptdError)}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00034}00034\ \{}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00035}00035\ \ \ \ \ \textcolor{keywordflow}{if}\ (xSemaphoreTake(\mbox{\hyperlink{admin_8c_a18c30f8c1b66bc1827fa353ad0a03397}{hdGPSlatest\_Mutex}},\ portMAX\_DELAY)\ ==\ pdTRUE)}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00036}00036\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ dest-\/>\mbox{\hyperlink{structdGPS__decimalData__t_af47f88269defd2f8c5540b0c22f80238}{latitude}}\ =\ ptdGPS-\/>\mbox{\hyperlink{structdGPS__decimalData__t_af47f88269defd2f8c5540b0c22f80238}{latitude}}\ -\/\ ptdError-\/>\mbox{\hyperlink{structdGPS__errorData__t_a57667532fea55d93567b05ceb83d8094}{latitude}};}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ dest-\/>\mbox{\hyperlink{structdGPS__decimalData__t_ac97e76039c52e01a31e61e16216da51f}{longitude}}\ =\ ptdGPS-\/>\mbox{\hyperlink{structdGPS__decimalData__t_ac97e76039c52e01a31e61e16216da51f}{longitude}}\ -\/\ ptdError-\/>\mbox{\hyperlink{structdGPS__errorData__t_a3d7f0a13ccf7c3bf2579b758fc58ae73}{longitude}};}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ dest-\/>\mbox{\hyperlink{structdGPS__decimalData__t_a801b47e299e6b00f20bc62e26e9b4b23}{timestamp}}\ =\ ptdGPS-\/>\mbox{\hyperlink{structdGPS__decimalData__t_a801b47e299e6b00f20bc62e26e9b4b23}{timestamp}};}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ xSemaphoreGive(\mbox{\hyperlink{admin_8c_a18c30f8c1b66bc1827fa353ad0a03397}{hdGPSlatest\_Mutex}});}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00042}00042\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#ifdef\ dGPS\_calculator\_debug}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ msg[150];}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sprintf(msg,\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ Corrected\ GPS\ stored:\ Time:\ \%ld\ Lat:\ \%.9f,\ Lon:\ \%.9f\(\backslash\)r\(\backslash\)n"{}},\ dest-\/>\mbox{\hyperlink{structdGPS__decimalData__t_a801b47e299e6b00f20bc62e26e9b4b23}{timestamp}},\ dest-\/>\mbox{\hyperlink{structdGPS__decimalData__t_af47f88269defd2f8c5540b0c22f80238}{latitude}},\ dest-\/>\mbox{\hyperlink{structdGPS__decimalData__t_ac97e76039c52e01a31e61e16216da51f}{longitude}});}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(msg);}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00046}00046\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00047}00047\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00049}00049\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ If\ mutex\ cannot\ be\ taken\ quickly,\ still\ return;\ caller\ may\ retry\ later\ */}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ Warning:\ could\ not\ take\ hdGPSlatest\_Mutex\ to\ store\ corrected\ GPS\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00052}00052\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00054}00054\ \}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00062}\mbox{\hyperlink{dGPS__calculator_8c_aa51cbd47809f22d2a2b7a2f7268e3f60}{00062}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{dGPS__calculator_8c_aa51cbd47809f22d2a2b7a2f7268e3f60}{dGPS\_comparator}}()}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00063}00063\ \{}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00064}00064\ \ \ \ \ \textcolor{comment}{/*Get\ latest\ GPS\ buffer\ and\ latest\ error,\ and\ initialize\ pointers\ to\ them*/}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00065}00065\ \ \ \ \ \mbox{\hyperlink{structdGPS__decimalData__t}{dGPS\_decimalData\_t}}\ latestGPSbuffer[60];}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00066}00066\ \ \ \ \ \mbox{\hyperlink{structdGPS__errorData__t}{dGPS\_errorData\_t}}\ receivedError;}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00068}00068\ \ \ \ \ \mbox{\hyperlink{dGPS_8h_a36d0c3c8cf9c85c300260b90cac7da63}{PdGPS\_decimalData\_t}}\ ptdGPS\ =\ \&latestGPSbuffer[0];}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00069}00069\ \ \ \ \ \mbox{\hyperlink{dGPS_8h_a6e093e5bb5a0f41ef5b5d773cc8ec327}{PdGPS\_errorData\_t}}\ ptdError\ =\ \&receivedError;}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00071}00071\ \ \ \ \ \mbox{\hyperlink{dGPS_8c_a47453f5e4aed575f1c58b057725d7b25}{GPS\_getlatest\_ringbuffer}}(latestGPSbuffer);}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00072}00072\ \textcolor{comment}{//\ \ \ \ GPS\_getlatest\_error(\&receivedError);}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00074}00074\ \ \ \ \ \textcolor{comment}{/*\ Search\ the\ copied\ buffer\ for\ a\ matching\ timestamp.*/}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00075}00075\ \ \ \ \ \mbox{\hyperlink{dGPS_8h_a36d0c3c8cf9c85c300260b90cac7da63}{PdGPS\_decimalData\_t}}\ end\ =\ \&latestGPSbuffer[60];\ \textcolor{comment}{/*\ one\ past\ the\ last\ element\ */}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00077}00077\ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ ptdGPS\ <\ end;\ ++ptdGPS)}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00078}00078\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ptdGPS-\/>\mbox{\hyperlink{structdGPS__decimalData__t_a801b47e299e6b00f20bc62e26e9b4b23}{timestamp}}\ ==\ ptdError-\/>\mbox{\hyperlink{structdGPS__errorData__t_a362e94fe7d7f4bf63ed9605f083bdf30}{timestamp}})}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};\ \textcolor{comment}{/*\ found\ */}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00081}00081\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00083}00083\ \ \ \ \ \textcolor{comment}{/*\ If\ a\ matching\ timestamp\ is\ found,\ correct\ the\ coordinates\ and\ update\ the\ frontend\ buffer\ */}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00084}00084\ \ \ \ \ \textcolor{keywordflow}{if}\ (ptdGPS\ !=\ end)}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00085}00085\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00086}00086\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\ \ \ \ \ Matching\ timestamp\ found\ in\ GPS\ buffer\ for\ received\ error\ data\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00088}00088\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Correct\ for\ received\ GPS\ error\ and\ store\ result\ under\ mutex\ */}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00089}00089\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#ifdef\ enable\_dGPS\_out}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dGPS__calculator_8c_a4a587fc37e57ba274cd566f99c6e2038}{GPS\_store\_latest\_corrected}}(\&\mbox{\hyperlink{dGPS__calculator_8c_a95066092043360110360e65fcb49a5c1}{GPS\_latestsafe\_corrected}},\ ptdGPS,\ ptdError);}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*Later\ a\ notify\ comes\ here\ to\ the\ GPS\ vector\ task\ */}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00092}00092\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00093}00093\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00094}00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00095}00095\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00097}00097\ \ \ \ \ \textcolor{keywordflow}{if}\ (ptdGPS\ ==\ end)}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00098}00098\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ No\ matching\ timestamp\ found\ in\ the\ buffer\ */}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00100}00100\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#ifdef\ dGPS\_calculator\_debug}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ msg[150];}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ snprintf(msg,\ \textcolor{keyword}{sizeof}(msg),\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ No\ matching\ time\ found\ for\ timestamp:\ \%ld\ in\ GPS\ error\ buffer\(\backslash\)r\(\backslash\)n"{}},\ ptdError-\/>\mbox{\hyperlink{structdGPS__errorData__t_a362e94fe7d7f4bf63ed9605f083bdf30}{timestamp}});}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(msg);}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00104}00104\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00105}00105\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{/*\ No\ matching\ timestamp\ found\ */}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00106}00106\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00107}00107\ \}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00109}\mbox{\hyperlink{admin_8h_a3bb6abe2ffe3a905cf499a8c200d5592}{00109}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{dGPS__calculator_8c_a0a0e3db26476aeadb7c4c2527e31338d}{dGPS\_calculator}}(\textcolor{keywordtype}{void}\ *argument)}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00110}00110\ \{}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00111}00111\ \ \ \ \ osDelay(100);}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00112}00112\ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}\ started\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00114}00114\ \ \ \ \ \textcolor{keywordflow}{while}\ (1)}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00115}00115\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00116}00116\ \ \ \ \ \ \ \ \ ulTaskNotifyTake(pdTRUE,\ portMAX\_DELAY);\ \textcolor{comment}{//\ Wait\ for\ notification\ from\ NRF\ driver\ task}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00118}00118\ \ \ \ \ \ \ \ \ osDelay(100);}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00119}00119\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\ \ \ \ \ dGPS\_calculator\ notified,\ new\ error\ received,\ starting\ timestamp\ matching\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Process\ the\ newly\ received\ error\ by\ searching\ the\ GPS\ history\ and\ computing\ corrected\ coords\ */}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00121}00121\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dGPS__calculator_8c_aa51cbd47809f22d2a2b7a2f7268e3f60}{dGPS\_comparator}}();}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00123}00123\ \ \ \ \ \ \ \ \ osDelay(1);}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00124}00124\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00125}00125\ \}}
+\DoxyCodeLine{\Hypertarget{dGPS__calculator_8c_source_l00126}00126\ }
+
+\end{DoxyCode}

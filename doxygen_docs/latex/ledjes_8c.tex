@@ -81,7 +81,7 @@ Definition at line \mbox{\hyperlink{ledjes_8c_source_l00044}{44}} of file \mbox{
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00045\ \{}
 \DoxyCodeLine{00046\ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}\ started\(\backslash\)r\(\backslash\)n"{}});}
-\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{int}\ i,\ leds;}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}},\ leds;}
 \DoxyCodeLine{00048\ }
 \DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
 \DoxyCodeLine{00050\ \ \ \ \ \{}
@@ -91,7 +91,7 @@ Definition at line \mbox{\hyperlink{ledjes_8c_source_l00044}{44}} of file \mbox{
 \DoxyCodeLine{00054\ \textcolor{comment}{\ \ \ \ \ \ \ \ *\ heb\ vrijgegeven\ met\ Give.}}
 \DoxyCodeLine{00055\ \textcolor{comment}{\ \ \ \ \ \ \ \ */}}
 \DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ leds\ =\ 128;\ \textcolor{comment}{//\ start\ at\ led\ nr.\ 8}}
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (i=0;\ i<8;\ i++,\ leds>>=1)}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}=0;\ \mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i<8;\ i++,\ leds>}}>=1)}
 \DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \{}
 \DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ LED\_put(leds);\ \textcolor{comment}{//\ set\ leds}}
 \DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ osDelay(\mbox{\hyperlink{ledjes_8c_ac0e8ff7c2f49b0988165336ca423dcea}{os\_delay}});}
@@ -109,7 +109,7 @@ Definition at line \mbox{\hyperlink{ledjes_8c_source_l00044}{44}} of file \mbox{
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{admin_8c_source_l00049}{h\+LED\+\_\+\+Sem}}, \mbox{\hyperlink{admin_8h_source_l00077}{LEDS\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{ledjes_8c_source_l00036}{os\+\_\+delay}}, \mbox{\hyperlink{admin_8h_source_l00023}{TRUE}}, and \mbox{\hyperlink{admin_8c_source_l00040}{Uart\+\_\+debug\+\_\+out}}.
+References \mbox{\hyperlink{admin_8c_source_l00056}{h\+LED\+\_\+\+Sem}}, \mbox{\hyperlink{dGPS_8c_source_l00026}{i}}, \mbox{\hyperlink{admin_8h_source_l00101}{LEDS\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{ledjes_8c_source_l00036}{os\+\_\+delay}}, \mbox{\hyperlink{admin_8h_source_l00025}{TRUE}}, and \mbox{\hyperlink{admin_8c_source_l00044}{Uart\+\_\+debug\+\_\+out}}.
 
 \Hypertarget{ledjes_8c_a827d2f52992b1ba443aabe4ee4cbc89d}\index{ledjes.c@{ledjes.c}!LED\_Task2@{LED\_Task2}}
 \index{LED\_Task2@{LED\_Task2}!ledjes.c@{ledjes.c}}
@@ -137,13 +137,13 @@ Definition at line \mbox{\hyperlink{ledjes_8c_source_l00077}{77}} of file \mbox{
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00078\ \{}
 \DoxyCodeLine{00079\ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}\ started\(\backslash\)r\(\backslash\)n"{}});}
-\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{int}\ i,\ leds;}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}},\ leds;}
 \DoxyCodeLine{00081\ }
 \DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
 \DoxyCodeLine{00083\ \ \ \ \ \{}
 \DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ xSemaphoreTake(\mbox{\hyperlink{admin_8c_a011b1349f4d8c02977b852c7587f0581}{hLED\_Sem}},\ portMAX\_DELAY);\ \textcolor{comment}{//\ wait\ to\ enter}}
 \DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ leds\ =\ 1;}
-\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (i=0;\ i<8;\ i++,\ leds<<=1)}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}=0;\ \mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}<8;\ \mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}++,\ leds<<=1)}
 \DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \{}
 \DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ LED\_put(leds);\ \textcolor{comment}{//\ set\ leds}}
 \DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ osDelay(\mbox{\hyperlink{ledjes_8c_ac0e8ff7c2f49b0988165336ca423dcea}{os\_delay}});}
@@ -161,7 +161,7 @@ Definition at line \mbox{\hyperlink{ledjes_8c_source_l00077}{77}} of file \mbox{
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{admin_8c_source_l00049}{h\+LED\+\_\+\+Sem}}, \mbox{\hyperlink{admin_8h_source_l00077}{LEDS\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{ledjes_8c_source_l00036}{os\+\_\+delay}}, \mbox{\hyperlink{admin_8h_source_l00023}{TRUE}}, and \mbox{\hyperlink{admin_8c_source_l00040}{Uart\+\_\+debug\+\_\+out}}.
+References \mbox{\hyperlink{admin_8c_source_l00056}{h\+LED\+\_\+\+Sem}}, \mbox{\hyperlink{dGPS_8c_source_l00026}{i}}, \mbox{\hyperlink{admin_8h_source_l00101}{LEDS\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{ledjes_8c_source_l00036}{os\+\_\+delay}}, \mbox{\hyperlink{admin_8h_source_l00025}{TRUE}}, and \mbox{\hyperlink{admin_8c_source_l00044}{Uart\+\_\+debug\+\_\+out}}.
 
 \Hypertarget{ledjes_8c_ad23f4088808e5ccc47e28a69fdf155e6}\index{ledjes.c@{ledjes.c}!LED\_Task3@{LED\_Task3}}
 \index{LED\_Task3@{LED\_Task3}!ledjes.c@{ledjes.c}}
@@ -188,7 +188,7 @@ Definition at line \mbox{\hyperlink{ledjes_8c_source_l00107}{107}} of file \mbox
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00108\ \{}
-\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ i,\ leds;}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}},\ leds;}
 \DoxyCodeLine{00110\ \ \ \ \ osThreadId\_t\ hTask4;}
 \DoxyCodeLine{00111\ }
 \DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(hTask4\ =\ xTaskGetHandle(\textcolor{stringliteral}{"{}LED\_Task4"{}})))}
@@ -200,11 +200,11 @@ Definition at line \mbox{\hyperlink{ledjes_8c_source_l00107}{107}} of file \mbox
 \DoxyCodeLine{00118\ \ \ \ \ \{}
 \DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ xSemaphoreTake(\mbox{\hyperlink{admin_8c_a011b1349f4d8c02977b852c7587f0581}{hLED\_Sem}},\ portMAX\_DELAY);\ \textcolor{comment}{//\ wait\ to\ get\ in...}}
 \DoxyCodeLine{00120\ }
-\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (i=0;\ i<4;\ i++)\ \textcolor{comment}{//\ voorbeeld\ hoe\ je\ je\ code\ zo\ overdraagbaar\ mogelijk\ maakt}}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}=0;\ \mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}<4;\ \mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}++)\ \textcolor{comment}{//\ voorbeeld\ hoe\ je\ je\ code\ zo\ overdraagbaar\ mogelijk\ maakt}}
 \DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \ \ \ \ \ (i==0)\ \ leds\ =\ 8+16;\ \textcolor{comment}{//\ zichtbaar:\ 1.\ waarde\ i,\ 2.\ welke\ leds\ aan\ gaan}}
-\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (i==1)\ \ leds\ =\ 4+32;\ \textcolor{comment}{//\ ...\ had\ ook\ met\ switch-\/case\ gekund}}
-\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (i==2)\ \ leds\ =\ 2+64;}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \ \ \ \ \ (\mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}==0)\ leds\ =\ 8+16;\ \textcolor{comment}{//\ zichtbaar:\ 1.\ waarde\ i,\ 2.\ welke\ leds\ aan\ gaan}}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}==1)\ \ leds\ =\ 4+32;\ \textcolor{comment}{//\ ...\ had\ ook\ met\ switch-\/case\ gekund}}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}==2)\ \ leds\ =\ 2+64;}
 \DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \ \ \ \ \ \ \ \ \ \ \ leds\ =\ 1+128;}
 \DoxyCodeLine{00127\ }
 \DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ LED\_put(leds);\ \ \ \ \ \textcolor{comment}{//\ set\ leds}}
@@ -228,7 +228,7 @@ Definition at line \mbox{\hyperlink{ledjes_8c_source_l00107}{107}} of file \mbox
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{admin_8c_source_l00202}{error\+\_\+\+Halt\+OS()}}, \mbox{\hyperlink{admin_8c_source_l00049}{h\+LED\+\_\+\+Sem}}, \mbox{\hyperlink{admin_8h_source_l00077}{LEDS\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{ledjes_8c_source_l00036}{os\+\_\+delay}}, \mbox{\hyperlink{admin_8h_source_l00023}{TRUE}}, and \mbox{\hyperlink{admin_8c_source_l00040}{Uart\+\_\+debug\+\_\+out}}.
+References \mbox{\hyperlink{admin_8c_source_l00237}{error\+\_\+\+Halt\+OS()}}, \mbox{\hyperlink{admin_8c_source_l00056}{h\+LED\+\_\+\+Sem}}, \mbox{\hyperlink{dGPS_8c_source_l00026}{i}}, \mbox{\hyperlink{admin_8h_source_l00101}{LEDS\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{ledjes_8c_source_l00036}{os\+\_\+delay}}, \mbox{\hyperlink{admin_8h_source_l00025}{TRUE}}, and \mbox{\hyperlink{admin_8c_source_l00044}{Uart\+\_\+debug\+\_\+out}}.
 
 \Hypertarget{ledjes_8c_a46ab630af9d7344d8968a7874ec71578}\index{ledjes.c@{ledjes.c}!LED\_Task4@{LED\_Task4}}
 \index{LED\_Task4@{LED\_Task4}!ledjes.c@{ledjes.c}}
@@ -255,7 +255,7 @@ Definition at line \mbox{\hyperlink{ledjes_8c_source_l00152}{152}} of file \mbox
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00153\ \{}
-\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ i,\ leds;}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}},\ leds;}
 \DoxyCodeLine{00155\ \ \ \ \ osThreadId\_t\ hTask3;}
 \DoxyCodeLine{00156\ }
 \DoxyCodeLine{00157\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(hTask3\ =\ xTaskGetHandle(\textcolor{stringliteral}{"{}LED\_Task3"{}})))}
@@ -269,11 +269,11 @@ Definition at line \mbox{\hyperlink{ledjes_8c_source_l00152}{152}} of file \mbox
 \DoxyCodeLine{00165\ }
 \DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ xSemaphoreTake(\mbox{\hyperlink{admin_8c_a011b1349f4d8c02977b852c7587f0581}{hLED\_Sem}},\ portMAX\_DELAY);\ \textcolor{comment}{//\ wait\ for\ mutex}}
 \DoxyCodeLine{00167\ }
-\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (i=0;\ i<4;\ i++)\ \textcolor{comment}{//\ voorbeeld\ hoe\ je\ je\ code\ zo\ overdraagbaar\ mogelijk\ maakt}}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}=0;\ \mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}<4;\ \mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}++)\ \textcolor{comment}{//\ voorbeeld\ hoe\ je\ je\ code\ zo\ overdraagbaar\ mogelijk\ maakt}}
 \DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \ \ \ \ \ (i==0)\ \ leds\ =\ 1+128;\ \textcolor{comment}{//\ zichtbaar:\ 1.\ waarde\ i,\ 2.\ welke\ leds\ aan\ gaan}}
-\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (i==1)\ \ leds\ =\ 2+64;\ \ \textcolor{comment}{//\ had\ ook\ met\ switch-\/case\ gekund,\ maar\ dit\ is\ korter...}}
-\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (i==2)\ \ leds\ =\ 4+32;}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \ \ \ \ \ (\mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}==0)\ leds\ =\ 1+128;\ \textcolor{comment}{//\ zichtbaar:\ 1.\ waarde\ i,\ 2.\ welke\ leds\ aan\ gaan}}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}==1)\ \ leds\ =\ 2+64;\ \ \textcolor{comment}{//\ had\ ook\ met\ switch-\/case\ gekund,\ maar\ dit\ is\ korter...}}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}==2)\ \ leds\ =\ 4+32;}
 \DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \ \ \ \ \ \ \ \ \ \ \ leds\ =\ 8+16;}
 \DoxyCodeLine{00174\ }
 \DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ LED\_put(leds);\ \ \ \ \ \textcolor{comment}{//\ set\ leds}}
@@ -295,7 +295,7 @@ Definition at line \mbox{\hyperlink{ledjes_8c_source_l00152}{152}} of file \mbox
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{admin_8c_source_l00202}{error\+\_\+\+Halt\+OS()}}, \mbox{\hyperlink{admin_8c_source_l00049}{h\+LED\+\_\+\+Sem}}, \mbox{\hyperlink{admin_8h_source_l00077}{LEDS\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{ledjes_8c_source_l00036}{os\+\_\+delay}}, \mbox{\hyperlink{admin_8h_source_l00023}{TRUE}}, and \mbox{\hyperlink{admin_8c_source_l00040}{Uart\+\_\+debug\+\_\+out}}.
+References \mbox{\hyperlink{admin_8c_source_l00237}{error\+\_\+\+Halt\+OS()}}, \mbox{\hyperlink{admin_8c_source_l00056}{h\+LED\+\_\+\+Sem}}, \mbox{\hyperlink{dGPS_8c_source_l00026}{i}}, \mbox{\hyperlink{admin_8h_source_l00101}{LEDS\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{ledjes_8c_source_l00036}{os\+\_\+delay}}, \mbox{\hyperlink{admin_8h_source_l00025}{TRUE}}, and \mbox{\hyperlink{admin_8c_source_l00044}{Uart\+\_\+debug\+\_\+out}}.
 
 
 
@@ -318,5 +318,5 @@ Definition at line \mbox{\hyperlink{ledjes_8c_source_l00036}{36}} of file \mbox{
 
 
 
-Referenced by \mbox{\hyperlink{ledjes_8c_source_l00044}{LED\+\_\+\+Task1()}}, \mbox{\hyperlink{ledjes_8c_source_l00077}{LED\+\_\+\+Task2()}}, \mbox{\hyperlink{ledjes_8c_source_l00107}{LED\+\_\+\+Task3()}}, \mbox{\hyperlink{ledjes_8c_source_l00152}{LED\+\_\+\+Task4()}}, and \mbox{\hyperlink{UART__keys_8c_source_l00134}{UART\+\_\+menu()}}.
+Referenced by \mbox{\hyperlink{ledjes_8c_source_l00044}{LED\+\_\+\+Task1()}}, \mbox{\hyperlink{ledjes_8c_source_l00077}{LED\+\_\+\+Task2()}}, \mbox{\hyperlink{ledjes_8c_source_l00107}{LED\+\_\+\+Task3()}}, \mbox{\hyperlink{ledjes_8c_source_l00152}{LED\+\_\+\+Task4()}}, and \mbox{\hyperlink{UART__keys_8c_source_l00133}{UART\+\_\+menu()}}.
 

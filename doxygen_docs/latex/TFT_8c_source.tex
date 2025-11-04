@@ -1,0 +1,188 @@
+\doxysection{TFT.\+c}
+\hypertarget{TFT_8c_source}{}\label{TFT_8c_source}\index{Core/MyApp/App/TFT.c@{Core/MyApp/App/TFT.c}}
+\mbox{\hyperlink{TFT_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00012}00012\ \textcolor{preprocessor}{\#include\ "{}main.h"{}}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}cmsis\_os.h"{}}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00014}00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{admin_8h}{admin.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00015}00015\ \textcolor{preprocessor}{\#include\ "{}st7735.h"{}}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00016}00016\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{gps_8h}{gps.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00017}00017\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{routeperformer_8h}{routeperformer.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00018}00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{GPS__Route__Setter_8h}{GPS\_Route\_Setter.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00019}00019\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{LOS__algo_8h}{LOS\_algo.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00020}00020\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Ultrasoon_8h}{Ultrasoon.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00024}\mbox{\hyperlink{TFT_8c_add9f1899532bb8d2aee6b730baa3f6a1}{00024}}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{TFT_8c_add9f1899532bb8d2aee6b730baa3f6a1}{GPS\_fix\_quality\_local}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00025}\mbox{\hyperlink{TFT_8c_ab2a6fd43b84b7ba23094f3885ee04a01}{00025}}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{TFT_8c_ab2a6fd43b84b7ba23094f3885ee04a01}{GPS\_fix\_quality\_str}}[20];}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00031}\mbox{\hyperlink{TFT_8c_a9c9fb77a0564c7ce7102ba1d541e48bc}{00031}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{TFT_8c_a9c9fb77a0564c7ce7102ba1d541e48bc}{update\_GPS\_fix\_quality\_display}}()}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00032}00032\ \{}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00033}00033\ \ \ \ \ \mbox{\hyperlink{gps_8c_a227befe11a9e8799cd8cfdcfafcb835b}{GPS\_get\_fix\_quality}}(\&\mbox{\hyperlink{TFT_8c_add9f1899532bb8d2aee6b730baa3f6a1}{GPS\_fix\_quality\_local}});}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00034}00034\ \ \ \ \ \textcolor{keywordflow}{switch}\ (\mbox{\hyperlink{TFT_8c_add9f1899532bb8d2aee6b730baa3f6a1}{GPS\_fix\_quality\_local}})}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00035}00035\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0:}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ sprintf(\mbox{\hyperlink{TFT_8c_ab2a6fd43b84b7ba23094f3885ee04a01}{GPS\_fix\_quality\_str}},\ \textcolor{stringliteral}{"{}No\ Fix"{}});}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ ST7735\_FillRectangleFast(0,\ 30,\ 160,\ 10,\ ST7735\_RED);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ ST7735\_WriteString(10,\ 30,\ \textcolor{stringliteral}{"{}GPS\ Status:\ "{}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_RED);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ ST7735\_WriteString(90,\ 30,\ \mbox{\hyperlink{TFT_8c_ab2a6fd43b84b7ba23094f3885ee04a01}{GPS\_fix\_quality\_str}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_RED);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ sprintf(\mbox{\hyperlink{TFT_8c_ab2a6fd43b84b7ba23094f3885ee04a01}{GPS\_fix\_quality\_str}},\ \textcolor{stringliteral}{"{}GPS\ Fix"{}});}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ ST7735\_FillRectangleFast(0,\ 30,\ 160,\ 10,\ ST7735\_BLUE);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ ST7735\_WriteString(10,\ 30,\ \textcolor{stringliteral}{"{}GPS\ Status:\ "{}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_BLUE);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ ST7735\_WriteString(90,\ 30,\ \mbox{\hyperlink{TFT_8c_ab2a6fd43b84b7ba23094f3885ee04a01}{GPS\_fix\_quality\_str}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_BLUE);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ sprintf(\mbox{\hyperlink{TFT_8c_ab2a6fd43b84b7ba23094f3885ee04a01}{GPS\_fix\_quality\_str}},\ \textcolor{stringliteral}{"{}DGPS\ Fix"{}});}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ ST7735\_FillRectangleFast(0,\ 30,\ 160,\ 10,\ ST7735\_BLUE);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ ST7735\_WriteString(10,\ 30,\ \textcolor{stringliteral}{"{}GPS\ Status:\ "{}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_BLUE);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ ST7735\_WriteString(90,\ 30,\ \mbox{\hyperlink{TFT_8c_ab2a6fd43b84b7ba23094f3885ee04a01}{GPS\_fix\_quality\_str}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_BLUE);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ sprintf(\mbox{\hyperlink{TFT_8c_ab2a6fd43b84b7ba23094f3885ee04a01}{GPS\_fix\_quality\_str}},\ \textcolor{stringliteral}{"{}RTK\ Fix"{}});}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ ST7735\_FillRectangleFast(0,\ 30,\ 160,\ 10,\ ST7735\_GREEN);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ ST7735\_WriteString(10,\ 30,\ \textcolor{stringliteral}{"{}GPS\ Status:\ "{}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_GREEN);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ ST7735\_WriteString(90,\ 30,\ \mbox{\hyperlink{TFT_8c_ab2a6fd43b84b7ba23094f3885ee04a01}{GPS\_fix\_quality\_str}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_GREEN);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 5:}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ sprintf(\mbox{\hyperlink{TFT_8c_ab2a6fd43b84b7ba23094f3885ee04a01}{GPS\_fix\_quality\_str}},\ \textcolor{stringliteral}{"{}RTK\ Float"{}});}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ ST7735\_FillRectangleFast(0,\ 30,\ 160,\ 10,\ ST7735\_GREEN);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ ST7735\_WriteString(10,\ 30,\ \textcolor{stringliteral}{"{}GPS\ Status:\ "{}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_GREEN);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ ST7735\_WriteString(90,\ 30,\ \mbox{\hyperlink{TFT_8c_ab2a6fd43b84b7ba23094f3885ee04a01}{GPS\_fix\_quality\_str}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_GREEN);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ sprintf(\mbox{\hyperlink{TFT_8c_ab2a6fd43b84b7ba23094f3885ee04a01}{GPS\_fix\_quality\_str}},\ \textcolor{stringliteral}{"{}Unknown"{}});}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ ST7735\_FillRectangleFast(0,\ 30,\ 160,\ 10,\ ST7735\_RED);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ ST7735\_WriteString(10,\ 30,\ \textcolor{stringliteral}{"{}GPS\ Status:\ "{}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_RED);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ ST7735\_WriteString(90,\ 30,\ \mbox{\hyperlink{TFT_8c_ab2a6fd43b84b7ba23094f3885ee04a01}{GPS\_fix\_quality\_str}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_RED);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00072}00072\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00073}00073\ \}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00079}\mbox{\hyperlink{TFT_8c_a6683bd78c2a809b4668d460e53b2f04a}{00079}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{TFT_8c_a6683bd78c2a809b4668d460e53b2f04a}{updateWPdisplay}}()}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00080}00080\ \{}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00081}00081\ \ \ \ \ \textcolor{keywordtype}{bool}\ LOS\_algostate;}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00083}00083\ \ \ \ \ ST7735\_WriteString(10,\ 40,\ \textcolor{stringliteral}{"{}WP\ Amount:\ "{}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_BLACK);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00084}00084\ \ \ \ \ \textcolor{keywordtype}{char}\ wp\_amount\_str[5];}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00085}00085\ \ \ \ \ \textcolor{keywordtype}{char}\ wp\_amount\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00086}00086\ \ \ \ \ \mbox{\hyperlink{GPS__Route__Setter_8c_ad8c6f94dfc7ffd38df72bd73b37bd18a}{RS\_getWPamount}}(\&wp\_amount);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00087}00087\ \ \ \ \ sprintf(wp\_amount\_str,\ \textcolor{stringliteral}{"{}\%d"{}},\ wp\_amount);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00088}00088\ \ \ \ \ ST7735\_WriteString(100,\ 40,\ wp\_amount\_str,\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_BLACK);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00090}00090\ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_ab3db542bff37b663de541673a756177b}{get\_LOS\_algoState}}(\&LOS\_algostate);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00092}00092\ \ \ \ \ \textcolor{keywordflow}{if}(LOS\_algostate)}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00093}00093\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00094}00094\ \ \ \ \ \ \ \ \ ST7735\_FillRectangleFast(10,\ 50,\ 160,\ 10,\ ST7735\_BLACK);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00095}00095\ \ \ \ \ \ \ \ \ ST7735\_WriteString(10,\ 50,\ \textcolor{stringliteral}{"{}Going\ to:\ "{}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_BLACK);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00096}00096\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ wp\_current\_str[5];}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00097}00097\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ wp\_current\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00098}00098\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ RP\_get\_wpCurrent(\&wp\_current);}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00099}00099\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a1374019ed2e0220d9c9f564e86e76760}{LOS\_getcurrentWPnumber}}(\&wp\_current);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00100}00100\ \ \ \ \ \ \ \ \ sprintf(wp\_current\_str,\ \textcolor{stringliteral}{"{}\%d"{}},\ wp\_current+1);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00101}00101\ \ \ \ \ \ \ \ \ ST7735\_WriteString(100,\ 50,\ wp\_current\_str,\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_BLACK);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00102}00102\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00103}00103\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00104}00104\ \ \ \ \ \{\ \ \ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00105}00105\ \ \ \ \ \ \ \ \ ST7735\_FillRectangleFast(10,\ 50,\ 160,\ 10,\ ST7735\_BLUE);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00106}00106\ \ \ \ \ \ \ \ \ ST7735\_WriteString(10,\ 50,\ \textcolor{stringliteral}{"{}Going\ to:\ "{}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_BLUE);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00107}00107\ \ \ \ \ \ \ \ \ ST7735\_WriteString(100,\ 50,\ \textcolor{stringliteral}{"{}PAUSED"{}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_BLUE);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00108}00108\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00109}00109\ \}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00115}\mbox{\hyperlink{TFT_8c_a32cdebc71b1f92955fc25060521a9c1c}{00115}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{TFT_8c_a32cdebc71b1f92955fc25060521a9c1c}{update\_routedata\_display}}()}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00116}00116\ \{}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00117}00117\ \ \ \ \ \textcolor{comment}{//\ This\ function\ can\ be\ used\ to\ update\ additional\ route\ data\ on\ the\ display\ if\ needed}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00118}00118\ \ \ \ \ ST7735\_WriteString(10,\ 60,\ \textcolor{stringliteral}{"{}Dist\ WP:"{}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_BLACK);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00119}00119\ \ \ \ \ \textcolor{keywordtype}{char}\ distance\_str[10];}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00120}00120\ \ \ \ \ \textcolor{keywordtype}{double}\ distance\ =\ 0.0;}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00121}00121\ \ \ \ \ \textcolor{comment}{//\ get\_RP\_distance(\&distance);}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00122}00122\ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a5afb103ddf6e72a7c935090e8e6a44da}{LOS\_getWPdistance}}(\&distance);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00123}00123\ \ \ \ \ sprintf(distance\_str,\ \textcolor{stringliteral}{"{}\%2.2f\ m"{}},\ distance);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00124}00124\ \ \ \ \ ST7735\_WriteString(100,\ 60,\ distance\_str,\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_BLACK);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00126}00126\ \ \ \ \ ST7735\_WriteString(10,\ 70,\ \textcolor{stringliteral}{"{}Course\ WP:"{}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_BLACK);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00127}00127\ \ \ \ \ \textcolor{keywordtype}{char}\ course\_str[10];}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00128}00128\ \ \ \ \ \textcolor{keywordtype}{double}\ course\ =\ 0.0;}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00129}00129\ \ \ \ \ \textcolor{comment}{//\ getlatestCourse(\&course);}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00130}00130\ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a8591ae11df09abe7fb55c6b090915f86}{LOS\_getWPbearing}}(\&course);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00131}00131\ \ \ \ \ sprintf(course\_str,\ \textcolor{stringliteral}{"{}\%2.2f"{}},\ course);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00132}00132\ \ \ \ \ ST7735\_WriteString(100,\ 70,\ course\_str,\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_BLACK);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00133}00133\ \}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00139}\mbox{\hyperlink{TFT_8c_a2223612197e698c4bf31b6ae21768bcb}{00139}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{TFT_8c_a2223612197e698c4bf31b6ae21768bcb}{update\_obstacle\_display}}()}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00140}00140\ \{}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00141}00141\ \ \ \ \ \textcolor{keywordtype}{float}\ distance\ =\ 0.0;}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00142}00142\ \ \ \ \ \textcolor{keywordtype}{char}\ ob\_distancestr[10];}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00143}00143\ \ \ \ \ \textcolor{keywordtype}{bool}\ obstacleFlag\_local\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00144}00144\ \ \ \ \ \textcolor{keywordtype}{bool}\ obstacleAvoidanceState\_local\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00145}00145\ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_ad656e15a8dfd83551a134c9d768e8dfc}{PID\_getObstacleFlag}}(\&obstacleFlag\_local);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00146}00146\ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_a42d774d22f401481c51682d3e3bb94d7}{PID\_getObstacleAvoidanceState}}(\&obstacleAvoidanceState\_local);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00147}00147\ \ \ \ \ \mbox{\hyperlink{Ultrasoon_8c_a6ee34e5f59c74dc17373a122e86250a8}{US\_getObjectDistance}}(\&distance);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00149}00149\ \ \ \ \ sprintf(ob\_distancestr,\ \textcolor{stringliteral}{"{}\%2.2f"{}},\ distance);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00151}00151\ \ \ \ \ \textcolor{keywordflow}{if}(obstacleFlag\_local)}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00152}00152\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00153}00153\ \ \ \ \ \ \ \ \ ST7735\_FillRectangleFast(0,\ 80,\ 160,\ 10,\ ST7735\_RED);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00154}00154\ \ \ \ \ \ \ \ \ ST7735\_WriteString(10,\ 80,\ \textcolor{stringliteral}{"{}Obstacle\ X:"{}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_RED);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00155}00155\ \ \ \ \ \ \ \ \ ST7735\_WriteString(100,\ 80,\ ob\_distancestr,\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_RED);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00156}00156\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00157}00157\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00158}00158\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00159}00159\ \ \ \ \ \ \ \ \ ST7735\_FillRectangleFast(0,\ 80,\ 160,\ 10,\ ST7735\_BLACK);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00160}00160\ \ \ \ \ \ \ \ \ ST7735\_WriteString(10,\ 80,\ \textcolor{stringliteral}{"{}Obstacle\ X:"{}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_BLACK);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00161}00161\ \ \ \ \ \ \ \ \ ST7735\_WriteString(100,\ 80,\ ob\_distancestr,\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_BLACK);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00162}00162\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00164}00164\ \ \ \ \ \textcolor{keywordflow}{if}(obstacleAvoidanceState\_local)}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00165}00165\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00166}00166\ \ \ \ \ \ \ \ \ ST7735\_WriteString(10,\ 90,\ \textcolor{stringliteral}{"{}Obst\ Avoid:\ ON"{}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_BLACK);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00167}00167\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00168}00168\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00169}00169\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00170}00170\ \ \ \ \ \ \ \ \ ST7735\_WriteString(10,\ 90,\ \textcolor{stringliteral}{"{}Obst\ Avoid:\ OFF"{}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_BLACK);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00171}00171\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00173}00173\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00174}00174\ \}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00175}00175\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00181}\mbox{\hyperlink{admin_8h_a4528f7be61484afcfc8a6983fc41fe0c}{00181}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{TFT_8c_af981707b124f3e24ec296ba88d26dc0e}{TFT\_task}}(\textcolor{keywordtype}{void}\ *argument)}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00182}00182\ \{}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00183}00183\ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}\ started\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00184}00184\ \ \ \ \ osDelay(1000);\ \textcolor{comment}{//\ Wait\ for\ system\ to\ stabilize}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00185}00185\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Initializing\ TFT\ display...\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00186}00186\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00187}00187\ \ \ \ \ \textcolor{comment}{//\ Initialize\ the\ display\ and\ run\ visible-\/only\ test\ pattern\ (no\ MISO\ needed)}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00188}00188\ \ \ \ \ ST7735\_Unselect();}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00189}00189\ \ \ \ \ ST7735\_Init();}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00190}00190\ \ \ \ \ ST7735\_FillScreen(ST7735\_BLACK);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00191}00191\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00192}00192\ \ \ \ \ \textcolor{comment}{//\ Visible\ test\ pattern\ for\ write-\/only\ displays}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00193}00193\ \ \ \ \ \textcolor{comment}{//\ ST7735\_TestPattern();}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00194}00194\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00195}00195\ \ \ \ \ \textcolor{comment}{//\ Then\ write\ a\ final\ message}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00196}00196\ \ \ \ \ ST7735\_WriteString(10,\ 10,\ \textcolor{stringliteral}{"{}GPSLAY\ Rover"{}},\ Font\_11x18,\ ST7735\_WHITE,\ ST7735\_BLACK);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00197}00197\ \ \ \ \ ST7735\_WriteString(10,\ 30,\ \textcolor{stringliteral}{"{}Not\ a\ bomb!"{}},\ Font\_7x10,\ ST7735\_WHITE,\ ST7735\_BLACK);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00198}00198\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00199}00199\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}TFT\ display\ initialized.\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00200}00200\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00201}00201\ }
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00202}00202\ \ \ \ \ \textcolor{keywordflow}{while}\ (\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00203}00203\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00204}00204\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Update\ display\ content\ here\ as\ needed}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00205}00205\ \ \ \ \ \ \ \ \ osDelay(1000);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00206}00206\ \ \ \ \ \ \ \ \ ST7735\_WriteString(10,\ 10,\ \textcolor{stringliteral}{"{}GPSLAY\ Rover"{}},\ Font\_11x18,\ ST7735\_WHITE,\ ST7735\_BLACK);}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00207}00207\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{TFT_8c_a9c9fb77a0564c7ce7102ba1d541e48bc}{update\_GPS\_fix\_quality\_display}}();}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00208}00208\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{TFT_8c_a6683bd78c2a809b4668d460e53b2f04a}{updateWPdisplay}}();}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00209}00209\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{TFT_8c_a32cdebc71b1f92955fc25060521a9c1c}{update\_routedata\_display}}();}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00210}00210\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{TFT_8c_a2223612197e698c4bf31b6ae21768bcb}{update\_obstacle\_display}}();}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00211}00211\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{TFT_8c_source_l00212}00212\ \}}
+
+\end{DoxyCode}

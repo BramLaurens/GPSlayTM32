@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['uart_5fdebug_5fout_0',['UART_DEBUG_OUT',['../admin_8h.html#a4fb4ecb0210feec08883b3c4a1d401e3',1,'admin.h']]]
+  ['pwm_5ffrequency_0',['PWM_FREQUENCY',['../motordriver_8c.html#a6177eb86ee16a1956c81749e4e332cf0',1,'motordriver.c']]]
 ];

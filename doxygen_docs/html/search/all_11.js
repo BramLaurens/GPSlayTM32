@@ -1,12 +1,20 @@
 var searchData=
 [
-  ['settaskpriority_0',['SetTaskPriority',['../admin_8c.html#a08f97e6c32e65d04aa2425dadff927e1',1,'SetTaskPriority(int task_id, int new_priority):&#160;admin.c'],['../admin_8h.html#a16ba23da293f6f319ffbc502a4cb7d5c',1,'SetTaskPriority(int, int):&#160;admin.c']]],
-  ['speed_1',['speed',['../struct__GNRMC.html#a5f1886b3d6feca62fa8dc7e46fd014e9',1,'_GNRMC']]],
-  ['startdefaulttask_2',['StartDefaultTask',['../main_8c.html#a99d0fdb0434092bcb24d9c9af917e4e9',1,'main.c']]],
-  ['startstoptask_3',['StartStopTask',['../admin_8c.html#a3c09afd4e5fad01fc4adbb0c77ecbd6d',1,'StartStopTask(int task_id):&#160;admin.c'],['../admin_8h.html#a0c9aab30edaac2fecc7fd1c21f5763a2',1,'StartStopTask(int):&#160;admin.c']]],
-  ['status_4',['status',['../struct__GNRMC.html#a21f98d10acb4243e90546dd02f5eb2b7',1,'_GNRMC']]],
-  ['student_2ec_5',['student.c',['../student_8c.html',1,'']]],
-  ['student_5fdebug_5fout_6',['STUDENT_DEBUG_OUT',['../admin_8h.html#a6fcd7c2c8ee6e408e84e96747933027c',1,'admin.h']]],
-  ['student_5ftask1_7',['Student_task1',['../admin_8h.html#a23fe84bfb739ead3f3005b8378170b62',1,'Student_task1(void *):&#160;student.c'],['../student_8c.html#a282e21c3f1a0eb3054bbb9e40ffa9cc6',1,'Student_task1(void *argument):&#160;student.c']]],
-  ['systemclock_5fconfig_8',['SystemClock_Config',['../main_8c.html#a70af21c671abfcc773614a9a4f63d920',1,'main.c']]]
+  ['rad2deg_0',['rad2deg',['../LOS__algo_8c.html#a597b21f8c48b7f70be67bb8c960f9df3',1,'LOS_algo.c']]],
+  ['readme_2emd_1',['README.md',['../README_8md.html',1,'']]],
+  ['ref_5flat_2',['ref_lat',['../LOS__algo_8c.html#a75abd21e87726bb720f3c1b308b81bc3',1,'LOS_algo.c']]],
+  ['ref_5flon_3',['ref_lon',['../LOS__algo_8c.html#a51e297105c587eafe7871bcd79506615',1,'LOS_algo.c']]],
+  ['remove_5flast_5fnode_4',['Remove_Last_Node',['../GPS__Route__Setter_8c.html#a5fc3c361c4b1112cc8b8007ed3daabf4',1,'GPS_Route_Setter.c']]],
+  ['res1_5fdebug_5fout_5',['RES1_DEBUG_OUT',['../admin_8h.html#a14091316fcd82711d980261b8897affd',1,'admin.h']]],
+  ['route_5fcomplete_6',['route_complete',['../structLOS__Output__t.html#a1dff68ff4f48e94a5b8f677f5f78bbbf',1,'LOS_Output_t']]],
+  ['route_5fperformer_7',['Route_performer',['../admin_8h.html#ab7acdfc2f6faa8de7f7a40d3abca745b',1,'Route_performer(void *):&#160;routeperformer.c'],['../routeperformer_8c.html#a740cda4eac54a1a58036caaed3f26eba',1,'Route_performer(void *argument):&#160;routeperformer.c'],['../routeperformer_8h.html#a740cda4eac54a1a58036caaed3f26eba',1,'Route_performer(void *argument):&#160;routeperformer.c']]],
+  ['route_5fpointer_5frequest_8',['Route_Pointer_Request',['../GPS__Route__Setter_8c.html#aab599ac6ef4958311429d7f072b568e5',1,'Route_Pointer_Request():&#160;GPS_Route_Setter.c'],['../GPS__Route__Setter_8h.html#aab599ac6ef4958311429d7f072b568e5',1,'Route_Pointer_Request():&#160;GPS_Route_Setter.c']]],
+  ['route_5fsetter_9',['Route_Setter',['../admin_8h.html#aba588db1df75c5962e95e3a72baffa24',1,'Route_Setter(void *):&#160;GPS_Route_Setter.c'],['../GPS__Route__Setter_8c.html#a1fc2116f878a80a92b30ebd62f63b298',1,'Route_Setter(void *argument):&#160;GPS_Route_Setter.c']]],
+  ['routeperformer_2ec_10',['routeperformer.c',['../routeperformer_8c.html',1,'']]],
+  ['routeperformer_2eh_11',['routeperformer.h',['../routeperformer_8h.html',1,'']]],
+  ['rp_5fget_5fwpcurrent_12',['RP_get_wpCurrent',['../routeperformer_8c.html#a5d33020c223451c84dd4eecfec4b0c89',1,'routeperformer.c']]],
+  ['rp_5fwaypoint_5fhold_13',['rp_waypoint_hold',['../routeperformer_8c.html#afb9ee48fd990c9150f34812f363329fa',1,'routeperformer.c']]],
+  ['rp_5fwpcurrent_14',['RP_wpCurrent',['../routeperformer_8c.html#a73f679ba4dc4a56722b24e293b34c6f5',1,'routeperformer.c']]],
+  ['rs_5fgetwpamount_15',['RS_getWPamount',['../GPS__Route__Setter_8c.html#ad8c6f94dfc7ffd38df72bd73b37bd18a',1,'GPS_Route_Setter.c']]],
+  ['run_5frp_5falgo_16',['run_RP_algo',['../routeperformer_8c.html#a3b9ae2d20e8eeb203a2f9f10d0527e7b',1,'routeperformer.c']]]
 ];

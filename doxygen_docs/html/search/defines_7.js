@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['qsize_5fuart_0',['QSIZE_UART',['../admin_8h.html#a18901836d92cf76a93826b9e1116292d',1,'admin.h']]]
+  ['kd_0',['KD',['../PID__controller_8c.html#ad4f9673d16d231643789f081068d2372',1,'PID_controller.c']]],
+  ['ki_1',['KI',['../PID__controller_8c.html#ade82752ae1652fdf0df9df7a16ffda29',1,'PID_controller.c']]],
+  ['kp_2',['KP',['../PID__controller_8c.html#aa4729260b732666338dee7d841aa12f3',1,'PID_controller.c']]]
 ];

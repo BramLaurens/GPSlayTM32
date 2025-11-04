@@ -1,0 +1,357 @@
+\doxysection{Core/\+My\+App/\+App/routeperformer.h File Reference}
+\hypertarget{routeperformer_8h}{}\label{routeperformer_8h}\index{Core/MyApp/App/routeperformer.h@{Core/MyApp/App/routeperformer.h}}
+{\ttfamily \#include "{}gps.\+h"{}}\newline
+{\ttfamily \#include "{}GPS\+\_\+\+Route\+\_\+\+Setter.\+h"{}}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{routeperformer_8h_a80d91b787fe61ffc7917bbd09cb2b7b6}{Distance\+\_\+\+Till\+\_\+\+Waypoint}} (int Next\+\_\+routing\+\_\+point)
+\begin{DoxyCompactList}\small\item\em gives the distance to a waypoint or the current waypoint heading by calling\+: \doxylink{routeperformer_8c_aba721eebe185648d799a4f28c86de0c8}{Give\+\_\+\+Node\+Number()} \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{routeperformer_8h_ade65e42cd088d36f42f36581e1de425d}{get\+\_\+\+RP\+\_\+\+Algo\+State}} (bool \texorpdfstring{$\ast$}{*}dest)
+\item 
+void \mbox{\hyperlink{routeperformer_8h_a81f58070ee8b1bfe65565acc9eef326b}{get\+\_\+\+RP\+\_\+distance}} (double \texorpdfstring{$\ast$}{*}dest)
+\item 
+void \mbox{\hyperlink{routeperformer_8h_ac1b2ee504503a2aed90ebd35dc6853ba}{get\+\_\+waypointhold}} (bool \texorpdfstring{$\ast$}{*}dest)
+\begin{DoxyCompactList}\small\item\em Get the current waypoint hold status. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{routeperformer_8h_a075f505b3e39289a36ce13a61893fe2b}{getlatest\+Course}} (double \texorpdfstring{$\ast$}{*}dest)
+\begin{DoxyCompactList}\small\item\em Get the latest heading course to the next waypoint, for external use. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{routeperformer_8h_a6f0545b4b40b45f8bed3a456b9c444ab}{Give\+\_\+\+Node\+Number}} (void \texorpdfstring{$\ast$}{*}argument)
+\item 
+void \mbox{\hyperlink{routeperformer_8h_a740cda4eac54a1a58036caaed3f26eba}{Route\+\_\+performer}} (void \texorpdfstring{$\ast$}{*}argument)
+\item 
+void \mbox{\hyperlink{routeperformer_8h_a26ae93ebc5b46b2a3cf7ae7969477168}{set\+\_\+\+RP\+\_\+algo\+State}} (bool state)
+\begin{DoxyCompactList}\small\item\em Set the RP algo\+State object, enabling or disabling the route performer algorithm. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{routeperformer_8h_a54daf18e55559668a000762587c44684}{set\+\_\+waypointhold}} (bool state)
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{routeperformer_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{routeperformer_8h_a80d91b787fe61ffc7917bbd09cb2b7b6}\index{routeperformer.h@{routeperformer.h}!Distance\_Till\_Waypoint@{Distance\_Till\_Waypoint}}
+\index{Distance\_Till\_Waypoint@{Distance\_Till\_Waypoint}!routeperformer.h@{routeperformer.h}}
+\doxysubsubsection{\texorpdfstring{Distance\_Till\_Waypoint()}{Distance\_Till\_Waypoint()}}
+{\footnotesize\ttfamily \label{routeperformer_8h_a80d91b787fe61ffc7917bbd09cb2b7b6} 
+double Distance\+\_\+\+Till\+\_\+\+Waypoint (\begin{DoxyParamCaption}\item[{int}]{Working\+\_\+routing\+\_\+point}{}\end{DoxyParamCaption})}
+
+
+
+gives the distance to a waypoint or the current waypoint heading by calling\+: \doxylink{routeperformer_8c_aba721eebe185648d799a4f28c86de0c8}{Give\+\_\+\+Node\+Number()} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Next\+\_\+routing\+\_\+point} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{routeperformer_8c_source_l00265}{265}} of file \mbox{\hyperlink{routeperformer_8c_source}{routeperformer.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00266\ \{}
+\DoxyCodeLine{00267\ \ \ \ \ \textcolor{comment}{//\ UART\_puts("{}\(\backslash\)r\(\backslash\)n\ Starting\ distance\ calculation\ \(\backslash\)r\ \(\backslash\)n"{});}}
+\DoxyCodeLine{00268\ \ \ \ \ \mbox{\hyperlink{GPS__Route__Setter_8h_abaf7f2a5f92fa80200324b7686faa66b}{GPS\_Route}}\ *temp\ =\ \mbox{\hyperlink{routeperformer_8c_ad8e3353f1f7e3b824ef1d2c002055d21}{pRoute\_copy}};}
+\DoxyCodeLine{00269\ }
+\DoxyCodeLine{00270\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{routeperformer_8c_a2cd7c4f221174225cd6957307d2c8bc5}{update\_GPS\_loc}}()\ <\ 0)\ \textcolor{comment}{//\ update\ the\ gps\ location\ and\ check\ for\ errors}}
+\DoxyCodeLine{00271\ \ \ \ \ \{}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;\ \textcolor{comment}{//\ error\ updating\ gps\ location}}
+\DoxyCodeLine{00273\ \ \ \ \ \}}
+\DoxyCodeLine{00274\ \ \ \ \ \textcolor{comment}{//Check\ if\ the\ structs\ are\ valid}}
+\DoxyCodeLine{00275\ \ \ \ \ temp\ =\ \mbox{\hyperlink{routeperformer_8c_ae9ef9a6b88cce7f1328864476ab34783}{check\_structs}}(Working\_routing\_point);\ }
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \ \ \ \ \textcolor{keywordflow}{if}(temp\ ==\ NULL)\{}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Error\ one\ of\ the\ structs\ is\ not\ filled\ or\ correct\ (Distance\_Till\_Waypoint)\(\backslash\)r\ \(\backslash\)n"{}});}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00280\ \ \ \ \ \}}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00282\ }
+\DoxyCodeLine{00283\ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ distance\ between\ the\ current\ location\ and\ the\ waypoint}}
+\DoxyCodeLine{00284\ \ \ \ \ \textcolor{keywordtype}{double}\ dLat\ =\ (\mbox{\hyperlink{routeperformer_8c_a6da77c4ca3b5731b7e644b4739e3eefb}{dGPS\_localcopy4}}.latitude\ -\/\ temp-\/>\mbox{\hyperlink{struct__GPS__Route_aa61b46911a0379e3e3c673d4207b0719}{latitude}});}
+\DoxyCodeLine{00285\ \ \ \ \ \textcolor{keywordtype}{double}\ dLong\ =\ (\mbox{\hyperlink{routeperformer_8c_a6da77c4ca3b5731b7e644b4739e3eefb}{dGPS\_localcopy4}}.longitude\ -\/\ temp-\/>\mbox{\hyperlink{struct__GPS__Route_ae5a5dd3df2f2114e2cf0d287e6b38ef4}{longitude}});}
+\DoxyCodeLine{00286\ }
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00288\ \ \ \ \ \textcolor{comment}{//\ calc\ from\ lat,\ long\ to\ x,\ y\ using\ Rijksdriehoeks\ conversion\ }}
+\DoxyCodeLine{00289\ \ \ \ \ \textcolor{comment}{//\ Reference\ point\ (Amersfoort)\ for\ now\ this\ will\ change\ to\ our\ Ref\ gps}}
+\DoxyCodeLine{00290\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ phi0\ =\ 52.15517440;\ \textcolor{comment}{//\ Lat}}
+\DoxyCodeLine{00291\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ lam0\ =\ 5.38720621;\ \textcolor{comment}{//\ Long}}
+\DoxyCodeLine{00292\ }
+\DoxyCodeLine{00293\ \ \ \ \ \textcolor{keywordtype}{double}\ phi\ =\ (\mbox{\hyperlink{routeperformer_8c_a6da77c4ca3b5731b7e644b4739e3eefb}{dGPS\_localcopy4}}.latitude\ -\/\ phi0)\ *\ 0.36;\ \textcolor{comment}{//Lat}}
+\DoxyCodeLine{00294\ \ \ \ \ \textcolor{keywordtype}{double}\ lambda\ =\ (\mbox{\hyperlink{routeperformer_8c_a6da77c4ca3b5731b7e644b4739e3eefb}{dGPS\_localcopy4}}.longitude\ -\/\ lam0)\ *\ 0.36;\ \textcolor{comment}{//\ Long}}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00296\ \ \ \ \ \textcolor{comment}{//\ Base\ coordinates\ of\ amersfoort\ change\ this\ to\ our\ using\ amersfoort\ as\ ref\ or\ dont\ and\ see\ the\ distance\ in\ X,\ Y\ from\ amersfoort}}
+\DoxyCodeLine{00297\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ x0\ =\ 155000.0;}
+\DoxyCodeLine{00298\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ y0\ =\ 463000.0;}
+\DoxyCodeLine{00299\ }
+\DoxyCodeLine{00300\ \ \ \ \ \textcolor{comment}{//\ Compute\ RD\ X}}
+\DoxyCodeLine{00301\ \ \ \ \ \textcolor{keywordtype}{double}\ x\_rd\ =}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ (190094.945\ *\ lambda)\ +}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ (-\/11832.228\ *\ phi\ *\ lambda)\ +}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ (-\/114.221\ *\ phi\ *\ lambda\ *\ lambda)\ +}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ (-\/32.391\ *\ pow(lambda,\ 3))\ +}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ (-\/0.705\ *\ phi)\ +}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ (-\/2.340\ *\ phi\ *\ phi\ *\ lambda)\ +}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ (-\/0.608\ *\ phi\ *\ phi)\ +}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ (-\/0.008\ *\ lambda)\ +}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ (0.148\ *\ pow(lambda,\ 4));}
+\DoxyCodeLine{00311\ }
+\DoxyCodeLine{00312\ \ \ \ \ \textcolor{comment}{//\ Compute\ RD\ Y}}
+\DoxyCodeLine{00313\ \ \ \ \ \textcolor{keywordtype}{double}\ y\_rd\ =}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ (309056.544\ *\ phi)\ +}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ (3638.893\ *\ lambda\ *\ lambda)\ +}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ (73.077\ *\ phi\ *\ phi)\ +}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ (-\/157.984\ *\ phi\ *\ lambda\ *\ lambda)\ +}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ (59.788\ *\ pow(phi,\ 3))\ +}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ (0.433\ *\ lambda)\ +}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ (-\/6.439\ *\ phi\ *\ phi\ *\ lambda)\ +}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ (-\/0.032\ *\ lambda\ *\ lambda)\ +}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ (0.092\ *\ pow(phi,\ 4))\ +}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ (-\/0.054\ *\ phi\ *\ pow(lambda,\ 3));}
+\DoxyCodeLine{00324\ }
+\DoxyCodeLine{00325\ \ \ \ \ \textcolor{comment}{//\ Now\ calculate\ the\ distance\ between\ the\ two\ points\ in\ cartesian\ coordinates}}
+\DoxyCodeLine{00326\ \ \ \ \ \textcolor{keywordtype}{double}\ x\ =\ x0\ +\ x\_rd;}
+\DoxyCodeLine{00327\ \ \ \ \ \textcolor{keywordtype}{double}\ y\ =\ y0\ +\ y\_rd;}
+\DoxyCodeLine{00328\ \ \ \ \ \textcolor{keywordtype}{double}\ z\ =\ pow(x,2)\ +\ pow(y,2);\ \textcolor{comment}{//\ now\ in\ cartesian\ you\ can\ triangulate\ with\ pytharogrian\ theorem\ for\ you\ distance}}
+\DoxyCodeLine{00329\ \ \ \ \ \textcolor{keywordtype}{double}\ distance\_local\ =\ sqrt(z);}
+\DoxyCodeLine{00330\ \ \ \ \ }
+\DoxyCodeLine{00331\ \ \ \ \ \textcolor{comment}{//\ UART\_puts("{}Distance\ calculated:\ "{});}}
+\DoxyCodeLine{00332\ \ \ \ \ \textcolor{comment}{//\ char\ Buffer[100];\ //\ buffer\ for\ sprintf\ for\ debugging\ the\ float}}
+\DoxyCodeLine{00333\ \ \ \ \ \textcolor{comment}{//\ sprintf(Buffer,\ "{}\%2.4f\ \(\backslash\)r\ \(\backslash\)n"{},\ distance\_local);}}
+\DoxyCodeLine{00334\ \ \ \ \ \textcolor{comment}{//\ UART\_puts(Buffer);}}
+\DoxyCodeLine{00335\ \ \ \ \ \textcolor{keywordflow}{return}\ distance\_local;}
+\DoxyCodeLine{00336\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{routeperformer_8c_source_l00123}{check\+\_\+structs()}}, \mbox{\hyperlink{routeperformer_8c_source_l00026}{d\+GPS\+\_\+localcopy4}}, \mbox{\hyperlink{GPS__Route__Setter_8h_source_l00020}{\+\_\+\+GPS\+\_\+\+Route\+::latitude}}, \mbox{\hyperlink{GPS__Route__Setter_8h_source_l00021}{\+\_\+\+GPS\+\_\+\+Route\+::longitude}}, \mbox{\hyperlink{routeperformer_8c_source_l00027}{p\+Route\+\_\+copy}}, and \mbox{\hyperlink{routeperformer_8c_source_l00100}{update\+\_\+\+GPS\+\_\+loc()}}.
+
+\Hypertarget{routeperformer_8h_ade65e42cd088d36f42f36581e1de425d}\index{routeperformer.h@{routeperformer.h}!get\_RP\_AlgoState@{get\_RP\_AlgoState}}
+\index{get\_RP\_AlgoState@{get\_RP\_AlgoState}!routeperformer.h@{routeperformer.h}}
+\doxysubsubsection{\texorpdfstring{get\_RP\_AlgoState()}{get\_RP\_AlgoState()}}
+{\footnotesize\ttfamily \label{routeperformer_8h_ade65e42cd088d36f42f36581e1de425d} 
+void get\+\_\+\+RP\+\_\+\+Algo\+State (\begin{DoxyParamCaption}\item[{bool \texorpdfstring{$\ast$}{*}}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{routeperformer_8c_source_l00070}{70}} of file \mbox{\hyperlink{routeperformer_8c_source}{routeperformer.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00071\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ *dest\ =\ \mbox{\hyperlink{routeperformer_8c_a2e85432843a83cc08c10285e5f44265e}{EnableRP\_algo}};}
+\DoxyCodeLine{00073\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{routeperformer_8c_source_l00031}{Enable\+RP\+\_\+algo}}.
+
+\Hypertarget{routeperformer_8h_a81f58070ee8b1bfe65565acc9eef326b}\index{routeperformer.h@{routeperformer.h}!get\_RP\_distance@{get\_RP\_distance}}
+\index{get\_RP\_distance@{get\_RP\_distance}!routeperformer.h@{routeperformer.h}}
+\doxysubsubsection{\texorpdfstring{get\_RP\_distance()}{get\_RP\_distance()}}
+{\footnotesize\ttfamily \label{routeperformer_8h_a81f58070ee8b1bfe65565acc9eef326b} 
+void get\+\_\+\+RP\+\_\+distance (\begin{DoxyParamCaption}\item[{double \texorpdfstring{$\ast$}{*}}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{routeperformer_8c_source_l00076}{76}} of file \mbox{\hyperlink{routeperformer_8c_source}{routeperformer.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00077\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ *dest\ =\ \mbox{\hyperlink{routeperformer_8c_ac67c962277a84892b503cd7cdb6908c5}{Distance}};\ \textcolor{comment}{//\ using\ course\ variable\ to\ store\ distance\ temporarily}}
+\DoxyCodeLine{00079\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{routeperformer_8c_source_l00037}{Distance}}.
+
+\Hypertarget{routeperformer_8h_ac1b2ee504503a2aed90ebd35dc6853ba}\index{routeperformer.h@{routeperformer.h}!get\_waypointhold@{get\_waypointhold}}
+\index{get\_waypointhold@{get\_waypointhold}!routeperformer.h@{routeperformer.h}}
+\doxysubsubsection{\texorpdfstring{get\_waypointhold()}{get\_waypointhold()}}
+{\footnotesize\ttfamily \label{routeperformer_8h_ac1b2ee504503a2aed90ebd35dc6853ba} 
+void get\+\_\+waypointhold (\begin{DoxyParamCaption}\item[{bool \texorpdfstring{$\ast$}{*}}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Get the current waypoint hold status. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{routeperformer_8c_source_l00055}{55}} of file \mbox{\hyperlink{routeperformer_8c_source}{routeperformer.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00056\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ *dest\ =\ \mbox{\hyperlink{routeperformer_8c_afb9ee48fd990c9150f34812f363329fa}{rp\_waypoint\_hold}};}
+\DoxyCodeLine{00058\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{routeperformer_8c_source_l00033}{rp\+\_\+waypoint\+\_\+hold}}.
+
+\Hypertarget{routeperformer_8h_a075f505b3e39289a36ce13a61893fe2b}\index{routeperformer.h@{routeperformer.h}!getlatestCourse@{getlatestCourse}}
+\index{getlatestCourse@{getlatestCourse}!routeperformer.h@{routeperformer.h}}
+\doxysubsubsection{\texorpdfstring{getlatestCourse()}{getlatestCourse()}}
+{\footnotesize\ttfamily \label{routeperformer_8h_a075f505b3e39289a36ce13a61893fe2b} 
+void getlatest\+Course (\begin{DoxyParamCaption}\item[{double \texorpdfstring{$\ast$}{*}}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Get the latest heading course to the next waypoint, for external use. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{routeperformer_8c_source_l00086}{86}} of file \mbox{\hyperlink{routeperformer_8c_source}{routeperformer.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00087\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{comment}{/*\ Copy\ the\ latest\ angle\ data\ safely\ */}}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordflow}{if}(xSemaphoreTake(\mbox{\hyperlink{admin_8c_a245b27c04a453d2f24cac6c6ed0c11b8}{hAngle\_Mutex}},\ portMAX\_DELAY)\ ==\ pdTRUE)}
+\DoxyCodeLine{00090\ \ \ \ \ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ memcpy(dest,\ \&\mbox{\hyperlink{routeperformer_8c_a8c10230001bab42de01beb2843f8c327}{Angle}},\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{double}));}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ xSemaphoreGive(\mbox{\hyperlink{admin_8c_a245b27c04a453d2f24cac6c6ed0c11b8}{hAngle\_Mutex}});}
+\DoxyCodeLine{00093\ \ \ \ \ \}}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00095\ \ \ \ \ \{}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Err:hAngle\_Mutex"{}});}
+\DoxyCodeLine{00097\ \ \ \ \ \}}
+\DoxyCodeLine{00098\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{routeperformer_8c_source_l00030}{Angle}}, \mbox{\hyperlink{admin_8c_source_l00237}{error\+\_\+\+Halt\+OS()}}, and \mbox{\hyperlink{admin_8c_source_l00066}{h\+Angle\+\_\+\+Mutex}}.
+
+\Hypertarget{routeperformer_8h_a6f0545b4b40b45f8bed3a456b9c444ab}\index{routeperformer.h@{routeperformer.h}!Give\_NodeNumber@{Give\_NodeNumber}}
+\index{Give\_NodeNumber@{Give\_NodeNumber}!routeperformer.h@{routeperformer.h}}
+\doxysubsubsection{\texorpdfstring{Give\_NodeNumber()}{Give\_NodeNumber()}}
+{\footnotesize\ttfamily \label{routeperformer_8h_a6f0545b4b40b45f8bed3a456b9c444ab} 
+int Give\+\_\+\+Node\+Number (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argument}{}\end{DoxyParamCaption})}
+
+\Hypertarget{routeperformer_8h_a740cda4eac54a1a58036caaed3f26eba}\index{routeperformer.h@{routeperformer.h}!Route\_performer@{Route\_performer}}
+\index{Route\_performer@{Route\_performer}!routeperformer.h@{routeperformer.h}}
+\doxysubsubsection{\texorpdfstring{Route\_performer()}{Route\_performer()}}
+{\footnotesize\ttfamily \label{routeperformer_8h_a740cda4eac54a1a58036caaed3f26eba} 
+void Route\+\_\+performer (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argument}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{routeperformer_8c_source_l00407}{407}} of file \mbox{\hyperlink{routeperformer_8c_source}{routeperformer.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00408\ \{}
+\DoxyCodeLine{00409\ \ \ \ \ osDelay(200);\ \textcolor{comment}{//\ wait\ a\ second\ to\ make\ sure\ everything\ is\ started}}
+\DoxyCodeLine{00410\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ Working\_routing\_point\ =\ 0;\ \textcolor{comment}{//\ static\ so\ pointer\ remains\ valid}}
+\DoxyCodeLine{00411\ \ \ \ \ \mbox{\hyperlink{routeperformer_8c_a2026a72c21f458a16da895a1da067ad8}{pWorking\_Waypoint}}\ =\ \&Working\_routing\_point;}
+\DoxyCodeLine{00412\ }
+\DoxyCodeLine{00413\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}}=0;}
+\DoxyCodeLine{00414\ }
+\DoxyCodeLine{00415\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}PID\_Controller\ started,\ polling\ hKey\_Queue\ for\ key\ events\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00416\ }
+\DoxyCodeLine{00417\ \ \ \ \ \textcolor{keywordflow}{while}(1)}
+\DoxyCodeLine{00418\ \ \ \ \ \{}
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Non-\/blocking:\ Try\ to\ read\ a\ key\ from\ the\ queue.\ If\ none\ available,\ continue\ doing\ other\ work.}}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_a13dcdbfba3f85c362de11117da2e2ab0}{hKeyRP\_Queue}}\ !=\ NULL)}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (xQueueReceive(\mbox{\hyperlink{admin_8c_a13dcdbfba3f85c362de11117da2e2ab0}{hKeyRP\_Queue}},\ \&\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}},\ 0)\ ==\ pdTRUE)}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00424\ }
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00427\ }
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ RP\ algo\ is\ enabled,\ run\ it\ periodically}}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{routeperformer_8c_a2e85432843a83cc08c10285e5f44265e}{EnableRP\_algo}})\ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routeperformer_8c_ac67c962277a84892b503cd7cdb6908c5}{Distance}}\ =\ \mbox{\hyperlink{routeperformer_8c_afa99010b270e42d6c59535c1a42b99e0}{distance\_tillwaypoint\_FE}}(Working\_routing\_point);\ \textcolor{comment}{//\ Update\ distance\ to\ working\ waypoint}}
+\DoxyCodeLine{00431\ }
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(xSemaphoreTake(\mbox{\hyperlink{admin_8c_a245b27c04a453d2f24cac6c6ed0c11b8}{hAngle\_Mutex}},\ portMAX\_DELAY)\ ==\ pdTRUE)\ \textcolor{comment}{//\ Take\ mutex\ before\ updating\ shared\ angle\ variable}}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routeperformer_8c_a8c10230001bab42de01beb2843f8c327}{Angle}}\ =\ \mbox{\hyperlink{routeperformer_8c_a7bb36163425940e13def0bdafa42d1db}{GET\_workingHeading}}(Working\_routing\_point);\ \textcolor{comment}{//\ Update\ angle\ to\ working\ waypoint}}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xSemaphoreGive(\mbox{\hyperlink{admin_8c_a245b27c04a453d2f24cac6c6ed0c11b8}{hAngle\_Mutex}});\ \textcolor{comment}{//\ Release\ mutex\ after\ updating}}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00437\ }
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \ \ \ \ Working\_routing\_point\ =\ \mbox{\hyperlink{routeperformer_8c_ace8a41ead2cff060ba71b8a7b1c83ede}{Completed\_waypoint}}(\mbox{\hyperlink{routeperformer_8c_ac67c962277a84892b503cd7cdb6908c5}{Distance}});\ \textcolor{comment}{//\ Check\ if\ waypoint\ is\ completed\ and\ get\ next\ waypoint\ if\ so}}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routeperformer_8c_a73f679ba4dc4a56722b24e293b34c6f5}{RP\_wpCurrent}}\ =\ Working\_routing\_point;\ \textcolor{comment}{//\ Update\ current\ waypoint\ number\ for\ external\ use}}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00441\ }
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Wait\ at\ waypoint\ for\ a\ few\ seconds\ when\ reached}}
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{routeperformer_8c_afb9ee48fd990c9150f34812f363329fa}{rp\_waypoint\_hold}})}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ \ \ \ \ osDelay(4000);}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routeperformer_8c_afb9ee48fd990c9150f34812f363329fa}{rp\_waypoint\_hold}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ osDelay(10);\ \textcolor{comment}{//\ small\ sleep\ so\ this\ task\ isn't\ busy-\/waiting}}
+\DoxyCodeLine{00449\ \ \ \ \ \}}
+\DoxyCodeLine{00450\ \}}
+
+\end{DoxyCode}
+\Hypertarget{routeperformer_8h_a26ae93ebc5b46b2a3cf7ae7969477168}\index{routeperformer.h@{routeperformer.h}!set\_RP\_algoState@{set\_RP\_algoState}}
+\index{set\_RP\_algoState@{set\_RP\_algoState}!routeperformer.h@{routeperformer.h}}
+\doxysubsubsection{\texorpdfstring{set\_RP\_algoState()}{set\_RP\_algoState()}}
+{\footnotesize\ttfamily \label{routeperformer_8h_a26ae93ebc5b46b2a3cf7ae7969477168} 
+void set\+\_\+\+RP\+\_\+algo\+State (\begin{DoxyParamCaption}\item[{bool}]{state}{}\end{DoxyParamCaption})}
+
+
+
+Set the RP algo\+State object, enabling or disabling the route performer algorithm. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{routeperformer_8c_source_l00065}{65}} of file \mbox{\hyperlink{routeperformer_8c_source}{routeperformer.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00066\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \mbox{\hyperlink{routeperformer_8c_a2e85432843a83cc08c10285e5f44265e}{EnableRP\_algo}}\ =\ state;}
+\DoxyCodeLine{00068\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{routeperformer_8c_source_l00031}{Enable\+RP\+\_\+algo}}.
+
+\Hypertarget{routeperformer_8h_a54daf18e55559668a000762587c44684}\index{routeperformer.h@{routeperformer.h}!set\_waypointhold@{set\_waypointhold}}
+\index{set\_waypointhold@{set\_waypointhold}!routeperformer.h@{routeperformer.h}}
+\doxysubsubsection{\texorpdfstring{set\_waypointhold()}{set\_waypointhold()}}
+{\footnotesize\ttfamily \label{routeperformer_8h_a54daf18e55559668a000762587c44684} 
+void set\+\_\+waypointhold (\begin{DoxyParamCaption}\item[{bool}]{state}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{routeperformer_8c_source_l00045}{45}} of file \mbox{\hyperlink{routeperformer_8c_source}{routeperformer.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00046\ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{routeperformer_8c_afb9ee48fd990c9150f34812f363329fa}{rp\_waypoint\_hold}}\ =\ state;}
+\DoxyCodeLine{00048\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{routeperformer_8c_source_l00033}{rp\+\_\+waypoint\+\_\+hold}}.
+

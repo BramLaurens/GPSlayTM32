@@ -1,3 +1,14 @@
+/**
+ * @file TFT.c
+ * @author Bram Laurens
+ * @brief Handles TFT display updates
+ * @version 0.1
+ * @date 2025-11-04
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #include "main.h"
 #include "cmsis_os.h"
 #include "admin.h"
@@ -13,6 +24,10 @@
 char GPS_fix_quality_local = 0;
 char GPS_fix_quality_str[20];
 
+/**
+ * @brief Update the display for GPS fix quality
+ * 
+ */
 void update_GPS_fix_quality_display()
 {
     GPS_get_fix_quality(&GPS_fix_quality_local);
@@ -57,6 +72,10 @@ void update_GPS_fix_quality_display()
     }
 }
 
+/**
+ * @brief Update the display for waypoint information
+ * 
+ */
 void updateWPdisplay()
 {
     bool LOS_algostate;
@@ -89,6 +108,10 @@ void updateWPdisplay()
     }
 }
 
+/**
+ * @brief Update the display for route data
+ * 
+ */
 void update_routedata_display()
 {
     // This function can be used to update additional route data on the display if needed
@@ -109,12 +132,18 @@ void update_routedata_display()
     ST7735_WriteString(100, 70, course_str, Font_7x10, ST7735_WHITE, ST7735_BLACK);
 }
 
+/**
+ * @brief Update the display for obstacle information
+ * 
+ */
 void update_obstacle_display()
 {
     float distance = 0.0;
     char ob_distancestr[10];
     bool obstacleFlag_local = false;
+    bool obstacleAvoidanceState_local = false;
     PID_getObstacleFlag(&obstacleFlag_local);
+    PID_getObstacleAvoidanceState(&obstacleAvoidanceState_local);
     US_getObjectDistance(&distance);
 
     sprintf(ob_distancestr, "%2.2f", distance);
@@ -131,8 +160,24 @@ void update_obstacle_display()
         ST7735_WriteString(10, 80, "Obstacle X:", Font_7x10, ST7735_WHITE, ST7735_BLACK);
         ST7735_WriteString(100, 80, ob_distancestr, Font_7x10, ST7735_WHITE, ST7735_BLACK);
     }
+
+    if(obstacleAvoidanceState_local)
+    {
+        ST7735_WriteString(10, 90, "Obst Avoid: ON", Font_7x10, ST7735_WHITE, ST7735_BLACK);
+    }
+    else
+    {
+        ST7735_WriteString(10, 90, "Obst Avoid: OFF", Font_7x10, ST7735_WHITE, ST7735_BLACK);
+    }
+
+
 }
 
+/**
+ * @brief Task to handle TFT display updates
+ * 
+ * @param argument 
+ */
 void TFT_task(void *argument)
 {
     UART_puts((char *)__func__); UART_puts(" started\r\n");

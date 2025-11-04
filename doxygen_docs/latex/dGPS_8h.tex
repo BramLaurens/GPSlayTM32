@@ -1,0 +1,216 @@
+\doxysection{Core/\+My\+App/\+App/d\+GPS.h File Reference}
+\hypertarget{dGPS_8h}{}\label{dGPS_8h}\index{Core/MyApp/App/dGPS.h@{Core/MyApp/App/dGPS.h}}
+{\ttfamily \#include "{}main.\+h"{}}\newline
+{\ttfamily \#include "{}cmsis\+\_\+os.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structdGPS__decimalData__t}{d\+GPS\+\_\+decimal\+Data\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structdGPS__errorData__t}{d\+GPS\+\_\+error\+Data\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structGPS__decimal__degrees__t}{GPS\+\_\+decimal\+\_\+degrees\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{dGPS_8h_a1fdd16d5b5c2064fd7099d58564ce6e6}{enable\+\_\+uncorrected\+GPS\+\_\+out}}
+\item 
+\#define \mbox{\hyperlink{dGPS_8h_a37bcb65cc89a974b0276d68be2ecf609}{GPS\+\_\+\+AVG\+\_\+\+BUFFER\+\_\+\+SIZE}}~1
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structdGPS__decimalData__t}{d\+GPS\+\_\+decimal\+Data\+\_\+t}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{dGPS_8h_a36d0c3c8cf9c85c300260b90cac7da63}{Pd\+GPS\+\_\+decimal\+Data\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structdGPS__errorData__t}{d\+GPS\+\_\+error\+Data\+\_\+t}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{dGPS_8h_a6e093e5bb5a0f41ef5b5d773cc8ec327}{Pd\+GPS\+\_\+error\+Data\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structGPS__decimal__degrees__t}{GPS\+\_\+decimal\+\_\+degrees\+\_\+t}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{dGPS_8h_add939c1880196da887576576b19c0c6b}{PGPS\+\_\+decimal\+\_\+degrees\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{dGPS_8h_a26e24df8db9294ca41506dad23837f62}{convert\+\_\+decimal\+\_\+degrees}} (char \texorpdfstring{$\ast$}{*}nmea\+\_\+coordinate, char \texorpdfstring{$\ast$}{*}ns)
+\begin{DoxyCompactList}\small\item\em Converts \doxylink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0}{NMEA} coordinate format (ddmm.\+mmmm) to decimal degrees. (+ for N/E, -\/ for S/W) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{dGPS_8h_a47453f5e4aed575f1c58b057725d7b25}{GPS\+\_\+getlatest\+\_\+ringbuffer}} (\mbox{\hyperlink{structdGPS__decimalData__t}{d\+GPS\+\_\+decimal\+Data\+\_\+t}} \texorpdfstring{$\ast$}{*}dest)
+\begin{DoxyCompactList}\small\item\em Function to copy the latest GPS data from the circular history buffer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{dGPS_8h_a5fc09e2ddaa0940dc24585a49e35eeb7}{GPS\+\_\+getlatest\+\_\+uncorrected}} (\mbox{\hyperlink{structdGPS__decimalData__t}{d\+GPS\+\_\+decimal\+Data\+\_\+t}} \texorpdfstring{$\ast$}{*}dest)
+\begin{DoxyCompactList}\small\item\em Retrieves the latest uncorrected GPS data. (1 second worth of averaged data) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{doc-define-members}
+\Hypertarget{dGPS_8h_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{dGPS_8h_a1fdd16d5b5c2064fd7099d58564ce6e6}\index{dGPS.h@{dGPS.h}!enable\_uncorrectedGPS\_out@{enable\_uncorrectedGPS\_out}}
+\index{enable\_uncorrectedGPS\_out@{enable\_uncorrectedGPS\_out}!dGPS.h@{dGPS.h}}
+\doxysubsubsection{\texorpdfstring{enable\_uncorrectedGPS\_out}{enable\_uncorrectedGPS\_out}}
+{\footnotesize\ttfamily \label{dGPS_8h_a1fdd16d5b5c2064fd7099d58564ce6e6} 
+\#define enable\+\_\+uncorrected\+GPS\+\_\+out}
+
+
+
+Definition at line \mbox{\hyperlink{dGPS_8h_source_l00017}{17}} of file \mbox{\hyperlink{dGPS_8h_source}{d\+GPS.\+h}}.
+
+\Hypertarget{dGPS_8h_a37bcb65cc89a974b0276d68be2ecf609}\index{dGPS.h@{dGPS.h}!GPS\_AVG\_BUFFER\_SIZE@{GPS\_AVG\_BUFFER\_SIZE}}
+\index{GPS\_AVG\_BUFFER\_SIZE@{GPS\_AVG\_BUFFER\_SIZE}!dGPS.h@{dGPS.h}}
+\doxysubsubsection{\texorpdfstring{GPS\_AVG\_BUFFER\_SIZE}{GPS\_AVG\_BUFFER\_SIZE}}
+{\footnotesize\ttfamily \label{dGPS_8h_a37bcb65cc89a974b0276d68be2ecf609} 
+\#define GPS\+\_\+\+AVG\+\_\+\+BUFFER\+\_\+\+SIZE~1}
+
+
+
+Definition at line \mbox{\hyperlink{dGPS_8h_source_l00020}{20}} of file \mbox{\hyperlink{dGPS_8h_source}{d\+GPS.\+h}}.
+
+
+
+\label{doc-typedef-members}
+\Hypertarget{dGPS_8h_doc-typedef-members}
+\doxysubsection{Typedef Documentation}
+\Hypertarget{dGPS_8h_a36d0c3c8cf9c85c300260b90cac7da63}\index{dGPS.h@{dGPS.h}!PdGPS\_decimalData\_t@{PdGPS\_decimalData\_t}}
+\index{PdGPS\_decimalData\_t@{PdGPS\_decimalData\_t}!dGPS.h@{dGPS.h}}
+\doxysubsubsection{\texorpdfstring{PdGPS\_decimalData\_t}{PdGPS\_decimalData\_t}}
+{\footnotesize\ttfamily \label{dGPS_8h_a36d0c3c8cf9c85c300260b90cac7da63} 
+typedef  struct \mbox{\hyperlink{structdGPS__decimalData__t}{d\+GPS\+\_\+decimal\+Data\+\_\+t}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{dGPS_8h_a36d0c3c8cf9c85c300260b90cac7da63}{Pd\+GPS\+\_\+decimal\+Data\+\_\+t}}}
+
+\Hypertarget{dGPS_8h_a6e093e5bb5a0f41ef5b5d773cc8ec327}\index{dGPS.h@{dGPS.h}!PdGPS\_errorData\_t@{PdGPS\_errorData\_t}}
+\index{PdGPS\_errorData\_t@{PdGPS\_errorData\_t}!dGPS.h@{dGPS.h}}
+\doxysubsubsection{\texorpdfstring{PdGPS\_errorData\_t}{PdGPS\_errorData\_t}}
+{\footnotesize\ttfamily \label{dGPS_8h_a6e093e5bb5a0f41ef5b5d773cc8ec327} 
+typedef  struct \mbox{\hyperlink{structdGPS__errorData__t}{d\+GPS\+\_\+error\+Data\+\_\+t}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{dGPS_8h_a6e093e5bb5a0f41ef5b5d773cc8ec327}{Pd\+GPS\+\_\+error\+Data\+\_\+t}}}
+
+\Hypertarget{dGPS_8h_add939c1880196da887576576b19c0c6b}\index{dGPS.h@{dGPS.h}!PGPS\_decimal\_degrees\_t@{PGPS\_decimal\_degrees\_t}}
+\index{PGPS\_decimal\_degrees\_t@{PGPS\_decimal\_degrees\_t}!dGPS.h@{dGPS.h}}
+\doxysubsubsection{\texorpdfstring{PGPS\_decimal\_degrees\_t}{PGPS\_decimal\_degrees\_t}}
+{\footnotesize\ttfamily \label{dGPS_8h_add939c1880196da887576576b19c0c6b} 
+typedef  struct \mbox{\hyperlink{structGPS__decimal__degrees__t}{GPS\+\_\+decimal\+\_\+degrees\+\_\+t}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{dGPS_8h_add939c1880196da887576576b19c0c6b}{PGPS\+\_\+decimal\+\_\+degrees\+\_\+t}}}
+
+
+
+\label{doc-func-members}
+\Hypertarget{dGPS_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{dGPS_8h_a26e24df8db9294ca41506dad23837f62}\index{dGPS.h@{dGPS.h}!convert\_decimal\_degrees@{convert\_decimal\_degrees}}
+\index{convert\_decimal\_degrees@{convert\_decimal\_degrees}!dGPS.h@{dGPS.h}}
+\doxysubsubsection{\texorpdfstring{convert\_decimal\_degrees()}{convert\_decimal\_degrees()}}
+{\footnotesize\ttfamily \label{dGPS_8h_a26e24df8db9294ca41506dad23837f62} 
+double convert\+\_\+decimal\+\_\+degrees (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{nmea\+\_\+coordinate}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{ns}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Converts \doxylink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0}{NMEA} coordinate format (ddmm.\+mmmm) to decimal degrees. (+ for N/E, -\/ for S/W) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nmea\+\_\+coordinate} & \doxylink{gps_8h_a96f0fef87e94bde66ece944b1f311ea0}{NMEA} coordinate string \\
+\hline
+{\em ns} & North south or East west indicator (\textquotesingle{}N\textquotesingle{}, \textquotesingle{}S\textquotesingle{}, \textquotesingle{}E\textquotesingle{}, \textquotesingle{}W\textquotesingle{}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Decimal degrees as double 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{GPS__Route__Setter_8c_source_l00047}{47}} of file \mbox{\hyperlink{GPS__Route__Setter_8c_source}{GPS\+\_\+\+Route\+\_\+\+Setter.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00048\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{double}\ raw\ =\ atof(nmea\_coordinate);\ \textcolor{comment}{//\ Convert\ string\ to\ double}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{int}\ degrees\ =\ (int)(raw\ /\ 100);\ \textcolor{comment}{//\ Get\ the\ degrees\ part}}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{double}\ minutes\ =\ raw\ -\/\ (degrees\ *\ 100);\ \textcolor{comment}{//\ Get\ the\ minutes\ part}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{double}\ decimal\_degrees\ =\ degrees\ +\ (minutes\ /\ 60.0);\ \textcolor{comment}{//\ Convert\ to\ decimal\ degrees}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordflow}{if}\ (ns[0]\ ==\ \textcolor{charliteral}{'S'}\ ||\ ns[0]\ ==\ \textcolor{charliteral}{'W'})\ \textcolor{comment}{//\ Check\ if\ the\ coordinate\ is\ South\ or\ West}}
+\DoxyCodeLine{00057\ \ \ \ \ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ decimal\_degrees\ =\ -\/decimal\_degrees;\ \textcolor{comment}{//\ Make\ it\ negative}}
+\DoxyCodeLine{00059\ \ \ \ \ \}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordflow}{return}\ decimal\_degrees;\ \textcolor{comment}{//\ Return\ the\ converted\ value}}
+\DoxyCodeLine{00062\ \}}
+
+\end{DoxyCode}
+
+
+Referenced by \mbox{\hyperlink{dGPS_8c_source_l00135}{AVG\+\_\+gpsadddata()}}, \mbox{\hyperlink{LOS__algo_8c_source_l00351}{LOS\+\_\+caller()}}, and \mbox{\hyperlink{dGPS_8c_source_l00166}{parse\+\_\+\+GPSdata()}}.
+
+\Hypertarget{dGPS_8h_a47453f5e4aed575f1c58b057725d7b25}\index{dGPS.h@{dGPS.h}!GPS\_getlatest\_ringbuffer@{GPS\_getlatest\_ringbuffer}}
+\index{GPS\_getlatest\_ringbuffer@{GPS\_getlatest\_ringbuffer}!dGPS.h@{dGPS.h}}
+\doxysubsubsection{\texorpdfstring{GPS\_getlatest\_ringbuffer()}{GPS\_getlatest\_ringbuffer()}}
+{\footnotesize\ttfamily \label{dGPS_8h_a47453f5e4aed575f1c58b057725d7b25} 
+void GPS\+\_\+getlatest\+\_\+ringbuffer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structdGPS__decimalData__t}{d\+GPS\+\_\+decimal\+Data\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Function to copy the latest GPS data from the circular history buffer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & Pointer to \doxylink{structdGPS__decimalData__t}{d\+GPS\+\_\+decimal\+Data\+\_\+t} struct where the latest GPS buffer will be copied \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{dGPS_8c_source_l00071}{71}} of file \mbox{\hyperlink{dGPS_8c_source}{d\+GPS.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00072\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{comment}{/*\ Copy\ the\ ringbuffer\ safely\ */}}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordflow}{if}(xSemaphoreTake(\mbox{\hyperlink{admin_8c_a10217e1e6838bd966c23c592ca5535c6}{hGPS\_Ringbuffer\_Mutex}},\ portMAX\_DELAY)\ ==\ pdTRUE)}
+\DoxyCodeLine{00075\ \ \ \ \ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ memcpy(dest,\ \mbox{\hyperlink{dGPS_8c_a9c759455a39d454cd50d271ffbfc586b}{GPS\_history}},\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{dGPS_8c_a9c759455a39d454cd50d271ffbfc586b}{GPS\_history}}));}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ xSemaphoreGive(\mbox{\hyperlink{admin_8c_a10217e1e6838bd966c23c592ca5535c6}{hGPS\_Ringbuffer\_Mutex}});}
+\DoxyCodeLine{00078\ \ \ \ \ \}}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00080\ \ \ \ \ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Err:GPS\_Ringbuffer\_mutex"{}});}
+\DoxyCodeLine{00082\ \ \ \ \ \}}
+\DoxyCodeLine{00083\ \}}
+
+\end{DoxyCode}
+\Hypertarget{dGPS_8h_a5fc09e2ddaa0940dc24585a49e35eeb7}\index{dGPS.h@{dGPS.h}!GPS\_getlatest\_uncorrected@{GPS\_getlatest\_uncorrected}}
+\index{GPS\_getlatest\_uncorrected@{GPS\_getlatest\_uncorrected}!dGPS.h@{dGPS.h}}
+\doxysubsubsection{\texorpdfstring{GPS\_getlatest\_uncorrected()}{GPS\_getlatest\_uncorrected()}}
+{\footnotesize\ttfamily \label{dGPS_8h_a5fc09e2ddaa0940dc24585a49e35eeb7} 
+void GPS\+\_\+getlatest\+\_\+uncorrected (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structdGPS__decimalData__t}{d\+GPS\+\_\+decimal\+Data\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Retrieves the latest uncorrected GPS data. (1 second worth of averaged data) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & Destination pointer to store the latest uncorrected GPS data \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{dGPS_8c_source_l00033}{33}} of file \mbox{\hyperlink{dGPS_8c_source}{d\+GPS.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00034\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{comment}{/*\ Copy\ the\ latest\ uncorrected\ GPS\ data\ safely\ */}}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordflow}{if}(xSemaphoreTake(\mbox{\hyperlink{admin_8c_a829b35d0a413dfd30d7207d813141d56}{hdGPSlatestuncorrected\_Mutex}},\ portMAX\_DELAY)\ ==\ pdTRUE)}
+\DoxyCodeLine{00037\ \ \ \ \ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ memcpy(dest,\ \&\mbox{\hyperlink{dGPS_8c_a547062270212ebe84a3b24fe5c35e127}{GPS\_latestsafe\_uncorrected}},\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structdGPS__decimalData__t}{dGPS\_decimalData\_t}}));}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ xSemaphoreGive(\mbox{\hyperlink{admin_8c_a829b35d0a413dfd30d7207d813141d56}{hdGPSlatestuncorrected\_Mutex}});}
+\DoxyCodeLine{00040\ \ \ \ \ \}}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00042\ \ \ \ \ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Err:hdGPSlatestuncorrected\_Mutex"{}});}
+\DoxyCodeLine{00044\ \ \ \ \ \}}
+\DoxyCodeLine{00045\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{admin_8c_source_l00237}{error\+\_\+\+Halt\+OS()}}, \mbox{\hyperlink{dGPS_8c_source_l00019}{GPS\+\_\+latestsafe\+\_\+uncorrected}}, and \mbox{\hyperlink{admin_8c_source_l00064}{hd\+GPSlatestuncorrected\+\_\+\+Mutex}}.
+
+
+
+Referenced by \mbox{\hyperlink{routeperformer_8c_source_l00100}{update\+\_\+\+GPS\+\_\+loc()}}.
+

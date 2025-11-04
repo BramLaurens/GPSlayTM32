@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['os_5fdelay_0',['os_delay',['../ledjes_8c.html#ac0e8ff7c2f49b0988165336ca423dcea',1,'os_delay:&#160;ledjes.c'],['../UART__keys_8c.html#ac0e8ff7c2f49b0988165336ca423dcea',1,'os_delay:&#160;ledjes.c']]]
+  ['mag_5fvar_0',['mag_var',['../struct__GNRMC.html#ac40135778fb6397517b22f538550f684',1,'_GNRMC']]],
+  ['mag_5fvar_5fpos_1',['mag_var_pos',['../struct__GNRMC.html#ae084cbeba9e7fbdd1fcb2cde9a56e334',1,'_GNRMC']]],
+  ['magcal_2',['magCal',['../compass__driver_8c.html#a0fa74aa8cd8f9e5130aa0ec5ad6a7018',1,'compass_driver.c']]],
+  ['mode_3',['mode',['../struct__GNRMC.html#ae9a603ae0dd481e8e6d591ef5e189140',1,'_GNRMC']]]
 ];

@@ -1,0 +1,28 @@
+var PID__controller_8c =
+[
+    [ "BASE_SPEED", "PID__controller_8c.html#ad9f1a713cff15b009f0d2918624db3f8", null ],
+    [ "KD", "PID__controller_8c.html#ad4f9673d16d231643789f081068d2372", null ],
+    [ "KI", "PID__controller_8c.html#ade82752ae1652fdf0df9df7a16ffda29", null ],
+    [ "KP", "PID__controller_8c.html#aa4729260b732666338dee7d841aa12f3", null ],
+    [ "MAX_SPEED", "PID__controller_8c.html#ac2cd96d53dd3ba6407db6766c3d92b26", null ],
+    [ "MIN_SPEED", "PID__controller_8c.html#ad5f5efaa5cb771bd06da4bfe6046809e", null ],
+    [ "headingError", "PID__controller_8c.html#a671d698b0bc3a5576a862e1007a79dd6", null ],
+    [ "obstacleAvoidance", "PID__controller_8c.html#abe46c826df3be744548fb954242ae776", null ],
+    [ "PID_Controller", "PID__controller_8c.html#a17af2a863b179eb9499c041bc817ecb1", null ],
+    [ "PID_getObstacleAvoidanceState", "PID__controller_8c.html#a42d774d22f401481c51682d3e3bb94d7", null ],
+    [ "PID_getObstacleFlag", "PID__controller_8c.html#ad656e15a8dfd83551a134c9d768e8dfc", null ],
+    [ "PID_setObstacleFlag", "PID__controller_8c.html#adee41834c306e02a66bf5a110503006d", null ],
+    [ "PID_trigger", "PID__controller_8c.html#a37a24fcb8efcc2dc7779c53216c82144", null ],
+    [ "pidCompute", "PID__controller_8c.html#a709e09555bd056b676dc48c3ed5f305b", null ],
+    [ "currentHeading", "PID__controller_8c.html#af8c4529a57f69382b149acd9696c7c25", null ],
+    [ "desiredHeading", "PID__controller_8c.html#aed4a280ec43791fdc6f26e4c1a498b7b", null ],
+    [ "enableObstacleAvoidance", "PID__controller_8c.html#ae0145984b7a6e7e4003342ba70b42395", null ],
+    [ "enablePID", "PID__controller_8c.html#acc215edb8230380d668f1e476661284f", null ],
+    [ "integral", "PID__controller_8c.html#a9157f0915da305914350c5922cee2c1c", null ],
+    [ "key", "PID__controller_8c.html#a668a437ea5e7a51173aee9f82f6747de", null ],
+    [ "lastTime", "PID__controller_8c.html#a9648c4b3c5e8528ebc2745f7cb76ff62", null ],
+    [ "latest_dGPS_data", "PID__controller_8c.html#a7abf9e6a9d768092ffb369f93367baf0", null ],
+    [ "obstacleFlag", "PID__controller_8c.html#ab83af6171d6deb8c85a7976002efc4ea", null ],
+    [ "pid_waypoint_hold", "PID__controller_8c.html#af47974cd1cc41c663bba40787b6bf0f9", null ],
+    [ "prevError", "PID__controller_8c.html#a5f0f2b04907074fd4e0ed600b6e1d394", null ]
+];

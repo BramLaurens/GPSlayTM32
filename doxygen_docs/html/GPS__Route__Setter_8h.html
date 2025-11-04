@@ -91,7 +91,10 @@ $(function(){initNavTree('GPS__Route__Setter_8h.html','',''); });
   <div class="headertitle"><div class="title">GPS_Route_Setter.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
+<div class="textblock"><code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;stdint.h&gt;</code><br />
+<code>#include &quot;cmsis_os.h&quot;</code><br />
+</div>
 <p><a href="GPS__Route__Setter_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -106,8 +109,11 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a26e24df8db9294ca41506dad23837f62" id="r_a26e24df8db9294ca41506dad23837f62"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a26e24df8db9294ca41506dad23837f62">convert_decimal_degrees</a> (char *nmea_coordinate, char *ns)</td></tr>
+<tr class="memdesc:a26e24df8db9294ca41506dad23837f62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts <a class="el" href="gps_8h.html#a96f0fef87e94bde66ece944b1f311ea0">NMEA</a> coordinate format (ddmm.mmmm) to decimal degrees. (+ for N/E, - for S/W)  <br /></td></tr>
 <tr class="memitem:a323587e3d46e386b76cfa39b2b084bf2" id="r_a323587e3d46e386b76cfa39b2b084bf2"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a323587e3d46e386b76cfa39b2b084bf2">GPS_Route_Maker</a> ()</td></tr>
 <tr class="memdesc:a323587e3d46e386b76cfa39b2b084bf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">creates a node for the linked list containing coordinates in Long, Lapt_Route_Parser which are pulled from the global gps data struct: "pt_Route_Parser" if the data recieved is valid.  <br /></td></tr>
+<tr class="memitem:aab599ac6ef4958311429d7f072b568e5" id="r_aab599ac6ef4958311429d7f072b568e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#abaf7f2a5f92fa80200324b7686faa66b">GPS_Route</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab599ac6ef4958311429d7f072b568e5">Route_Pointer_Request</a> ()</td></tr>
 </table>
 <a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Typedef Documentation</h2>
 <a id="abaf7f2a5f92fa80200324b7686faa66b" name="abaf7f2a5f92fa80200324b7686faa66b"></a>
@@ -127,6 +133,56 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="a26e24df8db9294ca41506dad23837f62" name="a26e24df8db9294ca41506dad23837f62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26e24df8db9294ca41506dad23837f62">&#9670;&#160;</a></span>convert_decimal_degrees()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double convert_decimal_degrees </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>nmea_coordinate</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>ns</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Converts <a class="el" href="gps_8h.html#a96f0fef87e94bde66ece944b1f311ea0">NMEA</a> coordinate format (ddmm.mmmm) to decimal degrees. (+ for N/E, - for S/W) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nmea_coordinate</td><td><a class="el" href="gps_8h.html#a96f0fef87e94bde66ece944b1f311ea0">NMEA</a> coordinate string </td></tr>
+    <tr><td class="paramname">ns</td><td>North south or East west indicator ('N', 'S', 'E', 'W') </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Decimal degrees as double </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="GPS__Route__Setter_8c_source.html#l00047">47</a> of file <a class="el" href="GPS__Route__Setter_8c_source.html">GPS_Route_Setter.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   48</span>{</div>
+<div class="line"><span class="lineno">   49</span>    <span class="keywordtype">double</span> raw = atof(nmea_coordinate); <span class="comment">// Convert string to double</span></div>
+<div class="line"><span class="lineno">   50</span> </div>
+<div class="line"><span class="lineno">   51</span>    <span class="keywordtype">int</span> degrees = (int)(raw / 100); <span class="comment">// Get the degrees part</span></div>
+<div class="line"><span class="lineno">   52</span>    <span class="keywordtype">double</span> minutes = raw - (degrees * 100); <span class="comment">// Get the minutes part</span></div>
+<div class="line"><span class="lineno">   53</span> </div>
+<div class="line"><span class="lineno">   54</span>    <span class="keywordtype">double</span> decimal_degrees = degrees + (minutes / 60.0); <span class="comment">// Convert to decimal degrees</span></div>
+<div class="line"><span class="lineno">   55</span> </div>
+<div class="line"><span class="lineno">   56</span>    <span class="keywordflow">if</span> (ns[0] == <span class="charliteral">&#39;S&#39;</span> || ns[0] == <span class="charliteral">&#39;W&#39;</span>) <span class="comment">// Check if the coordinate is South or West</span></div>
+<div class="line"><span class="lineno">   57</span>    {</div>
+<div class="line"><span class="lineno">   58</span>        decimal_degrees = -decimal_degrees; <span class="comment">// Make it negative</span></div>
+<div class="line"><span class="lineno">   59</span>    }</div>
+<div class="line"><span class="lineno">   60</span> </div>
+<div class="line"><span class="lineno">   61</span>    <span class="keywordflow">return</span> decimal_degrees; <span class="comment">// Return the converted value</span></div>
+<div class="line"><span class="lineno">   62</span>}</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="GPS__Route__Setter_8c_source.html#l00108">GPS_Route_Maker()</a>.</p>
+
+</div>
+</div>
 <a id="a323587e3d46e386b76cfa39b2b084bf2" name="a323587e3d46e386b76cfa39b2b084bf2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a323587e3d46e386b76cfa39b2b084bf2">&#9670;&#160;</a></span>GPS_Route_Maker()</h2>
 
@@ -151,97 +207,136 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>GPS_Route* returns a pointer to the head of the linked list </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="GPS__Route__Setter_8c_source.html#l00100">100</a> of file <a class="el" href="GPS__Route__Setter_8c_source.html">GPS_Route_Setter.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  101</span>{</div>
-<div class="line"><span class="lineno">  102</span>    <span class="keywordtype">char</span> Float_buffer[100]; <span class="comment">// char buffer so the floats can be made visible for the user</span></div>
-<div class="line"><span class="lineno">  103</span> </div>
-<div class="line"><span class="lineno">  104</span>    <span class="comment">// &#39;V&#39; is invalid &#39;A&#39; is valid </span></div>
-<div class="line"><span class="lineno">  105</span>    <span class="keywordflow">if</span>(<a class="code hl_variable" href="GPS__Route__Setter_8c.html#a8e0c53a74f9f823a22f79a7e767262f8">pt_Route_Parser</a>-&gt;status == <span class="charliteral">&#39;V&#39;</span>)</div>
-<div class="line"><span class="lineno">  106</span>    { </div>
-<div class="line"><span class="lineno">  107</span>        UART_puts(<span class="stringliteral">&quot;Data from GPS is not valid or is currently busy locking&quot;</span>);</div>
-<div class="line"><span class="lineno">  108</span>        <span class="comment">// posibility for lcd screen debuging</span></div>
-<div class="line"><span class="lineno">  109</span>        <span class="keywordflow">return</span> 1; </div>
-<div class="line"><span class="lineno">  110</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="GPS__Route__Setter_8c_source.html#l00108">108</a> of file <a class="el" href="GPS__Route__Setter_8c_source.html">GPS_Route_Setter.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  109</span>{</div>
+<div class="line"><span class="lineno">  110</span>    <span class="keywordtype">char</span> Float_buffer[100]; <span class="comment">// char buffer so the floats can be made visible for the user</span></div>
 <div class="line"><span class="lineno">  111</span> </div>
-<div class="line"><span class="lineno">  112</span>    <span class="comment">// free memory so a struct can be added returning a pointer to that memory address</span></div>
-<div class="line"><span class="lineno">  113</span>    <a class="code hl_typedef" href="#abaf7f2a5f92fa80200324b7686faa66b">GPS_Route</a> *Node= malloc(<span class="keyword">sizeof</span>(<a class="code hl_typedef" href="#abaf7f2a5f92fa80200324b7686faa66b">GPS_Route</a>));</div>
+<div class="line"><span class="lineno">  112</span>    UART_puts(<span class="stringliteral">&quot;Checking GPS data validity: &quot;</span>);</div>
+<div class="line"><span class="lineno">  113</span>    UART_puts(<a class="code hl_variable" href="GPS__Route__Setter_8c.html#a8e0c53a74f9f823a22f79a7e767262f8">pt_Route_Parser</a>-&gt;status); UART_puts(<span class="stringliteral">&quot; \r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  114</span> </div>
-<div class="line"><span class="lineno">  115</span>    <span class="comment">// error malloc failed</span></div>
-<div class="line"><span class="lineno">  116</span>    <span class="keywordflow">if</span>(Node==NULL)</div>
+<div class="line"><span class="lineno">  115</span>    <span class="comment">// &#39;V&#39; is invalid &#39;A&#39; is valid </span></div>
+<div class="line"><span class="lineno">  116</span>    <span class="keywordflow">if</span>(<a class="code hl_variable" href="GPS__Route__Setter_8c.html#a8e0c53a74f9f823a22f79a7e767262f8">pt_Route_Parser</a>-&gt;status != <span class="charliteral">&#39;A&#39;</span>)</div>
 <div class="line"><span class="lineno">  117</span>    { </div>
-<div class="line"><span class="lineno">  118</span>        UART_puts(<span class="stringliteral">&quot;Malloc failed!&quot;</span>);</div>
-<div class="line"><span class="lineno">  119</span>        <span class="keywordflow">return</span> 1;</div>
-<div class="line"><span class="lineno">  120</span>    }</div>
-<div class="line"><span class="lineno">  121</span> </div>
-<div class="line"><span class="lineno">  122</span>    <span class="comment">// if there is no head(first node of a linked list)  </span></div>
-<div class="line"><span class="lineno">  123</span>    <span class="keywordflow">if</span>(<a class="code hl_variable" href="GPS__Route__Setter_8c.html#adb2c62dd349ccf9f8ec2614a64f90791">pt_Route</a> == NULL)</div>
-<div class="line"><span class="lineno">  124</span>    { </div>
-<div class="line"><span class="lineno">  125</span>        Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ae5a5dd3df2f2114e2cf0d287e6b38ef4">longitude</a>= <a class="code hl_function" href="GPS__Route__Setter_8c.html#a26e24df8db9294ca41506dad23837f62">convert_decimal_degrees</a>(<a class="code hl_variable" href="GPS__Route__Setter_8c.html#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.longitude, &amp;<a class="code hl_variable" href="GPS__Route__Setter_8c.html#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.EW_ind); <span class="comment">// make a float out of the ascii char of the gps data</span></div>
-<div class="line"><span class="lineno">  126</span>        Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#aa61b46911a0379e3e3c673d4207b0719">latitude</a>= <a class="code hl_function" href="GPS__Route__Setter_8c.html#a26e24df8db9294ca41506dad23837f62">convert_decimal_degrees</a>(<a class="code hl_variable" href="GPS__Route__Setter_8c.html#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.latitude, &amp;<a class="code hl_variable" href="GPS__Route__Setter_8c.html#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.NS_ind);    <span class="comment">// make a float out of the ascii char of the gps data</span></div>
-<div class="line"><span class="lineno">  127</span>        Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ade4f5167bbb15bf9bd35191bead79c72">nodeNumber</a> = 0;</div>
-<div class="line"><span class="lineno">  128</span>        Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">Next_point</a> = NULL; </div>
-<div class="line"><span class="lineno">  129</span>        UART_puts(<span class="stringliteral">&quot;Head created&quot;</span>);</div>
-<div class="line"><span class="lineno">  130</span>        UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
-<div class="line"><span class="lineno">  131</span> </div>
-<div class="line"><span class="lineno">  132</span>        UART_puts(<span class="stringliteral">&quot; Waypoint number: &quot;</span>); UART_putint(Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ade4f5167bbb15bf9bd35191bead79c72">nodeNumber</a>); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
-<div class="line"><span class="lineno">  133</span> </div>
-<div class="line"><span class="lineno">  134</span>        sprintf(Float_buffer, <span class="stringliteral">&quot; Long:%2.9f&quot;</span>,Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ae5a5dd3df2f2114e2cf0d287e6b38ef4">longitude</a>); <span class="comment">// So the float can read by the user in terminal </span></div>
-<div class="line"><span class="lineno">  135</span>        UART_puts(Float_buffer); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
-<div class="line"><span class="lineno">  136</span>        <span class="comment">// posibility for lcd screen debuging and showing user the coordinates</span></div>
-<div class="line"><span class="lineno">  137</span>        sprintf(Float_buffer, <span class="stringliteral">&quot; Lat:%2.9f&quot;</span>,Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#aa61b46911a0379e3e3c673d4207b0719">latitude</a>); <span class="comment">// So the float can read by the user in terminal </span></div>
-<div class="line"><span class="lineno">  138</span>        UART_puts(Float_buffer); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
-<div class="line"><span class="lineno">  139</span> </div>
-<div class="line"><span class="lineno">  140</span>        <a class="code hl_variable" href="GPS__Route__Setter_8c.html#adb2c62dd349ccf9f8ec2614a64f90791">pt_Route</a> = Node;</div>
-<div class="line"><span class="lineno">  141</span>        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><span class="lineno">  142</span>    }</div>
-<div class="line"><span class="lineno">  143</span> </div>
-<div class="line"><span class="lineno">  144</span>    <span class="comment">// adding a node other then the head(first)</span></div>
-<div class="line"><span class="lineno">  145</span>    <a class="code hl_typedef" href="#abaf7f2a5f92fa80200324b7686faa66b">GPS_Route</a> *temp = <a class="code hl_variable" href="GPS__Route__Setter_8c.html#adb2c62dd349ccf9f8ec2614a64f90791">pt_Route</a>; <span class="comment">// creating a temp so the original pointer does not get lost when searching for a next point</span></div>
-<div class="line"><span class="lineno">  146</span>    <span class="keywordtype">int</span> i=1;</div>
-<div class="line"><span class="lineno">  147</span>    UART_puts(<span class="stringliteral">&quot;begin search for next point. \r\n&quot;</span>);</div>
-<div class="line"><span class="lineno">  148</span> </div>
-<div class="line"><span class="lineno">  149</span>    <span class="comment">// searching for the next node with no next point so one can be added</span></div>
-<div class="line"><span class="lineno">  150</span>    <span class="keywordflow">while</span>(temp-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">Next_point</a> != NULL)</div>
-<div class="line"><span class="lineno">  151</span>    { </div>
-<div class="line"><span class="lineno">  152</span>        i++;</div>
-<div class="line"><span class="lineno">  153</span>        temp = temp-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">Next_point</a>; </div>
-<div class="line"><span class="lineno">  154</span>    }</div>
-<div class="line"><span class="lineno">  155</span>    UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
-<div class="line"><span class="lineno">  156</span>    UART_puts(<span class="stringliteral">&quot;Node in linked list:&quot;</span>); UART_putint(i); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
-<div class="line"><span class="lineno">  157</span> </div>
-<div class="line"><span class="lineno">  158</span>    <span class="comment">// Filling node elements</span></div>
-<div class="line"><span class="lineno">  159</span>    Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ae5a5dd3df2f2114e2cf0d287e6b38ef4">longitude</a>= <a class="code hl_function" href="GPS__Route__Setter_8c.html#a26e24df8db9294ca41506dad23837f62">convert_decimal_degrees</a>(<a class="code hl_variable" href="GPS__Route__Setter_8c.html#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.longitude, &amp;<a class="code hl_variable" href="GPS__Route__Setter_8c.html#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.EW_ind); <span class="comment">// make a float out of the ascii char of the gps data</span></div>
-<div class="line"><span class="lineno">  160</span>    Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#aa61b46911a0379e3e3c673d4207b0719">latitude</a>= <a class="code hl_function" href="GPS__Route__Setter_8c.html#a26e24df8db9294ca41506dad23837f62">convert_decimal_degrees</a>(<a class="code hl_variable" href="GPS__Route__Setter_8c.html#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.latitude, &amp;<a class="code hl_variable" href="GPS__Route__Setter_8c.html#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.NS_ind);    <span class="comment">// make a float out of the ascii char of the gps data</span></div>
-<div class="line"><span class="lineno">  161</span>    Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ade4f5167bbb15bf9bd35191bead79c72">nodeNumber</a> = i;</div>
-<div class="line"><span class="lineno">  162</span>    Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">Next_point</a> = NULL;</div>
-<div class="line"><span class="lineno">  163</span>    temp-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">Next_point</a> = Node;</div>
-<div class="line"><span class="lineno">  164</span> </div>
-<div class="line"><span class="lineno">  165</span>    UART_puts(<span class="stringliteral">&quot; Waypoint number: &quot;</span>); UART_putint(Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ade4f5167bbb15bf9bd35191bead79c72">nodeNumber</a>); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
-<div class="line"><span class="lineno">  166</span> </div>
-<div class="line"><span class="lineno">  167</span>    sprintf(Float_buffer, <span class="stringliteral">&quot; Long:%2.9f&quot;</span>,Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ae5a5dd3df2f2114e2cf0d287e6b38ef4">longitude</a>);</div>
-<div class="line"><span class="lineno">  168</span>    UART_puts(Float_buffer); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
-<div class="line"><span class="lineno">  169</span> </div>
-<div class="line"><span class="lineno">  170</span>    sprintf(Float_buffer, <span class="stringliteral">&quot; Lat:%2.9f&quot;</span>,Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#aa61b46911a0379e3e3c673d4207b0719">latitude</a>);</div>
-<div class="line"><span class="lineno">  171</span>    UART_puts(Float_buffer); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  118</span>        UART_puts(<span class="stringliteral">&quot;Data from GPS is not valid or is currently busy locking&quot;</span>);</div>
+<div class="line"><span class="lineno">  119</span>        <span class="comment">// posibility for lcd screen debuging</span></div>
+<div class="line"><span class="lineno">  120</span>        <span class="keywordflow">return</span> 1; </div>
+<div class="line"><span class="lineno">  121</span>    }</div>
+<div class="line"><span class="lineno">  122</span> </div>
+<div class="line"><span class="lineno">  123</span>    <span class="comment">// free memory so a struct can be added returning a pointer to that memory address</span></div>
+<div class="line"><span class="lineno">  124</span>    <a class="code hl_typedef" href="#abaf7f2a5f92fa80200324b7686faa66b">GPS_Route</a> *Node= malloc(<span class="keyword">sizeof</span>(<a class="code hl_typedef" href="#abaf7f2a5f92fa80200324b7686faa66b">GPS_Route</a>));</div>
+<div class="line"><span class="lineno">  125</span> </div>
+<div class="line"><span class="lineno">  126</span>    <span class="comment">// error malloc failed</span></div>
+<div class="line"><span class="lineno">  127</span>    <span class="keywordflow">if</span>(Node==NULL)</div>
+<div class="line"><span class="lineno">  128</span>    { </div>
+<div class="line"><span class="lineno">  129</span>        UART_puts(<span class="stringliteral">&quot;Malloc failed!&quot;</span>);</div>
+<div class="line"><span class="lineno">  130</span>        <span class="keywordflow">return</span> 1;</div>
+<div class="line"><span class="lineno">  131</span>    }</div>
+<div class="line"><span class="lineno">  132</span> </div>
+<div class="line"><span class="lineno">  133</span>    <span class="comment">// if there is no head(first node of a linked list)  </span></div>
+<div class="line"><span class="lineno">  134</span>    <span class="keywordflow">if</span>(<a class="code hl_variable" href="GPS__Route__Setter_8c.html#adb2c62dd349ccf9f8ec2614a64f90791">pt_Route</a> == NULL)</div>
+<div class="line"><span class="lineno">  135</span>    { </div>
+<div class="line"><span class="lineno">  136</span>        Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ae5a5dd3df2f2114e2cf0d287e6b38ef4">longitude</a>= <a class="code hl_function" href="GPS__Route__Setter_8c.html#a26e24df8db9294ca41506dad23837f62">convert_decimal_degrees</a>(<a class="code hl_variable" href="GPS__Route__Setter_8c.html#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.longitude, &amp;<a class="code hl_variable" href="GPS__Route__Setter_8c.html#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.EW_ind); <span class="comment">// make a float out of the ascii char of the gps data</span></div>
+<div class="line"><span class="lineno">  137</span>        Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#aa61b46911a0379e3e3c673d4207b0719">latitude</a>= <a class="code hl_function" href="GPS__Route__Setter_8c.html#a26e24df8db9294ca41506dad23837f62">convert_decimal_degrees</a>(<a class="code hl_variable" href="GPS__Route__Setter_8c.html#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.latitude, &amp;<a class="code hl_variable" href="GPS__Route__Setter_8c.html#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.NS_ind);    <span class="comment">// make a float out of the ascii char of the gps data</span></div>
+<div class="line"><span class="lineno">  138</span>        Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ade4f5167bbb15bf9bd35191bead79c72">nodeNumber</a> = 0;</div>
+<div class="line"><span class="lineno">  139</span>        Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">Next_point</a> = NULL; </div>
+<div class="line"><span class="lineno">  140</span>        UART_puts(<span class="stringliteral">&quot;Head created&quot;</span>);</div>
+<div class="line"><span class="lineno">  141</span>        UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  142</span> </div>
+<div class="line"><span class="lineno">  143</span>        UART_puts(<span class="stringliteral">&quot; Waypoint number: &quot;</span>); UART_putint(Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ade4f5167bbb15bf9bd35191bead79c72">nodeNumber</a>); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  144</span> </div>
+<div class="line"><span class="lineno">  145</span>        sprintf(Float_buffer, <span class="stringliteral">&quot; Long:%2.9f&quot;</span>,Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ae5a5dd3df2f2114e2cf0d287e6b38ef4">longitude</a>); <span class="comment">// So the float can read by the user in terminal </span></div>
+<div class="line"><span class="lineno">  146</span>        UART_puts(Float_buffer); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  147</span>        <span class="comment">// posibility for lcd screen debuging and showing user the coordinates</span></div>
+<div class="line"><span class="lineno">  148</span>        sprintf(Float_buffer, <span class="stringliteral">&quot; Lat:%2.9f&quot;</span>,Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#aa61b46911a0379e3e3c673d4207b0719">latitude</a>); <span class="comment">// So the float can read by the user in terminal </span></div>
+<div class="line"><span class="lineno">  149</span>        UART_puts(Float_buffer); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  150</span> </div>
+<div class="line"><span class="lineno">  151</span>        <a class="code hl_variable" href="GPS__Route__Setter_8c.html#a634185e179fb7d88f2a1b14442975f12">WP_amount</a>++;</div>
+<div class="line"><span class="lineno">  152</span>        <span class="comment">// LCD_clear();</span></div>
+<div class="line"><span class="lineno">  153</span>        <span class="comment">// LCD_puts(&quot;New node created&quot;);</span></div>
+<div class="line"><span class="lineno">  154</span> </div>
+<div class="line"><span class="lineno">  155</span>        <a class="code hl_variable" href="GPS__Route__Setter_8c.html#adb2c62dd349ccf9f8ec2614a64f90791">pt_Route</a> = Node;</div>
+<div class="line"><span class="lineno">  156</span>        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">  157</span>    }</div>
+<div class="line"><span class="lineno">  158</span> </div>
+<div class="line"><span class="lineno">  159</span>    <span class="comment">// adding a node other then the head(first)</span></div>
+<div class="line"><span class="lineno">  160</span>    <a class="code hl_typedef" href="#abaf7f2a5f92fa80200324b7686faa66b">GPS_Route</a> *temp = <a class="code hl_variable" href="GPS__Route__Setter_8c.html#adb2c62dd349ccf9f8ec2614a64f90791">pt_Route</a>; <span class="comment">// creating a temp so the original pointer does not get lost when searching for a next point</span></div>
+<div class="line"><span class="lineno">  161</span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="dGPS_8c.html#acb559820d9ca11295b4500f179ef6392">i</a>=1;</div>
+<div class="line"><span class="lineno">  162</span>    UART_puts(<span class="stringliteral">&quot;begin search for next point. \r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  163</span> </div>
+<div class="line"><span class="lineno">  164</span>    <span class="comment">// searching for the next node with no next point so one can be added</span></div>
+<div class="line"><span class="lineno">  165</span>    <span class="keywordflow">while</span>(temp-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">Next_point</a> != NULL)</div>
+<div class="line"><span class="lineno">  166</span>    { </div>
+<div class="line"><span class="lineno">  167</span>        <a class="code hl_variable" href="dGPS_8c.html#acb559820d9ca11295b4500f179ef6392">i</a>++;</div>
+<div class="line"><span class="lineno">  168</span>        temp = temp-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">Next_point</a>; </div>
+<div class="line"><span class="lineno">  169</span>    }</div>
+<div class="line"><span class="lineno">  170</span>    UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  171</span>    UART_puts(<span class="stringliteral">&quot;Node in linked list:&quot;</span>); UART_putint(<a class="code hl_variable" href="dGPS_8c.html#acb559820d9ca11295b4500f179ef6392">i</a>); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  172</span> </div>
-<div class="line"><span class="lineno">  173</span>    UART_puts(<span class="stringliteral">&quot;New node created succesfully&quot;</span>);</div>
-<div class="line"><span class="lineno">  174</span>    UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
-<div class="line"><span class="lineno">  175</span> </div>
-<div class="line"><span class="lineno">  176</span>    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><span class="lineno">  177</span>}</div>
-<div class="ttc" id="aGPS__Route__Setter_8c_html_a26e24df8db9294ca41506dad23837f62"><div class="ttname"><a href="GPS__Route__Setter_8c.html#a26e24df8db9294ca41506dad23837f62">convert_decimal_degrees</a></div><div class="ttdeci">double convert_decimal_degrees(char *nmea_coordinate, char *ns)</div><div class="ttdoc">Converts NMEA coordinate format (ddmm.mmmm) to decimal degrees. (+ for N/E, - for S/W)</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8c_source.html#l00039">GPS_Route_Setter.c:39</a></div></div>
-<div class="ttc" id="aGPS__Route__Setter_8c_html_a5995b958899bd405b88701c42271afac"><div class="ttname"><a href="GPS__Route__Setter_8c.html#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a></div><div class="ttdeci">GNRMC GNRMC_localcopy3</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8c_source.html#l00025">GPS_Route_Setter.c:25</a></div></div>
-<div class="ttc" id="aGPS__Route__Setter_8c_html_a8e0c53a74f9f823a22f79a7e767262f8"><div class="ttname"><a href="GPS__Route__Setter_8c.html#a8e0c53a74f9f823a22f79a7e767262f8">pt_Route_Parser</a></div><div class="ttdeci">GNRMC * pt_Route_Parser</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8c_source.html#l00026">GPS_Route_Setter.c:26</a></div></div>
-<div class="ttc" id="aGPS__Route__Setter_8c_html_adb2c62dd349ccf9f8ec2614a64f90791"><div class="ttname"><a href="GPS__Route__Setter_8c.html#adb2c62dd349ccf9f8ec2614a64f90791">pt_Route</a></div><div class="ttdeci">GPS_Route * pt_Route</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8c_source.html#l00030">GPS_Route_Setter.c:30</a></div></div>
+<div class="line"><span class="lineno">  173</span>    <span class="comment">// Filling node elements</span></div>
+<div class="line"><span class="lineno">  174</span>    Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ae5a5dd3df2f2114e2cf0d287e6b38ef4">longitude</a>= <a class="code hl_function" href="GPS__Route__Setter_8c.html#a26e24df8db9294ca41506dad23837f62">convert_decimal_degrees</a>(<a class="code hl_variable" href="GPS__Route__Setter_8c.html#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.longitude, &amp;<a class="code hl_variable" href="GPS__Route__Setter_8c.html#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.EW_ind); <span class="comment">// make a float out of the ascii char of the gps data</span></div>
+<div class="line"><span class="lineno">  175</span>    Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#aa61b46911a0379e3e3c673d4207b0719">latitude</a>= <a class="code hl_function" href="GPS__Route__Setter_8c.html#a26e24df8db9294ca41506dad23837f62">convert_decimal_degrees</a>(<a class="code hl_variable" href="GPS__Route__Setter_8c.html#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.latitude, &amp;<a class="code hl_variable" href="GPS__Route__Setter_8c.html#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.NS_ind);    <span class="comment">// make a float out of the ascii char of the gps data</span></div>
+<div class="line"><span class="lineno">  176</span>    Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ade4f5167bbb15bf9bd35191bead79c72">nodeNumber</a> = <a class="code hl_variable" href="dGPS_8c.html#acb559820d9ca11295b4500f179ef6392">i</a>;</div>
+<div class="line"><span class="lineno">  177</span>    Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">Next_point</a> = NULL;</div>
+<div class="line"><span class="lineno">  178</span>    temp-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">Next_point</a> = Node;</div>
+<div class="line"><span class="lineno">  179</span> </div>
+<div class="line"><span class="lineno">  180</span>    UART_puts(<span class="stringliteral">&quot; Waypoint number: &quot;</span>); UART_putint(Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ade4f5167bbb15bf9bd35191bead79c72">nodeNumber</a>); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  181</span> </div>
+<div class="line"><span class="lineno">  182</span>    sprintf(Float_buffer, <span class="stringliteral">&quot; Long:%2.9f&quot;</span>,Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ae5a5dd3df2f2114e2cf0d287e6b38ef4">longitude</a>);</div>
+<div class="line"><span class="lineno">  183</span>    UART_puts(Float_buffer); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  184</span> </div>
+<div class="line"><span class="lineno">  185</span>    sprintf(Float_buffer, <span class="stringliteral">&quot; Lat:%2.9f&quot;</span>,Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#aa61b46911a0379e3e3c673d4207b0719">latitude</a>);</div>
+<div class="line"><span class="lineno">  186</span>    UART_puts(Float_buffer); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  187</span> </div>
+<div class="line"><span class="lineno">  188</span>    <a class="code hl_variable" href="GPS__Route__Setter_8c.html#a634185e179fb7d88f2a1b14442975f12">WP_amount</a>++;</div>
+<div class="line"><span class="lineno">  189</span>    <span class="comment">// LCD_clear();</span></div>
+<div class="line"><span class="lineno">  190</span>    <span class="comment">// LCD_puts(&quot;New node created&quot;);</span></div>
+<div class="line"><span class="lineno">  191</span> </div>
+<div class="line"><span class="lineno">  192</span>    UART_puts(<span class="stringliteral">&quot;New node created succesfully&quot;</span>);</div>
+<div class="line"><span class="lineno">  193</span>    UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  194</span> </div>
+<div class="line"><span class="lineno">  195</span>    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">  196</span>}</div>
+<div class="ttc" id="aGPS__Route__Setter_8c_html_a26e24df8db9294ca41506dad23837f62"><div class="ttname"><a href="GPS__Route__Setter_8c.html#a26e24df8db9294ca41506dad23837f62">convert_decimal_degrees</a></div><div class="ttdeci">double convert_decimal_degrees(char *nmea_coordinate, char *ns)</div><div class="ttdoc">Converts NMEA coordinate format (ddmm.mmmm) to decimal degrees. (+ for N/E, - for S/W)</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8c_source.html#l00047">GPS_Route_Setter.c:47</a></div></div>
+<div class="ttc" id="aGPS__Route__Setter_8c_html_a5995b958899bd405b88701c42271afac"><div class="ttname"><a href="GPS__Route__Setter_8c.html#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a></div><div class="ttdeci">GNRMC GNRMC_localcopy3</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8c_source.html#l00026">GPS_Route_Setter.c:26</a></div></div>
+<div class="ttc" id="aGPS__Route__Setter_8c_html_a634185e179fb7d88f2a1b14442975f12"><div class="ttname"><a href="GPS__Route__Setter_8c.html#a634185e179fb7d88f2a1b14442975f12">WP_amount</a></div><div class="ttdeci">char WP_amount</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8c_source.html#l00033">GPS_Route_Setter.c:33</a></div></div>
+<div class="ttc" id="aGPS__Route__Setter_8c_html_a8e0c53a74f9f823a22f79a7e767262f8"><div class="ttname"><a href="GPS__Route__Setter_8c.html#a8e0c53a74f9f823a22f79a7e767262f8">pt_Route_Parser</a></div><div class="ttdeci">GNRMC * pt_Route_Parser</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8c_source.html#l00027">GPS_Route_Setter.c:27</a></div></div>
+<div class="ttc" id="aGPS__Route__Setter_8c_html_adb2c62dd349ccf9f8ec2614a64f90791"><div class="ttname"><a href="GPS__Route__Setter_8c.html#adb2c62dd349ccf9f8ec2614a64f90791">pt_Route</a></div><div class="ttdeci">GPS_Route * pt_Route</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8c_source.html#l00031">GPS_Route_Setter.c:31</a></div></div>
 <div class="ttc" id="aGPS__Route__Setter_8h_html_abaf7f2a5f92fa80200324b7686faa66b"><div class="ttname"><a href="#abaf7f2a5f92fa80200324b7686faa66b">GPS_Route</a></div><div class="ttdeci">struct _GPS_Route GPS_Route</div><div class="ttdoc">Struct voor het opslaan van GPS coördinaten in een linked list.</div></div>
-<div class="ttc" id="astruct__GPS__Route_html_a5caf46243f1649ed348c9d8f13723998"><div class="ttname"><a href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">_GPS_Route::Next_point</a></div><div class="ttdeci">struct _GPS_Route * Next_point</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8h_source.html#l00019">GPS_Route_Setter.h:19</a></div></div>
-<div class="ttc" id="astruct__GPS__Route_html_aa61b46911a0379e3e3c673d4207b0719"><div class="ttname"><a href="struct__GPS__Route.html#aa61b46911a0379e3e3c673d4207b0719">_GPS_Route::latitude</a></div><div class="ttdeci">double latitude</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8h_source.html#l00016">GPS_Route_Setter.h:16</a></div></div>
-<div class="ttc" id="astruct__GPS__Route_html_ade4f5167bbb15bf9bd35191bead79c72"><div class="ttname"><a href="struct__GPS__Route.html#ade4f5167bbb15bf9bd35191bead79c72">_GPS_Route::nodeNumber</a></div><div class="ttdeci">uint8_t nodeNumber</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8h_source.html#l00018">GPS_Route_Setter.h:18</a></div></div>
-<div class="ttc" id="astruct__GPS__Route_html_ae5a5dd3df2f2114e2cf0d287e6b38ef4"><div class="ttname"><a href="struct__GPS__Route.html#ae5a5dd3df2f2114e2cf0d287e6b38ef4">_GPS_Route::longitude</a></div><div class="ttdeci">double longitude</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8h_source.html#l00017">GPS_Route_Setter.h:17</a></div></div>
+<div class="ttc" id="adGPS_8c_html_acb559820d9ca11295b4500f179ef6392"><div class="ttname"><a href="dGPS_8c.html#acb559820d9ca11295b4500f179ef6392">i</a></div><div class="ttdeci">int i</div><div class="ttdef"><b>Definition</b> <a href="dGPS_8c_source.html#l00026">dGPS.c:26</a></div></div>
+<div class="ttc" id="astruct__GPS__Route_html_a5caf46243f1649ed348c9d8f13723998"><div class="ttname"><a href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">_GPS_Route::Next_point</a></div><div class="ttdeci">struct _GPS_Route * Next_point</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8h_source.html#l00023">GPS_Route_Setter.h:23</a></div></div>
+<div class="ttc" id="astruct__GPS__Route_html_aa61b46911a0379e3e3c673d4207b0719"><div class="ttname"><a href="struct__GPS__Route.html#aa61b46911a0379e3e3c673d4207b0719">_GPS_Route::latitude</a></div><div class="ttdeci">double latitude</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8h_source.html#l00020">GPS_Route_Setter.h:20</a></div></div>
+<div class="ttc" id="astruct__GPS__Route_html_ade4f5167bbb15bf9bd35191bead79c72"><div class="ttname"><a href="struct__GPS__Route.html#ade4f5167bbb15bf9bd35191bead79c72">_GPS_Route::nodeNumber</a></div><div class="ttdeci">uint8_t nodeNumber</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8h_source.html#l00022">GPS_Route_Setter.h:22</a></div></div>
+<div class="ttc" id="astruct__GPS__Route_html_ae5a5dd3df2f2114e2cf0d287e6b38ef4"><div class="ttname"><a href="struct__GPS__Route.html#ae5a5dd3df2f2114e2cf0d287e6b38ef4">_GPS_Route::longitude</a></div><div class="ttdeci">double longitude</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8h_source.html#l00021">GPS_Route_Setter.h:21</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="GPS__Route__Setter_8c_source.html#l00039">convert_decimal_degrees()</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00025">GNRMC_localcopy3</a>, <a class="el" href="GPS__Route__Setter_8h_source.html#l00016">_GPS_Route::latitude</a>, <a class="el" href="GPS__Route__Setter_8h_source.html#l00017">_GPS_Route::longitude</a>, <a class="el" href="GPS__Route__Setter_8h_source.html#l00019">_GPS_Route::Next_point</a>, <a class="el" href="GPS__Route__Setter_8h_source.html#l00018">_GPS_Route::nodeNumber</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00030">pt_Route</a>, and <a class="el" href="GPS__Route__Setter_8c_source.html#l00026">pt_Route_Parser</a>.</p>
+<p class="reference">References <a class="el" href="GPS__Route__Setter_8c_source.html#l00047">convert_decimal_degrees()</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00026">GNRMC_localcopy3</a>, <a class="el" href="dGPS_8c_source.html#l00026">i</a>, <a class="el" href="GPS__Route__Setter_8h_source.html#l00020">_GPS_Route::latitude</a>, <a class="el" href="GPS__Route__Setter_8h_source.html#l00021">_GPS_Route::longitude</a>, <a class="el" href="GPS__Route__Setter_8h_source.html#l00023">_GPS_Route::Next_point</a>, <a class="el" href="GPS__Route__Setter_8h_source.html#l00022">_GPS_Route::nodeNumber</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00031">pt_Route</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00027">pt_Route_Parser</a>, and <a class="el" href="GPS__Route__Setter_8c_source.html#l00033">WP_amount</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GPS__Route__Setter_8c_source.html#l00226">Route_Setter()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GPS__Route__Setter_8c_source.html#l00256">Route_Setter()</a>.</p>
+
+</div>
+</div>
+<a id="aab599ac6ef4958311429d7f072b568e5" name="aab599ac6ef4958311429d7f072b568e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab599ac6ef4958311429d7f072b568e5">&#9670;&#160;</a></span>Route_Pointer_Request()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#abaf7f2a5f92fa80200324b7686faa66b">GPS_Route</a> * Route_Pointer_Request </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="GPS__Route__Setter_8c_source.html#l00201">201</a> of file <a class="el" href="GPS__Route__Setter_8c_source.html">GPS_Route_Setter.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  202</span>{</div>
+<div class="line"><span class="lineno">  203</span>     <span class="keywordflow">return</span> <a class="code hl_variable" href="GPS__Route__Setter_8c.html#adb2c62dd349ccf9f8ec2614a64f90791">pt_Route</a>;</div>
+<div class="line"><span class="lineno">  204</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="GPS__Route__Setter_8c_source.html#l00031">pt_Route</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="routeperformer_8c_source.html#l00123">check_structs()</a>, <a class="el" href="routeperformer_8c_source.html#l00346">Completed_waypoint()</a>, <a class="el" href="LOS__algo_8c_source.html#l00292">onGPSupdate()</a>, and <a class="el" href="LOS__algo_8c_source.html#l00339">startRoute()</a>.</p>
 
 </div>
 </div>

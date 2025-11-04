@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['nrf_5fdriver_2ec_0',['NRF_driver.c',['../NRF__driver_8c.html',1,'']]],
-  ['nrf_5fdriver_2eh_1',['NRF_driver.h',['../NRF__driver_8h.html',1,'']]]
+  ['ledjes_2ec_0',['ledjes.c',['../ledjes_8c.html',1,'']]],
+  ['los_5falgo_2ec_1',['LOS_algo.c',['../LOS__algo_8c.html',1,'']]],
+  ['los_5falgo_2eh_2',['LOS_algo.h',['../LOS__algo_8h.html',1,'']]]
 ];

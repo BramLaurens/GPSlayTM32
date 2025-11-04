@@ -1,3 +1,14 @@
+/**
+ * @file LOS_algo.c
+ * @author Bram Laurens
+ * @brief Implements the Line of Sight (LOS) algorithm for waypoint navigation
+ * @version 0.1
+ * @date 2025-11-04
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #include "main.h"
 #include "cmsis_os.h"
 #include "admin.h"
@@ -321,6 +332,10 @@ void onGPSupdate(double gps_lat, double gps_lon, double heading_deg)
 
 }
 
+/**
+ * @brief Starts the route navigation, initializing reference coordinates using the first waypoint
+ * 
+ */
 void startRoute()
 {
     GPS_Route *head = Route_Pointer_Request();
@@ -328,6 +343,11 @@ void startRoute()
     ref_lon = head->longitude;
 }
 
+/**
+ * @brief Task to handle Line of Sight (LOS) updates
+ * 
+ * @param argument 
+ */
 void LOS_caller(void *argument)
 {
     while(1)

@@ -1,3 +1,14 @@
+/**
+ * @file motordriver.c
+ * @author Matthias Dercksen
+ * @brief Motor driver for controlling DC motors using PWM
+ * @version 0.1
+ * @date 2025-11-04
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #include "main.h"
 #include "cmsis_os.h"
 #include "stdlib.h"

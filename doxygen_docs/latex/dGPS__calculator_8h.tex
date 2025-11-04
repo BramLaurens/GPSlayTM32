@@ -1,0 +1,58 @@
+\doxysection{Core/\+My\+App/\+App/d\+GPS\+\_\+calculator.h File Reference}
+\hypertarget{dGPS__calculator_8h}{}\label{dGPS__calculator_8h}\index{Core/MyApp/App/dGPS\_calculator.h@{Core/MyApp/App/dGPS\_calculator.h}}
+{\ttfamily \#include "{}main.\+h"{}}\newline
+{\ttfamily \#include "{}cmsis\+\_\+os.\+h"{}}\newline
+{\ttfamily \#include "{}d\+GPS.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{dGPS__calculator_8h_a47453f5e4aed575f1c58b057725d7b25}{GPS\+\_\+getlatest\+\_\+ringbuffer}} (\mbox{\hyperlink{structdGPS__decimalData__t}{d\+GPS\+\_\+decimal\+Data\+\_\+t}} \texorpdfstring{$\ast$}{*}dest)
+\begin{DoxyCompactList}\small\item\em Function to copy the latest GPS data from the circular history buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{dGPS__calculator_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{dGPS__calculator_8h_a47453f5e4aed575f1c58b057725d7b25}\index{dGPS\_calculator.h@{dGPS\_calculator.h}!GPS\_getlatest\_ringbuffer@{GPS\_getlatest\_ringbuffer}}
+\index{GPS\_getlatest\_ringbuffer@{GPS\_getlatest\_ringbuffer}!dGPS\_calculator.h@{dGPS\_calculator.h}}
+\doxysubsubsection{\texorpdfstring{GPS\_getlatest\_ringbuffer()}{GPS\_getlatest\_ringbuffer()}}
+{\footnotesize\ttfamily \label{dGPS__calculator_8h_a47453f5e4aed575f1c58b057725d7b25} 
+void GPS\+\_\+getlatest\+\_\+ringbuffer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structdGPS__decimalData__t}{d\+GPS\+\_\+decimal\+Data\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{dest}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Function to copy the latest GPS data from the circular history buffer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & Pointer to \doxylink{structdGPS__decimalData__t}{d\+GPS\+\_\+decimal\+Data\+\_\+t} struct where the latest GPS buffer will be copied \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{dGPS_8c_source_l00071}{71}} of file \mbox{\hyperlink{dGPS_8c_source}{d\+GPS.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00072\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{comment}{/*\ Copy\ the\ ringbuffer\ safely\ */}}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordflow}{if}(xSemaphoreTake(\mbox{\hyperlink{admin_8c_a10217e1e6838bd966c23c592ca5535c6}{hGPS\_Ringbuffer\_Mutex}},\ portMAX\_DELAY)\ ==\ pdTRUE)}
+\DoxyCodeLine{00075\ \ \ \ \ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ memcpy(dest,\ \mbox{\hyperlink{dGPS_8c_a9c759455a39d454cd50d271ffbfc586b}{GPS\_history}},\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{dGPS_8c_a9c759455a39d454cd50d271ffbfc586b}{GPS\_history}}));}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ xSemaphoreGive(\mbox{\hyperlink{admin_8c_a10217e1e6838bd966c23c592ca5535c6}{hGPS\_Ringbuffer\_Mutex}});}
+\DoxyCodeLine{00078\ \ \ \ \ \}}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00080\ \ \ \ \ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Err:GPS\_Ringbuffer\_mutex"{}});}
+\DoxyCodeLine{00082\ \ \ \ \ \}}
+\DoxyCodeLine{00083\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{admin_8c_source_l00237}{error\+\_\+\+Halt\+OS()}}, \mbox{\hyperlink{dGPS_8c_source_l00013}{GPS\+\_\+history}}, and \mbox{\hyperlink{admin_8c_source_l00062}{h\+GPS\+\_\+\+Ringbuffer\+\_\+\+Mutex}}.
+
+
+
+Referenced by \mbox{\hyperlink{dGPS__calculator_8c_source_l00062}{d\+GPS\+\_\+comparator()}}.
+

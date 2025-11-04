@@ -1,0 +1,33 @@
+\doxysection{LOS\+\_\+algo.\+h}
+\hypertarget{LOS__algo_8h_source}{}\label{LOS__algo_8h_source}\index{Core/MyApp/App/LOS\_algo.h@{Core/MyApp/App/LOS\_algo.h}}
+\mbox{\hyperlink{LOS__algo_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00001}00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00002}00002\ \textcolor{comment}{\ *\ LOS\_algo.h}}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00003}00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00004}00004\ \textcolor{comment}{\ *\ \ Created\ on:\ Nov\ 3,\ 2025}}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00005}00005\ \textcolor{comment}{\ *\ \ \ \ \ \ Author:\ BramL}}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00006}00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00008}00008\ \textcolor{preprocessor}{\#ifndef\ MYAPP\_APP\_LOS\_ALGO\_H\_}}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00009}00009\ \textcolor{preprocessor}{\#define\ MYAPP\_APP\_LOS\_ALGO\_H\_}}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00011}\mbox{\hyperlink{structLOS__Output__t}{00011}}\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00012}\mbox{\hyperlink{structLOS__Output__t_a17814ebdaad385cd8b85f1e25509c2c7}{00012}}\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structLOS__Output__t_a17814ebdaad385cd8b85f1e25509c2c7}{desired\_bearing}};\ \ \ \ \textcolor{comment}{//\ deg:\ bearing\ toward\ lookahead\ point}}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00013}\mbox{\hyperlink{structLOS__Output__t_a9672ea035c473e8a942c7c31ddb44c58}{00013}}\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structLOS__Output__t_a9672ea035c473e8a942c7c31ddb44c58}{heading\_error}};\ \ \ \ \ \ \textcolor{comment}{//\ deg:\ difference\ between\ desired\ and\ compass\ heading}}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00014}\mbox{\hyperlink{structLOS__Output__t_a663f666c68204bdf601944167cb20df8}{00014}}\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structLOS__Output__t_a663f666c68204bdf601944167cb20df8}{distance\_to\_wp}};\ \ \ \ \ \textcolor{comment}{//\ meters:\ distance\ to\ current\ waypoint}}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00015}\mbox{\hyperlink{structLOS__Output__t_ad262f2e4e15b50617194880b02574f54}{00015}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structLOS__Output__t_ad262f2e4e15b50617194880b02574f54}{waypoint\_reached}};\ \ \ \ \ \textcolor{comment}{//\ true\ if\ close\ enough\ to\ current\ waypoint}}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00016}\mbox{\hyperlink{structLOS__Output__t_a1dff68ff4f48e94a5b8f677f5f78bbbf}{00016}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structLOS__Output__t_a1dff68ff4f48e94a5b8f677f5f78bbbf}{route\_complete}};\ \ \ \ \ \ \ \textcolor{comment}{//\ true\ if\ no\ waypoints\ left}}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00017}00017\ \}\ \mbox{\hyperlink{structLOS__Output__t}{LOS\_Output\_t}};}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00019}00019\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{LOS__algo_8h_a787d7b65e7c3a511b8e60a6a4d5de992}{set\_LOS\_algoState}}(\textcolor{keywordtype}{bool}\ state);}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00020}00020\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{LOS__algo_8h_aa8fb3e8e122a30f67765cddfdfa05423}{LOS\_getdesiredheading}}(\textcolor{keywordtype}{double}\ *dest);}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00021}00021\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{LOS__algo_8h_a59b7f773ca31d2459e59e2f451e4442b}{LOS\_getwaypointhold\_status}}(\textcolor{keywordtype}{bool}\ *dest);}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00022}00022\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{LOS__algo_8h_a1374019ed2e0220d9c9f564e86e76760}{LOS\_getcurrentWPnumber}}(\textcolor{keywordtype}{int}\ *dest);}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00023}00023\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{LOS__algo_8h_a8591ae11df09abe7fb55c6b090915f86}{LOS\_getWPbearing}}(\textcolor{keywordtype}{double}\ *dest);}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00024}00024\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{LOS__algo_8h_a5afb103ddf6e72a7c935090e8e6a44da}{LOS\_getWPdistance}}(\textcolor{keywordtype}{double}\ *dest);}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00025}00025\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{LOS__algo_8h_ab3db542bff37b663de541673a756177b}{get\_LOS\_algoState}}(\textcolor{keywordtype}{bool}\ *state);}
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{LOS__algo_8h_source_l00027}00027\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ MYAPP\_APP\_LOS\_ALGO\_H\_\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

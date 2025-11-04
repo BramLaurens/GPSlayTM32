@@ -1,0 +1,139 @@
+\doxysection{Core/\+My\+App/\+App/motordriver.h File Reference}
+\hypertarget{motordriver_8h}{}\label{motordriver_8h}\index{Core/MyApp/App/motordriver.h@{Core/MyApp/App/motordriver.h}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{motordriver_8h_af800c3f2003f5135c186e51b6553005a}{Motor\+\_\+\+Driver}} (void \texorpdfstring{$\ast$}{*}argument)
+\begin{DoxyCompactList}\small\item\em Task function to initialize motor driver and periodically update PWM signals. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{motordriver_8h_a9eb16c7828b5fc5ebe81d5730903aca6}{Motor\+\_\+\+Set\+\_\+\+Speed}} (int16\+\_\+t speed\+Left, int16\+\_\+t speed\+Right)
+\begin{DoxyCompactList}\small\item\em Function to set speed and direction of both motors. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{motordriver_8h_a220859a8b5da0232739a11cbe7f79fc5}{speed}}
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{motordriver_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{motordriver_8h_af800c3f2003f5135c186e51b6553005a}\index{motordriver.h@{motordriver.h}!Motor\_Driver@{Motor\_Driver}}
+\index{Motor\_Driver@{Motor\_Driver}!motordriver.h@{motordriver.h}}
+\doxysubsubsection{\texorpdfstring{Motor\_Driver()}{Motor\_Driver()}}
+{\footnotesize\ttfamily \label{motordriver_8h_af800c3f2003f5135c186e51b6553005a} 
+void Motor\+\_\+\+Driver (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argument}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Task function to initialize motor driver and periodically update PWM signals. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argument} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{motordriver_8c_source_l00120}{120}} of file \mbox{\hyperlink{motordriver_8c_source}{motordriver.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00121\ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \mbox{\hyperlink{motordriver_8c_adb06fc7f4c3ca40cb6bab543e1a2eac5}{Motor\_Init}}();}
+\DoxyCodeLine{00123\ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a87d28f01887b2a33acbb843402fa731b}{PWM\_Set}}(\mbox{\hyperlink{motordriver_8c_a6177eb86ee16a1956c81749e4e332cf0}{PWM\_FREQUENCY}},\ 0,\ \&\mbox{\hyperlink{main_8c_aab9f881b6ce706635a5be2e500f5c6cc}{htim12}},\ TIM\_CHANNEL\_1);\ \textcolor{comment}{//\ A1}}
+\DoxyCodeLine{00124\ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a87d28f01887b2a33acbb843402fa731b}{PWM\_Set}}(\mbox{\hyperlink{motordriver_8c_a6177eb86ee16a1956c81749e4e332cf0}{PWM\_FREQUENCY}},\ 0,\ \&\mbox{\hyperlink{main_8c_aab9f881b6ce706635a5be2e500f5c6cc}{htim12}},\ TIM\_CHANNEL\_2);\ \textcolor{comment}{//\ A2}}
+\DoxyCodeLine{00125\ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a87d28f01887b2a33acbb843402fa731b}{PWM\_Set}}(\mbox{\hyperlink{motordriver_8c_a6177eb86ee16a1956c81749e4e332cf0}{PWM\_FREQUENCY}},\ 0,\ \&\mbox{\hyperlink{main_8c_a85788cec5a97ee377e4ee2e74f026484}{htim4}},\ \ TIM\_CHANNEL\_1);\ \textcolor{comment}{//\ B1}}
+\DoxyCodeLine{00126\ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a87d28f01887b2a33acbb843402fa731b}{PWM\_Set}}(\mbox{\hyperlink{motordriver_8c_a6177eb86ee16a1956c81749e4e332cf0}{PWM\_FREQUENCY}},\ 0,\ \&\mbox{\hyperlink{main_8c_a85788cec5a97ee377e4ee2e74f026484}{htim4}},\ \ TIM\_CHANNEL\_4);\ \textcolor{comment}{//\ B2\ \ \ }}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordflow}{while}(1)}
+\DoxyCodeLine{00128\ \ \ \ \ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Motor\_Set\_Speed(100,\ 100);}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ osDelay(100);\ \textcolor{comment}{//\ adjust\ delay\ as\ needed}}
+\DoxyCodeLine{00131\ \ \ \ \ \}}
+\DoxyCodeLine{00132\ \}}
+
+\end{DoxyCode}
+\Hypertarget{motordriver_8h_a9eb16c7828b5fc5ebe81d5730903aca6}\index{motordriver.h@{motordriver.h}!Motor\_Set\_Speed@{Motor\_Set\_Speed}}
+\index{Motor\_Set\_Speed@{Motor\_Set\_Speed}!motordriver.h@{motordriver.h}}
+\doxysubsubsection{\texorpdfstring{Motor\_Set\_Speed()}{Motor\_Set\_Speed()}}
+{\footnotesize\ttfamily \label{motordriver_8h_a9eb16c7828b5fc5ebe81d5730903aca6} 
+void Motor\+\_\+\+Set\+\_\+\+Speed (\begin{DoxyParamCaption}\item[{int16\+\_\+t}]{speed\+Left}{, }\item[{int16\+\_\+t}]{speed\+Right}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Function to set speed and direction of both motors. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em speed\+Left} & range -\/255 -\/ 255 \\
+\hline
+{\em speed\+Right} & range -\/255 -\/ 255 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Positive values indicate forward direction, negative values indicate backward direction. 
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{motordriver_8c_source_l00078}{78}} of file \mbox{\hyperlink{motordriver_8c_source}{motordriver.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00079\ \{\ \ \ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{comment}{//Clamp\ speed\ values\ to\ be\ within\ the\ allowed\ range}}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordflow}{if}\ (speedLeft\ \ >\ \ \mbox{\hyperlink{motordriver_8c_a9abf760e232f9c52ed7ca5cfba8b2ec5}{MAX\_DUTY\_CYCLE}})\ speedLeft\ \ =\ \ \mbox{\hyperlink{motordriver_8c_a9abf760e232f9c52ed7ca5cfba8b2ec5}{MAX\_DUTY\_CYCLE}};}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordflow}{if}\ (speedLeft\ \ <\ -\/\mbox{\hyperlink{motordriver_8c_a9abf760e232f9c52ed7ca5cfba8b2ec5}{MAX\_DUTY\_CYCLE}})\ speedLeft\ \ =\ -\/\mbox{\hyperlink{motordriver_8c_a9abf760e232f9c52ed7ca5cfba8b2ec5}{MAX\_DUTY\_CYCLE}};}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordflow}{if}\ (speedRight\ >\ \ \mbox{\hyperlink{motordriver_8c_a9abf760e232f9c52ed7ca5cfba8b2ec5}{MAX\_DUTY\_CYCLE}})\ speedRight\ =\ \ \mbox{\hyperlink{motordriver_8c_a9abf760e232f9c52ed7ca5cfba8b2ec5}{MAX\_DUTY\_CYCLE}};}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordflow}{if}\ (speedRight\ <\ -\/\mbox{\hyperlink{motordriver_8c_a9abf760e232f9c52ed7ca5cfba8b2ec5}{MAX\_DUTY\_CYCLE}})\ speedRight\ =\ -\/\mbox{\hyperlink{motordriver_8c_a9abf760e232f9c52ed7ca5cfba8b2ec5}{MAX\_DUTY\_CYCLE}};}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{comment}{//Determine\ direction\ based\ on\ positive\ or\ negative\ speed\ values}}
+\DoxyCodeLine{00087\ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a2fb5a80d56df66c06e2be4f47fddf668}{directionLeft}}\ \ =\ (speedLeft\ \ >=\ 0)\ \ ?\ \mbox{\hyperlink{motordriver_8c_a84a96e526880b275fdf98f72ea95353daa26736999186daf8146f809e863712a1}{FORWARD}}\ :\ \mbox{\hyperlink{motordriver_8c_a84a96e526880b275fdf98f72ea95353dafed2fca77e454294d6b8bda1bf2c9fd6}{BACKWARD}};}
+\DoxyCodeLine{00088\ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a58f1cb809cbd7027898934b62a708804}{directionRight}}\ =\ (speedRight\ >=\ 0)\ \ ?\ \mbox{\hyperlink{motordriver_8c_a84a96e526880b275fdf98f72ea95353daa26736999186daf8146f809e863712a1}{FORWARD}}\ :\ \mbox{\hyperlink{motordriver_8c_a84a96e526880b275fdf98f72ea95353dafed2fca77e454294d6b8bda1bf2c9fd6}{BACKWARD}};}
+\DoxyCodeLine{00089\ \ \ \ \ }
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{comment}{//Set\ correct\ PWM\ channels\ based\ on\ speed\ and\ direction}}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{motordriver_8c_a2fb5a80d56df66c06e2be4f47fddf668}{directionLeft}}\ ==\ \mbox{\hyperlink{motordriver_8c_a84a96e526880b275fdf98f72ea95353daa26736999186daf8146f809e863712a1}{FORWARD}})}
+\DoxyCodeLine{00092\ \ \ \ \ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a87d28f01887b2a33acbb843402fa731b}{PWM\_Set}}(\mbox{\hyperlink{motordriver_8c_a6177eb86ee16a1956c81749e4e332cf0}{PWM\_FREQUENCY}},\ abs(speedLeft),\ \&\mbox{\hyperlink{main_8c_a85788cec5a97ee377e4ee2e74f026484}{htim4}},\ TIM\_CHANNEL\_4);\ \textcolor{comment}{//\ A1}}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a87d28f01887b2a33acbb843402fa731b}{PWM\_Set}}(\mbox{\hyperlink{motordriver_8c_a6177eb86ee16a1956c81749e4e332cf0}{PWM\_FREQUENCY}},\ 0,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \&\mbox{\hyperlink{main_8c_a85788cec5a97ee377e4ee2e74f026484}{htim4}},\ TIM\_CHANNEL\_1);\ \textcolor{comment}{//\ A2}}
+\DoxyCodeLine{00095\ \ \ \ \ \}}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00097\ \ \ \ \ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a87d28f01887b2a33acbb843402fa731b}{PWM\_Set}}(\mbox{\hyperlink{motordriver_8c_a6177eb86ee16a1956c81749e4e332cf0}{PWM\_FREQUENCY}},\ 0,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \&\mbox{\hyperlink{main_8c_a85788cec5a97ee377e4ee2e74f026484}{htim4}},\ TIM\_CHANNEL\_4);\ \textcolor{comment}{//\ A1}}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a87d28f01887b2a33acbb843402fa731b}{PWM\_Set}}(\mbox{\hyperlink{motordriver_8c_a6177eb86ee16a1956c81749e4e332cf0}{PWM\_FREQUENCY}},\ abs(speedLeft),\ \&\mbox{\hyperlink{main_8c_a85788cec5a97ee377e4ee2e74f026484}{htim4}},\ TIM\_CHANNEL\_1);\ \textcolor{comment}{//\ A2}}
+\DoxyCodeLine{00100\ \ \ \ \ \}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{motordriver_8c_a58f1cb809cbd7027898934b62a708804}{directionRight}}\ ==\ \mbox{\hyperlink{motordriver_8c_a84a96e526880b275fdf98f72ea95353daa26736999186daf8146f809e863712a1}{FORWARD}})}
+\DoxyCodeLine{00103\ \ \ \ \ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a87d28f01887b2a33acbb843402fa731b}{PWM\_Set}}(\mbox{\hyperlink{motordriver_8c_a6177eb86ee16a1956c81749e4e332cf0}{PWM\_FREQUENCY}},\ abs(speedRight),\ \&\mbox{\hyperlink{main_8c_aab9f881b6ce706635a5be2e500f5c6cc}{htim12}},\ TIM\_CHANNEL\_2);\ \textcolor{comment}{//\ B1}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a87d28f01887b2a33acbb843402fa731b}{PWM\_Set}}(\mbox{\hyperlink{motordriver_8c_a6177eb86ee16a1956c81749e4e332cf0}{PWM\_FREQUENCY}},\ 0,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&\mbox{\hyperlink{main_8c_aab9f881b6ce706635a5be2e500f5c6cc}{htim12}},\ TIM\_CHANNEL\_1);\ \textcolor{comment}{//\ B2}}
+\DoxyCodeLine{00106\ \ \ \ \ \}}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00108\ \ \ \ \ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a87d28f01887b2a33acbb843402fa731b}{PWM\_Set}}(\mbox{\hyperlink{motordriver_8c_a6177eb86ee16a1956c81749e4e332cf0}{PWM\_FREQUENCY}},\ 0,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&\mbox{\hyperlink{main_8c_aab9f881b6ce706635a5be2e500f5c6cc}{htim12}},\ TIM\_CHANNEL\_2);\ \textcolor{comment}{//\ B1}}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a87d28f01887b2a33acbb843402fa731b}{PWM\_Set}}(\mbox{\hyperlink{motordriver_8c_a6177eb86ee16a1956c81749e4e332cf0}{PWM\_FREQUENCY}},\ abs(speedRight),\ \&\mbox{\hyperlink{main_8c_aab9f881b6ce706635a5be2e500f5c6cc}{htim12}},\ TIM\_CHANNEL\_1);\ \textcolor{comment}{//\ B2}}
+\DoxyCodeLine{00111\ \ \ \ \ \}}
+\DoxyCodeLine{00112\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{motordriver_8c_source_l00024}{BACKWARD}}, \mbox{\hyperlink{motordriver_8c_a2fb5a80d56df66c06e2be4f47fddf668}{direction\+Left}}, \mbox{\hyperlink{motordriver_8c_a58f1cb809cbd7027898934b62a708804}{direction\+Right}}, \mbox{\hyperlink{motordriver_8c_source_l00024}{FORWARD}}, \mbox{\hyperlink{main_8c_source_l00059}{htim12}}, \mbox{\hyperlink{main_8c_source_l00056}{htim4}}, \mbox{\hyperlink{motordriver_8c_source_l00018}{MAX\+\_\+\+DUTY\+\_\+\+CYCLE}}, \mbox{\hyperlink{motordriver_8c_source_l00017}{PWM\+\_\+\+FREQUENCY}}, and \mbox{\hyperlink{motordriver_8c_source_l00049}{PWM\+\_\+\+Set()}}.
+
+
+
+Referenced by \mbox{\hyperlink{PID__controller_8c_source_l00139}{obstacle\+Avoidance()}}, \mbox{\hyperlink{PID__controller_8c_source_l00214}{PID\+\_\+\+Controller()}}, and \mbox{\hyperlink{PID__controller_8c_source_l00158}{PID\+\_\+trigger()}}.
+
+
+
+\label{doc-var-members}
+\Hypertarget{motordriver_8h_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{motordriver_8h_a220859a8b5da0232739a11cbe7f79fc5}\index{motordriver.h@{motordriver.h}!speed@{speed}}
+\index{speed@{speed}!motordriver.h@{motordriver.h}}
+\doxysubsubsection{\texorpdfstring{speed}{speed}}
+{\footnotesize\ttfamily \label{motordriver_8h_a220859a8b5da0232739a11cbe7f79fc5} 
+uint32\+\_\+t speed\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Definition at line \mbox{\hyperlink{motordriver_8c_source_l00022}{22}} of file \mbox{\hyperlink{motordriver_8c_source}{motordriver.\+c}}.
+

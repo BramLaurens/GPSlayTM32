@@ -1,0 +1,123 @@
+\doxysection{Core/\+My\+App/\+App/\+PID\+\_\+controller.h File Reference}
+\hypertarget{PID__controller_8h}{}\label{PID__controller_8h}\index{Core/MyApp/App/PID\_controller.h@{Core/MyApp/App/PID\_controller.h}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}routeperformer.\+h"{}}\newline
+{\ttfamily \#include "{}admin.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{PID__controller_8h_a42d774d22f401481c51682d3e3bb94d7}{PID\+\_\+get\+Obstacle\+Avoidance\+State}} (bool \texorpdfstring{$\ast$}{*}state)
+\begin{DoxyCompactList}\small\item\em Get the current state of the obstacle avoidance feature. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{PID__controller_8h_ad656e15a8dfd83551a134c9d768e8dfc}{PID\+\_\+get\+Obstacle\+Flag}} (bool \texorpdfstring{$\ast$}{*}flag)
+\begin{DoxyCompactList}\small\item\em Get the current state of the obstacle flag. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{PID__controller_8h_adee41834c306e02a66bf5a110503006d}{PID\+\_\+set\+Obstacle\+Flag}} (bool flag)
+\begin{DoxyCompactList}\small\item\em Set the current state of the obstacle flag. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{PID__controller_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{PID__controller_8h_a42d774d22f401481c51682d3e3bb94d7}\index{PID\_controller.h@{PID\_controller.h}!PID\_getObstacleAvoidanceState@{PID\_getObstacleAvoidanceState}}
+\index{PID\_getObstacleAvoidanceState@{PID\_getObstacleAvoidanceState}!PID\_controller.h@{PID\_controller.h}}
+\doxysubsubsection{\texorpdfstring{PID\_getObstacleAvoidanceState()}{PID\_getObstacleAvoidanceState()}}
+{\footnotesize\ttfamily \label{PID__controller_8h_a42d774d22f401481c51682d3e3bb94d7} 
+void PID\+\_\+get\+Obstacle\+Avoidance\+State (\begin{DoxyParamCaption}\item[{bool \texorpdfstring{$\ast$}{*}}]{state}{}\end{DoxyParamCaption})}
+
+
+
+Get the current state of the obstacle avoidance feature. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & Pointer to a boolean variable to store the state. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{PID__controller_8c_source_l00075}{75}} of file \mbox{\hyperlink{PID__controller_8c_source}{PID\+\_\+controller.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00076\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ *state\ =\ \mbox{\hyperlink{PID__controller_8c_ae0145984b7a6e7e4003342ba70b42395}{enableObstacleAvoidance}};}
+\DoxyCodeLine{00078\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{PID__controller_8c_source_l00064}{enable\+Obstacle\+Avoidance}}.
+
+
+
+Referenced by \mbox{\hyperlink{TFT_8c_source_l00139}{update\+\_\+obstacle\+\_\+display()}}.
+
+\Hypertarget{PID__controller_8h_ad656e15a8dfd83551a134c9d768e8dfc}\index{PID\_controller.h@{PID\_controller.h}!PID\_getObstacleFlag@{PID\_getObstacleFlag}}
+\index{PID\_getObstacleFlag@{PID\_getObstacleFlag}!PID\_controller.h@{PID\_controller.h}}
+\doxysubsubsection{\texorpdfstring{PID\_getObstacleFlag()}{PID\_getObstacleFlag()}}
+{\footnotesize\ttfamily \label{PID__controller_8h_ad656e15a8dfd83551a134c9d768e8dfc} 
+void PID\+\_\+get\+Obstacle\+Flag (\begin{DoxyParamCaption}\item[{bool \texorpdfstring{$\ast$}{*}}]{flag}{}\end{DoxyParamCaption})}
+
+
+
+Get the current state of the obstacle flag. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em flag} & Pointer to a boolean variable to store the state. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{PID__controller_8c_source_l00085}{85}} of file \mbox{\hyperlink{PID__controller_8c_source}{PID\+\_\+controller.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00086\ \{}
+\DoxyCodeLine{00087\ \ \ \ \ *flag\ =\ \mbox{\hyperlink{PID__controller_8c_ab83af6171d6deb8c85a7976002efc4ea}{obstacleFlag}};}
+\DoxyCodeLine{00088\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{PID__controller_8c_source_l00066}{obstacle\+Flag}}.
+
+
+
+Referenced by \mbox{\hyperlink{TFT_8c_source_l00139}{update\+\_\+obstacle\+\_\+display()}}.
+
+\Hypertarget{PID__controller_8h_adee41834c306e02a66bf5a110503006d}\index{PID\_controller.h@{PID\_controller.h}!PID\_setObstacleFlag@{PID\_setObstacleFlag}}
+\index{PID\_setObstacleFlag@{PID\_setObstacleFlag}!PID\_controller.h@{PID\_controller.h}}
+\doxysubsubsection{\texorpdfstring{PID\_setObstacleFlag()}{PID\_setObstacleFlag()}}
+{\footnotesize\ttfamily \label{PID__controller_8h_adee41834c306e02a66bf5a110503006d} 
+void PID\+\_\+set\+Obstacle\+Flag (\begin{DoxyParamCaption}\item[{bool}]{flag}{}\end{DoxyParamCaption})}
+
+
+
+Set the current state of the obstacle flag. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em flag} & Pointer to a boolean variable to store the state. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{PID__controller_8c_source_l00095}{95}} of file \mbox{\hyperlink{PID__controller_8c_source}{PID\+\_\+controller.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00096\ \{}
+\DoxyCodeLine{00097\ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_ab83af6171d6deb8c85a7976002efc4ea}{obstacleFlag}}\ =\ flag;}
+\DoxyCodeLine{00098\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{PID__controller_8c_source_l00066}{obstacle\+Flag}}.
+
+
+
+Referenced by \mbox{\hyperlink{Ultrasoon_8c_source_l00061}{Echo\+\_\+sign\+\_\+task()}}.
+

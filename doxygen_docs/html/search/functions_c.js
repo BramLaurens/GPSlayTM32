@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['timer1_5fhandler_0',['Timer1_Handler',['../admin_8c.html#a96c9e7d4608bbcbb1f89460ea7d8da6f',1,'Timer1_Handler(void):&#160;admin.c'],['../admin_8h.html#a96c9e7d4608bbcbb1f89460ea7d8da6f',1,'Timer1_Handler(void):&#160;admin.c']]],
-  ['toggle_5fled_1',['toggle_led',['../ARM__keys_8c.html#a1fd0008123c48c14439411716629af5a',1,'ARM_keys.c']]]
+  ['obstacleavoidance_0',['obstacleAvoidance',['../PID__controller_8c.html#abe46c826df3be744548fb954242ae776',1,'PID_controller.c']]],
+  ['ongpsupdate_1',['onGPSupdate',['../LOS__algo_8c.html#ad284922570f78a8900762c2abde98f5c',1,'LOS_algo.c']]]
 ];

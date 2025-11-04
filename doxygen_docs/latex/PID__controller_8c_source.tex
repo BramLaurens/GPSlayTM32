@@ -1,0 +1,236 @@
+\doxysection{PID\+\_\+controller.\+c}
+\hypertarget{PID__controller_8c_source}{}\label{PID__controller_8c_source}\index{Core/MyApp/App/PID\_controller.c@{Core/MyApp/App/PID\_controller.c}}
+\mbox{\hyperlink{PID__controller_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{admin_8h}{admin.h}}>}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}main.h"{}}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00014}00014\ \textcolor{preprocessor}{\#include\ "{}cmsis\_os.h"{}}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00015}00015\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{gps_8h}{gps.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <math.h>}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <stdbool.h>}\ \ \ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00018}00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{routeperformer_8h}{routeperformer.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00019}00019\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{dGPS_8h}{dGPS.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00020}00020\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{motordriver_8h}{motordriver.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00021}00021\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{compass__driver_8h}{compass\_driver.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00022}00022\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{LOS__algo_8h}{LOS\_algo.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00024}00024\ \textcolor{comment}{//\ \#define\ DEBUG\_PID\_CONTROLLER}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00026}00026\ \textcolor{comment}{//\ ====\ PID\ constants\ ====}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00027}\mbox{\hyperlink{PID__controller_8c_aa4729260b732666338dee7d841aa12f3}{00027}}\ \textcolor{preprocessor}{\#define\ KP\ \ 2.5}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00028}\mbox{\hyperlink{PID__controller_8c_ade82752ae1652fdf0df9df7a16ffda29}{00028}}\ \textcolor{preprocessor}{\#define\ KI\ \ 0.01}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00029}\mbox{\hyperlink{PID__controller_8c_ad4f9673d16d231643789f081068d2372}{00029}}\ \textcolor{preprocessor}{\#define\ KD\ \ 0.1}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00031}00031\ \textcolor{comment}{/*Good\ base\ tuning}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00032}00032\ \textcolor{comment}{Kp\ =\ 4.5}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00033}00033\ \textcolor{comment}{Ki\ =\ 0.01}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00034}00034\ \textcolor{comment}{Kd\ =\ 0.1}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00035}00035\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00037}00037\ \textcolor{comment}{//\ ====\ Control\ parameters\ ====}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00038}\mbox{\hyperlink{PID__controller_8c_ad9f1a713cff15b009f0d2918624db3f8}{00038}}\ \textcolor{preprocessor}{\#define\ BASE\_SPEED\ 100\ \ \ \ \ }\textcolor{comment}{//\ normalized\ 0–1\ (or\ map\ to\ PWM)}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00039}\mbox{\hyperlink{PID__controller_8c_ac2cd96d53dd3ba6407db6766c3d92b26}{00039}}\ \textcolor{preprocessor}{\#define\ MAX\_SPEED\ \ 255}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00040}00040\ \textcolor{comment}{//\ Minimum\ effective\ PWM\ value\ to\ actually\ move\ the\ tracks.\ Commands\ with}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00041}00041\ \textcolor{comment}{//\ absolute\ value\ below\ this\ will\ be\ clamped\ to\ this\ value\ so\ the\ motors}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00042}00042\ \textcolor{comment}{//\ overcome\ static\ friction.\ When\ the\ desired\ action\ is\ effectively\ zero}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00043}00043\ \textcolor{comment}{//\ (error\ near\ zero\ and\ BASE\_SPEED\ ==\ 0)\ the\ motors\ remain\ off.}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00044}\mbox{\hyperlink{PID__controller_8c_ad5f5efaa5cb771bd06da4bfe6046809e}{00044}}\ \textcolor{preprocessor}{\#define\ MIN\_SPEED\ 0}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00047}00047\ \textcolor{comment}{//\ ====\ Shared\ variables\ (updated\ by\ GPS\ task)\ ====}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00048}\mbox{\hyperlink{PID__controller_8c_aed4a280ec43791fdc6f26e4c1a498b7b}{00048}}\ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{PID__controller_8c_aed4a280ec43791fdc6f26e4c1a498b7b}{desiredHeading}}\ =\ 0.0;\ \ \ \textcolor{comment}{//\ degrees}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00049}\mbox{\hyperlink{PID__controller_8c_af8c4529a57f69382b149acd9696c7c25}{00049}}\ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{PID__controller_8c_af8c4529a57f69382b149acd9696c7c25}{currentHeading}}\ =\ 0.0;\ \ \ \textcolor{comment}{//\ degrees}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00051}00051\ \textcolor{comment}{//\ Waypoint\ hold\ status}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00052}\mbox{\hyperlink{PID__controller_8c_af47974cd1cc41c663bba40787b6bf0f9}{00052}}\ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{PID__controller_8c_af47974cd1cc41c663bba40787b6bf0f9}{pid\_waypoint\_hold}}\ =\ \textcolor{keyword}{false};\ \ \ \ \textcolor{comment}{//\ from\ route\ performer}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00054}00054\ \textcolor{comment}{//\ ====\ Internal\ PID\ state\ ====}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00055}\mbox{\hyperlink{PID__controller_8c_a9157f0915da305914350c5922cee2c1c}{00055}}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{PID__controller_8c_a9157f0915da305914350c5922cee2c1c}{integral}}\ =\ 0.0;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00056}\mbox{\hyperlink{PID__controller_8c_a5f0f2b04907074fd4e0ed600b6e1d394}{00056}}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{PID__controller_8c_a5f0f2b04907074fd4e0ed600b6e1d394}{prevError}}\ =\ 0.0;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00057}\mbox{\hyperlink{PID__controller_8c_a9648c4b3c5e8528ebc2745f7cb76ff62}{00057}}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{PID__controller_8c_a9648c4b3c5e8528ebc2745f7cb76ff62}{lastTime}}\ =\ 0.0;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00059}00059\ \textcolor{comment}{//\ ====\ Function\ prototypes\ ====}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00060}00060\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{PID__controller_8c_a671d698b0bc3a5576a862e1007a79dd6}{headingError}}(\textcolor{keywordtype}{double}\ target,\ \textcolor{keywordtype}{double}\ current);}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00061}00061\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{PID__controller_8c_a709e09555bd056b676dc48c3ed5f305b}{pidCompute}}(\textcolor{keywordtype}{double}\ error,\ \textcolor{keywordtype}{double}\ dt);}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00063}\mbox{\hyperlink{PID__controller_8c_acc215edb8230380d668f1e476661284f}{00063}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{PID__controller_8c_acc215edb8230380d668f1e476661284f}{enablePID}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00064}\mbox{\hyperlink{PID__controller_8c_ae0145984b7a6e7e4003342ba70b42395}{00064}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{PID__controller_8c_ae0145984b7a6e7e4003342ba70b42395}{enableObstacleAvoidance}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00065}\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{00065}}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00066}\mbox{\hyperlink{PID__controller_8c_ab83af6171d6deb8c85a7976002efc4ea}{00066}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{PID__controller_8c_ab83af6171d6deb8c85a7976002efc4ea}{obstacleFlag}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00068}\mbox{\hyperlink{PID__controller_8c_a7abf9e6a9d768092ffb369f93367baf0}{00068}}\ \mbox{\hyperlink{structdGPS__decimalData__t}{dGPS\_decimalData\_t}}\ \mbox{\hyperlink{PID__controller_8c_a7abf9e6a9d768092ffb369f93367baf0}{latest\_dGPS\_data}};}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00075}\mbox{\hyperlink{PID__controller_8c_a42d774d22f401481c51682d3e3bb94d7}{00075}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{PID__controller_8c_a42d774d22f401481c51682d3e3bb94d7}{PID\_getObstacleAvoidanceState}}(\textcolor{keywordtype}{bool}\ *state)}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00076}00076\ \{}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00077}00077\ \ \ \ \ *state\ =\ \mbox{\hyperlink{PID__controller_8c_ae0145984b7a6e7e4003342ba70b42395}{enableObstacleAvoidance}};}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00078}00078\ \}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00085}\mbox{\hyperlink{PID__controller_8c_ad656e15a8dfd83551a134c9d768e8dfc}{00085}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{PID__controller_8c_ad656e15a8dfd83551a134c9d768e8dfc}{PID\_getObstacleFlag}}(\textcolor{keywordtype}{bool}\ *flag)}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00086}00086\ \{}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00087}00087\ \ \ \ \ *flag\ =\ \mbox{\hyperlink{PID__controller_8c_ab83af6171d6deb8c85a7976002efc4ea}{obstacleFlag}};}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00088}00088\ \}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00095}\mbox{\hyperlink{PID__controller_8c_adee41834c306e02a66bf5a110503006d}{00095}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{PID__controller_8c_adee41834c306e02a66bf5a110503006d}{PID\_setObstacleFlag}}(\textcolor{keywordtype}{bool}\ flag)}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00096}00096\ \{}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00097}00097\ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_ab83af6171d6deb8c85a7976002efc4ea}{obstacleFlag}}\ =\ flag;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00098}00098\ \}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00107}\mbox{\hyperlink{PID__controller_8c_a671d698b0bc3a5576a862e1007a79dd6}{00107}}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{PID__controller_8c_a671d698b0bc3a5576a862e1007a79dd6}{headingError}}(\textcolor{keywordtype}{double}\ target,\ \textcolor{keywordtype}{double}\ current)\ \{}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00108}00108\ \ \ \ \ \textcolor{keywordtype}{double}\ error\ =\ target\ -\/\ current;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00109}00109\ \ \ \ \ \textcolor{keywordflow}{while}\ (error\ >\ 180.0)\ \ error\ -\/=\ 360.0;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00110}00110\ \ \ \ \ \textcolor{keywordflow}{while}\ (error\ <\ -\/180.0)\ error\ +=\ 360.0;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00111}00111\ \ \ \ \ \textcolor{keywordflow}{return}\ error;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00112}00112\ \}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00121}\mbox{\hyperlink{PID__controller_8c_a709e09555bd056b676dc48c3ed5f305b}{00121}}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{PID__controller_8c_a709e09555bd056b676dc48c3ed5f305b}{pidCompute}}(\textcolor{keywordtype}{double}\ error,\ \textcolor{keywordtype}{double}\ dt)\ \{}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00122}00122\ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_a9157f0915da305914350c5922cee2c1c}{integral}}\ +=\ error\ *\ dt;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00123}00123\ \ \ \ \ \textcolor{keywordtype}{double}\ derivative\ =\ (error\ -\/\ \mbox{\hyperlink{PID__controller_8c_a5f0f2b04907074fd4e0ed600b6e1d394}{prevError}})\ /\ dt;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00124}00124\ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_a5f0f2b04907074fd4e0ed600b6e1d394}{prevError}}\ =\ error;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00126}00126\ \ \ \ \ \textcolor{keywordtype}{double}\ output\ =\ (\mbox{\hyperlink{PID__controller_8c_aa4729260b732666338dee7d841aa12f3}{KP}}\ *\ error)\ +\ (\mbox{\hyperlink{PID__controller_8c_ade82752ae1652fdf0df9df7a16ffda29}{KI}}\ *\ \mbox{\hyperlink{PID__controller_8c_a9157f0915da305914350c5922cee2c1c}{integral}})\ +\ (\mbox{\hyperlink{PID__controller_8c_ad4f9673d16d231643789f081068d2372}{KD}}\ *\ derivative);}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00128}00128\ \ \ \ \ \textcolor{comment}{//\ Normalize\ output\ range\ (e.g.,\ -\/1\ to\ 1)}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00129}00129\ \ \ \ \ \textcolor{keywordflow}{if}\ (output\ >\ 255)\ output\ =\ 255;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00130}00130\ \ \ \ \ \textcolor{keywordflow}{if}\ (output\ <\ -\/255)\ output\ =\ -\/255;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00132}00132\ \ \ \ \ \textcolor{keywordflow}{return}\ output;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00133}00133\ \}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00139}\mbox{\hyperlink{PID__controller_8c_abe46c826df3be744548fb954242ae776}{00139}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{PID__controller_8c_abe46c826df3be744548fb954242ae776}{obstacleAvoidance}}()\{}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00141}00141\ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a9eb16c7828b5fc5ebe81d5730903aca6}{Motor\_Set\_Speed}}(0,\ 0);\ \textcolor{comment}{//\ stop\ motors}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00142}00142\ \ \ \ \ osDelay(300);\ \textcolor{comment}{//\ wait\ 300\ ms}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00143}00143\ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a9eb16c7828b5fc5ebe81d5730903aca6}{Motor\_Set\_Speed}}(-\/100,\ -\/100);\ \textcolor{comment}{//\ reverse\ }}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00144}00144\ \ \ \ \ osDelay(1000);\ \textcolor{comment}{//\ reverse\ for\ 1\ second}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00145}00145\ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a9eb16c7828b5fc5ebe81d5730903aca6}{Motor\_Set\_Speed}}(0,\ 0);\ \textcolor{comment}{//\ stop\ motors}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00146}00146\ \ \ \ \ osDelay(300);\ \textcolor{comment}{//\ wait\ 300\ ms}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00147}00147\ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a9eb16c7828b5fc5ebe81d5730903aca6}{Motor\_Set\_Speed}}(-\/100,\ 100);\ \textcolor{comment}{//\ turn\ left}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00148}00148\ \ \ \ \ osDelay(1000);\ \textcolor{comment}{//\ turn\ left\ for\ 1\ second}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00149}00149\ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a9eb16c7828b5fc5ebe81d5730903aca6}{Motor\_Set\_Speed}}(0,\ 0);\ \textcolor{comment}{//\ stop\ motors}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00150}00150\ \ \ \ \ osDelay(300);\ \textcolor{comment}{//\ wait\ 300\ ms}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00151}00151\ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_ab83af6171d6deb8c85a7976002efc4ea}{obstacleFlag}}\ =\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ reset\ obstacle\ flag}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00152}00152\ \}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00158}\mbox{\hyperlink{PID__controller_8c_a37a24fcb8efcc2dc7779c53216c82144}{00158}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{PID__controller_8c_a37a24fcb8efcc2dc7779c53216c82144}{PID\_trigger}}()\{}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00159}00159\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00160}00160\ \ \ \ \ \textcolor{comment}{//\ Get\ latest\ heading\ and\ course\ to\ calculate\ error}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00161}00161\ \ \ \ \ \mbox{\hyperlink{compass__driver_8c_a2de6b50e325af14c1ca45427dbf371e0}{getlatestHeading}}(\&\mbox{\hyperlink{PID__controller_8c_af8c4529a57f69382b149acd9696c7c25}{currentHeading}});}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00162}00162\ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_aa8fb3e8e122a30f67765cddfdfa05423}{LOS\_getdesiredheading}}(\&\mbox{\hyperlink{PID__controller_8c_aed4a280ec43791fdc6f26e4c1a498b7b}{desiredHeading}});}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00164}00164\ \ \ \ \ \textcolor{keywordtype}{double}\ dt;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00165}00165\ \ \ \ \ TickType\_t\ now\ =\ xTaskGetTickCount();}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00166}00166\ \ \ \ \ dt\ =\ (now\ -\/\ \mbox{\hyperlink{PID__controller_8c_a9648c4b3c5e8528ebc2745f7cb76ff62}{lastTime}})\ /\ 1000.0;\ \textcolor{comment}{//\ convert\ to\ seconds}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00167}00167\ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_a9648c4b3c5e8528ebc2745f7cb76ff62}{lastTime}}\ =\ now;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00168}00168\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00169}00169\ \ \ \ \ \textcolor{keywordtype}{double}\ error\ =\ \mbox{\hyperlink{PID__controller_8c_a671d698b0bc3a5576a862e1007a79dd6}{headingError}}(\mbox{\hyperlink{PID__controller_8c_aed4a280ec43791fdc6f26e4c1a498b7b}{desiredHeading}},\ \mbox{\hyperlink{PID__controller_8c_af8c4529a57f69382b149acd9696c7c25}{currentHeading}});}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00170}00170\ \ \ \ \ \textcolor{keywordtype}{double}\ steering\ =\ \mbox{\hyperlink{PID__controller_8c_a709e09555bd056b676dc48c3ed5f305b}{pidCompute}}(error,\ dt);}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00172}00172\ \ \ \ \ \textcolor{keywordtype}{double}\ leftSpeed\ =\ \mbox{\hyperlink{PID__controller_8c_ad9f1a713cff15b009f0d2918624db3f8}{BASE\_SPEED}}\ +\ steering;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00173}00173\ \ \ \ \ \textcolor{keywordtype}{double}\ rightSpeed\ =\ \mbox{\hyperlink{PID__controller_8c_ad9f1a713cff15b009f0d2918624db3f8}{BASE\_SPEED}}\ -\/\ steering;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00174}00174\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00175}00175\ \ \ \ \ \textcolor{comment}{//\ If\ the\ desired\ action\ is\ effectively\ zero\ (no\ base\ speed\ and\ very}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00176}00176\ \ \ \ \ \textcolor{comment}{//\ small\ heading\ error),\ keep\ motors\ off\ so\ they\ don't\ waste\ power.}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00177}00177\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ EPS\_ERROR\ =\ 0.5;\ \textcolor{comment}{//\ degrees\ (tolerance\ for\ considering\ error\ zero)}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00178}00178\ \ \ \ \ \textcolor{keywordtype}{bool}\ keepMotorsOff\ =\ (fabs(error)\ <\ EPS\_ERROR)\ \&\&\ (\mbox{\hyperlink{PID__controller_8c_ad9f1a713cff15b009f0d2918624db3f8}{BASE\_SPEED}}\ ==\ 0);}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00180}00180\ \ \ \ \ \textcolor{comment}{//\ Clamp\ to\ max\ limits\ first}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00181}00181\ \ \ \ \ \textcolor{keywordflow}{if}\ (leftSpeed\ >\ \mbox{\hyperlink{PID__controller_8c_ac2cd96d53dd3ba6407db6766c3d92b26}{MAX\_SPEED}})\ leftSpeed\ =\ \mbox{\hyperlink{PID__controller_8c_ac2cd96d53dd3ba6407db6766c3d92b26}{MAX\_SPEED}};}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00182}00182\ \ \ \ \ \textcolor{keywordflow}{if}\ (leftSpeed\ <\ -\/\mbox{\hyperlink{PID__controller_8c_ac2cd96d53dd3ba6407db6766c3d92b26}{MAX\_SPEED}})\ leftSpeed\ =\ -\/\mbox{\hyperlink{PID__controller_8c_ac2cd96d53dd3ba6407db6766c3d92b26}{MAX\_SPEED}};}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00183}00183\ \ \ \ \ \textcolor{keywordflow}{if}\ (rightSpeed\ >\ \mbox{\hyperlink{PID__controller_8c_ac2cd96d53dd3ba6407db6766c3d92b26}{MAX\_SPEED}})\ rightSpeed\ =\ \mbox{\hyperlink{PID__controller_8c_ac2cd96d53dd3ba6407db6766c3d92b26}{MAX\_SPEED}};}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00184}00184\ \ \ \ \ \textcolor{keywordflow}{if}\ (rightSpeed\ <\ -\/\mbox{\hyperlink{PID__controller_8c_ac2cd96d53dd3ba6407db6766c3d92b26}{MAX\_SPEED}})\ rightSpeed\ =\ -\/\mbox{\hyperlink{PID__controller_8c_ac2cd96d53dd3ba6407db6766c3d92b26}{MAX\_SPEED}};}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00186}00186\ \ \ \ \ \textcolor{comment}{//\ Apply\ minimum\ effective\ speed\ to\ overcome\ friction\ when\ a\ non-\/zero}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00187}00187\ \ \ \ \ \textcolor{comment}{//\ command\ is\ requested.\ Preserve\ exact\ zero\ when\ keepMotorsOff\ is\ true.}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00188}00188\ \ \ \ \ \textcolor{keywordflow}{if}\ (!keepMotorsOff)\ \{}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00189}00189\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((leftSpeed\ >\ 0)\ \&\&\ (leftSpeed\ <\ \mbox{\hyperlink{PID__controller_8c_ad5f5efaa5cb771bd06da4bfe6046809e}{MIN\_SPEED}}))\ leftSpeed\ =\ \mbox{\hyperlink{PID__controller_8c_ad5f5efaa5cb771bd06da4bfe6046809e}{MIN\_SPEED}};}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00190}00190\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((leftSpeed\ <\ 0)\ \&\&\ (leftSpeed\ >\ -\/\mbox{\hyperlink{PID__controller_8c_ad5f5efaa5cb771bd06da4bfe6046809e}{MIN\_SPEED}}))\ leftSpeed\ =\ -\/\mbox{\hyperlink{PID__controller_8c_ad5f5efaa5cb771bd06da4bfe6046809e}{MIN\_SPEED}};}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00191}00191\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00192}00192\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((rightSpeed\ >\ 0)\ \&\&\ (rightSpeed\ <\ \mbox{\hyperlink{PID__controller_8c_ad5f5efaa5cb771bd06da4bfe6046809e}{MIN\_SPEED}}))\ rightSpeed\ =\ \mbox{\hyperlink{PID__controller_8c_ad5f5efaa5cb771bd06da4bfe6046809e}{MIN\_SPEED}};}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00193}00193\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((rightSpeed\ <\ 0)\ \&\&\ (rightSpeed\ >\ -\/\mbox{\hyperlink{PID__controller_8c_ad5f5efaa5cb771bd06da4bfe6046809e}{MIN\_SPEED}}))\ rightSpeed\ =\ -\/\mbox{\hyperlink{PID__controller_8c_ad5f5efaa5cb771bd06da4bfe6046809e}{MIN\_SPEED}};}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00194}00194\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00195}00195\ \ \ \ \ \ \ \ \ leftSpeed\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00196}00196\ \ \ \ \ \ \ \ \ rightSpeed\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00197}00197\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00198}00198\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00199}00199\ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a9eb16c7828b5fc5ebe81d5730903aca6}{Motor\_Set\_Speed}}((int16\_t)leftSpeed,\ (int16\_t)rightSpeed);}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00200}00200\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00201}00201\ \textcolor{preprocessor}{\ \ \ \ \#ifdef\ DEBUG\_PID\_CONTROLLER}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00202}00202\ \ \ \ \ \textcolor{keywordtype}{char}\ msg[128];}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00203}00203\ \ \ \ \ sprintf(msg,\ \textcolor{stringliteral}{"{}PID\ Debug:\ DH=\%.2f\ CH=\%.2f\ Err=\%.2f\ LSpd=\%.2f\ RSpd=\%.2f\(\backslash\)r\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_aed4a280ec43791fdc6f26e4c1a498b7b}{desiredHeading}},\ \mbox{\hyperlink{PID__controller_8c_af8c4529a57f69382b149acd9696c7c25}{currentHeading}},\ error,\ leftSpeed,\ rightSpeed);}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00205}00205\ \ \ \ \ UART\_puts(msg);}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00206}00206\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00207}00207\ \}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00208}00208\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00214}\mbox{\hyperlink{admin_8h_a554723e4a24821e8610f7750a58e55ba}{00214}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{PID__controller_8c_a17af2a863b179eb9499c041bc817ecb1}{PID\_Controller}}(\textcolor{keywordtype}{void}\ *argument)}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00215}00215\ \{}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00216}00216\ \ \ \ \ osDelay(200);\ \textcolor{comment}{//\ wait\ a\ second\ to\ make\ sure\ everything\ is\ started}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00217}00217\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00218}00218\ \ \ \ \ \textcolor{keywordflow}{while}\ (1)}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00219}00219\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00220}00220\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Non-\/blocking:\ Try\ to\ read\ a\ key\ from\ the\ queue.\ If\ none\ available,\ continue\ doing\ other\ work.}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00221}00221\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00222}00222\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a59b7f773ca31d2459e59e2f451e4442b}{LOS\_getwaypointhold\_status}}(\&\mbox{\hyperlink{PID__controller_8c_af47974cd1cc41c663bba40787b6bf0f9}{pid\_waypoint\_hold}});}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00223}00223\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00224}00224\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_ac28b18f5722e9b7bbd153fef9cd4ca11}{hKeyPID\_Queue}}\ !=\ NULL)}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00225}00225\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (xQueueReceive(\mbox{\hyperlink{admin_8c_ac28b18f5722e9b7bbd153fef9cd4ca11}{hKeyPID\_Queue}},\ \&\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}},\ 0)\ ==\ pdTRUE)}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Process\ key}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}})}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 5:}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\ Toggle\ received\ in\ PID\_Controller\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Toggle\ PID\ controller\ state\ and\ inform\ Route\ Performer\ with\ same\ state}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_acc215edb8230380d668f1e476661284f}{enablePID}}\ =\ !\mbox{\hyperlink{PID__controller_8c_acc215edb8230380d668f1e476661284f}{enablePID}};}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ set\_RP\_algoState(enablePID);}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a787d7b65e7c3a511b8e60a6a4d5de992}{set\_LOS\_algoState}}(\mbox{\hyperlink{PID__controller_8c_acc215edb8230380d668f1e476661284f}{enablePID}});}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00237}00237\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{PID__controller_8c_acc215edb8230380d668f1e476661284f}{enablePID}})}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}PID\ Controller\ enabled\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}PID\ Controller\ disabled\(\backslash\)r\(\backslash\)n"{}});\ \ \ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 6:}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\ Obstacle\ avoidance\ toggle\ received\ in\ PID\_Controller\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Toggle\ obstacle\ avoidance\ state}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_ae0145984b7a6e7e4003342ba70b42395}{enableObstacleAvoidance}}\ =\ !\mbox{\hyperlink{PID__controller_8c_ae0145984b7a6e7e4003342ba70b42395}{enableObstacleAvoidance}};}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00247}00247\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{PID__controller_8c_ae0145984b7a6e7e4003342ba70b42395}{enableObstacleAvoidance}})}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Obstacle\ avoidance\ enabled\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Obstacle\ avoidance\ disabled\(\backslash\)r\(\backslash\)n"{}});\ \ \ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)nInvalid\ key\ pressed\ for\ PID\_Controller\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};\ \textcolor{comment}{//\ continue\ loop}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00258}00258\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00259}00259\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00260}00260\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{PID__controller_8c_acc215edb8230380d668f1e476661284f}{enablePID}}\ \&\&\ !\mbox{\hyperlink{PID__controller_8c_af47974cd1cc41c663bba40787b6bf0f9}{pid\_waypoint\_hold}}\ \&\&\ !\mbox{\hyperlink{PID__controller_8c_ab83af6171d6deb8c85a7976002efc4ea}{obstacleFlag}})}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00261}00261\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_a37a24fcb8efcc2dc7779c53216c82144}{PID\_trigger}}();}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ osDelay(10);\ \textcolor{comment}{//\ Control\ loop\ delay}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00264}00264\ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00265}00265\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00266}00266\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(!\mbox{\hyperlink{PID__controller_8c_acc215edb8230380d668f1e476661284f}{enablePID}})}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00267}00267\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a9eb16c7828b5fc5ebe81d5730903aca6}{Motor\_Set\_Speed}}(0,\ 0);\ \textcolor{comment}{//\ Stop\ motors\ when\ PID\ is\ disabled}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00269}00269\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00270}00270\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\mbox{\hyperlink{PID__controller_8c_af47974cd1cc41c663bba40787b6bf0f9}{pid\_waypoint\_hold}})}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00271}00271\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{motordriver_8c_a9eb16c7828b5fc5ebe81d5730903aca6}{Motor\_Set\_Speed}}(0,\ 0);\ \textcolor{comment}{//\ Stop\ motors\ when\ in\ waypoint\ hold}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00273}00273\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00274}00274\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\mbox{\hyperlink{PID__controller_8c_ab83af6171d6deb8c85a7976002efc4ea}{obstacleFlag}}\ \&\&\ \mbox{\hyperlink{PID__controller_8c_ae0145984b7a6e7e4003342ba70b42395}{enableObstacleAvoidance}})}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00275}00275\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_abe46c826df3be744548fb954242ae776}{obstacleAvoidance}}();}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00277}00277\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00278}00278\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00279}00279\ \ \ \ \ \ \ \ \ osDelay(10);\ \textcolor{comment}{//\ Idle\ delay\ when\ PID\ is\ disabled}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00280}00280\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{PID__controller_8c_source_l00281}00281\ \}}
+
+\end{DoxyCode}

@@ -61,21 +61,49 @@ double headingError(double target, double current);
 double pidCompute(double error, double dt);
 
 bool enablePID = false;
+bool enableObstacleAvoidance = true;
 unsigned int key = 0;
 bool obstacleFlag = false;
 
 dGPS_decimalData_t latest_dGPS_data;
 
+/**
+ * @brief Get the current state of the obstacle avoidance feature.
+ * 
+ * @param state Pointer to a boolean variable to store the state.
+ */
+void PID_getObstacleAvoidanceState(bool *state)
+{
+    *state = enableObstacleAvoidance;
+}
+
+/**
+ * @brief Get the current state of the obstacle flag.
+ * 
+ * @param flag Pointer to a boolean variable to store the state.
+ */
 void PID_getObstacleFlag(bool *flag)
 {
     *flag = obstacleFlag;
 }
 
+/**
+ * @brief Set the current state of the obstacle flag.
+ * 
+ * @param flag Pointer to a boolean variable to store the state.
+ */
 void PID_setObstacleFlag(bool flag)
 {
     obstacleFlag = flag;
 }
 
+/**
+ * @brief Calculate the heading error between the target and current heading.
+ * 
+ * @param target Target heading in degrees.
+ * @param current Current heading in degrees
+ * @return double Returns the heading error in degrees within the range [-180, 180].
+ */
 double headingError(double target, double current) {
     double error = target - current;
     while (error > 180.0)  error -= 360.0;
@@ -83,6 +111,13 @@ double headingError(double target, double current) {
     return error;
 }
 
+/**
+ * @brief Compute the PID control output.
+ * 
+ * @param error The current error value.
+ * @param dt The dt time elapsed since the last computation in seconds.
+ * @return double Returns the PID control output.
+ */
 double pidCompute(double error, double dt) {
     integral += error * dt;
     double derivative = (error - prevError) / dt;
@@ -97,6 +132,10 @@ double pidCompute(double error, double dt) {
     return output;
 }
 
+/**
+ * @brief Obstacle avoidance maneuver. Called everytime an obstacle is detected.
+ * 
+ */
 void obstacleAvoidance(){
 
     Motor_Set_Speed(0, 0); // stop motors
@@ -112,6 +151,10 @@ void obstacleAvoidance(){
     obstacleFlag = false; // reset obstacle flag
 }
 
+/**
+ * @brief Triggers the PID controller.
+ * 
+ */
 void PID_trigger(){
 
     // Get latest heading and course to calculate error
@@ -140,7 +183,7 @@ void PID_trigger(){
     if (rightSpeed > MAX_SPEED) rightSpeed = MAX_SPEED;
     if (rightSpeed < -MAX_SPEED) rightSpeed = -MAX_SPEED;
 
-    // Apply minimum effective speed to overcome stiction when a non-zero
+    // Apply minimum effective speed to overcome friction when a non-zero
     // command is requested. Preserve exact zero when keepMotorsOff is true.
     if (!keepMotorsOff) {
         if ((leftSpeed > 0) && (leftSpeed < MIN_SPEED)) leftSpeed = MIN_SPEED;
@@ -163,6 +206,11 @@ void PID_trigger(){
     #endif
 }
 
+/**
+ * @brief PID controller task.
+ * 
+ * @param argument 
+ */
 void PID_Controller(void *argument)
 {
     osDelay(200); // wait a second to make sure everything is started
@@ -192,6 +240,16 @@ void PID_Controller(void *argument)
                         else
                             UART_puts("PID Controller disabled\r\n");   
                         break;
+                    case 6:
+                        UART_puts("\r\n Obstacle avoidance toggle received in PID_Controller\r\n");
+                        // Toggle obstacle avoidance state
+                        enableObstacleAvoidance = !enableObstacleAvoidance;
+
+                        if (enableObstacleAvoidance)
+                            UART_puts("Obstacle avoidance enabled\r\n");
+                        else
+                            UART_puts("Obstacle avoidance disabled\r\n");   
+                        break;
                     default:
                         UART_puts("\r\nInvalid key pressed for PID_Controller\r\n");
                         break; // continue loop
@@ -199,11 +257,21 @@ void PID_Controller(void *argument)
             }
         }
 
-        if (enablePID && !pid_waypoint_hold && !obstacleFlag)
+        if (enablePID && !pid_waypoint_hold && !obstacleFlag && !enableObstacleAvoidance)
         {
             PID_trigger();
             osDelay(10); // Control loop delay
 
+        }
+        else if(enablePID && !pid_waypoint_hold && obstacleFlag && !enableObstacleAvoidance)
+        {
+            PID_trigger();
+            osDelay(10); // Control loop delay
+        }
+        else if(enablePID && !pid_waypoint_hold && !obstacleFlag && enableObstacleAvoidance)
+        {
+            PID_trigger();
+            osDelay(10); // Control loop delay
         }
         else if(!enablePID)
         {
@@ -213,7 +281,7 @@ void PID_Controller(void *argument)
         {
             Motor_Set_Speed(0, 0); // Stop motors when in waypoint hold
         }
-        else if(obstacleFlag)
+        else if(obstacleFlag && enableObstacleAvoidance)
         {
             obstacleAvoidance();
         }

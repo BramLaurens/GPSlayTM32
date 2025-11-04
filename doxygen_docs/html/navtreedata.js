@@ -38,8 +38,8 @@ var NAVTREE =
     [ "Files", "files.html", [
       [ "File List", "files.html", "files_dup" ],
       [ "Globals", "globals.html", [
-        [ "All", "globals.html", null ],
-        [ "Functions", "globals_func.html", null ],
+        [ "All", "globals.html", "globals_dup" ],
+        [ "Functions", "globals_func.html", "globals_func" ],
         [ "Variables", "globals_vars.html", null ],
         [ "Typedefs", "globals_type.html", null ],
         [ "Enumerations", "globals_enum.html", null ],
@@ -52,7 +52,9 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"ARM__keys_8c.html"
+"ARM__keys_8c.html",
+"compass__driver_8c.html#a7090151f83272bf654c8c99015c71d04",
+"routeperformer_8h.html#ac1b2ee504503a2aed90ebd35dc6853ba"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

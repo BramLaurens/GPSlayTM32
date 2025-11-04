@@ -9,5 +9,6 @@
 
 void PID_setObstacleFlag(bool flag);
 void PID_getObstacleFlag(bool *flag);
+void PID_getObstacleAvoidanceState(bool *state);
 
 #endif // PID_CONTROLLER_H

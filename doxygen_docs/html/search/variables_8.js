@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['latitude_0',['latitude',['../struct__GNRMC.html#a266beef800a2fe9da436c749b7402baf',1,'_GNRMC::latitude'],['../struct__GPS__Route.html#aa61b46911a0379e3e3c673d4207b0719',1,'_GPS_Route::latitude']]],
-  ['longitude_1',['longitude',['../struct__GNRMC.html#a0918955ee8187503b361127c7030e579',1,'_GNRMC::longitude'],['../struct__GPS__Route.html#ae5a5dd3df2f2114e2cf0d287e6b38ef4',1,'_GPS_Route::longitude']]]
+  ['i_0',['i',['../dGPS_8c.html#acb559820d9ca11295b4500f179ef6392',1,'dGPS.c']]],
+  ['integral_1',['integral',['../PID__controller_8c.html#a9157f0915da305914350c5922cee2c1c',1,'PID_controller.c']]]
 ];

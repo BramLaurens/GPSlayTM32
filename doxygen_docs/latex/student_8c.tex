@@ -60,22 +60,18 @@ Definition at line \mbox{\hyperlink{student_8c_source_l00019}{19}} of file \mbox
 \DoxyCodeLine{00020\ \{}
 \DoxyCodeLine{00021\ \ \ \ \ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}\ started\(\backslash\)r\(\backslash\)n"{}});}
 \DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{char}\ buf[80];}
-\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ i\ =\ 0;}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}\ =\ 0;}
 \DoxyCodeLine{00024\ }
 \DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
 \DoxyCodeLine{00026\ \ \ \ \ \{}
 \DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ osDelay(1000);}
-\DoxyCodeLine{00028\ }
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_a6fcd7c2c8ee6e408e84e96747933027c}{STUDENT\_DEBUG\_OUT}})}
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ sprintf(buf,\ \textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\%s:\ \%u"{}},\ \_\_func\_\_,\ i++);}
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(buf);}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00034\ \ \ \ \ \}}
-\DoxyCodeLine{00035\ \}}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \}}
+\DoxyCodeLine{00031\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{admin_8h_source_l00083}{STUDENT\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{admin_8h_source_l00023}{TRUE}}, and \mbox{\hyperlink{admin_8c_source_l00040}{Uart\+\_\+debug\+\_\+out}}.
+References \mbox{\hyperlink{dGPS_8c_source_l00026}{i}}, and \mbox{\hyperlink{admin_8h_source_l00025}{TRUE}}.
 

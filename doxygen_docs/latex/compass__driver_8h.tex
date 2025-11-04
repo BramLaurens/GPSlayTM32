@@ -1,0 +1,118 @@
+\doxysection{Core/\+My\+App/\+App/compass\+\_\+driver.h File Reference}
+\hypertarget{compass__driver_8h}{}\label{compass__driver_8h}\index{Core/MyApp/App/compass\_driver.h@{Core/MyApp/App/compass\_driver.h}}
+{\ttfamily \#include "{}main.\+h"{}}\newline
+{\ttfamily \#include "{}cmsis\+\_\+os.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{compass__driver_8h_aa3bec069f3ecffc3912218faa430bf09}{Compass\+\_\+\+Heading}} (void \texorpdfstring{$\ast$}{*})
+\item 
+void \mbox{\hyperlink{compass__driver_8h_a2de6b50e325af14c1ca45427dbf371e0}{getlatest\+Heading}} (double \texorpdfstring{$\ast$}{*}dest)
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{compass__driver_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{compass__driver_8h_aa3bec069f3ecffc3912218faa430bf09}\index{compass\_driver.h@{compass\_driver.h}!Compass\_Heading@{Compass\_Heading}}
+\index{Compass\_Heading@{Compass\_Heading}!compass\_driver.h@{compass\_driver.h}}
+\doxysubsubsection{\texorpdfstring{Compass\_Heading()}{Compass\_Heading()}}
+{\footnotesize\ttfamily \label{compass__driver_8h_aa3bec069f3ecffc3912218faa430bf09} 
+void Compass\+\_\+\+Heading (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argument}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{compass__driver_8c_source_l00322}{322}} of file \mbox{\hyperlink{compass__driver_8c_source}{compass\+\_\+driver.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00323\ \{}
+\DoxyCodeLine{00324\ \ \ \ \ osDelay(2000);\ \textcolor{comment}{//\ wait\ for\ system\ to\ stabilize}}
+\DoxyCodeLine{00325\ }
+\DoxyCodeLine{00326\ \ \ \ \ \textcolor{keywordflow}{if}\ ((\mbox{\hyperlink{compass__driver_8c_a72c1658eb37db971e7f6bca046bc6f24}{status}}\ =\ HAL\_I2C\_IsDeviceReady(\&\mbox{\hyperlink{main_8c_a5ccf4a01a8d7f08d3190181f843f7515}{hi2c3}},\ \mbox{\hyperlink{compass__driver_8c_aa1fe8330fc6f98d2ecc5b796846d07fa}{LSM303M\_ADDR}},\ 2,\ 100))\ ==\ HAL\_OK)}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Magnetometer\ aanwezig\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00328\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Magnetometer\ reageert\ niet!\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00330\ \ \ \ \ UART\_putint((\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int})\mbox{\hyperlink{compass__driver_8c_a72c1658eb37db971e7f6bca046bc6f24}{status}});}
+\DoxyCodeLine{00331\ }
+\DoxyCodeLine{00332\ \ \ \ \ \textcolor{keywordflow}{if}\ ((\mbox{\hyperlink{compass__driver_8c_a72c1658eb37db971e7f6bca046bc6f24}{status}}\ =\ HAL\_I2C\_IsDeviceReady(\&\mbox{\hyperlink{main_8c_a5ccf4a01a8d7f08d3190181f843f7515}{hi2c3}},\ \mbox{\hyperlink{compass__driver_8c_a9565552620b638127cff9b6c26c94b39}{LSM303A\_ADDR}},\ 2,\ 100))\ ==\ HAL\_OK)}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Accelerometer\ aanwezig\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00334\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Accelerometer\ reageert\ niet!\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00336\ \ \ \ \ UART\_putint((\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int})\mbox{\hyperlink{compass__driver_8c_a72c1658eb37db971e7f6bca046bc6f24}{status}});}
+\DoxyCodeLine{00337\ }
+\DoxyCodeLine{00338\ \ \ \ \ \mbox{\hyperlink{compass__driver_8c_af125771fd348218db17a8af9a5a24889}{LSM303AGR\_Mag\_Init}}(\&\mbox{\hyperlink{main_8c_a5ccf4a01a8d7f08d3190181f843f7515}{hi2c3}});}
+\DoxyCodeLine{00339\ \ \ \ \ \mbox{\hyperlink{compass__driver_8c_aee7536c06f3f607600efab1d34d37589}{LSM303A\_Init}}(\&\mbox{\hyperlink{main_8c_a5ccf4a01a8d7f08d3190181f843f7515}{hi2c3}});}
+\DoxyCodeLine{00340\ }
+\DoxyCodeLine{00341\ \ \ \ \ \textcolor{keywordtype}{double}\ filteredSin\ =\ 0.0;}
+\DoxyCodeLine{00342\ \ \ \ \ \textcolor{keywordtype}{double}\ filteredCos\ =\ 0.0;}
+\DoxyCodeLine{00343\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ alpha\ =\ 0.1;\ \textcolor{comment}{//\ smoothing\ factor}}
+\DoxyCodeLine{00344\ }
+\DoxyCodeLine{00345\ \ \ \ \ osDelay(1000);}
+\DoxyCodeLine{00346\ \ \ \ \ \textcolor{comment}{//\ LSM303AGR\_CFG\_Read();}}
+\DoxyCodeLine{00347\ \ \ \ \ \textcolor{comment}{//\ LSM303AGR\_Calibrate(\&hi2c3,\ \&magCal);}}
+\DoxyCodeLine{00348\ }
+\DoxyCodeLine{00349\ \ \ \ \ \textcolor{comment}{//\ LSM303M\_Calibrate(\&hi2c3,\ \&offx,\ \&offy,\ \&offz,\ \&scalex,\ \&scaley,\ \&scalez);}}
+\DoxyCodeLine{00350\ \ \ \ \ \textcolor{keywordflow}{while}\ (1)}
+\DoxyCodeLine{00351\ \ \ \ \ \{}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ b[64];}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ a\ =\ \mbox{\hyperlink{compass__driver_8c_a9ac5a0b37c35f5846d69138b5cd91e8c}{LSM303M\_RawAngle}}();\ \textcolor{comment}{//\ in\ degrees}}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ rad\ =\ a\ *\ \mbox{\hyperlink{compass__driver_8c_ae71449b1cc6e6250b91f539153a7a0d3}{M\_PI}}\ /\ 180.0;}
+\DoxyCodeLine{00355\ }
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Low-\/pass\ filter\ on\ sin\ and\ cos\ components}}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ filteredSin\ =\ alpha\ *\ sin(rad)\ +\ (1.0\ -\/\ alpha)\ *\ filteredSin;}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ filteredCos\ =\ alpha\ *\ cos(rad)\ +\ (1.0\ -\/\ alpha)\ *\ filteredCos;}
+\DoxyCodeLine{00359\ }
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Reconstruct\ filtered\ angle}}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ filtAngle\ =\ atan2(filteredSin,\ filteredCos)\ *\ 180.0\ /\ \mbox{\hyperlink{compass__driver_8c_ae71449b1cc6e6250b91f539153a7a0d3}{M\_PI}};}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (filtAngle\ <\ 0)\ filtAngle\ +=\ 360.0;}
+\DoxyCodeLine{00363\ }
+\DoxyCodeLine{00364\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#ifdef\ DEBUG\_COMPASS}}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ sprintf(b,\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ Raw\ angle:\ \%.2f\ deg,\ Filtered\ angle:\ \%.2f\ deg\(\backslash\)r\(\backslash\)n"{}},\ a,\ filtAngle);}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(b);}
+\DoxyCodeLine{00367\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00368\ }
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (xSemaphoreTake(\mbox{\hyperlink{admin_8c_a642c56f3553d3e169f713846911ac95f}{hCompass\_Mutex}},\ portMAX\_DELAY)\ ==\ pdTRUE)\ \{}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{compass__driver_8c_af5ad313da6a3d0d04c767051922f11bc}{externAngle}}\ =\ filtAngle\ -\/\ (double)\mbox{\hyperlink{compass__driver_8c_ae8f6821c0cc1197e37266fb716a67e1e}{compass\_offset}};}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ sprintf(b,\ "{}Compass\ angle\ updated:\ \%.2f\ deg\(\backslash\)r\(\backslash\)n"{},\ externAngle);}}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ UART\_puts(b);}}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ xSemaphoreGive(\mbox{\hyperlink{admin_8c_a642c56f3553d3e169f713846911ac95f}{hCompass\_Mutex}});}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00375\ }
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ osDelay(10);\ \textcolor{comment}{//\ 10\ ms\ delay\ between\ samples}}
+\DoxyCodeLine{00377\ \ \ \ \ \}}
+\DoxyCodeLine{00378\ \}}
+
+\end{DoxyCode}
+\Hypertarget{compass__driver_8h_a2de6b50e325af14c1ca45427dbf371e0}\index{compass\_driver.h@{compass\_driver.h}!getlatestHeading@{getlatestHeading}}
+\index{getlatestHeading@{getlatestHeading}!compass\_driver.h@{compass\_driver.h}}
+\doxysubsubsection{\texorpdfstring{getlatestHeading()}{getlatestHeading()}}
+{\footnotesize\ttfamily \label{compass__driver_8h_a2de6b50e325af14c1ca45427dbf371e0} 
+void getlatest\+Heading (\begin{DoxyParamCaption}\item[{double \texorpdfstring{$\ast$}{*}}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{compass__driver_8c_source_l00035}{35}} of file \mbox{\hyperlink{compass__driver_8c_source}{compass\+\_\+driver.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordflow}{if}(xSemaphoreTake(\mbox{\hyperlink{admin_8c_a642c56f3553d3e169f713846911ac95f}{hCompass\_Mutex}},\ portMAX\_DELAY)\ ==\ pdTRUE)\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ critical\ section}}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ *dest\ =\ \mbox{\hyperlink{compass__driver_8c_af5ad313da6a3d0d04c767051922f11bc}{externAngle}};}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ xSemaphoreGive(\mbox{\hyperlink{admin_8c_a642c56f3553d3e169f713846911ac95f}{hCompass\_Mutex}});}
+\DoxyCodeLine{00040\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ failed\ to\ take\ mutex,\ return\ some\ default\ value}}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ *dest\ =\ -\/1.0;}
+\DoxyCodeLine{00043\ \ \ \ \ \}}
+\DoxyCodeLine{00044\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{compass__driver_8c_source_l00032}{extern\+Angle}}, and \mbox{\hyperlink{admin_8c_source_l00065}{h\+Compass\+\_\+\+Mutex}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00351}{LOS\+\_\+caller()}}, and \mbox{\hyperlink{PID__controller_8c_source_l00158}{PID\+\_\+trigger()}}.
+

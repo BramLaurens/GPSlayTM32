@@ -1,8 +1,12 @@
 /**
-@brief Function for Ultrasonic sensor
-01/11/2025
-
-(Reading the Echo pin in core/src/stm32f4xx_it.c)
+ * @file Ultrasoon.c
+ * @author Anne Kamphuis
+ * @brief Ultrasonic sensor driver
+ * @version 0.1
+ * @date 2025-11-04
+ * 
+ * @copyright Copyright (c) 2025
+ * 
  */
 #include <Ultrasoon.h>
 #include "cmsis_os.h"
@@ -13,6 +17,11 @@
 float ObjectDistance;
 int obstacleCounter = 0;
 
+/**
+ * @brief Exports the distance value
+ * 
+ * @param distance pointer to store distance value in cm
+ */
 void US_getObjectDistance(float* distance)
 {
 	*distance = ObjectDistance;
@@ -33,7 +42,6 @@ double Afstand() // returns distance value with Afstand function
   * @param  None
   * @retval None
   */
-
 void Ultrasoon_trig(void) // 10us pulse for Trigger pin
 {
 	HAL_GPIO_WritePin(GPIOC, Trigger_Pin, GPIO_PIN_SET);

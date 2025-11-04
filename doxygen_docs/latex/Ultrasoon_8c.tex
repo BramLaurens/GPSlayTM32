@@ -1,0 +1,308 @@
+\doxysection{Core/\+My\+App/\+App/\+Ultrasoon.c File Reference}
+\hypertarget{Ultrasoon_8c}{}\label{Ultrasoon_8c}\index{Core/MyApp/App/Ultrasoon.c@{Core/MyApp/App/Ultrasoon.c}}
+
+
+Ultrasonic sensor driver.  
+
+
+{\ttfamily \#include $<$Ultrasoon.\+h$>$}\newline
+{\ttfamily \#include "{}cmsis\+\_\+os.\+h"{}}\newline
+{\ttfamily \#include "{}PID\+\_\+controller.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{Ultrasoon_8c_a2595b22fc95f91d3ce57f1b4f3d55b84}{ultrasoon\+\_\+debug}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{Ultrasoon_8c_a742cad46ce45ea6adade91791c587f3a}{Afstand}} ()
+\begin{DoxyCompactList}\small\item\em Returns distance value. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Ultrasoon_8c_a54dc8ad5475df1d0bf62ccd832988e92}{Echo\+\_\+sign\+\_\+task}} (void \texorpdfstring{$\ast$}{*}argument)
+\begin{DoxyCompactList}\small\item\em Task for calculating distance (cm) based on Echo time. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Ultrasoon_8c_a978eeff6ef160126abe64f03d45928e6}{Ultrasoon\+\_\+trig}} (void)
+\begin{DoxyCompactList}\small\item\em Generates a 10us pulse on Trigger pin. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Ultrasoon_8c_a6ee34e5f59c74dc17373a122e86250a8}{US\+\_\+get\+Object\+Distance}} (float \texorpdfstring{$\ast$}{*}distance)
+\begin{DoxyCompactList}\small\item\em Exports the distance value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{Ultrasoon_8c_a17914347c89aa35e1d4a9af6f3fca475}{Object\+Distance}}
+\item 
+int \mbox{\hyperlink{Ultrasoon_8c_a8d011ebe681ac8c30448fccab3593c86}{obstacle\+Counter}} = 0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Ultrasonic sensor driver. 
+
+\begin{DoxyAuthor}{Author}
+Anne Kamphuis 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2025-\/11-\/04
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2025 
+\end{DoxyCopyright}
+
+
+Definition in file \mbox{\hyperlink{Ultrasoon_8c_source}{Ultrasoon.\+c}}.
+
+
+
+\label{doc-define-members}
+\Hypertarget{Ultrasoon_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{Ultrasoon_8c_a2595b22fc95f91d3ce57f1b4f3d55b84}\index{Ultrasoon.c@{Ultrasoon.c}!ultrasoon\_debug@{ultrasoon\_debug}}
+\index{ultrasoon\_debug@{ultrasoon\_debug}!Ultrasoon.c@{Ultrasoon.c}}
+\doxysubsubsection{\texorpdfstring{ultrasoon\_debug}{ultrasoon\_debug}}
+{\footnotesize\ttfamily \label{Ultrasoon_8c_a2595b22fc95f91d3ce57f1b4f3d55b84} 
+\#define ultrasoon\+\_\+debug}
+
+
+
+Definition at line \mbox{\hyperlink{Ultrasoon_8c_source_l00015}{15}} of file \mbox{\hyperlink{Ultrasoon_8c_source}{Ultrasoon.\+c}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{Ultrasoon_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{Ultrasoon_8c_a742cad46ce45ea6adade91791c587f3a}\index{Ultrasoon.c@{Ultrasoon.c}!Afstand@{Afstand}}
+\index{Afstand@{Afstand}!Ultrasoon.c@{Ultrasoon.c}}
+\doxysubsubsection{\texorpdfstring{Afstand()}{Afstand()}}
+{\footnotesize\ttfamily \label{Ultrasoon_8c_a742cad46ce45ea6adade91791c587f3a} 
+double Afstand (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Returns distance value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Distance} & value in cm \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \mbox{\hyperlink{Ultrasoon_8c_source_l00035}{35}} of file \mbox{\hyperlink{Ultrasoon_8c_source}{Ultrasoon.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00036\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{Ultrasoon_8c_a17914347c89aa35e1d4a9af6f3fca475}{ObjectDistance}};}
+\DoxyCodeLine{00038\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{Ultrasoon_8c_source_l00017}{Object\+Distance}}.
+
+\Hypertarget{Ultrasoon_8c_a54dc8ad5475df1d0bf62ccd832988e92}\index{Ultrasoon.c@{Ultrasoon.c}!Echo\_sign\_task@{Echo\_sign\_task}}
+\index{Echo\_sign\_task@{Echo\_sign\_task}!Ultrasoon.c@{Ultrasoon.c}}
+\doxysubsubsection{\texorpdfstring{Echo\_sign\_task()}{Echo\_sign\_task()}}
+{\footnotesize\ttfamily \label{Ultrasoon_8c_a54dc8ad5475df1d0bf62ccd832988e92} 
+void Echo\+\_\+sign\+\_\+task (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argument}{}\end{DoxyParamCaption})}
+
+
+
+Task for calculating distance (cm) based on Echo time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argument} & Not used \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \mbox{\hyperlink{Ultrasoon_8c_source_l00061}{61}} of file \mbox{\hyperlink{Ultrasoon_8c_source}{Ultrasoon.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00062\ \{}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{int}\ Echo\_time\ =\ 0;}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{char}\ Buffer[70];}
+\DoxyCodeLine{00066\ \ \ \ \ osDelay(1000);\ \textcolor{comment}{//\ wait\ for\ system\ to\ stabilize}}
+\DoxyCodeLine{00067\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Echo\ task\ started\ \(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
+\DoxyCodeLine{00070\ \ \ \ \ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{Ultrasoon_8c_a978eeff6ef160126abe64f03d45928e6}{Ultrasoon\_trig}}();}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Wait\ for\ falling\ edge\ event\ from\ ISR.\ Using\ a\ timeout\ so\ the\ task}}
+\DoxyCodeLine{00074\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ doesn't\ block\ forever\ if\ no\ echo\ (or\ ISR\ stops\ firing).\ */}}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ EventBits\_t\ uxBits\ =\ xEventGroupWaitBits(\mbox{\hyperlink{admin_8c_a80821d400c57f572ec74821daee9385e}{hEcho\_Event}},\ 1,\ pdTRUE,\ pdFALSE,\ pdMS\_TO\_TICKS(60));}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((uxBits\ \&\ 1)\ ==\ 0)}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ timeout:\ no\ echo\ received\ */}}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Echo\ timeout\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Ensure\ timer\ is\ disabled\ in\ case\ it\ was\ left\ running\ */}}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_HAL\_TIM\_DISABLE(\&\mbox{\hyperlink{Ultrasoon_8h_a31f6f787777409af5ed0d131b52b7988}{htim9}});}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ mark\ object\ as\ far\ away\ */}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Echo\_time\ =\ \_\_HAL\_TIM\_GetCounter(\&\mbox{\hyperlink{Ultrasoon_8h_a31f6f787777409af5ed0d131b52b7988}{htim9}});\ \textcolor{comment}{//\ amount\ of\ time\ receiving\ pulse}}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{Ultrasoon_8c_a17914347c89aa35e1d4a9af6f3fca475}{ObjectDistance}}\ =\ (Echo\_time*0.0343)/2;}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#ifdef\ ultrasoon\_debug}}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ sprintf(Buffer,\ \textcolor{stringliteral}{"{}Afstand\ is:\ \%.2f."{}},\ \mbox{\hyperlink{Ultrasoon_8c_a17914347c89aa35e1d4a9af6f3fca475}{ObjectDistance}});}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(Buffer);}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_putint(Echo\_time);}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{Ultrasoon_8c_a17914347c89aa35e1d4a9af6f3fca475}{ObjectDistance}}\ <\ 60.0)\ \textcolor{comment}{//\ obstacle\ detected\ within\ 60\ cm}}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{Ultrasoon_8c_a8d011ebe681ac8c30448fccab3593c86}{obstacleCounter}}++;}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{Ultrasoon_8c_a8d011ebe681ac8c30448fccab3593c86}{obstacleCounter}}\ >=\ 6)\ \textcolor{comment}{//\ obstacle\ confirmed\ after\ 2\ readings\ (200\ ms)}}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Obstacle\ detected!\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_adee41834c306e02a66bf5a110503006d}{PID\_setObstacleFlag}}(\textcolor{keyword}{true});}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_adee41834c306e02a66bf5a110503006d}{PID\_setObstacleFlag}}(\textcolor{keyword}{false});}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{Ultrasoon_8c_a8d011ebe681ac8c30448fccab3593c86}{obstacleCounter}}\ =\ 0;}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ osDelay(100);}
+\DoxyCodeLine{00115\ \ \ \ \ \}}
+\DoxyCodeLine{00116\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{admin_8c_source_l00058}{h\+Echo\+\_\+\+Event}}, \mbox{\hyperlink{main_8c_source_l00058}{htim9}}, \mbox{\hyperlink{Ultrasoon_8c_source_l00017}{Object\+Distance}}, \mbox{\hyperlink{Ultrasoon_8c_source_l00018}{obstacle\+Counter}}, \mbox{\hyperlink{PID__controller_8c_source_l00095}{PID\+\_\+set\+Obstacle\+Flag()}}, \mbox{\hyperlink{admin_8h_source_l00025}{TRUE}}, and \mbox{\hyperlink{Ultrasoon_8c_source_l00045}{Ultrasoon\+\_\+trig()}}.
+
+\Hypertarget{Ultrasoon_8c_a978eeff6ef160126abe64f03d45928e6}\index{Ultrasoon.c@{Ultrasoon.c}!Ultrasoon\_trig@{Ultrasoon\_trig}}
+\index{Ultrasoon\_trig@{Ultrasoon\_trig}!Ultrasoon.c@{Ultrasoon.c}}
+\doxysubsubsection{\texorpdfstring{Ultrasoon\_trig()}{Ultrasoon\_trig()}}
+{\footnotesize\ttfamily \label{Ultrasoon_8c_a978eeff6ef160126abe64f03d45928e6} 
+void Ultrasoon\+\_\+trig (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Generates a 10us pulse on Trigger pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \mbox{\hyperlink{Ultrasoon_8c_source_l00045}{45}} of file \mbox{\hyperlink{Ultrasoon_8c_source}{Ultrasoon.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00046\ \{}
+\DoxyCodeLine{00047\ \ \ \ \ HAL\_GPIO\_WritePin(GPIOC,\ Trigger\_Pin,\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{int}\ delay\ =\ 10;}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \_\_HAL\_TIM\_SET\_COUNTER(\&\mbox{\hyperlink{Ultrasoon_8h_a5faa27108379f799afb6984010bf0384}{htim8}},\ 0);}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordflow}{while}\ (\_\_HAL\_TIM\_GET\_COUNTER(\&\mbox{\hyperlink{Ultrasoon_8h_a5faa27108379f799afb6984010bf0384}{htim8}})\ \ <\ delay);\ \textcolor{comment}{//\ wait\ 10us}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ HAL\_GPIO\_WritePin(GPIOC,\ Trigger\_Pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00054\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{main_8c_source_l00057}{htim8}}.
+
+
+
+Referenced by \mbox{\hyperlink{Ultrasoon_8c_source_l00061}{Echo\+\_\+sign\+\_\+task()}}.
+
+\Hypertarget{Ultrasoon_8c_a6ee34e5f59c74dc17373a122e86250a8}\index{Ultrasoon.c@{Ultrasoon.c}!US\_getObjectDistance@{US\_getObjectDistance}}
+\index{US\_getObjectDistance@{US\_getObjectDistance}!Ultrasoon.c@{Ultrasoon.c}}
+\doxysubsubsection{\texorpdfstring{US\_getObjectDistance()}{US\_getObjectDistance()}}
+{\footnotesize\ttfamily \label{Ultrasoon_8c_a6ee34e5f59c74dc17373a122e86250a8} 
+void US\+\_\+get\+Object\+Distance (\begin{DoxyParamCaption}\item[{float \texorpdfstring{$\ast$}{*}}]{distance}{}\end{DoxyParamCaption})}
+
+
+
+Exports the distance value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em distance} & pointer to store distance value in cm \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{Ultrasoon_8c_source_l00025}{25}} of file \mbox{\hyperlink{Ultrasoon_8c_source}{Ultrasoon.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00026\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ *distance\ =\ \mbox{\hyperlink{Ultrasoon_8c_a17914347c89aa35e1d4a9af6f3fca475}{ObjectDistance}};}
+\DoxyCodeLine{00028\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{Ultrasoon_8c_source_l00017}{Object\+Distance}}.
+
+
+
+Referenced by \mbox{\hyperlink{TFT_8c_source_l00139}{update\+\_\+obstacle\+\_\+display()}}.
+
+
+
+\label{doc-var-members}
+\Hypertarget{Ultrasoon_8c_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{Ultrasoon_8c_a17914347c89aa35e1d4a9af6f3fca475}\index{Ultrasoon.c@{Ultrasoon.c}!ObjectDistance@{ObjectDistance}}
+\index{ObjectDistance@{ObjectDistance}!Ultrasoon.c@{Ultrasoon.c}}
+\doxysubsubsection{\texorpdfstring{ObjectDistance}{ObjectDistance}}
+{\footnotesize\ttfamily \label{Ultrasoon_8c_a17914347c89aa35e1d4a9af6f3fca475} 
+float Object\+Distance}
+
+
+
+Definition at line \mbox{\hyperlink{Ultrasoon_8c_source_l00017}{17}} of file \mbox{\hyperlink{Ultrasoon_8c_source}{Ultrasoon.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{Ultrasoon_8c_source_l00035}{Afstand()}}, \mbox{\hyperlink{Ultrasoon_8c_source_l00061}{Echo\+\_\+sign\+\_\+task()}}, and \mbox{\hyperlink{Ultrasoon_8c_source_l00025}{US\+\_\+get\+Object\+Distance()}}.
+
+\Hypertarget{Ultrasoon_8c_a8d011ebe681ac8c30448fccab3593c86}\index{Ultrasoon.c@{Ultrasoon.c}!obstacleCounter@{obstacleCounter}}
+\index{obstacleCounter@{obstacleCounter}!Ultrasoon.c@{Ultrasoon.c}}
+\doxysubsubsection{\texorpdfstring{obstacleCounter}{obstacleCounter}}
+{\footnotesize\ttfamily \label{Ultrasoon_8c_a8d011ebe681ac8c30448fccab3593c86} 
+int obstacle\+Counter = 0}
+
+
+
+Definition at line \mbox{\hyperlink{Ultrasoon_8c_source_l00018}{18}} of file \mbox{\hyperlink{Ultrasoon_8c_source}{Ultrasoon.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{Ultrasoon_8c_source_l00061}{Echo\+\_\+sign\+\_\+task()}}.
+

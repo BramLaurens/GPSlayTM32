@@ -1,0 +1,1033 @@
+\doxysection{Core/\+My\+App/\+App/\+LOS\+\_\+algo.c File Reference}
+\hypertarget{LOS__algo_8c}{}\label{LOS__algo_8c}\index{Core/MyApp/App/LOS\_algo.c@{Core/MyApp/App/LOS\_algo.c}}
+
+
+Implements the Line of Sight (LOS) algorithm for waypoint navigation.  
+
+
+{\ttfamily \#include "{}main.\+h"{}}\newline
+{\ttfamily \#include "{}cmsis\+\_\+os.\+h"{}}\newline
+{\ttfamily \#include "{}admin.\+h"{}}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}GPS\+\_\+\+Route\+\_\+\+Setter.\+h"{}}\newline
+{\ttfamily \#include "{}LOS\+\_\+algo.\+h"{}}\newline
+{\ttfamily \#include "{}gps.\+h"{}}\newline
+{\ttfamily \#include "{}compass\+\_\+driver.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{LOS__algo_8c_ad1f985f453af1da3d220294ff7810ef7}{ARRIVAL\+\_\+\+RADIUS\+\_\+M}}~1.\+0
+\item 
+\#define \mbox{\hyperlink{LOS__algo_8c_a0eb202dc819ed397ca87cf47f9ba331f}{LOOKAHEAD\+\_\+\+DISTANCE\+\_\+M}}~2.\+0
+\item 
+\#define \mbox{\hyperlink{LOS__algo_8c_ae71449b1cc6e6250b91f539153a7a0d3}{M\+\_\+\+PI}}~3.\+14159265358979323846
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static double \mbox{\hyperlink{LOS__algo_8c_a4245ab25f5d431e40eafba39bc25ed1c}{angle\+\_\+diff}} (double a, double b)
+\begin{DoxyCompactList}\small\item\em Calculates the difference between two angles. \end{DoxyCompactList}\item 
+static double \mbox{\hyperlink{LOS__algo_8c_a72c054b842d160df6272debcefec191b}{bearing\+\_\+deg}} (double lat1, double lon1, double lat2, double lon2)
+\begin{DoxyCompactList}\small\item\em Calculates the bearing between two lat longs waypoint. \end{DoxyCompactList}\item 
+static double \mbox{\hyperlink{LOS__algo_8c_a8b94959184ade9d4197de89c561a945d}{deg2rad}} (double deg)
+\item 
+static double \mbox{\hyperlink{LOS__algo_8c_a2f743f129d5c1122674f103af479814b}{distance\+\_\+meters}} (double lat1, double lon1, double lat2, double lon2)
+\begin{DoxyCompactList}\small\item\em Returns the distance between two lat long waypoints. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{LOS__algo_8c_ab3db542bff37b663de541673a756177b}{get\+\_\+\+LOS\+\_\+algo\+State}} (bool \texorpdfstring{$\ast$}{*}state)
+\item 
+static void \mbox{\hyperlink{LOS__algo_8c_afb3e2ed41416786ba5703f0cf9eb96fb}{latlon\+\_\+to\+\_\+xy}} (double lat\+\_\+ref, double lon\+\_\+ref, double lat, double lon, double \texorpdfstring{$\ast$}{*}x, double \texorpdfstring{$\ast$}{*}y)
+\begin{DoxyCompactList}\small\item\em Converts a latitude and logitude to local x and y meters, relative to a reference point. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{LOS__algo_8c_a8a2c3e8ebfc878311797936a9d9b2f50}{LOS\+\_\+caller}} (void \texorpdfstring{$\ast$}{*}argument)
+\begin{DoxyCompactList}\small\item\em Task to handle Line of Sight (LOS) updates. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{LOS__algo_8c_a1374019ed2e0220d9c9f564e86e76760}{LOS\+\_\+getcurrent\+WPnumber}} (int \texorpdfstring{$\ast$}{*}dest)
+\begin{DoxyCompactList}\small\item\em Exports current waypoint number. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{LOS__algo_8c_aa8fb3e8e122a30f67765cddfdfa05423}{LOS\+\_\+getdesiredheading}} (double \texorpdfstring{$\ast$}{*}dest)
+\begin{DoxyCompactList}\small\item\em Exports desired LOS heading. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{LOS__algo_8c_a59b7f773ca31d2459e59e2f451e4442b}{LOS\+\_\+getwaypointhold\+\_\+status}} (bool \texorpdfstring{$\ast$}{*}dest)
+\begin{DoxyCompactList}\small\item\em Exports current hold status. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{LOS__algo_8c_a8591ae11df09abe7fb55c6b090915f86}{LOS\+\_\+get\+WPbearing}} (double \texorpdfstring{$\ast$}{*}dest)
+\begin{DoxyCompactList}\small\item\em Exports current LOS bearing. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{LOS__algo_8c_a5afb103ddf6e72a7c935090e8e6a44da}{LOS\+\_\+get\+WPdistance}} (double \texorpdfstring{$\ast$}{*}dest)
+\begin{DoxyCompactList}\small\item\em Exports current LOS distance to next waypoint. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{GPS__Route__Setter_8h_abaf7f2a5f92fa80200324b7686faa66b}{GPS\+\_\+\+Route}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{LOS__algo_8c_aa64bea7cc850a34893bb09d7d06f67c3}{LOS\+\_\+\+Navigate}} (\mbox{\hyperlink{GPS__Route__Setter_8h_abaf7f2a5f92fa80200324b7686faa66b}{GPS\+\_\+\+Route}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{LOS__algo_8c_a9a3f363fa864e1e91080b44c9280a7c2}{prev\+\_\+wp}}, \mbox{\hyperlink{GPS__Route__Setter_8h_abaf7f2a5f92fa80200324b7686faa66b}{GPS\+\_\+\+Route}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}{curr\+\_\+wp}}, double gps\+\_\+lat, double gps\+\_\+lon, double heading\+\_\+deg, double \mbox{\hyperlink{LOS__algo_8c_a75abd21e87726bb720f3c1b308b81bc3}{ref\+\_\+lat}}, double \mbox{\hyperlink{LOS__algo_8c_a51e297105c587eafe7871bcd79506615}{ref\+\_\+lon}}, \mbox{\hyperlink{structLOS__Output__t}{LOS\+\_\+\+Output\+\_\+t}} \texorpdfstring{$\ast$}{*}los\+\_\+out)
+\begin{DoxyCompactList}\small\item\em Line of Sight (LOS) navigation algorithm. Calculates vectors berween waypoints and projects the current rover position on this line. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{LOS__algo_8c_ad284922570f78a8900762c2abde98f5c}{on\+GPSupdate}} (double gps\+\_\+lat, double gps\+\_\+lon, double heading\+\_\+deg)
+\begin{DoxyCompactList}\small\item\em Function to call on every received GPS update. \end{DoxyCompactList}\item 
+static double \mbox{\hyperlink{LOS__algo_8c_a597b21f8c48b7f70be67bb8c960f9df3}{rad2deg}} (double rad)
+\item 
+void \mbox{\hyperlink{LOS__algo_8c_a787d7b65e7c3a511b8e60a6a4d5de992}{set\+\_\+\+LOS\+\_\+algo\+State}} (bool state)
+\begin{DoxyCompactList}\small\item\em Set the LOS algo\+State object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{LOS__algo_8c_a1317491c4c163ee97c2131805e0f3be8}{start\+Route}} ()
+\begin{DoxyCompactList}\small\item\em Starts the route navigation, initializing reference coordinates using the first waypoint. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{GPS__Route__Setter_8h_abaf7f2a5f92fa80200324b7686faa66b}{GPS\+\_\+\+Route}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}{curr\+\_\+wp}} = NULL
+\item 
+int \mbox{\hyperlink{LOS__algo_8c_a33d9c5e759ba76baf73463f224254bc4}{current\+\_\+\+LOS\+\_\+waypoint\+\_\+number}} = -\/1
+\item 
+bool \mbox{\hyperlink{LOS__algo_8c_a50114cb08a3c3dc35f40c5c719f47d28}{enable\+\_\+\+LOS\+\_\+algo}} = false
+\item 
+\mbox{\hyperlink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC}} \mbox{\hyperlink{LOS__algo_8c_af13d9c4ee248595dfd75b13a26c8286a}{gnrmc\+\_\+los}}
+\item 
+bool \mbox{\hyperlink{LOS__algo_8c_a2851e6bf17a87d52d224b72e1790cc96}{hold\+\_\+\+LOS\+\_\+at\+\_\+waypoint}} = false
+\item 
+\mbox{\hyperlink{structLOS__Output__t}{LOS\+\_\+\+Output\+\_\+t}} \mbox{\hyperlink{LOS__algo_8c_ab06bfee3c79f5eca79b3f25391ce983d}{los}}
+\item 
+double \mbox{\hyperlink{LOS__algo_8c_ad1018765fadf484f3f8d0f75498683c4}{los\+\_\+desiredheading}} = 0.\+0
+\item 
+static \mbox{\hyperlink{GPS__Route__Setter_8h_abaf7f2a5f92fa80200324b7686faa66b}{GPS\+\_\+\+Route}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{LOS__algo_8c_a9a3f363fa864e1e91080b44c9280a7c2}{prev\+\_\+wp}} = NULL
+\item 
+static double \mbox{\hyperlink{LOS__algo_8c_a75abd21e87726bb720f3c1b308b81bc3}{ref\+\_\+lat}}
+\item 
+static double \mbox{\hyperlink{LOS__algo_8c_a51e297105c587eafe7871bcd79506615}{ref\+\_\+lon}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implements the Line of Sight (LOS) algorithm for waypoint navigation. 
+
+\begin{DoxyAuthor}{Author}
+Bram Laurens 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2025-\/11-\/04
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2025 
+\end{DoxyCopyright}
+
+
+Definition in file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+
+\label{doc-define-members}
+\Hypertarget{LOS__algo_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{LOS__algo_8c_ad1f985f453af1da3d220294ff7810ef7}\index{LOS\_algo.c@{LOS\_algo.c}!ARRIVAL\_RADIUS\_M@{ARRIVAL\_RADIUS\_M}}
+\index{ARRIVAL\_RADIUS\_M@{ARRIVAL\_RADIUS\_M}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{ARRIVAL\_RADIUS\_M}{ARRIVAL\_RADIUS\_M}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_ad1f985f453af1da3d220294ff7810ef7} 
+\#define ARRIVAL\+\_\+\+RADIUS\+\_\+M~1.\+0}
+
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00028}{28}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00207}{LOS\+\_\+\+Navigate()}}.
+
+\Hypertarget{LOS__algo_8c_a0eb202dc819ed397ca87cf47f9ba331f}\index{LOS\_algo.c@{LOS\_algo.c}!LOOKAHEAD\_DISTANCE\_M@{LOOKAHEAD\_DISTANCE\_M}}
+\index{LOOKAHEAD\_DISTANCE\_M@{LOOKAHEAD\_DISTANCE\_M}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{LOOKAHEAD\_DISTANCE\_M}{LOOKAHEAD\_DISTANCE\_M}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_a0eb202dc819ed397ca87cf47f9ba331f} 
+\#define LOOKAHEAD\+\_\+\+DISTANCE\+\_\+M~2.\+0}
+
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00029}{29}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00207}{LOS\+\_\+\+Navigate()}}.
+
+\Hypertarget{LOS__algo_8c_ae71449b1cc6e6250b91f539153a7a0d3}\index{LOS\_algo.c@{LOS\_algo.c}!M\_PI@{M\_PI}}
+\index{M\_PI@{M\_PI}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{M\_PI}{M\_PI}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_ae71449b1cc6e6250b91f539153a7a0d3} 
+\#define M\+\_\+\+PI~3.\+14159265358979323846}
+
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00025}{25}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{LOS__algo_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{LOS__algo_8c_a4245ab25f5d431e40eafba39bc25ed1c}\index{LOS\_algo.c@{LOS\_algo.c}!angle\_diff@{angle\_diff}}
+\index{angle\_diff@{angle\_diff}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{angle\_diff()}{angle\_diff()}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_a4245ab25f5d431e40eafba39bc25ed1c} 
+double angle\+\_\+diff (\begin{DoxyParamCaption}\item[{double}]{a}{, }\item[{double}]{b}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Calculates the difference between two angles. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & \\
+\hline
+{\em b} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00188}{188}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00189\ \{}
+\DoxyCodeLine{00190\ \ \ \ \ \textcolor{keywordtype}{double}\ diff\ =\ fmod(a\ -\/\ b\ +\ 540.0,\ 360.0)\ -\/\ 180.0;}
+\DoxyCodeLine{00191\ \ \ \ \ \textcolor{keywordflow}{return}\ diff;}
+\DoxyCodeLine{00192\ \}}
+
+\end{DoxyCode}
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00207}{LOS\+\_\+\+Navigate()}}.
+
+\Hypertarget{LOS__algo_8c_a72c054b842d160df6272debcefec191b}\index{LOS\_algo.c@{LOS\_algo.c}!bearing\_deg@{bearing\_deg}}
+\index{bearing\_deg@{bearing\_deg}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{bearing\_deg()}{bearing\_deg()}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_a72c054b842d160df6272debcefec191b} 
+double bearing\+\_\+deg (\begin{DoxyParamCaption}\item[{double}]{lat1}{, }\item[{double}]{lon1}{, }\item[{double}]{lat2}{, }\item[{double}]{lon2}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Calculates the bearing between two lat longs waypoint. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lat1} & \\
+\hline
+{\em lon1} & \\
+\hline
+{\em lat2} & \\
+\hline
+{\em lon2} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00146}{146}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00147\ \{}
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keywordtype}{double}\ y\ =\ sin(\mbox{\hyperlink{LOS__algo_8c_a8b94959184ade9d4197de89c561a945d}{deg2rad}}(lon2\ -\/\ lon1))\ *\ cos(\mbox{\hyperlink{LOS__algo_8c_a8b94959184ade9d4197de89c561a945d}{deg2rad}}(lat2));}
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keywordtype}{double}\ x\ =\ cos(\mbox{\hyperlink{LOS__algo_8c_a8b94959184ade9d4197de89c561a945d}{deg2rad}}(lat1))\ *\ sin(\mbox{\hyperlink{LOS__algo_8c_a8b94959184ade9d4197de89c561a945d}{deg2rad}}(lat2))\ -\/}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sin(\mbox{\hyperlink{LOS__algo_8c_a8b94959184ade9d4197de89c561a945d}{deg2rad}}(lat1))\ *\ cos(\mbox{\hyperlink{LOS__algo_8c_a8b94959184ade9d4197de89c561a945d}{deg2rad}}(lat2))\ *\ cos(\mbox{\hyperlink{LOS__algo_8c_a8b94959184ade9d4197de89c561a945d}{deg2rad}}(lon2\ -\/\ lon1));}
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keywordtype}{double}\ brng\ =\ atan2(y,\ x);}
+\DoxyCodeLine{00152\ \ \ \ \ brng\ =\ \mbox{\hyperlink{LOS__algo_8c_a597b21f8c48b7f70be67bb8c960f9df3}{rad2deg}}(brng);}
+\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keywordflow}{if}\ (brng\ <\ 0)\ brng\ +=\ 360.0;}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keywordflow}{return}\ brng;}
+\DoxyCodeLine{00155\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{LOS__algo_8c_source_l00032}{deg2rad()}}, and \mbox{\hyperlink{LOS__algo_8c_source_l00033}{rad2deg()}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00207}{LOS\+\_\+\+Navigate()}}.
+
+\Hypertarget{LOS__algo_8c_a8b94959184ade9d4197de89c561a945d}\index{LOS\_algo.c@{LOS\_algo.c}!deg2rad@{deg2rad}}
+\index{deg2rad@{deg2rad}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{deg2rad()}{deg2rad()}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_a8b94959184ade9d4197de89c561a945d} 
+double deg2rad (\begin{DoxyParamCaption}\item[{double}]{deg}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00032}{32}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00032\ \{\ \textcolor{keywordflow}{return}\ deg\ *\ \mbox{\hyperlink{compass__driver_8c_ae71449b1cc6e6250b91f539153a7a0d3}{M\_PI}}\ /\ 180.0;\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{compass__driver_8c_source_l00012}{M\+\_\+\+PI}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00146}{bearing\+\_\+deg()}}, \mbox{\hyperlink{LOS__algo_8c_source_l00166}{distance\+\_\+meters()}}, \mbox{\hyperlink{LOS__algo_8c_source_l00125}{latlon\+\_\+to\+\_\+xy()}}, and \mbox{\hyperlink{LOS__algo_8c_source_l00207}{LOS\+\_\+\+Navigate()}}.
+
+\Hypertarget{LOS__algo_8c_a2f743f129d5c1122674f103af479814b}\index{LOS\_algo.c@{LOS\_algo.c}!distance\_meters@{distance\_meters}}
+\index{distance\_meters@{distance\_meters}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{distance\_meters()}{distance\_meters()}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_a2f743f129d5c1122674f103af479814b} 
+double distance\+\_\+meters (\begin{DoxyParamCaption}\item[{double}]{lat1}{, }\item[{double}]{lon1}{, }\item[{double}]{lat2}{, }\item[{double}]{lon2}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Returns the distance between two lat long waypoints. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lat1} & \\
+\hline
+{\em lon1} & \\
+\hline
+{\em lat2} & \\
+\hline
+{\em lon2} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00166}{166}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00167\ \{}
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ R\ =\ 6371000.0;\ \textcolor{comment}{//\ Earth\ radius\ in\ meters}}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keywordtype}{double}\ dLat\ =\ \mbox{\hyperlink{LOS__algo_8c_a8b94959184ade9d4197de89c561a945d}{deg2rad}}(lat2\ -\/\ lat1);}
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keywordtype}{double}\ dLon\ =\ \mbox{\hyperlink{LOS__algo_8c_a8b94959184ade9d4197de89c561a945d}{deg2rad}}(lon2\ -\/\ lon1);}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keywordtype}{double}\ a\ =\ sin(dLat\ /\ 2.0)\ *\ sin(dLat\ /\ 2.0)\ +}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cos(\mbox{\hyperlink{LOS__algo_8c_a8b94959184ade9d4197de89c561a945d}{deg2rad}}(lat1))\ *\ cos(\mbox{\hyperlink{LOS__algo_8c_a8b94959184ade9d4197de89c561a945d}{deg2rad}}(lat2))\ *}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sin(dLon\ /\ 2.0)\ *\ sin(dLon\ /\ 2.0);}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keywordtype}{double}\ c\ =\ 2.0\ *\ atan2(sqrt(a),\ sqrt(1.0\ -\/\ a));}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ \ \ \ \ \textcolor{keywordflow}{return}\ R\ *\ c;}
+\DoxyCodeLine{00179\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{LOS__algo_8c_source_l00032}{deg2rad()}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00207}{LOS\+\_\+\+Navigate()}}.
+
+\Hypertarget{LOS__algo_8c_ab3db542bff37b663de541673a756177b}\index{LOS\_algo.c@{LOS\_algo.c}!get\_LOS\_algoState@{get\_LOS\_algoState}}
+\index{get\_LOS\_algoState@{get\_LOS\_algoState}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{get\_LOS\_algoState()}{get\_LOS\_algoState()}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_ab3db542bff37b663de541673a756177b} 
+void get\+\_\+\+LOS\+\_\+algo\+State (\begin{DoxyParamCaption}\item[{bool \texorpdfstring{$\ast$}{*}}]{state}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00110}{110}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00111\ \{}
+\DoxyCodeLine{00112\ \ \ \ \ *state\ =\ \mbox{\hyperlink{LOS__algo_8c_a50114cb08a3c3dc35f40c5c719f47d28}{enable\_LOS\_algo}};}
+\DoxyCodeLine{00113\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{LOS__algo_8c_source_l00041}{enable\+\_\+\+LOS\+\_\+algo}}.
+
+
+
+Referenced by \mbox{\hyperlink{TFT_8c_source_l00079}{update\+WPdisplay()}}.
+
+\Hypertarget{LOS__algo_8c_afb3e2ed41416786ba5703f0cf9eb96fb}\index{LOS\_algo.c@{LOS\_algo.c}!latlon\_to\_xy@{latlon\_to\_xy}}
+\index{latlon\_to\_xy@{latlon\_to\_xy}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{latlon\_to\_xy()}{latlon\_to\_xy()}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_afb3e2ed41416786ba5703f0cf9eb96fb} 
+void latlon\+\_\+to\+\_\+xy (\begin{DoxyParamCaption}\item[{double}]{lat\+\_\+ref}{, }\item[{double}]{lon\+\_\+ref}{, }\item[{double}]{lat}{, }\item[{double}]{lon}{, }\item[{double \texorpdfstring{$\ast$}{*}}]{x}{, }\item[{double \texorpdfstring{$\ast$}{*}}]{y}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Converts a latitude and logitude to local x and y meters, relative to a reference point. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lat\+\_\+ref} & \\
+\hline
+{\em lon\+\_\+ref} & \\
+\hline
+{\em lat} & \\
+\hline
+{\em lon} & \\
+\hline
+{\em x} & \\
+\hline
+{\em y} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00125}{125}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00128\ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keywordtype}{double}\ R\ =\ 6371000.0;\ \textcolor{comment}{//\ Earth\ radius\ in\ meters}}
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keywordtype}{double}\ dLat\ =\ \mbox{\hyperlink{LOS__algo_8c_a8b94959184ade9d4197de89c561a945d}{deg2rad}}(lat\ -\/\ lat\_ref);}
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keywordtype}{double}\ dLon\ =\ \mbox{\hyperlink{LOS__algo_8c_a8b94959184ade9d4197de89c561a945d}{deg2rad}}(lon\ -\/\ lon\_ref);}
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keywordtype}{double}\ lat\_ref\_rad\ =\ \mbox{\hyperlink{LOS__algo_8c_a8b94959184ade9d4197de89c561a945d}{deg2rad}}(lat\_ref);}
+\DoxyCodeLine{00133\ \ \ \ \ *x\ =\ R\ *\ dLon\ *\ cos(lat\_ref\_rad);}
+\DoxyCodeLine{00134\ \ \ \ \ *y\ =\ R\ *\ dLat;}
+\DoxyCodeLine{00135\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{LOS__algo_8c_source_l00032}{deg2rad()}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00207}{LOS\+\_\+\+Navigate()}}.
+
+\Hypertarget{LOS__algo_8c_a8a2c3e8ebfc878311797936a9d9b2f50}\index{LOS\_algo.c@{LOS\_algo.c}!LOS\_caller@{LOS\_caller}}
+\index{LOS\_caller@{LOS\_caller}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{LOS\_caller()}{LOS\_caller()}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_a8a2c3e8ebfc878311797936a9d9b2f50} 
+void LOS\+\_\+caller (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argument}{}\end{DoxyParamCaption})}
+
+
+
+Task to handle Line of Sight (LOS) updates. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argument} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00351}{351}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00352\ \{}
+\DoxyCodeLine{00353\ \ \ \ \ \textcolor{keywordflow}{while}(1)}
+\DoxyCodeLine{00354\ \ \ \ \ \{\ \ \ }
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{LOS__algo_8c_a50114cb08a3c3dc35f40c5c719f47d28}{enable\_LOS\_algo}})}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}LOS\ waiting\ for\ notification\ \(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \ \ \ \ ulTaskNotifyTake(pdTRUE,\ portMAX\_DELAY);\ \textcolor{comment}{//\ Wait\ for\ GPS\ update\ notification}}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}LOS\ notified\ by\ GPS\ task\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00360\ }
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a1317491c4c163ee97c2131805e0f3be8}{startRoute}}();}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{gps_8c_ad1ebb3252081d2411aefcb941109edd1}{getlatest\_GNRMC}}(\&\mbox{\hyperlink{LOS__algo_8c_af13d9c4ee248595dfd75b13a26c8286a}{gnrmc\_los}});}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ gps\_lat\ =\ \mbox{\hyperlink{dGPS_8h_a26e24df8db9294ca41506dad23837f62}{convert\_decimal\_degrees}}(\mbox{\hyperlink{LOS__algo_8c_af13d9c4ee248595dfd75b13a26c8286a}{gnrmc\_los}}.latitude,\ \&\mbox{\hyperlink{LOS__algo_8c_af13d9c4ee248595dfd75b13a26c8286a}{gnrmc\_los}}.NS\_ind);}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ gps\_lon\ =\ \mbox{\hyperlink{dGPS_8h_a26e24df8db9294ca41506dad23837f62}{convert\_decimal\_degrees}}(\mbox{\hyperlink{LOS__algo_8c_af13d9c4ee248595dfd75b13a26c8286a}{gnrmc\_los}}.longitude,\ \&\mbox{\hyperlink{LOS__algo_8c_af13d9c4ee248595dfd75b13a26c8286a}{gnrmc\_los}}.EW\_ind);}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ heading\_deg;}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{compass__driver_8c_a2de6b50e325af14c1ca45427dbf371e0}{getlatestHeading}}(\&heading\_deg);}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_ad284922570f78a8900762c2abde98f5c}{onGPSupdate}}(gps\_lat,\ gps\_lon,\ heading\_deg);}
+\DoxyCodeLine{00368\ }
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ osDelay(1000);\ \textcolor{comment}{//\ Run\ every\ 1000\ ms}}
+\DoxyCodeLine{00371\ \ \ \ \ \}}
+\DoxyCodeLine{00372\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{GPS__Route__Setter_8c_source_l00047}{convert\+\_\+decimal\+\_\+degrees()}}, \mbox{\hyperlink{LOS__algo_8c_source_l00041}{enable\+\_\+\+LOS\+\_\+algo}}, \mbox{\hyperlink{gps_8c_source_l00076}{getlatest\+\_\+\+GNRMC()}}, \mbox{\hyperlink{compass__driver_8c_source_l00035}{getlatest\+Heading()}}, \mbox{\hyperlink{LOS__algo_8c_source_l00044}{gnrmc\+\_\+los}}, \mbox{\hyperlink{LOS__algo_8c_source_l00292}{on\+GPSupdate()}}, and \mbox{\hyperlink{LOS__algo_8c_source_l00339}{start\+Route()}}.
+
+\Hypertarget{LOS__algo_8c_a1374019ed2e0220d9c9f564e86e76760}\index{LOS\_algo.c@{LOS\_algo.c}!LOS\_getcurrentWPnumber@{LOS\_getcurrentWPnumber}}
+\index{LOS\_getcurrentWPnumber@{LOS\_getcurrentWPnumber}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{LOS\_getcurrentWPnumber()}{LOS\_getcurrentWPnumber()}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_a1374019ed2e0220d9c9f564e86e76760} 
+void LOS\+\_\+getcurrent\+WPnumber (\begin{DoxyParamCaption}\item[{int \texorpdfstring{$\ast$}{*}}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Exports current waypoint number. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00075}{75}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00076\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ *dest\ =\ \mbox{\hyperlink{LOS__algo_8c_a33d9c5e759ba76baf73463f224254bc4}{current\_LOS\_waypoint\_number}};}
+\DoxyCodeLine{00078\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{LOS__algo_8c_source_l00048}{current\+\_\+\+LOS\+\_\+waypoint\+\_\+number}}.
+
+
+
+Referenced by \mbox{\hyperlink{TFT_8c_source_l00079}{update\+WPdisplay()}}.
+
+\Hypertarget{LOS__algo_8c_aa8fb3e8e122a30f67765cddfdfa05423}\index{LOS\_algo.c@{LOS\_algo.c}!LOS\_getdesiredheading@{LOS\_getdesiredheading}}
+\index{LOS\_getdesiredheading@{LOS\_getdesiredheading}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{LOS\_getdesiredheading()}{LOS\_getdesiredheading()}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_aa8fb3e8e122a30f67765cddfdfa05423} 
+void LOS\+\_\+getdesiredheading (\begin{DoxyParamCaption}\item[{double \texorpdfstring{$\ast$}{*}}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Exports desired LOS heading. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00095}{95}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00096\ \{}
+\DoxyCodeLine{00097\ \ \ \ \ *dest\ =\ \mbox{\hyperlink{LOS__algo_8c_ad1018765fadf484f3f8d0f75498683c4}{los\_desiredheading}};}
+\DoxyCodeLine{00098\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{LOS__algo_8c_source_l00046}{los\+\_\+desiredheading}}.
+
+
+
+Referenced by \mbox{\hyperlink{PID__controller_8c_source_l00158}{PID\+\_\+trigger()}}.
+
+\Hypertarget{LOS__algo_8c_a59b7f773ca31d2459e59e2f451e4442b}\index{LOS\_algo.c@{LOS\_algo.c}!LOS\_getwaypointhold\_status@{LOS\_getwaypointhold\_status}}
+\index{LOS\_getwaypointhold\_status@{LOS\_getwaypointhold\_status}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{LOS\_getwaypointhold\_status()}{LOS\_getwaypointhold\_status()}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_a59b7f773ca31d2459e59e2f451e4442b} 
+void LOS\+\_\+getwaypointhold\+\_\+status (\begin{DoxyParamCaption}\item[{bool \texorpdfstring{$\ast$}{*}}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Exports current hold status. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00085}{85}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00086\ \{}
+\DoxyCodeLine{00087\ \ \ \ \ *dest\ =\ \mbox{\hyperlink{LOS__algo_8c_a2851e6bf17a87d52d224b72e1790cc96}{hold\_LOS\_at\_waypoint}};}
+\DoxyCodeLine{00088\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{LOS__algo_8c_source_l00042}{hold\+\_\+\+LOS\+\_\+at\+\_\+waypoint}}.
+
+
+
+Referenced by \mbox{\hyperlink{PID__controller_8c_source_l00214}{PID\+\_\+\+Controller()}}.
+
+\Hypertarget{LOS__algo_8c_a8591ae11df09abe7fb55c6b090915f86}\index{LOS\_algo.c@{LOS\_algo.c}!LOS\_getWPbearing@{LOS\_getWPbearing}}
+\index{LOS\_getWPbearing@{LOS\_getWPbearing}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{LOS\_getWPbearing()}{LOS\_getWPbearing()}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_a8591ae11df09abe7fb55c6b090915f86} 
+void LOS\+\_\+get\+WPbearing (\begin{DoxyParamCaption}\item[{double \texorpdfstring{$\ast$}{*}}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Exports current LOS bearing. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00055}{55}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00056\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ *dest\ =\ \mbox{\hyperlink{LOS__algo_8c_ab06bfee3c79f5eca79b3f25391ce983d}{los}}.desired\_bearing;}
+\DoxyCodeLine{00058\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{LOS__algo_8c_source_l00037}{los}}.
+
+
+
+Referenced by \mbox{\hyperlink{TFT_8c_source_l00115}{update\+\_\+routedata\+\_\+display()}}.
+
+\Hypertarget{LOS__algo_8c_a5afb103ddf6e72a7c935090e8e6a44da}\index{LOS\_algo.c@{LOS\_algo.c}!LOS\_getWPdistance@{LOS\_getWPdistance}}
+\index{LOS\_getWPdistance@{LOS\_getWPdistance}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{LOS\_getWPdistance()}{LOS\_getWPdistance()}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_a5afb103ddf6e72a7c935090e8e6a44da} 
+void LOS\+\_\+get\+WPdistance (\begin{DoxyParamCaption}\item[{double \texorpdfstring{$\ast$}{*}}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Exports current LOS distance to next waypoint. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00065}{65}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00066\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ *dest\ =\ \mbox{\hyperlink{LOS__algo_8c_ab06bfee3c79f5eca79b3f25391ce983d}{los}}.distance\_to\_wp;}
+\DoxyCodeLine{00068\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{LOS__algo_8c_source_l00037}{los}}.
+
+
+
+Referenced by \mbox{\hyperlink{TFT_8c_source_l00115}{update\+\_\+routedata\+\_\+display()}}.
+
+\Hypertarget{LOS__algo_8c_aa64bea7cc850a34893bb09d7d06f67c3}\index{LOS\_algo.c@{LOS\_algo.c}!LOS\_Navigate@{LOS\_Navigate}}
+\index{LOS\_Navigate@{LOS\_Navigate}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{LOS\_Navigate()}{LOS\_Navigate()}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_aa64bea7cc850a34893bb09d7d06f67c3} 
+\mbox{\hyperlink{GPS__Route__Setter_8h_abaf7f2a5f92fa80200324b7686faa66b}{GPS\+\_\+\+Route}} \texorpdfstring{$\ast$}{*} LOS\+\_\+\+Navigate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{GPS__Route__Setter_8h_abaf7f2a5f92fa80200324b7686faa66b}{GPS\+\_\+\+Route}} \texorpdfstring{$\ast$}{*}}]{prev\+\_\+wp}{, }\item[{\mbox{\hyperlink{GPS__Route__Setter_8h_abaf7f2a5f92fa80200324b7686faa66b}{GPS\+\_\+\+Route}} \texorpdfstring{$\ast$}{*}}]{curr\+\_\+wp}{, }\item[{double}]{gps\+\_\+lat}{, }\item[{double}]{gps\+\_\+lon}{, }\item[{double}]{heading\+\_\+deg}{, }\item[{double}]{ref\+\_\+lat}{, }\item[{double}]{ref\+\_\+lon}{, }\item[{\mbox{\hyperlink{structLOS__Output__t}{LOS\+\_\+\+Output\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{los\+\_\+out}{}\end{DoxyParamCaption})}
+
+
+
+Line of Sight (LOS) navigation algorithm. Calculates vectors berween waypoints and projects the current rover position on this line. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em prev\+\_\+wp} & Pointer to previous waypoint \\
+\hline
+{\em curr\+\_\+wp} & Pointer to current waypoint \\
+\hline
+{\em gps\+\_\+lat} & Current GPS latitude \\
+\hline
+{\em gps\+\_\+lon} & Current GPS longitude \\
+\hline
+{\em heading\+\_\+deg} & Current compass heading \\
+\hline
+{\em ref\+\_\+lat} & Reference latitude \\
+\hline
+{\em ref\+\_\+lon} & Reference longitude \\
+\hline
+{\em los\+\_\+out} & Pointer to LOS output structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+GPS\+\_\+\+Route\texorpdfstring{$\ast$}{*} pointer to the current waypoint target 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00207}{207}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00216\ \{}
+\DoxyCodeLine{00217\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Check\ if\ route\ is\ finished\ -\/-\/-\/}}
+\DoxyCodeLine{00218\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}{curr\_wp}}\ ==\ NULL)\ \{}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ los\_out-\/>\mbox{\hyperlink{structLOS__Output__t_a1dff68ff4f48e94a5b8f677f5f78bbbf}{route\_complete}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ los\_out-\/>\mbox{\hyperlink{structLOS__Output__t_ad262f2e4e15b50617194880b02574f54}{waypoint\_reached}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ los\_out-\/>\mbox{\hyperlink{structLOS__Output__t_a17814ebdaad385cd8b85f1e25509c2c7}{desired\_bearing}}\ =\ 0;}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ los\_out-\/>\mbox{\hyperlink{structLOS__Output__t_a9672ea035c473e8a942c7c31ddb44c58}{heading\_error}}\ =\ 0;}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ los\_out-\/>\mbox{\hyperlink{structLOS__Output__t_a663f666c68204bdf601944167cb20df8}{distance\_to\_wp}}\ =\ 0;}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00225\ \ \ \ \ \}}
+\DoxyCodeLine{00226\ }
+\DoxyCodeLine{00227\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Compute\ distance\ to\ current\ target\ (B)\ -\/-\/-\/}}
+\DoxyCodeLine{00228\ \ \ \ \ \textcolor{keywordtype}{double}\ dist\_to\_B\ =\ \mbox{\hyperlink{LOS__algo_8c_a2f743f129d5c1122674f103af479814b}{distance\_meters}}(gps\_lat,\ gps\_lon,\ \mbox{\hyperlink{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}{curr\_wp}}-\/>latitude,\ \mbox{\hyperlink{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}{curr\_wp}}-\/>longitude);}
+\DoxyCodeLine{00229\ \ \ \ \ los\_out-\/>\mbox{\hyperlink{structLOS__Output__t_a663f666c68204bdf601944167cb20df8}{distance\_to\_wp}}\ =\ dist\_to\_B;}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Check\ if\ we\ reached\ current\ waypoint\ -\/-\/-\/}}
+\DoxyCodeLine{00232\ \ \ \ \ \textcolor{keywordflow}{if}\ (dist\_to\_B\ <\ \mbox{\hyperlink{LOS__algo_8c_ad1f985f453af1da3d220294ff7810ef7}{ARRIVAL\_RADIUS\_M}})\ \{}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ los\_out-\/>\mbox{\hyperlink{structLOS__Output__t_ad262f2e4e15b50617194880b02574f54}{waypoint\_reached}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00234\ }
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}{curr\_wp}}-\/>Next\_point\ ==\ NULL)\ \{}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \ \ los\_out-\/>\mbox{\hyperlink{structLOS__Output__t_a1dff68ff4f48e94a5b8f677f5f78bbbf}{route\_complete}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;\ \ \textcolor{comment}{//\ End\ of\ route}}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Advance\ to\ next\ waypoint}}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}{curr\_wp}}-\/>Next\_point;}
+\DoxyCodeLine{00241\ \ \ \ \ \}}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \ \ \ \ los\_out-\/>\mbox{\hyperlink{structLOS__Output__t_ad262f2e4e15b50617194880b02574f54}{waypoint\_reached}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00244\ \ \ \ \ los\_out-\/>\mbox{\hyperlink{structLOS__Output__t_a1dff68ff4f48e94a5b8f677f5f78bbbf}{route\_complete}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00246\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ If\ there's\ no\ previous\ waypoint\ (start\ of\ route),\ just\ go\ directly\ to\ B\ -\/-\/-\/}}
+\DoxyCodeLine{00247\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{LOS__algo_8c_a9a3f363fa864e1e91080b44c9280a7c2}{prev\_wp}}\ ==\ NULL)\ \{}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ los\_out-\/>\mbox{\hyperlink{structLOS__Output__t_a17814ebdaad385cd8b85f1e25509c2c7}{desired\_bearing}}\ =\ \mbox{\hyperlink{LOS__algo_8c_a72c054b842d160df6272debcefec191b}{bearing\_deg}}(gps\_lat,\ gps\_lon,\ \mbox{\hyperlink{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}{curr\_wp}}-\/>latitude,\ \mbox{\hyperlink{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}{curr\_wp}}-\/>longitude);}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ los\_out-\/>\mbox{\hyperlink{structLOS__Output__t_a9672ea035c473e8a942c7c31ddb44c58}{heading\_error}}\ =\ \mbox{\hyperlink{LOS__algo_8c_a4245ab25f5d431e40eafba39bc25ed1c}{angle\_diff}}(los\_out-\/>\mbox{\hyperlink{structLOS__Output__t_a17814ebdaad385cd8b85f1e25509c2c7}{desired\_bearing}},\ heading\_deg);}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}{curr\_wp}};}
+\DoxyCodeLine{00251\ \ \ \ \ \}}
+\DoxyCodeLine{00252\ }
+\DoxyCodeLine{00253\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Convert\ A,\ B,\ R\ to\ local\ x,y\ coordinates\ -\/-\/-\/}}
+\DoxyCodeLine{00254\ \ \ \ \ \textcolor{keywordtype}{double}\ Ax,\ Ay,\ Bx,\ By,\ Rx,\ Ry;}
+\DoxyCodeLine{00255\ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_afb3e2ed41416786ba5703f0cf9eb96fb}{latlon\_to\_xy}}(\mbox{\hyperlink{LOS__algo_8c_a75abd21e87726bb720f3c1b308b81bc3}{ref\_lat}},\ \mbox{\hyperlink{LOS__algo_8c_a51e297105c587eafe7871bcd79506615}{ref\_lon}},\ \mbox{\hyperlink{LOS__algo_8c_a9a3f363fa864e1e91080b44c9280a7c2}{prev\_wp}}-\/>latitude,\ \mbox{\hyperlink{LOS__algo_8c_a9a3f363fa864e1e91080b44c9280a7c2}{prev\_wp}}-\/>longitude,\ \&Ax,\ \&Ay);}
+\DoxyCodeLine{00256\ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_afb3e2ed41416786ba5703f0cf9eb96fb}{latlon\_to\_xy}}(\mbox{\hyperlink{LOS__algo_8c_a75abd21e87726bb720f3c1b308b81bc3}{ref\_lat}},\ \mbox{\hyperlink{LOS__algo_8c_a51e297105c587eafe7871bcd79506615}{ref\_lon}},\ \mbox{\hyperlink{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}{curr\_wp}}-\/>latitude,\ \mbox{\hyperlink{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}{curr\_wp}}-\/>longitude,\ \&Bx,\ \&By);}
+\DoxyCodeLine{00257\ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_afb3e2ed41416786ba5703f0cf9eb96fb}{latlon\_to\_xy}}(\mbox{\hyperlink{LOS__algo_8c_a75abd21e87726bb720f3c1b308b81bc3}{ref\_lat}},\ \mbox{\hyperlink{LOS__algo_8c_a51e297105c587eafe7871bcd79506615}{ref\_lon}},\ gps\_lat,\ gps\_lon,\ \&Rx,\ \&Ry);}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Compute\ the\ line-\/of-\/sight\ (A-\/>B\ vector)\ -\/-\/-\/}}
+\DoxyCodeLine{00260\ \ \ \ \ \textcolor{keywordtype}{double}\ ABx\ =\ Bx\ -\/\ Ax;}
+\DoxyCodeLine{00261\ \ \ \ \ \textcolor{keywordtype}{double}\ ABy\ =\ By\ -\/\ Ay;}
+\DoxyCodeLine{00262\ \ \ \ \ \textcolor{keywordtype}{double}\ AB\_len\ =\ sqrt(ABx*ABx\ +\ ABy*ABy);}
+\DoxyCodeLine{00263\ \ \ \ \ \textcolor{keywordflow}{if}\ (AB\_len\ <\ 1e-\/6)\ AB\_len\ =\ 1e-\/6;\ \textcolor{comment}{//\ avoid\ divide\ by\ zero}}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00265\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Project\ rover\ position\ R\ onto\ line\ A-\/B\ -\/-\/-\/}}
+\DoxyCodeLine{00266\ \ \ \ \ \textcolor{keywordtype}{double}\ t\ =\ ((Rx\ -\/\ Ax)*ABx\ +\ (Ry\ -\/\ Ay)*ABy)\ /\ (AB\_len*AB\_len);}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Compute\ lookahead\ point\ T\ -\/-\/-\/}}
+\DoxyCodeLine{00269\ \ \ \ \ \textcolor{keywordtype}{double}\ lookahead\_t\ =\ t\ +\ (\mbox{\hyperlink{LOS__algo_8c_a0eb202dc819ed397ca87cf47f9ba331f}{LOOKAHEAD\_DISTANCE\_M}}\ /\ AB\_len);}
+\DoxyCodeLine{00270\ \ \ \ \ \textcolor{keywordflow}{if}\ (lookahead\_t\ >\ 1.0)\ lookahead\_t\ =\ 1.0;\ \textcolor{comment}{//\ don’t\ go\ beyond\ B,\ clamping\ }}
+\DoxyCodeLine{00271\ \ \ \ \ \textcolor{keywordtype}{double}\ Tx\ =\ Ax\ +\ lookahead\_t\ *\ ABx;}
+\DoxyCodeLine{00272\ \ \ \ \ \textcolor{keywordtype}{double}\ Ty\ =\ Ay\ +\ lookahead\_t\ *\ ABy;}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00274\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Compute\ bearing\ from\ R\ to\ T\ -\/-\/-\/}}
+\DoxyCodeLine{00275\ \ \ \ \ \textcolor{keywordtype}{double}\ T\_lat\ =\ \mbox{\hyperlink{LOS__algo_8c_a75abd21e87726bb720f3c1b308b81bc3}{ref\_lat}}\ +\ (Ty\ /\ 6371000.0)\ *\ (180.0\ /\ \mbox{\hyperlink{compass__driver_8c_ae71449b1cc6e6250b91f539153a7a0d3}{M\_PI}});}
+\DoxyCodeLine{00276\ \ \ \ \ \textcolor{keywordtype}{double}\ T\_lon\ =\ \mbox{\hyperlink{LOS__algo_8c_a51e297105c587eafe7871bcd79506615}{ref\_lon}}\ +\ (Tx\ /\ (6371000.0\ *\ cos(\mbox{\hyperlink{LOS__algo_8c_a8b94959184ade9d4197de89c561a945d}{deg2rad}}(\mbox{\hyperlink{LOS__algo_8c_a75abd21e87726bb720f3c1b308b81bc3}{ref\_lat}}))))\ *\ (180.0\ /\ \mbox{\hyperlink{compass__driver_8c_ae71449b1cc6e6250b91f539153a7a0d3}{M\_PI}});}
+\DoxyCodeLine{00277\ \ \ \ \ los\_out-\/>\mbox{\hyperlink{structLOS__Output__t_a17814ebdaad385cd8b85f1e25509c2c7}{desired\_bearing}}\ =\ \mbox{\hyperlink{LOS__algo_8c_a72c054b842d160df6272debcefec191b}{bearing\_deg}}(gps\_lat,\ gps\_lon,\ T\_lat,\ T\_lon);}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Compute\ heading\ error\ -\/-\/-\/}}
+\DoxyCodeLine{00280\ \ \ \ \ los\_out-\/>\mbox{\hyperlink{structLOS__Output__t_a9672ea035c473e8a942c7c31ddb44c58}{heading\_error}}\ =\ \mbox{\hyperlink{LOS__algo_8c_a4245ab25f5d431e40eafba39bc25ed1c}{angle\_diff}}(los\_out-\/>\mbox{\hyperlink{structLOS__Output__t_a17814ebdaad385cd8b85f1e25509c2c7}{desired\_bearing}},\ heading\_deg);}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00282\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}{curr\_wp}};}
+\DoxyCodeLine{00283\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{LOS__algo_8c_source_l00188}{angle\+\_\+diff()}}, \mbox{\hyperlink{LOS__algo_8c_source_l00028}{ARRIVAL\+\_\+\+RADIUS\+\_\+M}}, \mbox{\hyperlink{LOS__algo_8c_source_l00146}{bearing\+\_\+deg()}}, \mbox{\hyperlink{LOS__algo_8c_source_l00036}{curr\+\_\+wp}}, \mbox{\hyperlink{LOS__algo_8c_source_l00032}{deg2rad()}}, \mbox{\hyperlink{LOS__algo_8h_source_l00012}{LOS\+\_\+\+Output\+\_\+t\+::desired\+\_\+bearing}}, \mbox{\hyperlink{LOS__algo_8c_source_l00166}{distance\+\_\+meters()}}, \mbox{\hyperlink{LOS__algo_8h_source_l00014}{LOS\+\_\+\+Output\+\_\+t\+::distance\+\_\+to\+\_\+wp}}, \mbox{\hyperlink{LOS__algo_8h_source_l00013}{LOS\+\_\+\+Output\+\_\+t\+::heading\+\_\+error}}, \mbox{\hyperlink{LOS__algo_8c_source_l00125}{latlon\+\_\+to\+\_\+xy()}}, \mbox{\hyperlink{LOS__algo_8c_source_l00029}{LOOKAHEAD\+\_\+\+DISTANCE\+\_\+M}}, \mbox{\hyperlink{compass__driver_8c_source_l00012}{M\+\_\+\+PI}}, \mbox{\hyperlink{LOS__algo_8c_source_l00035}{prev\+\_\+wp}}, \mbox{\hyperlink{LOS__algo_8c_source_l00039}{ref\+\_\+lat}}, \mbox{\hyperlink{LOS__algo_8c_source_l00039}{ref\+\_\+lon}}, \mbox{\hyperlink{LOS__algo_8h_source_l00016}{LOS\+\_\+\+Output\+\_\+t\+::route\+\_\+complete}}, and \mbox{\hyperlink{LOS__algo_8h_source_l00015}{LOS\+\_\+\+Output\+\_\+t\+::waypoint\+\_\+reached}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00292}{on\+GPSupdate()}}.
+
+\Hypertarget{LOS__algo_8c_ad284922570f78a8900762c2abde98f5c}\index{LOS\_algo.c@{LOS\_algo.c}!onGPSupdate@{onGPSupdate}}
+\index{onGPSupdate@{onGPSupdate}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{onGPSupdate()}{onGPSupdate()}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_ad284922570f78a8900762c2abde98f5c} 
+void on\+GPSupdate (\begin{DoxyParamCaption}\item[{double}]{gps\+\_\+lat}{, }\item[{double}]{gps\+\_\+lon}{, }\item[{double}]{heading\+\_\+deg}{}\end{DoxyParamCaption})}
+
+
+
+Function to call on every received GPS update. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em gps\+\_\+lat} & Latest GPS latitude \\
+\hline
+{\em gps\+\_\+lon} & Latest GPS longitude \\
+\hline
+{\em heading\+\_\+deg} & Latest GPS heading \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00292}{292}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00293\ \{}
+\DoxyCodeLine{00294\ \ \ \ \ \textcolor{comment}{//\ Get\ route\ head}}
+\DoxyCodeLine{00295\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}{curr\_wp}}\ ==\ NULL)}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}{curr\_wp}}\ =\ \mbox{\hyperlink{GPS__Route__Setter_8c_aab599ac6ef4958311429d7f072b568e5}{Route\_Pointer\_Request}}();\ \ \textcolor{comment}{//\ start\ at\ first\ waypoint}}
+\DoxyCodeLine{00297\ }
+\DoxyCodeLine{00298\ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a33d9c5e759ba76baf73463f224254bc4}{current\_LOS\_waypoint\_number}}\ =\ (\mbox{\hyperlink{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}{curr\_wp}}\ !=\ NULL)\ ?\ \mbox{\hyperlink{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}{curr\_wp}}-\/>nodeNumber\ :\ -\/1;}
+\DoxyCodeLine{00299\ }
+\DoxyCodeLine{00300\ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}{curr\_wp}}\ =\ \mbox{\hyperlink{LOS__algo_8c_aa64bea7cc850a34893bb09d7d06f67c3}{LOS\_Navigate}}(}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a9a3f363fa864e1e91080b44c9280a7c2}{prev\_wp}},}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}{curr\_wp}},}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ gps\_lat,}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ gps\_lon,}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ heading\_deg,}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a75abd21e87726bb720f3c1b308b81bc3}{ref\_lat}},\ \ \textcolor{comment}{//\ reference\ latitude\ (approx\ local)}}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a51e297105c587eafe7871bcd79506615}{ref\_lon}},\ \ \textcolor{comment}{//\ reference\ longitude}}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \&\mbox{\hyperlink{LOS__algo_8c_ab06bfee3c79f5eca79b3f25391ce983d}{los}}}
+\DoxyCodeLine{00309\ \ \ \ \ );}
+\DoxyCodeLine{00310\ }
+\DoxyCodeLine{00311\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{LOS__algo_8c_ab06bfee3c79f5eca79b3f25391ce983d}{los}}.route\_complete)\ \{}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Route\ complete!\(\backslash\)n"{}});}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a2851e6bf17a87d52d224b72e1790cc96}{hold\_LOS\_at\_waypoint}}\ =\ \textcolor{keyword}{true};\ \textcolor{comment}{//\ Reset\ hold\ flag}}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00315\ \ \ \ \ \}}
+\DoxyCodeLine{00316\ }
+\DoxyCodeLine{00317\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{LOS__algo_8c_ab06bfee3c79f5eca79b3f25391ce983d}{los}}.waypoint\_reached)\ \{}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Advance\ prev\_wp\ pointer}}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a2851e6bf17a87d52d224b72e1790cc96}{hold\_LOS\_at\_waypoint}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ osDelay(2000);\ \textcolor{comment}{//\ Hold\ for\ 2\ seconds\ at\ waypoint}}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a2851e6bf17a87d52d224b72e1790cc96}{hold\_LOS\_at\_waypoint}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a9a3f363fa864e1e91080b44c9280a7c2}{prev\_wp}}\ =\ \mbox{\hyperlink{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}{curr\_wp}};}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ curr\_wp\ already\ advanced\ inside\ LOS\_Navigate}}
+\DoxyCodeLine{00324\ \ \ \ \ \}}
+\DoxyCodeLine{00325\ }
+\DoxyCodeLine{00326\ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_ad1018765fadf484f3f8d0f75498683c4}{los\_desiredheading}}\ =\ \mbox{\hyperlink{LOS__algo_8c_ab06bfee3c79f5eca79b3f25391ce983d}{los}}.desired\_bearing;}
+\DoxyCodeLine{00327\ }
+\DoxyCodeLine{00328\ \ \ \ \ \textcolor{comment}{//\ Use\ los.desired\_bearing\ and\ los.heading\_error\ in\ PID}}
+\DoxyCodeLine{00329\ \ \ \ \ \textcolor{keywordtype}{char}\ buffer[50];}
+\DoxyCodeLine{00330\ \ \ \ \ sprintf(buffer,\ \textcolor{stringliteral}{"{}Desired\ LOS\ heading:\ \%.1f"{}},\ \mbox{\hyperlink{LOS__algo_8c_ab06bfee3c79f5eca79b3f25391ce983d}{los}}.desired\_bearing);}
+\DoxyCodeLine{00331\ \ \ \ \ UART\_puts(buffer);}
+\DoxyCodeLine{00332\ }
+\DoxyCodeLine{00333\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{LOS__algo_8c_source_l00036}{curr\+\_\+wp}}, \mbox{\hyperlink{LOS__algo_8c_source_l00048}{current\+\_\+\+LOS\+\_\+waypoint\+\_\+number}}, \mbox{\hyperlink{LOS__algo_8c_source_l00042}{hold\+\_\+\+LOS\+\_\+at\+\_\+waypoint}}, \mbox{\hyperlink{LOS__algo_8c_source_l00037}{los}}, \mbox{\hyperlink{LOS__algo_8c_source_l00046}{los\+\_\+desiredheading}}, \mbox{\hyperlink{LOS__algo_8c_source_l00207}{LOS\+\_\+\+Navigate()}}, \mbox{\hyperlink{LOS__algo_8c_source_l00035}{prev\+\_\+wp}}, \mbox{\hyperlink{LOS__algo_8c_source_l00039}{ref\+\_\+lat}}, \mbox{\hyperlink{LOS__algo_8c_source_l00039}{ref\+\_\+lon}}, and \mbox{\hyperlink{GPS__Route__Setter_8c_source_l00201}{Route\+\_\+\+Pointer\+\_\+\+Request()}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00351}{LOS\+\_\+caller()}}.
+
+\Hypertarget{LOS__algo_8c_a597b21f8c48b7f70be67bb8c960f9df3}\index{LOS\_algo.c@{LOS\_algo.c}!rad2deg@{rad2deg}}
+\index{rad2deg@{rad2deg}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{rad2deg()}{rad2deg()}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_a597b21f8c48b7f70be67bb8c960f9df3} 
+double rad2deg (\begin{DoxyParamCaption}\item[{double}]{rad}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00033}{33}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00033\ \{\ \textcolor{keywordflow}{return}\ rad\ *\ 180.0\ /\ \mbox{\hyperlink{compass__driver_8c_ae71449b1cc6e6250b91f539153a7a0d3}{M\_PI}};\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{compass__driver_8c_source_l00012}{M\+\_\+\+PI}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00146}{bearing\+\_\+deg()}}.
+
+\Hypertarget{LOS__algo_8c_a787d7b65e7c3a511b8e60a6a4d5de992}\index{LOS\_algo.c@{LOS\_algo.c}!set\_LOS\_algoState@{set\_LOS\_algoState}}
+\index{set\_LOS\_algoState@{set\_LOS\_algoState}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{set\_LOS\_algoState()}{set\_LOS\_algoState()}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_a787d7b65e7c3a511b8e60a6a4d5de992} 
+void set\+\_\+\+LOS\+\_\+algo\+State (\begin{DoxyParamCaption}\item[{bool}]{state}{}\end{DoxyParamCaption})}
+
+
+
+Set the LOS algo\+State object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00105}{105}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00106\ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a50114cb08a3c3dc35f40c5c719f47d28}{enable\_LOS\_algo}}\ =\ state;}
+\DoxyCodeLine{00108\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{LOS__algo_8c_source_l00041}{enable\+\_\+\+LOS\+\_\+algo}}.
+
+
+
+Referenced by \mbox{\hyperlink{PID__controller_8c_source_l00214}{PID\+\_\+\+Controller()}}.
+
+\Hypertarget{LOS__algo_8c_a1317491c4c163ee97c2131805e0f3be8}\index{LOS\_algo.c@{LOS\_algo.c}!startRoute@{startRoute}}
+\index{startRoute@{startRoute}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{startRoute()}{startRoute()}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_a1317491c4c163ee97c2131805e0f3be8} 
+void start\+Route (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Starts the route navigation, initializing reference coordinates using the first waypoint. 
+
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00339}{339}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00340\ \{}
+\DoxyCodeLine{00341\ \ \ \ \ \mbox{\hyperlink{GPS__Route__Setter_8h_abaf7f2a5f92fa80200324b7686faa66b}{GPS\_Route}}\ *head\ =\ \mbox{\hyperlink{GPS__Route__Setter_8c_aab599ac6ef4958311429d7f072b568e5}{Route\_Pointer\_Request}}();}
+\DoxyCodeLine{00342\ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a75abd21e87726bb720f3c1b308b81bc3}{ref\_lat}}\ =\ head-\/>\mbox{\hyperlink{struct__GPS__Route_aa61b46911a0379e3e3c673d4207b0719}{latitude}};}
+\DoxyCodeLine{00343\ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a51e297105c587eafe7871bcd79506615}{ref\_lon}}\ =\ head-\/>\mbox{\hyperlink{struct__GPS__Route_ae5a5dd3df2f2114e2cf0d287e6b38ef4}{longitude}};}
+\DoxyCodeLine{00344\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{GPS__Route__Setter_8h_source_l00020}{\+\_\+\+GPS\+\_\+\+Route\+::latitude}}, \mbox{\hyperlink{GPS__Route__Setter_8h_source_l00021}{\+\_\+\+GPS\+\_\+\+Route\+::longitude}}, \mbox{\hyperlink{LOS__algo_8c_source_l00039}{ref\+\_\+lat}}, \mbox{\hyperlink{LOS__algo_8c_source_l00039}{ref\+\_\+lon}}, and \mbox{\hyperlink{GPS__Route__Setter_8c_source_l00201}{Route\+\_\+\+Pointer\+\_\+\+Request()}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00351}{LOS\+\_\+caller()}}.
+
+
+
+\label{doc-var-members}
+\Hypertarget{LOS__algo_8c_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00}\index{LOS\_algo.c@{LOS\_algo.c}!curr\_wp@{curr\_wp}}
+\index{curr\_wp@{curr\_wp}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{curr\_wp}{curr\_wp}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_a0f7dab9459b66ffdb1654bb992578d00} 
+\mbox{\hyperlink{GPS__Route__Setter_8h_abaf7f2a5f92fa80200324b7686faa66b}{GPS\+\_\+\+Route}}\texorpdfstring{$\ast$}{*} curr\+\_\+wp = NULL\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00036}{36}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00207}{LOS\+\_\+\+Navigate()}}, and \mbox{\hyperlink{LOS__algo_8c_source_l00292}{on\+GPSupdate()}}.
+
+\Hypertarget{LOS__algo_8c_a33d9c5e759ba76baf73463f224254bc4}\index{LOS\_algo.c@{LOS\_algo.c}!current\_LOS\_waypoint\_number@{current\_LOS\_waypoint\_number}}
+\index{current\_LOS\_waypoint\_number@{current\_LOS\_waypoint\_number}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{current\_LOS\_waypoint\_number}{current\_LOS\_waypoint\_number}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_a33d9c5e759ba76baf73463f224254bc4} 
+int current\+\_\+\+LOS\+\_\+waypoint\+\_\+number = -\/1}
+
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00048}{48}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00075}{LOS\+\_\+getcurrent\+WPnumber()}}, and \mbox{\hyperlink{LOS__algo_8c_source_l00292}{on\+GPSupdate()}}.
+
+\Hypertarget{LOS__algo_8c_a50114cb08a3c3dc35f40c5c719f47d28}\index{LOS\_algo.c@{LOS\_algo.c}!enable\_LOS\_algo@{enable\_LOS\_algo}}
+\index{enable\_LOS\_algo@{enable\_LOS\_algo}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{enable\_LOS\_algo}{enable\_LOS\_algo}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_a50114cb08a3c3dc35f40c5c719f47d28} 
+bool enable\+\_\+\+LOS\+\_\+algo = false}
+
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00041}{41}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00110}{get\+\_\+\+LOS\+\_\+algo\+State()}}, \mbox{\hyperlink{LOS__algo_8c_source_l00351}{LOS\+\_\+caller()}}, and \mbox{\hyperlink{LOS__algo_8c_source_l00105}{set\+\_\+\+LOS\+\_\+algo\+State()}}.
+
+\Hypertarget{LOS__algo_8c_af13d9c4ee248595dfd75b13a26c8286a}\index{LOS\_algo.c@{LOS\_algo.c}!gnrmc\_los@{gnrmc\_los}}
+\index{gnrmc\_los@{gnrmc\_los}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{gnrmc\_los}{gnrmc\_los}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_af13d9c4ee248595dfd75b13a26c8286a} 
+\mbox{\hyperlink{gps_8h_a398f185046df1b64c64b2665bd820cec}{GNRMC}} gnrmc\+\_\+los}
+
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00044}{44}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00351}{LOS\+\_\+caller()}}.
+
+\Hypertarget{LOS__algo_8c_a2851e6bf17a87d52d224b72e1790cc96}\index{LOS\_algo.c@{LOS\_algo.c}!hold\_LOS\_at\_waypoint@{hold\_LOS\_at\_waypoint}}
+\index{hold\_LOS\_at\_waypoint@{hold\_LOS\_at\_waypoint}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{hold\_LOS\_at\_waypoint}{hold\_LOS\_at\_waypoint}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_a2851e6bf17a87d52d224b72e1790cc96} 
+bool hold\+\_\+\+LOS\+\_\+at\+\_\+waypoint = false}
+
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00042}{42}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00085}{LOS\+\_\+getwaypointhold\+\_\+status()}}, and \mbox{\hyperlink{LOS__algo_8c_source_l00292}{on\+GPSupdate()}}.
+
+\Hypertarget{LOS__algo_8c_ab06bfee3c79f5eca79b3f25391ce983d}\index{LOS\_algo.c@{LOS\_algo.c}!los@{los}}
+\index{los@{los}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{los}{los}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_ab06bfee3c79f5eca79b3f25391ce983d} 
+\mbox{\hyperlink{structLOS__Output__t}{LOS\+\_\+\+Output\+\_\+t}} los}
+
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00037}{37}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00055}{LOS\+\_\+get\+WPbearing()}}, \mbox{\hyperlink{LOS__algo_8c_source_l00065}{LOS\+\_\+get\+WPdistance()}}, and \mbox{\hyperlink{LOS__algo_8c_source_l00292}{on\+GPSupdate()}}.
+
+\Hypertarget{LOS__algo_8c_ad1018765fadf484f3f8d0f75498683c4}\index{LOS\_algo.c@{LOS\_algo.c}!los\_desiredheading@{los\_desiredheading}}
+\index{los\_desiredheading@{los\_desiredheading}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{los\_desiredheading}{los\_desiredheading}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_ad1018765fadf484f3f8d0f75498683c4} 
+double los\+\_\+desiredheading = 0.\+0}
+
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00046}{46}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00095}{LOS\+\_\+getdesiredheading()}}, and \mbox{\hyperlink{LOS__algo_8c_source_l00292}{on\+GPSupdate()}}.
+
+\Hypertarget{LOS__algo_8c_a9a3f363fa864e1e91080b44c9280a7c2}\index{LOS\_algo.c@{LOS\_algo.c}!prev\_wp@{prev\_wp}}
+\index{prev\_wp@{prev\_wp}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{prev\_wp}{prev\_wp}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_a9a3f363fa864e1e91080b44c9280a7c2} 
+\mbox{\hyperlink{GPS__Route__Setter_8h_abaf7f2a5f92fa80200324b7686faa66b}{GPS\+\_\+\+Route}}\texorpdfstring{$\ast$}{*} prev\+\_\+wp = NULL\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00035}{35}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00207}{LOS\+\_\+\+Navigate()}}, and \mbox{\hyperlink{LOS__algo_8c_source_l00292}{on\+GPSupdate()}}.
+
+\Hypertarget{LOS__algo_8c_a75abd21e87726bb720f3c1b308b81bc3}\index{LOS\_algo.c@{LOS\_algo.c}!ref\_lat@{ref\_lat}}
+\index{ref\_lat@{ref\_lat}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{ref\_lat}{ref\_lat}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_a75abd21e87726bb720f3c1b308b81bc3} 
+double ref\+\_\+lat\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00039}{39}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00207}{LOS\+\_\+\+Navigate()}}, \mbox{\hyperlink{LOS__algo_8c_source_l00292}{on\+GPSupdate()}}, and \mbox{\hyperlink{LOS__algo_8c_source_l00339}{start\+Route()}}.
+
+\Hypertarget{LOS__algo_8c_a51e297105c587eafe7871bcd79506615}\index{LOS\_algo.c@{LOS\_algo.c}!ref\_lon@{ref\_lon}}
+\index{ref\_lon@{ref\_lon}!LOS\_algo.c@{LOS\_algo.c}}
+\doxysubsubsection{\texorpdfstring{ref\_lon}{ref\_lon}}
+{\footnotesize\ttfamily \label{LOS__algo_8c_a51e297105c587eafe7871bcd79506615} 
+double ref\+\_\+lon\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00039}{39}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{LOS__algo_8c_source_l00207}{LOS\+\_\+\+Navigate()}}, \mbox{\hyperlink{LOS__algo_8c_source_l00292}{on\+GPSupdate()}}, and \mbox{\hyperlink{LOS__algo_8c_source_l00339}{start\+Route()}}.
+

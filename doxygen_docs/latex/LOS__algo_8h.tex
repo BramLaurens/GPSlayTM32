@@ -1,0 +1,258 @@
+\doxysection{Core/\+My\+App/\+App/\+LOS\+\_\+algo.h File Reference}
+\hypertarget{LOS__algo_8h}{}\label{LOS__algo_8h}\index{Core/MyApp/App/LOS\_algo.h@{Core/MyApp/App/LOS\_algo.h}}
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structLOS__Output__t}{LOS\+\_\+\+Output\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{LOS__algo_8h_ab3db542bff37b663de541673a756177b}{get\+\_\+\+LOS\+\_\+algo\+State}} (bool \texorpdfstring{$\ast$}{*}state)
+\item 
+void \mbox{\hyperlink{LOS__algo_8h_a1374019ed2e0220d9c9f564e86e76760}{LOS\+\_\+getcurrent\+WPnumber}} (int \texorpdfstring{$\ast$}{*}dest)
+\begin{DoxyCompactList}\small\item\em Exports current waypoint number. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{LOS__algo_8h_aa8fb3e8e122a30f67765cddfdfa05423}{LOS\+\_\+getdesiredheading}} (double \texorpdfstring{$\ast$}{*}dest)
+\begin{DoxyCompactList}\small\item\em Exports desired LOS heading. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{LOS__algo_8h_a59b7f773ca31d2459e59e2f451e4442b}{LOS\+\_\+getwaypointhold\+\_\+status}} (bool \texorpdfstring{$\ast$}{*}dest)
+\begin{DoxyCompactList}\small\item\em Exports current hold status. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{LOS__algo_8h_a8591ae11df09abe7fb55c6b090915f86}{LOS\+\_\+get\+WPbearing}} (double \texorpdfstring{$\ast$}{*}dest)
+\begin{DoxyCompactList}\small\item\em Exports current LOS bearing. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{LOS__algo_8h_a5afb103ddf6e72a7c935090e8e6a44da}{LOS\+\_\+get\+WPdistance}} (double \texorpdfstring{$\ast$}{*}dest)
+\begin{DoxyCompactList}\small\item\em Exports current LOS distance to next waypoint. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{LOS__algo_8h_a787d7b65e7c3a511b8e60a6a4d5de992}{set\+\_\+\+LOS\+\_\+algo\+State}} (bool state)
+\begin{DoxyCompactList}\small\item\em Set the LOS algo\+State object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{LOS__algo_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{LOS__algo_8h_ab3db542bff37b663de541673a756177b}\index{LOS\_algo.h@{LOS\_algo.h}!get\_LOS\_algoState@{get\_LOS\_algoState}}
+\index{get\_LOS\_algoState@{get\_LOS\_algoState}!LOS\_algo.h@{LOS\_algo.h}}
+\doxysubsubsection{\texorpdfstring{get\_LOS\_algoState()}{get\_LOS\_algoState()}}
+{\footnotesize\ttfamily \label{LOS__algo_8h_ab3db542bff37b663de541673a756177b} 
+void get\+\_\+\+LOS\+\_\+algo\+State (\begin{DoxyParamCaption}\item[{bool \texorpdfstring{$\ast$}{*}}]{state}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00110}{110}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00111\ \{}
+\DoxyCodeLine{00112\ \ \ \ \ *state\ =\ \mbox{\hyperlink{LOS__algo_8c_a50114cb08a3c3dc35f40c5c719f47d28}{enable\_LOS\_algo}};}
+\DoxyCodeLine{00113\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{LOS__algo_8c_source_l00041}{enable\+\_\+\+LOS\+\_\+algo}}.
+
+
+
+Referenced by \mbox{\hyperlink{TFT_8c_source_l00079}{update\+WPdisplay()}}.
+
+\Hypertarget{LOS__algo_8h_a1374019ed2e0220d9c9f564e86e76760}\index{LOS\_algo.h@{LOS\_algo.h}!LOS\_getcurrentWPnumber@{LOS\_getcurrentWPnumber}}
+\index{LOS\_getcurrentWPnumber@{LOS\_getcurrentWPnumber}!LOS\_algo.h@{LOS\_algo.h}}
+\doxysubsubsection{\texorpdfstring{LOS\_getcurrentWPnumber()}{LOS\_getcurrentWPnumber()}}
+{\footnotesize\ttfamily \label{LOS__algo_8h_a1374019ed2e0220d9c9f564e86e76760} 
+void LOS\+\_\+getcurrent\+WPnumber (\begin{DoxyParamCaption}\item[{int \texorpdfstring{$\ast$}{*}}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Exports current waypoint number. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00075}{75}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00076\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ *dest\ =\ \mbox{\hyperlink{LOS__algo_8c_a33d9c5e759ba76baf73463f224254bc4}{current\_LOS\_waypoint\_number}};}
+\DoxyCodeLine{00078\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{LOS__algo_8c_source_l00048}{current\+\_\+\+LOS\+\_\+waypoint\+\_\+number}}.
+
+
+
+Referenced by \mbox{\hyperlink{TFT_8c_source_l00079}{update\+WPdisplay()}}.
+
+\Hypertarget{LOS__algo_8h_aa8fb3e8e122a30f67765cddfdfa05423}\index{LOS\_algo.h@{LOS\_algo.h}!LOS\_getdesiredheading@{LOS\_getdesiredheading}}
+\index{LOS\_getdesiredheading@{LOS\_getdesiredheading}!LOS\_algo.h@{LOS\_algo.h}}
+\doxysubsubsection{\texorpdfstring{LOS\_getdesiredheading()}{LOS\_getdesiredheading()}}
+{\footnotesize\ttfamily \label{LOS__algo_8h_aa8fb3e8e122a30f67765cddfdfa05423} 
+void LOS\+\_\+getdesiredheading (\begin{DoxyParamCaption}\item[{double \texorpdfstring{$\ast$}{*}}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Exports desired LOS heading. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00095}{95}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00096\ \{}
+\DoxyCodeLine{00097\ \ \ \ \ *dest\ =\ \mbox{\hyperlink{LOS__algo_8c_ad1018765fadf484f3f8d0f75498683c4}{los\_desiredheading}};}
+\DoxyCodeLine{00098\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{LOS__algo_8c_source_l00046}{los\+\_\+desiredheading}}.
+
+
+
+Referenced by \mbox{\hyperlink{PID__controller_8c_source_l00158}{PID\+\_\+trigger()}}.
+
+\Hypertarget{LOS__algo_8h_a59b7f773ca31d2459e59e2f451e4442b}\index{LOS\_algo.h@{LOS\_algo.h}!LOS\_getwaypointhold\_status@{LOS\_getwaypointhold\_status}}
+\index{LOS\_getwaypointhold\_status@{LOS\_getwaypointhold\_status}!LOS\_algo.h@{LOS\_algo.h}}
+\doxysubsubsection{\texorpdfstring{LOS\_getwaypointhold\_status()}{LOS\_getwaypointhold\_status()}}
+{\footnotesize\ttfamily \label{LOS__algo_8h_a59b7f773ca31d2459e59e2f451e4442b} 
+void LOS\+\_\+getwaypointhold\+\_\+status (\begin{DoxyParamCaption}\item[{bool \texorpdfstring{$\ast$}{*}}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Exports current hold status. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00085}{85}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00086\ \{}
+\DoxyCodeLine{00087\ \ \ \ \ *dest\ =\ \mbox{\hyperlink{LOS__algo_8c_a2851e6bf17a87d52d224b72e1790cc96}{hold\_LOS\_at\_waypoint}};}
+\DoxyCodeLine{00088\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{LOS__algo_8c_source_l00042}{hold\+\_\+\+LOS\+\_\+at\+\_\+waypoint}}.
+
+
+
+Referenced by \mbox{\hyperlink{PID__controller_8c_source_l00214}{PID\+\_\+\+Controller()}}.
+
+\Hypertarget{LOS__algo_8h_a8591ae11df09abe7fb55c6b090915f86}\index{LOS\_algo.h@{LOS\_algo.h}!LOS\_getWPbearing@{LOS\_getWPbearing}}
+\index{LOS\_getWPbearing@{LOS\_getWPbearing}!LOS\_algo.h@{LOS\_algo.h}}
+\doxysubsubsection{\texorpdfstring{LOS\_getWPbearing()}{LOS\_getWPbearing()}}
+{\footnotesize\ttfamily \label{LOS__algo_8h_a8591ae11df09abe7fb55c6b090915f86} 
+void LOS\+\_\+get\+WPbearing (\begin{DoxyParamCaption}\item[{double \texorpdfstring{$\ast$}{*}}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Exports current LOS bearing. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00055}{55}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00056\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ *dest\ =\ \mbox{\hyperlink{LOS__algo_8c_ab06bfee3c79f5eca79b3f25391ce983d}{los}}.desired\_bearing;}
+\DoxyCodeLine{00058\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{LOS__algo_8c_source_l00037}{los}}.
+
+
+
+Referenced by \mbox{\hyperlink{TFT_8c_source_l00115}{update\+\_\+routedata\+\_\+display()}}.
+
+\Hypertarget{LOS__algo_8h_a5afb103ddf6e72a7c935090e8e6a44da}\index{LOS\_algo.h@{LOS\_algo.h}!LOS\_getWPdistance@{LOS\_getWPdistance}}
+\index{LOS\_getWPdistance@{LOS\_getWPdistance}!LOS\_algo.h@{LOS\_algo.h}}
+\doxysubsubsection{\texorpdfstring{LOS\_getWPdistance()}{LOS\_getWPdistance()}}
+{\footnotesize\ttfamily \label{LOS__algo_8h_a5afb103ddf6e72a7c935090e8e6a44da} 
+void LOS\+\_\+get\+WPdistance (\begin{DoxyParamCaption}\item[{double \texorpdfstring{$\ast$}{*}}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Exports current LOS distance to next waypoint. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00065}{65}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00066\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ *dest\ =\ \mbox{\hyperlink{LOS__algo_8c_ab06bfee3c79f5eca79b3f25391ce983d}{los}}.distance\_to\_wp;}
+\DoxyCodeLine{00068\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{LOS__algo_8c_source_l00037}{los}}.
+
+
+
+Referenced by \mbox{\hyperlink{TFT_8c_source_l00115}{update\+\_\+routedata\+\_\+display()}}.
+
+\Hypertarget{LOS__algo_8h_a787d7b65e7c3a511b8e60a6a4d5de992}\index{LOS\_algo.h@{LOS\_algo.h}!set\_LOS\_algoState@{set\_LOS\_algoState}}
+\index{set\_LOS\_algoState@{set\_LOS\_algoState}!LOS\_algo.h@{LOS\_algo.h}}
+\doxysubsubsection{\texorpdfstring{set\_LOS\_algoState()}{set\_LOS\_algoState()}}
+{\footnotesize\ttfamily \label{LOS__algo_8h_a787d7b65e7c3a511b8e60a6a4d5de992} 
+void set\+\_\+\+LOS\+\_\+algo\+State (\begin{DoxyParamCaption}\item[{bool}]{state}{}\end{DoxyParamCaption})}
+
+
+
+Set the LOS algo\+State object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{LOS__algo_8c_source_l00105}{105}} of file \mbox{\hyperlink{LOS__algo_8c_source}{LOS\+\_\+algo.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00106\ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \mbox{\hyperlink{LOS__algo_8c_a50114cb08a3c3dc35f40c5c719f47d28}{enable\_LOS\_algo}}\ =\ state;}
+\DoxyCodeLine{00108\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{LOS__algo_8c_source_l00041}{enable\+\_\+\+LOS\+\_\+algo}}.
+
+
+
+Referenced by \mbox{\hyperlink{PID__controller_8c_source_l00214}{PID\+\_\+\+Controller()}}.
+

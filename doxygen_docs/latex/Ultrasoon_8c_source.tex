@@ -1,0 +1,93 @@
+\doxysection{Ultrasoon.\+c}
+\hypertarget{Ultrasoon_8c_source}{}\label{Ultrasoon_8c_source}\index{Core/MyApp/App/Ultrasoon.c@{Core/MyApp/App/Ultrasoon.c}}
+\mbox{\hyperlink{Ultrasoon_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{Ultrasoon_8h}{Ultrasoon.h}}>}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00012}00012\ \textcolor{preprocessor}{\#include\ "{}cmsis\_os.h"{}}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{PID__controller_8h}{PID\_controller.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00015}\mbox{\hyperlink{Ultrasoon_8c_a2595b22fc95f91d3ce57f1b4f3d55b84}{00015}}\ \textcolor{preprocessor}{\#define\ ultrasoon\_debug}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00017}\mbox{\hyperlink{Ultrasoon_8c_a17914347c89aa35e1d4a9af6f3fca475}{00017}}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{Ultrasoon_8c_a17914347c89aa35e1d4a9af6f3fca475}{ObjectDistance}};}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00018}\mbox{\hyperlink{Ultrasoon_8c_a8d011ebe681ac8c30448fccab3593c86}{00018}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{Ultrasoon_8c_a8d011ebe681ac8c30448fccab3593c86}{obstacleCounter}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00025}\mbox{\hyperlink{Ultrasoon_8c_a6ee34e5f59c74dc17373a122e86250a8}{00025}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{Ultrasoon_8c_a6ee34e5f59c74dc17373a122e86250a8}{US\_getObjectDistance}}(\textcolor{keywordtype}{float}*\ distance)}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00026}00026\ \{}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00027}00027\ \ \ \ \ *distance\ =\ \mbox{\hyperlink{Ultrasoon_8c_a17914347c89aa35e1d4a9af6f3fca475}{ObjectDistance}};}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00028}00028\ \}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00035}\mbox{\hyperlink{Ultrasoon_8c_a742cad46ce45ea6adade91791c587f3a}{00035}}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{Ultrasoon_8c_a742cad46ce45ea6adade91791c587f3a}{Afstand}}()\ \textcolor{comment}{//\ returns\ distance\ value\ with\ Afstand\ function}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00036}00036\ \{}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00037}00037\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{Ultrasoon_8c_a17914347c89aa35e1d4a9af6f3fca475}{ObjectDistance}};}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00038}00038\ \}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00045}\mbox{\hyperlink{admin_8h_a978eeff6ef160126abe64f03d45928e6}{00045}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{Ultrasoon_8c_a978eeff6ef160126abe64f03d45928e6}{Ultrasoon\_trig}}(\textcolor{keywordtype}{void})\ \textcolor{comment}{//\ 10us\ pulse\ for\ Trigger\ pin}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00046}00046\ \{}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00047}00047\ \ \ \ \ HAL\_GPIO\_WritePin(GPIOC,\ Trigger\_Pin,\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00048}00048\ \ \ \ \ \textcolor{keywordtype}{int}\ delay\ =\ 10;}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00050}00050\ \ \ \ \ \_\_HAL\_TIM\_SET\_COUNTER(\&\mbox{\hyperlink{Ultrasoon_8h_a5faa27108379f799afb6984010bf0384}{htim8}},\ 0);}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00051}00051\ \ \ \ \ \textcolor{keywordflow}{while}\ (\_\_HAL\_TIM\_GET\_COUNTER(\&\mbox{\hyperlink{Ultrasoon_8h_a5faa27108379f799afb6984010bf0384}{htim8}})\ \ <\ delay);\ \textcolor{comment}{//\ wait\ 10us}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00053}00053\ \ \ \ \ HAL\_GPIO\_WritePin(GPIOC,\ Trigger\_Pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00054}00054\ \}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00061}\mbox{\hyperlink{admin_8h_af581c16a13eb125a953c380868fb2752}{00061}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{Ultrasoon_8c_a54dc8ad5475df1d0bf62ccd832988e92}{Echo\_sign\_task}}(\textcolor{keywordtype}{void}\ *argument)\ \textcolor{comment}{//\ calculations\ for\ distance}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00062}00062\ \{}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00064}00064\ \ \ \ \ \textcolor{keywordtype}{int}\ Echo\_time\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00065}00065\ \ \ \ \ \textcolor{keywordtype}{char}\ Buffer[70];}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00066}00066\ \ \ \ \ osDelay(1000);\ \textcolor{comment}{//\ wait\ for\ system\ to\ stabilize}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00067}00067\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Echo\ task\ started\ \(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00069}00069\ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00070}00070\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00071}00071\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{Ultrasoon_8c_a978eeff6ef160126abe64f03d45928e6}{Ultrasoon\_trig}}();}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Wait\ for\ falling\ edge\ event\ from\ ISR.\ Using\ a\ timeout\ so\ the\ task}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00074}00074\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ doesn't\ block\ forever\ if\ no\ echo\ (or\ ISR\ stops\ firing).\ */}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ EventBits\_t\ uxBits\ =\ xEventGroupWaitBits(\mbox{\hyperlink{admin_8c_a80821d400c57f572ec74821daee9385e}{hEcho\_Event}},\ 1,\ pdTRUE,\ pdFALSE,\ pdMS\_TO\_TICKS(60));}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((uxBits\ \&\ 1)\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ timeout:\ no\ echo\ received\ */}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Echo\ timeout\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Ensure\ timer\ is\ disabled\ in\ case\ it\ was\ left\ running\ */}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_HAL\_TIM\_DISABLE(\&\mbox{\hyperlink{Ultrasoon_8h_a31f6f787777409af5ed0d131b52b7988}{htim9}});}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ mark\ object\ as\ far\ away\ */}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Echo\_time\ =\ \_\_HAL\_TIM\_GetCounter(\&\mbox{\hyperlink{Ultrasoon_8h_a31f6f787777409af5ed0d131b52b7988}{htim9}});\ \textcolor{comment}{//\ amount\ of\ time\ receiving\ pulse}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{Ultrasoon_8c_a17914347c89aa35e1d4a9af6f3fca475}{ObjectDistance}}\ =\ (Echo\_time*0.0343)/2;}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00091}00091\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#ifdef\ ultrasoon\_debug}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ sprintf(Buffer,\ \textcolor{stringliteral}{"{}Afstand\ is:\ \%.2f."{}},\ \mbox{\hyperlink{Ultrasoon_8c_a17914347c89aa35e1d4a9af6f3fca475}{ObjectDistance}});}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(Buffer);}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_putint(Echo\_time);}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00097}00097\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{Ultrasoon_8c_a17914347c89aa35e1d4a9af6f3fca475}{ObjectDistance}}\ <\ 60.0)\ \textcolor{comment}{//\ obstacle\ detected\ within\ 60\ cm}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00100}00100\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{Ultrasoon_8c_a8d011ebe681ac8c30448fccab3593c86}{obstacleCounter}}++;}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{Ultrasoon_8c_a8d011ebe681ac8c30448fccab3593c86}{obstacleCounter}}\ >=\ 6)\ \textcolor{comment}{//\ obstacle\ confirmed\ after\ 2\ readings\ (200\ ms)}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Obstacle\ detected!\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_adee41834c306e02a66bf5a110503006d}{PID\_setObstacleFlag}}(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00107}00107\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00108}00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00109}00109\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_adee41834c306e02a66bf5a110503006d}{PID\_setObstacleFlag}}(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{Ultrasoon_8c_a8d011ebe681ac8c30448fccab3593c86}{obstacleCounter}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00112}00112\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00114}00114\ \ \ \ \ \ \ \ \ osDelay(100);}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00115}00115\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{Ultrasoon_8c_source_l00116}00116\ \}}
+
+\end{DoxyCode}

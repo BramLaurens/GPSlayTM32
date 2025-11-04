@@ -1,8 +1,12 @@
 var gps_8c =
 [
+    [ "check_gpsfix", "gps_8c.html#a29a2ed96d431c603207ee1da1ecc9628", null ],
     [ "checksum_valid", "gps_8c.html#a599d945c53e74265e35aff35847c15e2", null ],
+    [ "correct_dGPS_error", "gps_8c.html#a1b40201477f33890b4c1bac0c26e16de", null ],
+    [ "fill_GNGGA", "gps_8c.html#a8276cb249bd5e9aef04c5a86a3d0d3be", null ],
     [ "fill_GNRMC", "gps_8c.html#a294c695f1e114c0a4975cef5b91f8e7d", null ],
     [ "getlatest_GNRMC", "gps_8c.html#ad1ebb3252081d2411aefcb941109edd1", null ],
+    [ "GPS_get_fix_quality", "gps_8c.html#a227befe11a9e8799cd8cfdcfafcb835b", null ],
     [ "GPS_getNMEA", "gps_8c.html#af733a2317b43875d2c911c34f3a86823", null ],
     [ "hex2int", "gps_8c.html#a66735348a4e65644ec1762bdf37e4f19", null ],
     [ "hexchar2int", "gps_8c.html#a49002bb606cdf9e9ffecb4dba16082c0", null ],
@@ -10,5 +14,7 @@ var gps_8c =
     [ "bufferA", "gps_8c.html#a5d65702be83af3deed70168dce8d61b9", null ],
     [ "bufferB", "gps_8c.html#a6e506e6deff4ea0bffca386f8f0b8ccb", null ],
     [ "frontendBuffer", "gps_8c.html#ab8fafa7c928aa273ebc494046630ed46", null ],
-    [ "gnrmc", "gps_8c.html#a0467b1a9289b2992a0c040d54b5409f3", null ]
+    [ "gngga", "gps_8c.html#a1e2222afafb52330827dbd80435114c0", null ],
+    [ "gnrmc", "gps_8c.html#a0467b1a9289b2992a0c040d54b5409f3", null ],
+    [ "GPS_fix_quality", "gps_8c.html#ac39067518e583b62c747a01eab983033", null ]
 ];

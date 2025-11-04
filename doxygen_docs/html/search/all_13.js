@@ -1,11 +1,15 @@
 var searchData=
 [
-  ['uart2_5fchar_0',['uart2_char',['../main_8c.html#a3414137a6752f04b9b5b666591a62952',1,'main.c']]],
-  ['uart4_5fchar_1',['uart4_char',['../main_8c.html#a245542656c11698d62157049b0f8276f',1,'main.c']]],
-  ['uart_5fdebug_5fout_2',['UART_DEBUG_OUT',['../admin_8h.html#a4fb4ecb0210feec08883b3c4a1d401e3',1,'admin.h']]],
-  ['uart_5fdebug_5fout_3',['Uart_debug_out',['../admin_8c.html#a952449da34b356e2651de547daf4312c',1,'Uart_debug_out:&#160;admin.c'],['../admin_8h.html#a952449da34b356e2651de547daf4312c',1,'Uart_debug_out:&#160;admin.c']]],
-  ['uart_5fkeys_2ec_4',['UART_keys.c',['../UART__keys_8c.html',1,'']]],
-  ['uart_5fkeys_5firq_5',['UART_keys_IRQ',['../admin_8h.html#af42059fd155a512774c89e7fc38bc03c',1,'UART_keys_IRQ(void *):&#160;UART_keys.c'],['../UART__keys_8c.html#a2f8c9b40e09f1da12285de5c47e13856',1,'UART_keys_IRQ(void *argument):&#160;UART_keys.c']]],
-  ['uart_5fkeys_5fpoll_6',['UART_keys_poll',['../admin_8h.html#a390831b4b34c463c81b188d9973d2a52',1,'UART_keys_poll(void *):&#160;UART_keys.c'],['../UART__keys_8c.html#a8301f294cdbb72fd9830d388af6e8725',1,'UART_keys_poll(void *argument):&#160;UART_keys.c']]],
-  ['uart_5fmenu_7',['UART_menu',['../admin_8h.html#af909ca669055035da2246051d81ae747',1,'UART_menu(void *):&#160;UART_keys.c'],['../UART__keys_8c.html#a54d4ec6474d826f35cbf28a391cc68a0',1,'UART_menu(void *argument):&#160;UART_keys.c']]]
+  ['taskdata_0',['TASKDATA',['../admin_8h.html#a7f8e353159968ff0f0becfe26d3bf630',1,'admin.h']]],
+  ['taskdata_1',['TaskData',['../structTaskData.html',1,'']]],
+  ['tasks_2',['tasks',['../admin_8c.html#a3759c2b4aa705e22db51d0174f889570',1,'admin.c']]],
+  ['tft_2ec_3',['TFT.c',['../TFT_8c.html',1,'']]],
+  ['tft_5ftask_4',['TFT_task',['../admin_8h.html#a4528f7be61484afcfc8a6983fc41fe0c',1,'TFT_task(void *):&#160;TFT.c'],['../TFT_8c.html#af981707b124f3e24ec296ba88d26dc0e',1,'TFT_task(void *argument):&#160;TFT.c']]],
+  ['time_5',['time',['../struct__GNRMC.html#afd04b7a89272ac6b18ff67f2e08cdb00',1,'_GNRMC::time'],['../struct__GNGGA.html#ae9cd81566097f71b2109476d8307e929',1,'_GNGGA::time']]],
+  ['time_5fsince_5flast_5fdgps_6',['time_since_last_DGPS',['../struct__GNGGA.html#ab93978de888fae01b31d7f031410633a',1,'_GNGGA']]],
+  ['timer1_5fdelay_7',['TIMER1_DELAY',['../admin_8h.html#a13315792b47dcf5207ce4e06daeab518',1,'admin.h']]],
+  ['timer1_5fhandler_8',['Timer1_Handler',['../admin_8c.html#a96c9e7d4608bbcbb1f89460ea7d8da6f',1,'Timer1_Handler(void):&#160;admin.c'],['../admin_8h.html#a96c9e7d4608bbcbb1f89460ea7d8da6f',1,'Timer1_Handler(void):&#160;admin.c']]],
+  ['timestamp_9',['timestamp',['../structdGPS__errorData__t.html#a362e94fe7d7f4bf63ed9605f083bdf30',1,'dGPS_errorData_t::timestamp'],['../structdGPS__decimalData__t.html#a801b47e299e6b00f20bc62e26e9b4b23',1,'dGPS_decimalData_t::timestamp']]],
+  ['toggle_5fled_10',['toggle_led',['../ARM__keys_8c.html#a1fd0008123c48c14439411716629af5a',1,'ARM_keys.c']]],
+  ['true_11',['TRUE',['../admin_8h.html#aa8cecfc5c5c054d2875c03e77b7be15d',1,'admin.h']]]
 ];
