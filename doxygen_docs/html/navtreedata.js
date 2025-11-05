@@ -53,8 +53,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "ARM__keys_8c.html",
-"compass__driver_8c.html#a7090151f83272bf654c8c99015c71d04",
-"routeperformer_8h.html#ac1b2ee504503a2aed90ebd35dc6853ba"
+"buzzer_8h.html#a68f6dbcd53b3d88aaa925588daba83d8",
+"main_8c.html#a1730ffe1e560465665eb47d9264826f9"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

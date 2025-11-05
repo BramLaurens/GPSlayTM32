@@ -1,4 +1,13 @@
-/* vim: set ai et ts=4 sw=4: */
+/**
+ * @file st7735.c
+ * @author https://github.com/afiskon. Updated for aliexpress module and STM32F407 by Bram Laurens
+ * @brief 
+ * @version 1.2
+ * @date 2025-11-05
+ * 
+ * 
+ * 
+ */
 #include "stm32f4xx_hal.h"
 #include "st7735.h"
 #include "malloc.h"
@@ -116,8 +125,8 @@ static void ST7735_ExecuteCommandList(const uint8_t *addr) {
     numCommands = *addr++;
     while(numCommands--) {
         uint8_t cmd = *addr++;
-    // Select the device for this command. Some cheap modules require
-    // CS to be toggled between commands.
+
+    //Some cheap modules require CS to be toggled between commands.
     ST7735_Select();
     ST7735_WriteCommand(cmd);
 
@@ -136,10 +145,9 @@ static void ST7735_ExecuteCommandList(const uint8_t *addr) {
       HAL_Delay(ms);
     }
 
-    // Deselect after this command and its args to ensure the module
-    // latches the command properly on write-only devices.
+    // Deselect to ensure module sees the end of command
     ST7735_Unselect();
-    // Small inter-command delay can help on some modules
+    // Very small delay for timing issues on some cheap modules.
     HAL_Delay(1);
   }
 }
@@ -200,23 +208,6 @@ static void ST7735_WriteChar(uint16_t x, uint16_t y, char ch, FontDef font, uint
         }
     }
 }
-
-/*
-Simpler (and probably slower) implementation:
-
-static void ST7735_WriteChar(uint16_t x, uint16_t y, char ch, FontDef font, uint16_t color) {
-    uint32_t i, b, j;
-
-    for(i = 0; i < font.height; i++) {
-        b = font.data[(ch - 32) * font.height + i];
-        for(j = 0; j < font.width; j++) {
-            if((b << j) & 0x8000)  {
-                ST7735_DrawPixel(x + j, y + i, color);
-            } 
-        }
-    }
-}
-*/
 
 void ST7735_WriteString(uint16_t x, uint16_t y, const char* str, FontDef font, uint16_t color, uint16_t bgcolor) {
     ST7735_Select();
@@ -327,7 +318,7 @@ void ST7735_TestPattern(void)
   ST7735_Reset();
   HAL_Delay(50);
 
-  // Run init commands with per-command CS toggling (ExecuteCommandList does this)
+  // Run init commands with per-command CS toggling for compatibility check and debugging with cheap modules
   ST7735_ExecuteCommandList(init_cmds1);
   ST7735_ExecuteCommandList(init_cmds2);
   ST7735_ExecuteCommandList(init_cmds3);

@@ -14,15 +14,14 @@ var PID__controller_8c =
     [ "PID_setObstacleFlag", "PID__controller_8c.html#adee41834c306e02a66bf5a110503006d", null ],
     [ "PID_trigger", "PID__controller_8c.html#a37a24fcb8efcc2dc7779c53216c82144", null ],
     [ "pidCompute", "PID__controller_8c.html#a709e09555bd056b676dc48c3ed5f305b", null ],
-    [ "currentHeading", "PID__controller_8c.html#af8c4529a57f69382b149acd9696c7c25", null ],
-    [ "desiredHeading", "PID__controller_8c.html#aed4a280ec43791fdc6f26e4c1a498b7b", null ],
+    [ "currentHeading", "PID__controller_8c.html#a5ba2615783432c8c8c205df9ba434f24", null ],
+    [ "desiredHeading", "PID__controller_8c.html#a7c580220d5d9248138f58b71930b407e", null ],
     [ "enableObstacleAvoidance", "PID__controller_8c.html#ae0145984b7a6e7e4003342ba70b42395", null ],
     [ "enablePID", "PID__controller_8c.html#acc215edb8230380d668f1e476661284f", null ],
     [ "integral", "PID__controller_8c.html#a9157f0915da305914350c5922cee2c1c", null ],
     [ "key", "PID__controller_8c.html#a668a437ea5e7a51173aee9f82f6747de", null ],
     [ "lastTime", "PID__controller_8c.html#a9648c4b3c5e8528ebc2745f7cb76ff62", null ],
-    [ "latest_dGPS_data", "PID__controller_8c.html#a7abf9e6a9d768092ffb369f93367baf0", null ],
     [ "obstacleFlag", "PID__controller_8c.html#ab83af6171d6deb8c85a7976002efc4ea", null ],
-    [ "pid_waypoint_hold", "PID__controller_8c.html#af47974cd1cc41c663bba40787b6bf0f9", null ],
+    [ "pid_waypoint_hold", "PID__controller_8c.html#a559c9dd9c11859573a85e85363d15f24", null ],
     [ "prevError", "PID__controller_8c.html#a5f0f2b04907074fd4e0ed600b6e1d394", null ]
 ];

@@ -92,7 +92,6 @@ $(function(){initNavTree('gps_8h.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="GPS__Route__Setter_8h_source.html">GPS_Route_Setter.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="dGPS_8h_source.html">dGPS.h</a>&quot;</code><br />
 </div>
 <p><a href="gps_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -115,9 +114,7 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a599d945c53e74265e35aff35847c15e2" id="r_a599d945c53e74265e35aff35847c15e2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a599d945c53e74265e35aff35847c15e2">checksum_valid</a> (char *string)</td></tr>
-<tr class="memitem:a1b40201477f33890b4c1bac0c26e16de" id="r_a1b40201477f33890b4c1bac0c26e16de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b40201477f33890b4c1bac0c26e16de">correct_dGPS_error</a> (<a class="el" href="dGPS_8h.html#a6e093e5bb5a0f41ef5b5d773cc8ec327">PdGPS_errorData_t</a> pinputCoordinates)</td></tr>
-<tr class="memdesc:a1b40201477f33890b4c1bac0c26e16de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Corrects the input coordinates with the latest GPS error received from the NRF24L01+ module.  <br /></td></tr>
+<tr class="memitem:a599d945c53e74265e35aff35847c15e2" id="r_a599d945c53e74265e35aff35847c15e2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a599d945c53e74265e35aff35847c15e2">checksum_valid</a> (char *<a class="el" href="uart_8c.html#ae003b8bf1d59f8b3e33f829151d7ef80">string</a>)</td></tr>
 <tr class="memitem:ad1ebb3252081d2411aefcb941109edd1" id="r_ad1ebb3252081d2411aefcb941109edd1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1ebb3252081d2411aefcb941109edd1">getlatest_GNRMC</a> (<a class="el" href="#a398f185046df1b64c64b2665bd820cec">GNRMC</a> *dest)</td></tr>
 <tr class="memdesc:ad1ebb3252081d2411aefcb941109edd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function that gets a pointer to the latest complete <a class="el" href="#a398f185046df1b64c64b2665bd820cec">GNRMC</a> data.  <br /></td></tr>
 <tr class="memitem:a227befe11a9e8799cd8cfdcfafcb835b" id="r_a227befe11a9e8799cd8cfdcfafcb835b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a227befe11a9e8799cd8cfdcfafcb835b">GPS_get_fix_quality</a> (char *dest)</td></tr>
@@ -171,15 +168,15 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="a96f0fef87e94bde66ece944b1f311ea0afa99839f798603aeafa797ee91de2b84" name="a96f0fef87e94bde66ece944b1f311ea0afa99839f798603aeafa797ee91de2b84"></a>eGNGGA&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="gps_8h_source.html#l00059">59</a> of file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   60</span>{</div>
-<div class="line"><span class="lineno">   61</span>    <a class="code hl_enumvalue" href="#a96f0fef87e94bde66ece944b1f311ea0ae7540255e4832928911015fb32614905">eGNRMC</a> = 1,</div>
-<div class="line"><span class="lineno">   62</span>    <a class="code hl_enumvalue" href="#a96f0fef87e94bde66ece944b1f311ea0acbcd39e2eb8e4305289f07180dcaa61f">eGPGSA</a>,</div>
-<div class="line"><span class="lineno">   63</span>    <a class="code hl_enumvalue" href="#a96f0fef87e94bde66ece944b1f311ea0afa99839f798603aeafa797ee91de2b84">eGNGGA</a></div>
-<div class="line"><span class="lineno">   64</span>};</div>
-<div class="ttc" id="agps_8h_html_a96f0fef87e94bde66ece944b1f311ea0acbcd39e2eb8e4305289f07180dcaa61f"><div class="ttname"><a href="#a96f0fef87e94bde66ece944b1f311ea0acbcd39e2eb8e4305289f07180dcaa61f">eGPGSA</a></div><div class="ttdeci">@ eGPGSA</div><div class="ttdef"><b>Definition</b> <a href="gps_8h_source.html#l00062">gps.h:62</a></div></div>
-<div class="ttc" id="agps_8h_html_a96f0fef87e94bde66ece944b1f311ea0ae7540255e4832928911015fb32614905"><div class="ttname"><a href="#a96f0fef87e94bde66ece944b1f311ea0ae7540255e4832928911015fb32614905">eGNRMC</a></div><div class="ttdeci">@ eGNRMC</div><div class="ttdef"><b>Definition</b> <a href="gps_8h_source.html#l00061">gps.h:61</a></div></div>
-<div class="ttc" id="agps_8h_html_a96f0fef87e94bde66ece944b1f311ea0afa99839f798603aeafa797ee91de2b84"><div class="ttname"><a href="#a96f0fef87e94bde66ece944b1f311ea0afa99839f798603aeafa797ee91de2b84">eGNGGA</a></div><div class="ttdeci">@ eGNGGA</div><div class="ttdef"><b>Definition</b> <a href="gps_8h_source.html#l00063">gps.h:63</a></div></div>
+<p class="definition">Definition at line <a class="el" href="gps_8h_source.html#l00058">58</a> of file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   59</span>{</div>
+<div class="line"><span class="lineno">   60</span>    <a class="code hl_enumvalue" href="#a96f0fef87e94bde66ece944b1f311ea0ae7540255e4832928911015fb32614905">eGNRMC</a> = 1,</div>
+<div class="line"><span class="lineno">   61</span>    <a class="code hl_enumvalue" href="#a96f0fef87e94bde66ece944b1f311ea0acbcd39e2eb8e4305289f07180dcaa61f">eGPGSA</a>,</div>
+<div class="line"><span class="lineno">   62</span>    <a class="code hl_enumvalue" href="#a96f0fef87e94bde66ece944b1f311ea0afa99839f798603aeafa797ee91de2b84">eGNGGA</a></div>
+<div class="line"><span class="lineno">   63</span>};</div>
+<div class="ttc" id="agps_8h_html_a96f0fef87e94bde66ece944b1f311ea0acbcd39e2eb8e4305289f07180dcaa61f"><div class="ttname"><a href="#a96f0fef87e94bde66ece944b1f311ea0acbcd39e2eb8e4305289f07180dcaa61f">eGPGSA</a></div><div class="ttdeci">@ eGPGSA</div><div class="ttdef"><b>Definition</b> <a href="gps_8h_source.html#l00061">gps.h:61</a></div></div>
+<div class="ttc" id="agps_8h_html_a96f0fef87e94bde66ece944b1f311ea0ae7540255e4832928911015fb32614905"><div class="ttname"><a href="#a96f0fef87e94bde66ece944b1f311ea0ae7540255e4832928911015fb32614905">eGNRMC</a></div><div class="ttdeci">@ eGNRMC</div><div class="ttdef"><b>Definition</b> <a href="gps_8h_source.html#l00060">gps.h:60</a></div></div>
+<div class="ttc" id="agps_8h_html_a96f0fef87e94bde66ece944b1f311ea0afa99839f798603aeafa797ee91de2b84"><div class="ttname"><a href="#a96f0fef87e94bde66ece944b1f311ea0afa99839f798603aeafa797ee91de2b84">eGNGGA</a></div><div class="ttdeci">@ eGNGGA</div><div class="ttdef"><b>Definition</b> <a href="gps_8h_source.html#l00062">gps.h:62</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -199,93 +196,33 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gps_8c_source.html#l00441">441</a> of file <a class="el" href="gps_8c_source.html">gps.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  442</span>{</div>
-<div class="line"><span class="lineno">  443</span>    <span class="keywordtype">char</span> *checksum_str;</div>
-<div class="line"><span class="lineno">  444</span>    <span class="keywordtype">int</span> checksum, <a class="code hl_variable" href="dGPS_8c.html#acb559820d9ca11295b4500f179ef6392">i</a>;</div>
-<div class="line"><span class="lineno">  445</span>    <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> calculated_checksum = 0;</div>
-<div class="line"><span class="lineno">  446</span> </div>
-<div class="line"><span class="lineno">  447</span>    <span class="comment">// Checksum is postcede by *</span></div>
-<div class="line"><span class="lineno">  448</span>    <span class="keywordflow">if</span> ((checksum_str = strchr(<span class="keywordtype">string</span>, <span class="charliteral">&#39;*&#39;</span>)))</div>
-<div class="line"><span class="lineno">  449</span>    {</div>
-<div class="line"><span class="lineno">  450</span>        *checksum_str = <span class="charliteral">&#39;\0&#39;</span>; <span class="comment">// Remove checksum from string</span></div>
-<div class="line"><span class="lineno">  451</span>        <span class="comment">// Calculate checksum, starting after $ (i = 1)</span></div>
-<div class="line"><span class="lineno">  452</span>        <span class="keywordflow">for</span> (<a class="code hl_variable" href="dGPS_8c.html#acb559820d9ca11295b4500f179ef6392">i</a> = 1; <a class="code hl_variable" href="dGPS_8c.html#acb559820d9ca11295b4500f179ef6392">i</a> &lt; strlen(<span class="keywordtype">string</span>); <a class="code hl_variable" href="dGPS_8c.html#acb559820d9ca11295b4500f179ef6392">i</a>++)</div>
-<div class="line"><span class="lineno">  453</span>            calculated_checksum = calculated_checksum ^ <span class="keywordtype">string</span>[<a class="code hl_variable" href="dGPS_8c.html#acb559820d9ca11295b4500f179ef6392">i</a>];</div>
-<div class="line"><span class="lineno">  454</span> </div>
-<div class="line"><span class="lineno">  455</span>        checksum = <a class="code hl_function" href="gps_8c.html#a66735348a4e65644ec1762bdf37e4f19">hex2int</a>((<span class="keywordtype">char</span> *)checksum_str+1);</div>
-<div class="line"><span class="lineno">  456</span>        <span class="comment">//printf(&quot;Checksum Str [%s], Checksum %02X, Calculated Checksum %02X\r\n&quot;,(char *)checksum_str+1, checksum, calculated_checksum);</span></div>
-<div class="line"><span class="lineno">  457</span>        <span class="keywordflow">if</span> (checksum == calculated_checksum)</div>
-<div class="line"><span class="lineno">  458</span>            <span class="keywordflow">return</span> (1);</div>
-<div class="line"><span class="lineno">  459</span>    }</div>
-<div class="line"><span class="lineno">  460</span> </div>
-<div class="line"><span class="lineno">  461</span>    <span class="keywordflow">return</span> (0);</div>
-<div class="line"><span class="lineno">  462</span>}</div>
-<div class="ttc" id="adGPS_8c_html_acb559820d9ca11295b4500f179ef6392"><div class="ttname"><a href="dGPS_8c.html#acb559820d9ca11295b4500f179ef6392">i</a></div><div class="ttdeci">int i</div><div class="ttdef"><b>Definition</b> <a href="dGPS_8c_source.html#l00026">dGPS.c:26</a></div></div>
-<div class="ttc" id="agps_8c_html_a66735348a4e65644ec1762bdf37e4f19"><div class="ttname"><a href="gps_8c.html#a66735348a4e65644ec1762bdf37e4f19">hex2int</a></div><div class="ttdeci">int hex2int(char *c)</div><div class="ttdef"><b>Definition</b> <a href="gps_8c_source.html#l00416">gps.c:416</a></div></div>
+<p class="definition">Definition at line <a class="el" href="gps_8c_source.html#l00406">406</a> of file <a class="el" href="gps_8c_source.html">gps.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  407</span>{</div>
+<div class="line"><span class="lineno">  408</span>    <span class="keywordtype">char</span> *checksum_str;</div>
+<div class="line"><span class="lineno">  409</span>    <span class="keywordtype">int</span> checksum, i;</div>
+<div class="line"><span class="lineno">  410</span>    <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> calculated_checksum = 0;</div>
+<div class="line"><span class="lineno">  411</span> </div>
+<div class="line"><span class="lineno">  412</span>    <span class="comment">// Checksum is postcede by *</span></div>
+<div class="line"><span class="lineno">  413</span>    <span class="keywordflow">if</span> ((checksum_str = strchr(<span class="keywordtype">string</span>, <span class="charliteral">&#39;*&#39;</span>)))</div>
+<div class="line"><span class="lineno">  414</span>    {</div>
+<div class="line"><span class="lineno">  415</span>        *checksum_str = <span class="charliteral">&#39;\0&#39;</span>; <span class="comment">// Remove checksum from string</span></div>
+<div class="line"><span class="lineno">  416</span>        <span class="comment">// Calculate checksum, starting after $ (i = 1)</span></div>
+<div class="line"><span class="lineno">  417</span>        <span class="keywordflow">for</span> (i = 1; i &lt; strlen(<span class="keywordtype">string</span>); i++)</div>
+<div class="line"><span class="lineno">  418</span>            calculated_checksum = calculated_checksum ^ <span class="keywordtype">string</span>[i];</div>
+<div class="line"><span class="lineno">  419</span> </div>
+<div class="line"><span class="lineno">  420</span>        checksum = <a class="code hl_function" href="gps_8c.html#a66735348a4e65644ec1762bdf37e4f19">hex2int</a>((<span class="keywordtype">char</span> *)checksum_str+1);</div>
+<div class="line"><span class="lineno">  421</span>        <span class="comment">//printf(&quot;Checksum Str [%s], Checksum %02X, Calculated Checksum %02X\r\n&quot;,(char *)checksum_str+1, checksum, calculated_checksum);</span></div>
+<div class="line"><span class="lineno">  422</span>        <span class="keywordflow">if</span> (checksum == calculated_checksum)</div>
+<div class="line"><span class="lineno">  423</span>            <span class="keywordflow">return</span> (1);</div>
+<div class="line"><span class="lineno">  424</span>    }</div>
+<div class="line"><span class="lineno">  425</span> </div>
+<div class="line"><span class="lineno">  426</span>    <span class="keywordflow">return</span> (0);</div>
+<div class="line"><span class="lineno">  427</span>}</div>
+<div class="ttc" id="agps_8c_html_a66735348a4e65644ec1762bdf37e4f19"><div class="ttname"><a href="gps_8c.html#a66735348a4e65644ec1762bdf37e4f19">hex2int</a></div><div class="ttdeci">int hex2int(char *c)</div><div class="ttdef"><b>Definition</b> <a href="gps_8c_source.html#l00381">gps.c:381</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="gps_8c_source.html#l00416">hex2int()</a>, and <a class="el" href="dGPS_8c_source.html#l00026">i</a>.</p>
+<p class="reference">References <a class="el" href="gps_8c_source.html#l00381">hex2int()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="gps_8c_source.html#l00318">GPS_getNMEA()</a>.</p>
-
-</div>
-</div>
-<a id="a1b40201477f33890b4c1bac0c26e16de" name="a1b40201477f33890b4c1bac0c26e16de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1b40201477f33890b4c1bac0c26e16de">&#9670;&#160;</a></span>correct_dGPS_error()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void correct_dGPS_error </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="dGPS_8h.html#a6e093e5bb5a0f41ef5b5d773cc8ec327">PdGPS_errorData_t</a></td>          <td class="paramname"><span class="paramname"><em>pinputCoordinates</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Corrects the input coordinates with the latest GPS error received from the NRF24L01+ module. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pinputCoordinates</td><td>pointer to <a class="el" href="structGPS__decimal__degrees__t.html">GPS_decimal_degrees_t</a> struct containing the coordinates to be corrected </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="gps_8c_source.html#l00042">42</a> of file <a class="el" href="gps_8c_source.html">gps.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   43</span>{</div>
-<div class="line"><span class="lineno">   44</span>    <span class="comment">// Get the latest error from the NRF24L01+ module</span></div>
-<div class="line"><span class="lineno">   45</span>    <a class="code hl_struct" href="structdGPS__errorData__t.html">dGPS_errorData_t</a> latestError;</div>
-<div class="line"><span class="lineno">   46</span>    GPS_getlatest_error(&amp;latestError);</div>
-<div class="line"><span class="lineno">   47</span> </div>
-<div class="line"><span class="lineno">   48</span><span class="preprocessor">    #ifdef dGPS_debug</span></div>
-<div class="line"><span class="lineno">   49</span>        UART_puts(<span class="stringliteral">&quot;Correcting error\r\n&quot;</span>);</div>
-<div class="line"><span class="lineno">   50</span>        <span class="keywordtype">char</span> msg[100];</div>
-<div class="line"><span class="lineno">   51</span>        sprintf(msg, <span class="stringliteral">&quot;Working Error - Lat: %.9f, Lon: %.9f\r\n&quot;</span>, latestError.<a class="code hl_variable" href="structdGPS__errorData__t.html#a57667532fea55d93567b05ceb83d8094">latitude</a>, latestError.<a class="code hl_variable" href="structdGPS__errorData__t.html#a3d7f0a13ccf7c3bf2579b758fc58ae73">longitude</a>);</div>
-<div class="line"><span class="lineno">   52</span>        UART_puts(msg);</div>
-<div class="line"><span class="lineno">   53</span> </div>
-<div class="line"><span class="lineno">   54</span>        sprintf(msg, <span class="stringliteral">&quot;Before correction - Lat: %.9f, Lon: %.9f\r\n&quot;</span>, pinputCoordinates-&gt;<a class="code hl_variable" href="structdGPS__errorData__t.html#a57667532fea55d93567b05ceb83d8094">latitude</a>, pinputCoordinates-&gt;<a class="code hl_variable" href="structdGPS__errorData__t.html#a3d7f0a13ccf7c3bf2579b758fc58ae73">longitude</a>);</div>
-<div class="line"><span class="lineno">   55</span>        UART_puts(msg);</div>
-<div class="line"><span class="lineno">   56</span><span class="preprocessor">    #endif</span></div>
-<div class="line"><span class="lineno">   57</span> </div>
-<div class="line"><span class="lineno">   58</span>    <span class="comment">// Apply the correction</span></div>
-<div class="line"><span class="lineno">   59</span>    pinputCoordinates-&gt;<a class="code hl_variable" href="structdGPS__errorData__t.html#a57667532fea55d93567b05ceb83d8094">latitude</a> -= latestError.<a class="code hl_variable" href="structdGPS__errorData__t.html#a57667532fea55d93567b05ceb83d8094">latitude</a>;</div>
-<div class="line"><span class="lineno">   60</span>    pinputCoordinates-&gt;<a class="code hl_variable" href="structdGPS__errorData__t.html#a3d7f0a13ccf7c3bf2579b758fc58ae73">longitude</a> -= latestError.<a class="code hl_variable" href="structdGPS__errorData__t.html#a3d7f0a13ccf7c3bf2579b758fc58ae73">longitude</a>;</div>
-<div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span><span class="preprocessor">    #ifdef dGPS_debug</span></div>
-<div class="line"><span class="lineno">   63</span>        sprintf(msg, <span class="stringliteral">&quot;After correction - Lat: %.6f, Lon: %.6f\r\n&quot;</span>, pinputCoordinates-&gt;<a class="code hl_variable" href="structdGPS__errorData__t.html#a57667532fea55d93567b05ceb83d8094">latitude</a>, pinputCoordinates-&gt;<a class="code hl_variable" href="structdGPS__errorData__t.html#a3d7f0a13ccf7c3bf2579b758fc58ae73">longitude</a>);</div>
-<div class="line"><span class="lineno">   64</span>        UART_puts(msg);</div>
-<div class="line"><span class="lineno">   65</span><span class="preprocessor">    #endif</span></div>
-<div class="line"><span class="lineno">   66</span> </div>
-<div class="line"><span class="lineno">   67</span>    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   68</span>}</div>
-<div class="ttc" id="astructdGPS__errorData__t_html"><div class="ttname"><a href="structdGPS__errorData__t.html">dGPS_errorData_t</a></div><div class="ttdef"><b>Definition</b> <a href="dGPS_8h_source.html#l00022">dGPS.h:22</a></div></div>
-<div class="ttc" id="astructdGPS__errorData__t_html_a3d7f0a13ccf7c3bf2579b758fc58ae73"><div class="ttname"><a href="structdGPS__errorData__t.html#a3d7f0a13ccf7c3bf2579b758fc58ae73">dGPS_errorData_t::longitude</a></div><div class="ttdeci">double longitude</div><div class="ttdef"><b>Definition</b> <a href="dGPS_8h_source.html#l00024">dGPS.h:24</a></div></div>
-<div class="ttc" id="astructdGPS__errorData__t_html_a57667532fea55d93567b05ceb83d8094"><div class="ttname"><a href="structdGPS__errorData__t.html#a57667532fea55d93567b05ceb83d8094">dGPS_errorData_t::latitude</a></div><div class="ttdeci">double latitude</div><div class="ttdef"><b>Definition</b> <a href="dGPS_8h_source.html#l00023">dGPS.h:23</a></div></div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="dGPS_8h_source.html#l00023">dGPS_errorData_t::latitude</a>, and <a class="el" href="dGPS_8h_source.html#l00024">dGPS_errorData_t::longitude</a>.</p>
+<p class="reference">Referenced by <a class="el" href="gps_8c_source.html#l00283">GPS_getNMEA()</a>.</p>
 
 </div>
 </div>
@@ -313,23 +250,23 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="gps_8c_source.html#l00076">76</a> of file <a class="el" href="gps_8c_source.html">gps.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   77</span>{</div>
-<div class="line"><span class="lineno">   78</span>    <span class="keywordflow">if</span>(xSemaphoreTake(<a class="code hl_variable" href="admin_8c.html#a5f9ab1293c7ef76b78e15194fd04da8b">hGPS_Mutex</a>, portMAX_DELAY) == pdTRUE)</div>
-<div class="line"><span class="lineno">   79</span>    {</div>
-<div class="line"><span class="lineno">   80</span>        *dest = *<a class="code hl_variable" href="gps_8c.html#ab8fafa7c928aa273ebc494046630ed46">frontendBuffer</a>;</div>
-<div class="line"><span class="lineno">   81</span>        xSemaphoreGive(<a class="code hl_variable" href="admin_8c.html#a5f9ab1293c7ef76b78e15194fd04da8b">hGPS_Mutex</a>);</div>
-<div class="line"><span class="lineno">   82</span>    }</div>
-<div class="line"><span class="lineno">   83</span>    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">   84</span>    {</div>
-<div class="line"><span class="lineno">   85</span>        <a class="code hl_function" href="admin_8c.html#a34a9c5eb09cae80d85d5d13a348ee1e8">error_HaltOS</a>(<span class="stringliteral">&quot;Err:GPS_mutex&quot;</span>);</div>
-<div class="line"><span class="lineno">   86</span>    }</div>
-<div class="line"><span class="lineno">   87</span>}</div>
-<div class="ttc" id="aadmin_8c_html_a34a9c5eb09cae80d85d5d13a348ee1e8"><div class="ttname"><a href="admin_8c.html#a34a9c5eb09cae80d85d5d13a348ee1e8">error_HaltOS</a></div><div class="ttdeci">void error_HaltOS(char *msg)</div><div class="ttdoc">Fatale OS-error opgetreden tijdens startup of runtime, doorgaan is zinloos. Het OS wordt tot stoppen ...</div><div class="ttdef"><b>Definition</b> <a href="admin_8c_source.html#l00237">admin.c:237</a></div></div>
-<div class="ttc" id="aadmin_8c_html_a5f9ab1293c7ef76b78e15194fd04da8b"><div class="ttname"><a href="admin_8c.html#a5f9ab1293c7ef76b78e15194fd04da8b">hGPS_Mutex</a></div><div class="ttdeci">SemaphoreHandle_t hGPS_Mutex</div><div class="ttdoc">handle voor GPS parser Mutex</div><div class="ttdef"><b>Definition</b> <a href="admin_8c_source.html#l00060">admin.c:60</a></div></div>
+<p class="definition">Definition at line <a class="el" href="gps_8c_source.html#l00042">42</a> of file <a class="el" href="gps_8c_source.html">gps.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   43</span>{</div>
+<div class="line"><span class="lineno">   44</span>    <span class="keywordflow">if</span>(xSemaphoreTake(<a class="code hl_variable" href="admin_8c.html#a5f9ab1293c7ef76b78e15194fd04da8b">hGPS_Mutex</a>, portMAX_DELAY) == pdTRUE)</div>
+<div class="line"><span class="lineno">   45</span>    {</div>
+<div class="line"><span class="lineno">   46</span>        *dest = *<a class="code hl_variable" href="gps_8c.html#ab8fafa7c928aa273ebc494046630ed46">frontendBuffer</a>;</div>
+<div class="line"><span class="lineno">   47</span>        xSemaphoreGive(<a class="code hl_variable" href="admin_8c.html#a5f9ab1293c7ef76b78e15194fd04da8b">hGPS_Mutex</a>);</div>
+<div class="line"><span class="lineno">   48</span>    }</div>
+<div class="line"><span class="lineno">   49</span>    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">   50</span>    {</div>
+<div class="line"><span class="lineno">   51</span>        <a class="code hl_function" href="admin_8c.html#a34a9c5eb09cae80d85d5d13a348ee1e8">error_HaltOS</a>(<span class="stringliteral">&quot;Err:GPS_mutex&quot;</span>);</div>
+<div class="line"><span class="lineno">   52</span>    }</div>
+<div class="line"><span class="lineno">   53</span>}</div>
+<div class="ttc" id="aadmin_8c_html_a34a9c5eb09cae80d85d5d13a348ee1e8"><div class="ttname"><a href="admin_8c.html#a34a9c5eb09cae80d85d5d13a348ee1e8">error_HaltOS</a></div><div class="ttdeci">void error_HaltOS(char *msg)</div><div class="ttdoc">Fatale OS-error opgetreden tijdens startup of runtime, doorgaan is zinloos. Het OS wordt tot stoppen ...</div><div class="ttdef"><b>Definition</b> <a href="admin_8c_source.html#l00227">admin.c:227</a></div></div>
+<div class="ttc" id="aadmin_8c_html_a5f9ab1293c7ef76b78e15194fd04da8b"><div class="ttname"><a href="admin_8c.html#a5f9ab1293c7ef76b78e15194fd04da8b">hGPS_Mutex</a></div><div class="ttdeci">SemaphoreHandle_t hGPS_Mutex</div><div class="ttdoc">handle voor GPS parser Mutex</div><div class="ttdef"><b>Definition</b> <a href="admin_8c_source.html#l00058">admin.c:58</a></div></div>
 <div class="ttc" id="agps_8c_html_ab8fafa7c928aa273ebc494046630ed46"><div class="ttname"><a href="gps_8c.html#ab8fafa7c928aa273ebc494046630ed46">frontendBuffer</a></div><div class="ttdeci">static GNRMC *volatile frontendBuffer</div><div class="ttdef"><b>Definition</b> <a href="gps_8c_source.html#l00023">gps.c:23</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="admin_8c_source.html#l00237">error_HaltOS()</a>, <a class="el" href="gps_8c_source.html#l00023">frontendBuffer</a>, and <a class="el" href="admin_8c_source.html#l00060">hGPS_Mutex</a>.</p>
+<p class="reference">References <a class="el" href="admin_8c_source.html#l00227">error_HaltOS()</a>, <a class="el" href="gps_8c_source.html#l00023">frontendBuffer</a>, and <a class="el" href="admin_8c_source.html#l00058">hGPS_Mutex</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="LOS__algo_8c_source.html#l00351">LOS_caller()</a>, and <a class="el" href="GPS__Route__Setter_8c_source.html#l00256">Route_Setter()</a>.</p>
 
@@ -361,7 +298,7 @@ Functions</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="gps_8c_source.html#l00026">GPS_fix_quality</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="TFT_8c_source.html#l00031">update_GPS_fix_quality_display()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="TFT_8c_source.html#l00030">update_GPS_fix_quality_display()</a>.</p>
 
 </div>
 </div>
@@ -380,21 +317,21 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gps_8c_source.html#l00416">416</a> of file <a class="el" href="gps_8c_source.html">gps.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  417</span>{</div>
-<div class="line"><span class="lineno">  418</span>    <span class="keywordtype">int</span> value;</div>
-<div class="line"><span class="lineno">  419</span> </div>
-<div class="line"><span class="lineno">  420</span>    value = <a class="code hl_function" href="gps_8c.html#a49002bb606cdf9e9ffecb4dba16082c0">hexchar2int</a>(c[0]);</div>
-<div class="line"><span class="lineno">  421</span>    value = value &lt;&lt; 4;</div>
-<div class="line"><span class="lineno">  422</span>    value += <a class="code hl_function" href="gps_8c.html#a49002bb606cdf9e9ffecb4dba16082c0">hexchar2int</a>(c[1]);</div>
-<div class="line"><span class="lineno">  423</span> </div>
-<div class="line"><span class="lineno">  424</span>    <span class="keywordflow">return</span> value;</div>
-<div class="line"><span class="lineno">  425</span>}</div>
-<div class="ttc" id="agps_8c_html_a49002bb606cdf9e9ffecb4dba16082c0"><div class="ttname"><a href="gps_8c.html#a49002bb606cdf9e9ffecb4dba16082c0">hexchar2int</a></div><div class="ttdeci">int hexchar2int(char c)</div><div class="ttdef"><b>Definition</b> <a href="gps_8c_source.html#l00428">gps.c:428</a></div></div>
+<p class="definition">Definition at line <a class="el" href="gps_8c_source.html#l00381">381</a> of file <a class="el" href="gps_8c_source.html">gps.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  382</span>{</div>
+<div class="line"><span class="lineno">  383</span>    <span class="keywordtype">int</span> value;</div>
+<div class="line"><span class="lineno">  384</span> </div>
+<div class="line"><span class="lineno">  385</span>    value = <a class="code hl_function" href="gps_8c.html#a49002bb606cdf9e9ffecb4dba16082c0">hexchar2int</a>(c[0]);</div>
+<div class="line"><span class="lineno">  386</span>    value = value &lt;&lt; 4;</div>
+<div class="line"><span class="lineno">  387</span>    value += <a class="code hl_function" href="gps_8c.html#a49002bb606cdf9e9ffecb4dba16082c0">hexchar2int</a>(c[1]);</div>
+<div class="line"><span class="lineno">  388</span> </div>
+<div class="line"><span class="lineno">  389</span>    <span class="keywordflow">return</span> value;</div>
+<div class="line"><span class="lineno">  390</span>}</div>
+<div class="ttc" id="agps_8c_html_a49002bb606cdf9e9ffecb4dba16082c0"><div class="ttname"><a href="gps_8c.html#a49002bb606cdf9e9ffecb4dba16082c0">hexchar2int</a></div><div class="ttdeci">int hexchar2int(char c)</div><div class="ttdef"><b>Definition</b> <a href="gps_8c_source.html#l00393">gps.c:393</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="gps_8c_source.html#l00428">hexchar2int()</a>.</p>
+<p class="reference">References <a class="el" href="gps_8c_source.html#l00393">hexchar2int()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="gps_8c_source.html#l00441">checksum_valid()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="gps_8c_source.html#l00406">checksum_valid()</a>.</p>
 
 </div>
 </div>
@@ -413,18 +350,18 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="gps_8c_source.html#l00428">428</a> of file <a class="el" href="gps_8c_source.html">gps.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  429</span>{</div>
-<div class="line"><span class="lineno">  430</span>    <span class="keywordflow">if</span> (c &gt;= <span class="charliteral">&#39;0&#39;</span> &amp;&amp; c &lt;= <span class="charliteral">&#39;9&#39;</span>)</div>
-<div class="line"><span class="lineno">  431</span>        <span class="keywordflow">return</span> (c - <span class="charliteral">&#39;0&#39;</span>);</div>
-<div class="line"><span class="lineno">  432</span>    <span class="keywordflow">if</span> (c &gt;= <span class="charliteral">&#39;A&#39;</span> &amp;&amp; c &lt;= <span class="charliteral">&#39;F&#39;</span>)</div>
-<div class="line"><span class="lineno">  433</span>        <span class="keywordflow">return</span> (c - <span class="charliteral">&#39;A&#39;</span> + 10);</div>
-<div class="line"><span class="lineno">  434</span>    <span class="keywordflow">if</span> (c &gt;= <span class="charliteral">&#39;a&#39;</span> &amp;&amp; c &lt;= <span class="charliteral">&#39;f&#39;</span>)</div>
-<div class="line"><span class="lineno">  435</span>        <span class="keywordflow">return</span> (c - <span class="charliteral">&#39;a&#39;</span> + 10);</div>
-<div class="line"><span class="lineno">  436</span>    <span class="keywordflow">return</span> (-1);</div>
-<div class="line"><span class="lineno">  437</span>}</div>
+<p class="definition">Definition at line <a class="el" href="gps_8c_source.html#l00393">393</a> of file <a class="el" href="gps_8c_source.html">gps.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  394</span>{</div>
+<div class="line"><span class="lineno">  395</span>    <span class="keywordflow">if</span> (c &gt;= <span class="charliteral">&#39;0&#39;</span> &amp;&amp; c &lt;= <span class="charliteral">&#39;9&#39;</span>)</div>
+<div class="line"><span class="lineno">  396</span>        <span class="keywordflow">return</span> (c - <span class="charliteral">&#39;0&#39;</span>);</div>
+<div class="line"><span class="lineno">  397</span>    <span class="keywordflow">if</span> (c &gt;= <span class="charliteral">&#39;A&#39;</span> &amp;&amp; c &lt;= <span class="charliteral">&#39;F&#39;</span>)</div>
+<div class="line"><span class="lineno">  398</span>        <span class="keywordflow">return</span> (c - <span class="charliteral">&#39;A&#39;</span> + 10);</div>
+<div class="line"><span class="lineno">  399</span>    <span class="keywordflow">if</span> (c &gt;= <span class="charliteral">&#39;a&#39;</span> &amp;&amp; c &lt;= <span class="charliteral">&#39;f&#39;</span>)</div>
+<div class="line"><span class="lineno">  400</span>        <span class="keywordflow">return</span> (c - <span class="charliteral">&#39;a&#39;</span> + 10);</div>
+<div class="line"><span class="lineno">  401</span>    <span class="keywordflow">return</span> (-1);</div>
+<div class="line"><span class="lineno">  402</span>}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="gps_8c_source.html#l00416">hex2int()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="gps_8c_source.html#l00381">hex2int()</a>.</p>
 
 </div>
 </div>

@@ -1,0 +1,119 @@
+\doxysection{keys.\+c}
+\hypertarget{keys_8c_source}{}\label{keys_8c_source}\index{Core/MyApp/Ports/keys.c@{Core/MyApp/Ports/keys.c}}
+\mbox{\hyperlink{keys_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00001}00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00002}00002\ \textcolor{comment}{Author:\ \ \ \ \ J.F.\ van\ der\ Bent}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00003}00003\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ W\ Pielage\ \&\ E\ Helmond}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00004}00004\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00005}00005\ \textcolor{comment}{Date:\ \ \ \ \ \ \ 24-\/11-\/2021}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00006}00006\ \textcolor{comment}{Revision:\ \ \ 5}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00007}00007\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00008}00008\ \textcolor{comment}{\ \ \ \ keys.c:}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00009}00009\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ Keyboard-\/driver\ for\ SpARM-\/board\ v2}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00010}00010\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00011}00011\ \textcolor{comment}{\ \ \ \ pin-\/info:}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00012}00012\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PD1\ \ -\/\ R2}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00013}00013\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PD2\ \ -\/\ R3}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00014}00014\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PD3\ \ -\/\ R4}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00015}00015\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PD6\ \ -\/\ K1}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00016}00016\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PD7\ \ -\/\ K2}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00017}00017\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PD8\ \ -\/\ K3}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00018}00018\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PD9\ \ -\/\ K4}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00019}00019\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PD11\ -\/\ R1}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00020}00020\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00021}00021\ \textcolor{comment}{\ \ \ \ Key\ B1\ =\ 1\ \ -\/-\/-\/-\/-\/\ key\ B16\ =\ 16}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00022}00022\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00023}00023\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00024}00024\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00025}00025\ \textcolor{comment}{To\ use\ the\ keyboard\ first\ initialize\ the\ ports:}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00026}00026\ \textcolor{comment}{\ \ \ \ KEYS\_init();}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00027}00027\ \textcolor{comment}{After\ that,\ you\ can\ use\ polling\ to\ read\ a\ key\ with:}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00028}00028\ \textcolor{comment}{\ \ \ \ KEYS\_read();}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00029}00029\ \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00031}00031\ \textcolor{preprocessor}{\#include\ "{}main.h"{}}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00033}\mbox{\hyperlink{keys_8c_a3b8c0d86406508ab75d7301def4e83d1}{00033}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{keys_8c_a3b8c0d86406508ab75d7301def4e83d1}{KEYS\_init}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00034}00034\ \textcolor{comment}{/*\ Keys\ initialize}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00035}00035\ \textcolor{comment}{\ *\ In\ this\ function\ the\ ports\ are\ set\ for\ the\ keyboard.}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00036}00036\ \textcolor{comment}{\ *\ The\ rows\ are\ outputs\ and\ the\ columns\ are\ input.}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00037}00037\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00038}00038\ \{}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00039}00039\ \ \ \ \ \_\_HAL\_RCC\_GPIOD\_CLK\_ENABLE();}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00040}00040\ \ \ \ \ GPIO\_InitTypeDef\ gpio;}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00041}00041\ \ \ \ \ gpio.Mode\ =\ GPIO\_MODE\_OUTPUT\_PP;}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00042}00042\ \ \ \ \ gpio.Pull\ =\ GPIO\_NOPULL;}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00043}00043\ \ \ \ \ gpio.Speed\ =\ GPIO\_SPEED\_FREQ\_VERY\_HIGH;}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00045}00045\ \ \ \ \ gpio.Pin\ =\ \mbox{\hyperlink{keys_8h_ae9715eeb16fe6a32b1d89d70f4556496}{KEY\_ROW}};}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00046}00046\ \ \ \ \ HAL\_GPIO\_Init(\mbox{\hyperlink{keys_8h_a89e0190291b00d018969f7cfb3ad6f88}{PKEY\_ROW}},\ \&gpio);}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00048}00048\ \ \ \ \ gpio.Pin\ =\ \mbox{\hyperlink{keys_8h_a492342640459e4ce58e85f827f48a0ef}{KEY\_COL}};}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00049}00049\ \ \ \ \ gpio.Mode\ =\ GPIO\_MODE\_INPUT;}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00050}00050\ \ \ \ \ gpio.Pull\ =\ GPIO\_PULLDOWN;}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00051}00051\ \ \ \ \ HAL\_GPIO\_Init(\mbox{\hyperlink{keys_8h_a7d6ead9754267b43c1b94151d2db9803}{PKEY\_COL}},\ \&gpio);}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00052}00052\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{keys_8h_a89e0190291b00d018969f7cfb3ad6f88}{PKEY\_ROW}},\ \mbox{\hyperlink{keys_8h_ae9715eeb16fe6a32b1d89d70f4556496}{KEY\_ROW}},\ 0);}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00053}00053\ \}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00055}\mbox{\hyperlink{keys_8c_a8194a032dc1e3ff80ce3892682d14bd8}{00055}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{keys_8c_a8194a032dc1e3ff80ce3892682d14bd8}{KEYS\_initISR}}(\textcolor{keywordtype}{int}\ hilo)}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00056}00056\ \textcolor{comment}{/*\ Keys\ initialize\ for\ ISR}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00057}00057\ \textcolor{comment}{\ *\ Set\ all\ lines\ high}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00058}00058\ \textcolor{comment}{\ *\ */}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00059}00059\ \{}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00060}00060\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{keys_8h_a89e0190291b00d018969f7cfb3ad6f88}{PKEY\_ROW}},\ \mbox{\hyperlink{keys_8h_a9657418c9744e3fd29e236558d5f1288}{KEY\_R1}},\ hilo);}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00061}00061\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{keys_8h_a89e0190291b00d018969f7cfb3ad6f88}{PKEY\_ROW}},\ \mbox{\hyperlink{keys_8h_ae985d0468046c1ac558afff3ee9ee1c9}{KEY\_R2}},\ hilo);}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00062}00062\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{keys_8h_a89e0190291b00d018969f7cfb3ad6f88}{PKEY\_ROW}},\ \mbox{\hyperlink{keys_8h_a4ab964400e953073ef53f1bf4b540998}{KEY\_R4}},\ hilo);}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00063}00063\ \textcolor{comment}{//\ \ R3\ DISABLED\ DUE\ TO\ USE\ OF\ PD2\ for\ UART5}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00064}00064\ \textcolor{comment}{//\ \ HAL\_GPIO\_WritePin(PKEY\_ROW,\ KEY\_R3,\ hilo);}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00065}00065\ \}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00068}\mbox{\hyperlink{keys_8c_a0998a5b3d17a78378535d1fe75c0b3c3}{00068}}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{keys_8c_a0998a5b3d17a78378535d1fe75c0b3c3}{KEYS\_read}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00069}00069\ \textcolor{comment}{/*\ Keys\ read}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00070}00070\ \textcolor{comment}{\ *\ This\ function\ reads\ which\ key\ is\ pressed.}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00071}00071\ \textcolor{comment}{\ *\ It\ does\ so\ by\ making\ a\ row\ high\ and\ check\ if\ there\ is\ a\ connection\ with\ a\ column.}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00072}00072\ \textcolor{comment}{\ *\ If\ there\ is\ a\ connection\ the\ value\ is\ returned.}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00073}00073\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00074}00074\ \{}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00075}00075\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00076}00076\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ out\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00078}00078\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{keys_8h_a89e0190291b00d018969f7cfb3ad6f88}{PKEY\_ROW}},\ \mbox{\hyperlink{keys_8h_a9657418c9744e3fd29e236558d5f1288}{KEY\_R1}},\ 0);}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00079}00079\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{keys_8h_a89e0190291b00d018969f7cfb3ad6f88}{PKEY\_ROW}},\ \mbox{\hyperlink{keys_8h_a4ab964400e953073ef53f1bf4b540998}{KEY\_R4}},\ 1);}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00080}00080\ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}}\ =\ \mbox{\hyperlink{keys_8c_a8daec2fc5486b844904311affaa6ef29}{KEYS\_kolom}}();}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00081}00081\ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}}\ !=\ 0\ )\ out=\ 12+\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}};}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00083}00083\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{keys_8h_a89e0190291b00d018969f7cfb3ad6f88}{PKEY\_ROW}},\ \mbox{\hyperlink{keys_8h_a4ab964400e953073ef53f1bf4b540998}{KEY\_R4}},\ 0);}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00084}00084\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{keys_8h_a89e0190291b00d018969f7cfb3ad6f88}{PKEY\_ROW}},\ \mbox{\hyperlink{keys_8h_a16154c12338ae310f836fd63853cd8b8}{KEY\_R3}},\ 1);}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00085}00085\ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}}\ =\ \mbox{\hyperlink{keys_8c_a8daec2fc5486b844904311affaa6ef29}{KEYS\_kolom}}();}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00086}00086\ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}}\ !=\ 0\ )\ out\ =\ 8+\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}};}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00088}00088\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{keys_8h_a89e0190291b00d018969f7cfb3ad6f88}{PKEY\_ROW}},\ \mbox{\hyperlink{keys_8h_a16154c12338ae310f836fd63853cd8b8}{KEY\_R3}},\ 0);}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00089}00089\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{keys_8h_a89e0190291b00d018969f7cfb3ad6f88}{PKEY\_ROW}},\ \mbox{\hyperlink{keys_8h_ae985d0468046c1ac558afff3ee9ee1c9}{KEY\_R2}},\ 1);}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00090}00090\ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}}\ =\ \mbox{\hyperlink{keys_8c_a8daec2fc5486b844904311affaa6ef29}{KEYS\_kolom}}();}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00091}00091\ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}}\ !=\ 0\ )\ out\ =\ 4+\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}};}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00093}00093\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{keys_8h_a89e0190291b00d018969f7cfb3ad6f88}{PKEY\_ROW}},\ \mbox{\hyperlink{keys_8h_ae985d0468046c1ac558afff3ee9ee1c9}{KEY\_R2}},\ 0);}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00094}00094\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{keys_8h_a89e0190291b00d018969f7cfb3ad6f88}{PKEY\_ROW}},\ \mbox{\hyperlink{keys_8h_a9657418c9744e3fd29e236558d5f1288}{KEY\_R1}},\ 1);}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00095}00095\ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}}\ =\ \mbox{\hyperlink{keys_8c_a8daec2fc5486b844904311affaa6ef29}{KEYS\_kolom}}();}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00096}00096\ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}}\ !=\ 0\ )\ out\ =\ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}};}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00098}00098\ \ \ \ \ \textcolor{keywordflow}{return}\ out;}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00099}00099\ \}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00101}\mbox{\hyperlink{keys_8c_a8daec2fc5486b844904311affaa6ef29}{00101}}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{keys_8c_a8daec2fc5486b844904311affaa6ef29}{KEYS\_kolom}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00102}00102\ \textcolor{comment}{/*\ Keys\ Column}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00103}00103\ \textcolor{comment}{\ *\ In\ this\ function\ the\ columns\ are\ checked\ if\ there\ is\ a\ connection.}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00104}00104\ \textcolor{comment}{\ *\ If\ a\ column\ has\ a\ connection\ the\ return\ value\ is\ the\ column\ number.}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00105}00105\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00106}00106\ \{}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00107}00107\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00108}00108\ \ \ \ \ \textcolor{keywordflow}{if}\ (HAL\_GPIO\_ReadPin(\mbox{\hyperlink{keys_8h_a7d6ead9754267b43c1b94151d2db9803}{PKEY\_COL}},\ \mbox{\hyperlink{keys_8h_a2b9695092087baacd6d1c0f1752c0821}{KEY\_K1}})\ ==\ 1)\ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}}\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00109}00109\ \ \ \ \ \textcolor{keywordflow}{if}\ (HAL\_GPIO\_ReadPin(\mbox{\hyperlink{keys_8h_a7d6ead9754267b43c1b94151d2db9803}{PKEY\_COL}},\ \mbox{\hyperlink{keys_8h_a7c16ce2380549dc78199023ef5f4792d}{KEY\_K2}})\ ==\ 1)\ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}}\ =\ 2;}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00110}00110\ \ \ \ \ \textcolor{keywordflow}{if}\ (HAL\_GPIO\_ReadPin(\mbox{\hyperlink{keys_8h_a7d6ead9754267b43c1b94151d2db9803}{PKEY\_COL}},\ \mbox{\hyperlink{keys_8h_ad4e0e57c4fa47a88c1accfa436bfb1cc}{KEY\_K3}})\ ==\ 1)\ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}}\ =\ 3;}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00111}00111\ \ \ \ \ \textcolor{keywordflow}{if}\ (HAL\_GPIO\_ReadPin(\mbox{\hyperlink{keys_8h_a7d6ead9754267b43c1b94151d2db9803}{PKEY\_COL}},\ \mbox{\hyperlink{keys_8h_a8d0a1ca44c147109db49e85c1efb5dfe}{KEY\_K4}})\ ==\ 1)\ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}}\ =\ 4;}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00112}00112\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}};}
+\DoxyCodeLine{\Hypertarget{keys_8c_source_l00113}00113\ \}}
+
+\end{DoxyCode}

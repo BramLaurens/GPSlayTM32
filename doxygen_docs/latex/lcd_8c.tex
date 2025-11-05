@@ -1,0 +1,539 @@
+\doxysection{Core/\+My\+App/\+Ports/lcd.c File Reference}
+\hypertarget{lcd_8c}{}\label{lcd_8c}\index{Core/MyApp/Ports/lcd.c@{Core/MyApp/Ports/lcd.c}}
+{\ttfamily \#include "{}main.\+h"{}}\newline
+{\ttfamily \#include "{}lcd.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{lcd_8c_a262a436f8e922946e70646e98af12ee2}{busyflag}} (void)
+\item 
+void \mbox{\hyperlink{lcd_8c_afb6f6442177031aecc75b4826a41bfb6}{Clear\+Bits}} (void)
+\item 
+void \mbox{\hyperlink{lcd_8c_ab3d3c08a4027d3e918914c1562ced027}{LCD\+\_\+clear}} (void)
+\item 
+void \mbox{\hyperlink{lcd_8c_a4740e67f609f69a2d3cb668ddb07cab7}{LCD\+\_\+create\+Char}} (uint8\+\_\+t location, uint8\+\_\+t map\mbox{[}8\mbox{]})
+\item 
+void \mbox{\hyperlink{lcd_8c_acc792a7f86ffe1983b1453d9ebc459bb}{LCD\+\_\+cursor\+\_\+home}} (void)
+\item 
+void \mbox{\hyperlink{lcd_8c_a301a0b73016a44e015dbd374c08243d4}{LCD\+\_\+init}} (void)
+\item 
+void \mbox{\hyperlink{lcd_8c_a6d8371b8bc001dab465b866088516c04}{LCD\+\_\+put}} (char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{uart_8c_ae003b8bf1d59f8b3e33f829151d7ef80}{string}})
+\item 
+void \mbox{\hyperlink{lcd_8c_a28d4c77faf913d61e9f636812817518b}{LCD\+\_\+putchar}} (char c)
+\item 
+void \mbox{\hyperlink{lcd_8c_a537649f3f20c5c9439439384fd8c71c1}{LCD\+\_\+putint}} (unsigned int num)
+\item 
+void \mbox{\hyperlink{lcd_8c_a4ad3bb80d8be2685fddc9370e08bab57}{LCD\+\_\+puts}} (char \texorpdfstring{$\ast$}{*}c)
+\item 
+static void \mbox{\hyperlink{lcd_8c_aef360833afff2b99e698ed5ce67de7ba}{LCD\+\_\+writebyte}} (unsigned char data)
+\item 
+void \mbox{\hyperlink{lcd_8c_a6fdde62130ac65c60eeed2b42913b7d1}{LCD\+\_\+writecontrol}} (unsigned char data)
+\item 
+static void \mbox{\hyperlink{lcd_8c_ab3539cef4c1e352ec8a2cec40e4b4d1d}{LCD\+\_\+writenibble}} (unsigned char data)
+\item 
+void \mbox{\hyperlink{lcd_8c_a71bc7341cc92c0a48ef8f6782e716a75}{LCD\+\_\+\+XY}} (unsigned int x, unsigned int y)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+unsigned char \mbox{\hyperlink{lcd_8c_a63b0a60ea87d040c45dab9bfc99277c1}{curpos}} = 0
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{lcd_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{lcd_8c_a262a436f8e922946e70646e98af12ee2}\index{lcd.c@{lcd.c}!busyflag@{busyflag}}
+\index{busyflag@{busyflag}!lcd.c@{lcd.c}}
+\doxysubsubsection{\texorpdfstring{busyflag()}{busyflag()}}
+{\footnotesize\ttfamily \label{lcd_8c_a262a436f8e922946e70646e98af12ee2} 
+void busyflag (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{lcd_8c_source_l00236}{236}} of file \mbox{\hyperlink{lcd_8c_source}{lcd.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00237\ \{}
+\DoxyCodeLine{00238\ \textcolor{comment}{//\ \ uint8\_t\ bitstatus\ =\ 0x00;}}
+\DoxyCodeLine{00239\ \textcolor{comment}{//\ \ uint8\_t\ bitstatus1\ =\ GPIO\_PIN\_SET;}}
+\DoxyCodeLine{00240\ \textcolor{comment}{//\ \ GPIO\_InitTypeDef\ gpio;}}
+\DoxyCodeLine{00241\ \textcolor{comment}{//}}
+\DoxyCodeLine{00242\ \textcolor{comment}{//\ \ while(bitstatus\ ==\ bitstatus1)}}
+\DoxyCodeLine{00243\ \textcolor{comment}{//\ \ \{}}
+\DoxyCodeLine{00244\ \textcolor{comment}{//\ \ \ \ \ \ gpio.Pin\ =\ GPIO\_PIN\_3\ |\ GPIO\_PIN\_4\ |\ GPIO\_PIN\_5\ |\ GPIO\_PIN\_6;}}
+\DoxyCodeLine{00245\ \textcolor{comment}{//\ \ \ \ \ \ gpio.Mode\ =\ GPIO\_MODE\_INPUT;}}
+\DoxyCodeLine{00246\ \textcolor{comment}{//\ \ \ \ \ \ gpio.Pull\ =\ GPIO\_NOPULL;}}
+\DoxyCodeLine{00247\ \textcolor{comment}{//\ \ \ \ \ \ gpio.Speed\ =\ GPIO\_SPEED\_FREQ\_VERY\_HIGH;}}
+\DoxyCodeLine{00248\ \textcolor{comment}{//\ \ \ \ \ \ HAL\_GPIO\_Init(GPIOE,\ \&gpio);}}
+\DoxyCodeLine{00249\ \textcolor{comment}{//}}
+\DoxyCodeLine{00250\ \textcolor{comment}{//\ \ \ \ \ \ HAL\_GPIO\_WritePin(LCD\_RS,\ GPIO\_PIN\_RESET);}}
+\DoxyCodeLine{00251\ \textcolor{comment}{//\ \ \ \ \ \ HAL\_GPIO\_WritePin(LCD\_RW,\ GPIO\_PIN\_SET);}}
+\DoxyCodeLine{00252\ \textcolor{comment}{//}}
+\DoxyCodeLine{00253\ \textcolor{comment}{//\ \ \ \ \ \ DELAY\_ms(1);}}
+\DoxyCodeLine{00254\ \textcolor{comment}{//\ \ \ \ \ \ HAL\_GPIO\_WritePin(LCD\_EN,\ GPIO\_PIN\_SET);}}
+\DoxyCodeLine{00255\ \textcolor{comment}{//\ \ \ \ \ \ DELAY\_ms(1);}}
+\DoxyCodeLine{00256\ \textcolor{comment}{//}}
+\DoxyCodeLine{00257\ \textcolor{comment}{//\ \ \ \ \ \ bitstatus\ =\ HAL\_GPIO\_ReadPin(LCD\_D7);}}
+\DoxyCodeLine{00258\ \textcolor{comment}{//\ \ \ \ \ \ HAL\_GPIO\_WritePin(LCD\_EN,\ GPIO\_PIN\_RESET);}}
+\DoxyCodeLine{00259\ \textcolor{comment}{//\ \ \ \ \ \ DELAY\_ms(1);}}
+\DoxyCodeLine{00260\ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{00261\ \textcolor{comment}{//}}
+\DoxyCodeLine{00262\ \textcolor{comment}{//\ \ gpio.Pin\ =\ GPIO\_PIN\_3\ |\ GPIO\_PIN\_4\ |\ GPIO\_PIN\_5\ |\ GPIO\_PIN\_6;}}
+\DoxyCodeLine{00263\ \textcolor{comment}{//\ \ gpio.Mode\ =\ GPIO\_MODE\_OUTPUT\_PP;}}
+\DoxyCodeLine{00264\ \textcolor{comment}{//\ \ gpio.Pull\ =\ GPIO\_NOPULL;}}
+\DoxyCodeLine{00265\ \textcolor{comment}{//\ \ gpio.Speed\ =\ GPIO\_SPEED\_FREQ\_VERY\_HIGH;}}
+\DoxyCodeLine{00266\ \textcolor{comment}{//\ \ HAL\_GPIO\_Init(GPIOE,\ \&gpio);}}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \ \ \ \ HAL\_Delay(1);}
+\DoxyCodeLine{00269\ \}}
+
+\end{DoxyCode}
+\Hypertarget{lcd_8c_afb6f6442177031aecc75b4826a41bfb6}\index{lcd.c@{lcd.c}!ClearBits@{ClearBits}}
+\index{ClearBits@{ClearBits}!lcd.c@{lcd.c}}
+\doxysubsubsection{\texorpdfstring{ClearBits()}{ClearBits()}}
+{\footnotesize\ttfamily \label{lcd_8c_afb6f6442177031aecc75b4826a41bfb6} 
+void Clear\+Bits (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{lcd_8c_source_l00040}{40}} of file \mbox{\hyperlink{lcd_8c_source}{lcd.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00041\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{lcd_8h_ade7e247311032a474711416da480ed8b}{LCD\_D4}},\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00043\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{lcd_8h_a5b91fe480c768d4f246f3890207bfbfc}{LCD\_D5}},\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00044\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{lcd_8h_a72e105fcda5fd1c07b5f391379a439d4}{LCD\_D6}},\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00045\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{lcd_8h_abd65075e01c7413419581aedee5bcc24}{LCD\_D7}},\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00046\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{lcd_8h_source_l00041}{LCD\+\_\+\+D4}}, \mbox{\hyperlink{lcd_8h_source_l00040}{LCD\+\_\+\+D5}}, \mbox{\hyperlink{lcd_8h_source_l00039}{LCD\+\_\+\+D6}}, and \mbox{\hyperlink{lcd_8h_source_l00038}{LCD\+\_\+\+D7}}.
+
+
+
+Referenced by \mbox{\hyperlink{lcd_8c_source_l00191}{LCD\+\_\+writenibble()}}.
+
+\Hypertarget{lcd_8c_ab3d3c08a4027d3e918914c1562ced027}\index{lcd.c@{lcd.c}!LCD\_clear@{LCD\_clear}}
+\index{LCD\_clear@{LCD\_clear}!lcd.c@{lcd.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_clear()}{LCD\_clear()}}
+{\footnotesize\ttfamily \label{lcd_8c_ab3d3c08a4027d3e918914c1562ced027} 
+void LCD\+\_\+clear (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{lcd_8c_source_l00054}{54}} of file \mbox{\hyperlink{lcd_8c_source}{lcd.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00055\ \{}
+\DoxyCodeLine{00056\ \ \ \ \mbox{\hyperlink{lcd_8c_a6fdde62130ac65c60eeed2b42913b7d1}{LCD\_writecontrol}}(0x01);\ \textcolor{comment}{//\ clearscreen}}
+\DoxyCodeLine{00057\ \ \ \ \mbox{\hyperlink{lcd_8c_a63b0a60ea87d040c45dab9bfc99277c1}{curpos}}=0;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ reset\ position}}
+\DoxyCodeLine{00058\ \ \ \ HAL\_Delay(5);}
+\DoxyCodeLine{00059\ \textcolor{comment}{//\ \ \ busyflag();}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{lcd_8c_source_l00038}{curpos}}, and \mbox{\hyperlink{lcd_8c_source_l00229}{LCD\+\_\+writecontrol()}}.
+
+\Hypertarget{lcd_8c_a4740e67f609f69a2d3cb668ddb07cab7}\index{lcd.c@{lcd.c}!LCD\_createChar@{LCD\_createChar}}
+\index{LCD\_createChar@{LCD\_createChar}!lcd.c@{lcd.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_createChar()}{LCD\_createChar()}}
+{\footnotesize\ttfamily \label{lcd_8c_a4740e67f609f69a2d3cb668ddb07cab7} 
+void LCD\+\_\+create\+Char (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{location}{, }\item[{uint8\+\_\+t}]{map}{\mbox{[}8\mbox{]}}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{lcd_8c_source_l00271}{271}} of file \mbox{\hyperlink{lcd_8c_source}{lcd.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00272\ \{}
+\DoxyCodeLine{00273\ \ \ \ \ location\ \&=\ 0x7;}
+\DoxyCodeLine{00274\ \ \ \ \ \mbox{\hyperlink{lcd_8c_a6fdde62130ac65c60eeed2b42913b7d1}{LCD\_writecontrol}}(\mbox{\hyperlink{lcd_8h_aae6ea856879c11dee58493184582a52f}{LCD\_SETCGRAMADDR}}\ |\ (location<<\ 3));}
+\DoxyCodeLine{00275\ \ \ \ \ \textcolor{keywordflow}{for}(uint8\_t\ i\ =\ 0;\ i<\ 8;i++)}
+\DoxyCodeLine{00276\ \ \ \ \ \{}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{lcd_8h_a4781e073871c6f27f89b9463ad3a4ed1}{LCD\_RS}},\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{lcd_8c_aef360833afff2b99e698ed5ce67de7ba}{LCD\_writebyte}}(map[i]);}
+\DoxyCodeLine{00279\ \ \ \ \ \}}
+\DoxyCodeLine{00280\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{lcd_8h_source_l00043}{LCD\+\_\+\+RS}}, \mbox{\hyperlink{lcd_8h_source_l00049}{LCD\+\_\+\+SETCGRAMADDR}}, \mbox{\hyperlink{lcd_8c_source_l00211}{LCD\+\_\+writebyte()}}, and \mbox{\hyperlink{lcd_8c_source_l00229}{LCD\+\_\+writecontrol()}}.
+
+\Hypertarget{lcd_8c_acc792a7f86ffe1983b1453d9ebc459bb}\index{lcd.c@{lcd.c}!LCD\_cursor\_home@{LCD\_cursor\_home}}
+\index{LCD\_cursor\_home@{LCD\_cursor\_home}!lcd.c@{lcd.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_cursor\_home()}{LCD\_cursor\_home()}}
+{\footnotesize\ttfamily \label{lcd_8c_acc792a7f86ffe1983b1453d9ebc459bb} 
+void LCD\+\_\+cursor\+\_\+home (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{lcd_8c_source_l00048}{48}} of file \mbox{\hyperlink{lcd_8c_source}{lcd.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00049\ \{}
+\DoxyCodeLine{00050\ \ \ \ \mbox{\hyperlink{lcd_8c_a6fdde62130ac65c60eeed2b42913b7d1}{LCD\_writecontrol}}(0x02);\ \textcolor{comment}{//\ cursur\ home}}
+\DoxyCodeLine{00051\ \ \ \ \mbox{\hyperlink{lcd_8c_a63b0a60ea87d040c45dab9bfc99277c1}{curpos}}=0;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ reset\ position}}
+\DoxyCodeLine{00052\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{lcd_8c_source_l00038}{curpos}}, and \mbox{\hyperlink{lcd_8c_source_l00229}{LCD\+\_\+writecontrol()}}.
+
+\Hypertarget{lcd_8c_a301a0b73016a44e015dbd374c08243d4}\index{lcd.c@{lcd.c}!LCD\_init@{LCD\_init}}
+\index{LCD\_init@{LCD\_init}!lcd.c@{lcd.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_init()}{LCD\_init()}}
+{\footnotesize\ttfamily \label{lcd_8c_a301a0b73016a44e015dbd374c08243d4} 
+void LCD\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{lcd_8c_source_l00080}{80}} of file \mbox{\hyperlink{lcd_8c_source}{lcd.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00081\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ GPIO\_InitTypeDef\ gpio;\ \ \textcolor{comment}{//\ GPIO\ init\ structure}}
+\DoxyCodeLine{00083\ \ \ \ \ \_\_HAL\_RCC\_GPIOE\_CLK\_ENABLE();}
+\DoxyCodeLine{00084\ \ \ \ \ \_\_HAL\_RCC\_GPIOC\_CLK\_ENABLE();}
+\DoxyCodeLine{00085\ \ \ \ \ \_\_HAL\_RCC\_GPIOD\_CLK\_ENABLE();}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ gpio.Mode\ =\ GPIO\_MODE\_OUTPUT\_PP;}
+\DoxyCodeLine{00088\ \ \ \ \ gpio.Pull\ =\ GPIO\_NOPULL;}
+\DoxyCodeLine{00089\ \ \ \ \ gpio.Speed\ =\ GPIO\_SPEED\_FREQ\_VERY\_HIGH;}
+\DoxyCodeLine{00090\ \ \ \ \ gpio.Pin\ =\ GPIO\_PIN\_3\ |\ GPIO\_PIN\_4\ |\ GPIO\_PIN\_5\ |\ GPIO\_PIN\_6;}
+\DoxyCodeLine{00091\ \ \ \ \ HAL\_GPIO\_Init(GPIOE,\ \&gpio);}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \ \ gpio.Pin\ =\ GPIO\_PIN\_11\ |\ GPIO\_PIN\_13;}
+\DoxyCodeLine{00094\ \ \ \ \ HAL\_GPIO\_Init(GPIOC,\ \&gpio);}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ gpio.Pin\ =\ GPIO\_PIN\_0;}
+\DoxyCodeLine{00097\ \ \ \ \ HAL\_GPIO\_Init(GPIOD,\ \&gpio);}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \textcolor{comment}{//\ \ GPIOE\ -\/>\ MODER\ |=\ (\ 1\ <<\ 4\ );}}
+\DoxyCodeLine{00100\ \textcolor{comment}{//\ \ GPIOE\ -\/>\ MODER\ |=\ (\ 1\ <<\ 8\ );}}
+\DoxyCodeLine{00101\ \textcolor{comment}{//\ \ GPIOE\ -\/>\ MODER\ |=\ (\ 1\ <<\ 10\ );}}
+\DoxyCodeLine{00102\ \textcolor{comment}{//\ \ GPIOE\ -\/>\ MODER\ |=\ (\ 1\ <<\ 12\ );}}
+\DoxyCodeLine{00103\ \textcolor{comment}{//\ \ GPIOC\ -\/>\ MODER\ |=\ (\ 1\ <<\ 26\ );}}
+\DoxyCodeLine{00104\ \textcolor{comment}{//\ \ GPIOC\ -\/>\ MODER\ |=\ (\ 1\ <<\ 30\ );}}
+\DoxyCodeLine{00105\ \textcolor{comment}{//\ \ GPIOC\ -\/>\ MODER\ |=\ (\ 1\ <<\ 28\ );}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{lcd_8h_a4781e073871c6f27f89b9463ad3a4ed1}{LCD\_RS}},\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00108\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{lcd_8h_a1640ffbc0d8ec0f7edb04a2b93918072}{LCD\_EN}},\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00109\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{lcd_8h_a26089a10ddd59a0dc7283c19ccc02533}{LCD\_RW}},\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ HAL\_Delay(15);\textcolor{comment}{//15}}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ \mbox{\hyperlink{lcd_8c_aef360833afff2b99e698ed5ce67de7ba}{LCD\_writebyte}}(0x30);\ \textcolor{comment}{//\ function-\/set\ boot}}
+\DoxyCodeLine{00114\ \ \ \ \ HAL\_Delay(70);}
+\DoxyCodeLine{00115\ \ \ \ \ \mbox{\hyperlink{lcd_8c_aef360833afff2b99e698ed5ce67de7ba}{LCD\_writebyte}}(0x30);}
+\DoxyCodeLine{00116\ \ \ \ \ \mbox{\hyperlink{lcd_8c_aef360833afff2b99e698ed5ce67de7ba}{LCD\_writebyte}}(0x30);}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \ \textcolor{comment}{//\ interface\ op\ 4\ bits}}
+\DoxyCodeLine{00119\ \ \ \ \ \mbox{\hyperlink{lcd_8c_aef360833afff2b99e698ed5ce67de7ba}{LCD\_writebyte}}(0x02);}
+\DoxyCodeLine{00120\ \ \ \ \ HAL\_Delay(5);}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \ \ \ \ \mbox{\hyperlink{lcd_8c_aef360833afff2b99e698ed5ce67de7ba}{LCD\_writebyte}}(0x2C);\ \ \textcolor{comment}{//\ function\ set}}
+\DoxyCodeLine{00123\ \ \ \ \ HAL\_Delay(15);}
+\DoxyCodeLine{00124\ \ \ \ \ \mbox{\hyperlink{lcd_8c_aef360833afff2b99e698ed5ce67de7ba}{LCD\_writebyte}}(0x0C);\ \ \textcolor{comment}{//\ lcd\ aan}}
+\DoxyCodeLine{00125\ \ \ \ \ HAL\_Delay(15);}
+\DoxyCodeLine{00126\ \ \ \ \ \mbox{\hyperlink{lcd_8c_aef360833afff2b99e698ed5ce67de7ba}{LCD\_writebyte}}(0x01);\ \ \textcolor{comment}{//\ clear\ screen}}
+\DoxyCodeLine{00127\ \ \ \ \ HAL\_Delay(15);}
+\DoxyCodeLine{00128\ \ \ \ \ \mbox{\hyperlink{lcd_8c_aef360833afff2b99e698ed5ce67de7ba}{LCD\_writebyte}}(0x06);\ \ \textcolor{comment}{//\ entry\ mode\ set}}
+\DoxyCodeLine{00129\ \ \ \ \ HAL\_Delay(15);}
+\DoxyCodeLine{00130\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{lcd_8h_source_l00042}{LCD\+\_\+\+EN}}, \mbox{\hyperlink{lcd_8h_source_l00043}{LCD\+\_\+\+RS}}, \mbox{\hyperlink{lcd_8h_source_l00044}{LCD\+\_\+\+RW}}, and \mbox{\hyperlink{lcd_8c_source_l00211}{LCD\+\_\+writebyte()}}.
+
+\Hypertarget{lcd_8c_a6d8371b8bc001dab465b866088516c04}\index{lcd.c@{lcd.c}!LCD\_put@{LCD\_put}}
+\index{LCD\_put@{LCD\_put}!lcd.c@{lcd.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_put()}{LCD\_put()}}
+{\footnotesize\ttfamily \label{lcd_8c_a6d8371b8bc001dab465b866088516c04} 
+void LCD\+\_\+put (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{string}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{lcd_8c_source_l00142}{142}} of file \mbox{\hyperlink{lcd_8c_source}{lcd.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00143\ \{}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#ifdef\ eenregel}}
+\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ j;}
+\DoxyCodeLine{00146\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ k;}
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{comment}{//\ vaag\ display;\ teken\ 8\ tot\ 31\ is\ niet\ uitgevoerd\ op\ het\ scherm}}
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keywordflow}{for}\ (k=0;\ \textcolor{keywordtype}{string}[k];\ k++)}
+\DoxyCodeLine{00150\ \ \ \ \ \{}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \textcolor{preprocessor}{\#ifdef\ eenregel}}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ vaag\ display;\ teken\ 8\ tot\ 31\ is\ niet\ uitgevoerd\ op\ het\ scherm}}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{lcd_8c_a63b0a60ea87d040c45dab9bfc99277c1}{curpos}}==16)\ \textcolor{comment}{//\ at\ 8,\ goto\ next\ valid\ lcd-\/position}}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (j=0;\ j<23;\ j++)\ \mbox{\hyperlink{lcd_8h_a70bfc9367614aeaaf0184fdde5da6595}{LCD\_cursor\_right}}();\ \textcolor{comment}{//\ 23\ vult\ het\ hele\ scherm\ met\ 32\ chars\ idk\ why\ xxx\ Jasper}}
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{lcd_8c_a28d4c77faf913d61e9f636812817518b}{LCD\_putchar}}(\textcolor{keywordtype}{string}[k]);}
+\DoxyCodeLine{00158\ \ \ \ \ \}}
+\DoxyCodeLine{00159\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{lcd_8c_source_l00038}{curpos}}, \mbox{\hyperlink{lcd_8h_source_l00059}{LCD\+\_\+cursor\+\_\+right}}, and \mbox{\hyperlink{lcd_8c_source_l00133}{LCD\+\_\+putchar()}}.
+
+
+
+Referenced by \mbox{\hyperlink{lcd_8c_source_l00167}{LCD\+\_\+putint()}}, and \mbox{\hyperlink{lcd_8c_source_l00161}{LCD\+\_\+puts()}}.
+
+\Hypertarget{lcd_8c_a28d4c77faf913d61e9f636812817518b}\index{lcd.c@{lcd.c}!LCD\_putchar@{LCD\_putchar}}
+\index{LCD\_putchar@{LCD\_putchar}!lcd.c@{lcd.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_putchar()}{LCD\_putchar()}}
+{\footnotesize\ttfamily \label{lcd_8c_a28d4c77faf913d61e9f636812817518b} 
+void LCD\+\_\+putchar (\begin{DoxyParamCaption}\item[{char}]{c}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{lcd_8c_source_l00133}{133}} of file \mbox{\hyperlink{lcd_8c_source}{lcd.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00134\ \{}
+\DoxyCodeLine{00135\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{lcd_8h_a4781e073871c6f27f89b9463ad3a4ed1}{LCD\_RS}},\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{00136\ \ \ \ \ \mbox{\hyperlink{lcd_8c_aef360833afff2b99e698ed5ce67de7ba}{LCD\_writebyte}}(c);}
+\DoxyCodeLine{00137\ \ \ \ \ \textcolor{keywordflow}{if}\ (++\mbox{\hyperlink{lcd_8c_a63b0a60ea87d040c45dab9bfc99277c1}{curpos}}==32)\ \textcolor{comment}{//\ remember\ cursorpos}}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{lcd_8c_a63b0a60ea87d040c45dab9bfc99277c1}{curpos}}=0;}
+\DoxyCodeLine{00139\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{lcd_8c_source_l00038}{curpos}}, \mbox{\hyperlink{lcd_8h_source_l00043}{LCD\+\_\+\+RS}}, and \mbox{\hyperlink{lcd_8c_source_l00211}{LCD\+\_\+writebyte()}}.
+
+
+
+Referenced by \mbox{\hyperlink{lcd_8c_source_l00142}{LCD\+\_\+put()}}.
+
+\Hypertarget{lcd_8c_a537649f3f20c5c9439439384fd8c71c1}\index{lcd.c@{lcd.c}!LCD\_putint@{LCD\_putint}}
+\index{LCD\_putint@{LCD\_putint}!lcd.c@{lcd.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_putint()}{LCD\_putint()}}
+{\footnotesize\ttfamily \label{lcd_8c_a537649f3f20c5c9439439384fd8c71c1} 
+void LCD\+\_\+putint (\begin{DoxyParamCaption}\item[{unsigned int}]{num}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{lcd_8c_source_l00167}{167}} of file \mbox{\hyperlink{lcd_8c_source}{lcd.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00168\ \{}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ rest;}
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ chars[10]\ =\ \textcolor{stringliteral}{"{}0123456789"{}};\ \textcolor{comment}{//\ possible\ chars}}
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keywordtype}{char}\ s[17];\ \textcolor{comment}{//\ display\ has\ 16\ chars\ [0..15]\ +\ 1\ closing\ null}}
+\DoxyCodeLine{00172\ \ \ \ \ s[16]=\textcolor{charliteral}{'\(\backslash\)0'};\ \textcolor{comment}{//\ closing\ null\ set}}
+\DoxyCodeLine{00173\ \ \ \ \ \textcolor{keywordtype}{int}\ i=15;\ \ \ \textcolor{comment}{//\ startposition\ at\ last\ display\ char}}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{comment}{//\ kinda\ function\ itoa,\ integer\ to\ ascii}}
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keywordflow}{if}(num==0)}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ s[i-\/-\/]=\textcolor{charliteral}{'0'};\ \textcolor{comment}{//\ '0'\ at\ 14}}
+\DoxyCodeLine{00178\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00179\ \ \ \ \ \{}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(num>0\ \&\&\ i)}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ rest\ =\ num\%10;}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ num\ /=\ 10;}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ s[i-\/-\/]=chars[rest];}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00186\ \ \ \ \ \}}
+\DoxyCodeLine{00187\ \ \ \ \ \mbox{\hyperlink{lcd_8c_a6d8371b8bc001dab465b866088516c04}{LCD\_put}}(\&s[i+1]);\ \textcolor{comment}{//\ first,\ set\ i\ to\ starting\ pos,\ undo\ one\ i-\/-\/\ too\ much}}
+\DoxyCodeLine{00188\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{lcd_8c_source_l00142}{LCD\+\_\+put()}}.
+
+\Hypertarget{lcd_8c_a4ad3bb80d8be2685fddc9370e08bab57}\index{lcd.c@{lcd.c}!LCD\_puts@{LCD\_puts}}
+\index{LCD\_puts@{LCD\_puts}!lcd.c@{lcd.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_puts()}{LCD\_puts()}}
+{\footnotesize\ttfamily \label{lcd_8c_a4ad3bb80d8be2685fddc9370e08bab57} 
+void LCD\+\_\+puts (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{c}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{lcd_8c_source_l00161}{161}} of file \mbox{\hyperlink{lcd_8c_source}{lcd.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00162\ \{}
+\DoxyCodeLine{00163\ \ \ \ \ \mbox{\hyperlink{lcd_8c_a6d8371b8bc001dab465b866088516c04}{LCD\_put}}(c);}
+\DoxyCodeLine{00164\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{lcd_8c_source_l00142}{LCD\+\_\+put()}}.
+
+\Hypertarget{lcd_8c_aef360833afff2b99e698ed5ce67de7ba}\index{lcd.c@{lcd.c}!LCD\_writebyte@{LCD\_writebyte}}
+\index{LCD\_writebyte@{LCD\_writebyte}!lcd.c@{lcd.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_writebyte()}{LCD\_writebyte()}}
+{\footnotesize\ttfamily \label{lcd_8c_aef360833afff2b99e698ed5ce67de7ba} 
+void LCD\+\_\+writebyte (\begin{DoxyParamCaption}\item[{unsigned char}]{data}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{lcd_8c_source_l00211}{211}} of file \mbox{\hyperlink{lcd_8c_source}{lcd.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00212\ \{}
+\DoxyCodeLine{00213\ \ \ \ \ \textcolor{comment}{/*\ hoogste\ 4\ bits\ */}}
+\DoxyCodeLine{00214\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{lcd_8h_a1640ffbc0d8ec0f7edb04a2b93918072}{LCD\_EN}},\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{00215\ \ \ \ \ \mbox{\hyperlink{lcd_8c_ab3539cef4c1e352ec8a2cec40e4b4d1d}{LCD\_writenibble}}((data>>4)\&0x0F);}
+\DoxyCodeLine{00216\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{lcd_8h_a1640ffbc0d8ec0f7edb04a2b93918072}{LCD\_EN}},\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00217\ }
+\DoxyCodeLine{00218\ \ \ \ \ HAL\_Delay(2);}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00220\ \ \ \ \ \textcolor{comment}{/*\ laagste\ 4\ bits\ */}}
+\DoxyCodeLine{00221\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{lcd_8h_a1640ffbc0d8ec0f7edb04a2b93918072}{LCD\_EN}},\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{00222\ \ \ \ \ \mbox{\hyperlink{lcd_8c_ab3539cef4c1e352ec8a2cec40e4b4d1d}{LCD\_writenibble}}(data\&0x0F);}
+\DoxyCodeLine{00223\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{lcd_8h_a1640ffbc0d8ec0f7edb04a2b93918072}{LCD\_EN}},\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \ \ \ \ HAL\_Delay(2);}
+\DoxyCodeLine{00226\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{lcd_8h_source_l00042}{LCD\+\_\+\+EN}}, and \mbox{\hyperlink{lcd_8c_source_l00191}{LCD\+\_\+writenibble()}}.
+
+
+
+Referenced by \mbox{\hyperlink{lcd_8c_source_l00271}{LCD\+\_\+create\+Char()}}, \mbox{\hyperlink{lcd_8c_source_l00080}{LCD\+\_\+init()}}, \mbox{\hyperlink{lcd_8c_source_l00133}{LCD\+\_\+putchar()}}, and \mbox{\hyperlink{lcd_8c_source_l00229}{LCD\+\_\+writecontrol()}}.
+
+\Hypertarget{lcd_8c_a6fdde62130ac65c60eeed2b42913b7d1}\index{lcd.c@{lcd.c}!LCD\_writecontrol@{LCD\_writecontrol}}
+\index{LCD\_writecontrol@{LCD\_writecontrol}!lcd.c@{lcd.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_writecontrol()}{LCD\_writecontrol()}}
+{\footnotesize\ttfamily \label{lcd_8c_a6fdde62130ac65c60eeed2b42913b7d1} 
+void LCD\+\_\+writecontrol (\begin{DoxyParamCaption}\item[{unsigned char}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{lcd_8c_source_l00229}{229}} of file \mbox{\hyperlink{lcd_8c_source}{lcd.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00230\ \{}
+\DoxyCodeLine{00231\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{lcd_8h_a4781e073871c6f27f89b9463ad3a4ed1}{LCD\_RS}},\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00232\ \ \ \ \ \mbox{\hyperlink{lcd_8c_aef360833afff2b99e698ed5ce67de7ba}{LCD\_writebyte}}(data);}
+\DoxyCodeLine{00233\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{lcd_8h_source_l00043}{LCD\+\_\+\+RS}}, and \mbox{\hyperlink{lcd_8c_source_l00211}{LCD\+\_\+writebyte()}}.
+
+
+
+Referenced by \mbox{\hyperlink{lcd_8c_source_l00054}{LCD\+\_\+clear()}}, \mbox{\hyperlink{lcd_8c_source_l00271}{LCD\+\_\+create\+Char()}}, \mbox{\hyperlink{lcd_8c_source_l00048}{LCD\+\_\+cursor\+\_\+home()}}, and \mbox{\hyperlink{lcd_8c_source_l00063}{LCD\+\_\+\+XY()}}.
+
+\Hypertarget{lcd_8c_ab3539cef4c1e352ec8a2cec40e4b4d1d}\index{lcd.c@{lcd.c}!LCD\_writenibble@{LCD\_writenibble}}
+\index{LCD\_writenibble@{LCD\_writenibble}!lcd.c@{lcd.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_writenibble()}{LCD\_writenibble()}}
+{\footnotesize\ttfamily \label{lcd_8c_ab3539cef4c1e352ec8a2cec40e4b4d1d} 
+void LCD\+\_\+writenibble (\begin{DoxyParamCaption}\item[{unsigned char}]{data}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{lcd_8c_source_l00191}{191}} of file \mbox{\hyperlink{lcd_8c_source}{lcd.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00192\ \{}
+\DoxyCodeLine{00193\ \ \ \ \ \mbox{\hyperlink{lcd_8c_afb6f6442177031aecc75b4826a41bfb6}{ClearBits}}();}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keywordflow}{if}\ (data\ \&\ 0x01)}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{lcd_8h_abd65075e01c7413419581aedee5bcc24}{LCD\_D7}},\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00198\ \ \ \ \ \textcolor{keywordflow}{if}\ (data\ \&\ 0x02)}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{lcd_8h_a72e105fcda5fd1c07b5f391379a439d4}{LCD\_D6}},\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keywordflow}{if}\ (data\ \&\ 0x04)}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{lcd_8h_a5b91fe480c768d4f246f3890207bfbfc}{LCD\_D5}},\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \ \ \ \ \textcolor{keywordflow}{if}\ (data\ \&\ 0x08)}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{lcd_8h_ade7e247311032a474711416da480ed8b}{LCD\_D4}},\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00207\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{lcd_8c_source_l00040}{Clear\+Bits()}}, \mbox{\hyperlink{lcd_8h_source_l00041}{LCD\+\_\+\+D4}}, \mbox{\hyperlink{lcd_8h_source_l00040}{LCD\+\_\+\+D5}}, \mbox{\hyperlink{lcd_8h_source_l00039}{LCD\+\_\+\+D6}}, and \mbox{\hyperlink{lcd_8h_source_l00038}{LCD\+\_\+\+D7}}.
+
+
+
+Referenced by \mbox{\hyperlink{lcd_8c_source_l00211}{LCD\+\_\+writebyte()}}.
+
+\Hypertarget{lcd_8c_a71bc7341cc92c0a48ef8f6782e716a75}\index{lcd.c@{lcd.c}!LCD\_XY@{LCD\_XY}}
+\index{LCD\_XY@{LCD\_XY}!lcd.c@{lcd.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_XY()}{LCD\_XY()}}
+{\footnotesize\ttfamily \label{lcd_8c_a71bc7341cc92c0a48ef8f6782e716a75} 
+void LCD\+\_\+\+XY (\begin{DoxyParamCaption}\item[{unsigned int}]{x}{, }\item[{unsigned int}]{y}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{lcd_8c_source_l00063}{63}} of file \mbox{\hyperlink{lcd_8c_source}{lcd.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00064\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ data;}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordflow}{switch}(y)}
+\DoxyCodeLine{00068\ \ \ \ \ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordflow}{case}\ 0:\ \ data\ =\ (1<<7)+0x00+x;\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordflow}{case}\ 1:\ \ data\ =\ (1<<7)+0x40+x;\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordflow}{case}\ 2:\ \ data\ =\ (1<<7)+0x14+x;\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordflow}{default}:\ data\ =\ (1<<7)+0x54+x;\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00073\ \ \ \ \ \}}
+\DoxyCodeLine{00074\ \ \ \ \ \mbox{\hyperlink{lcd_8c_a6fdde62130ac65c60eeed2b42913b7d1}{LCD\_writecontrol}}(data);}
+\DoxyCodeLine{00075\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{lcd_8c_source_l00229}{LCD\+\_\+writecontrol()}}.
+
+
+
+\label{doc-var-members}
+\Hypertarget{lcd_8c_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{lcd_8c_a63b0a60ea87d040c45dab9bfc99277c1}\index{lcd.c@{lcd.c}!curpos@{curpos}}
+\index{curpos@{curpos}!lcd.c@{lcd.c}}
+\doxysubsubsection{\texorpdfstring{curpos}{curpos}}
+{\footnotesize\ttfamily \label{lcd_8c_a63b0a60ea87d040c45dab9bfc99277c1} 
+unsigned char curpos = 0}
+
+
+
+Definition at line \mbox{\hyperlink{lcd_8c_source_l00038}{38}} of file \mbox{\hyperlink{lcd_8c_source}{lcd.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{lcd_8c_source_l00054}{LCD\+\_\+clear()}}, \mbox{\hyperlink{lcd_8c_source_l00048}{LCD\+\_\+cursor\+\_\+home()}}, \mbox{\hyperlink{lcd_8c_source_l00142}{LCD\+\_\+put()}}, and \mbox{\hyperlink{lcd_8c_source_l00133}{LCD\+\_\+putchar()}}.
+

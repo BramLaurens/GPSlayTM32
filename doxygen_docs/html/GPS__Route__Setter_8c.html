@@ -205,7 +205,7 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">   61</span>    <span class="keywordflow">return</span> decimal_degrees; <span class="comment">// Return the converted value</span></div>
 <div class="line"><span class="lineno">   62</span>}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="dGPS_8c_source.html#l00135">AVG_gpsadddata()</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00108">GPS_Route_Maker()</a>, <a class="el" href="LOS__algo_8c_source.html#l00351">LOS_caller()</a>, and <a class="el" href="dGPS_8c_source.html#l00166">parse_GPSdata()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GPS__Route__Setter_8c_source.html#l00108">GPS_Route_Maker()</a>, and <a class="el" href="LOS__algo_8c_source.html#l00351">LOS_caller()</a>.</p>
 
 </div>
 </div>
@@ -237,13 +237,13 @@ Variables</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">  109</span>{</div>
 <div class="line"><span class="lineno">  110</span>    <span class="keywordtype">char</span> Float_buffer[100]; <span class="comment">// char buffer so the floats can be made visible for the user</span></div>
 <div class="line"><span class="lineno">  111</span> </div>
-<div class="line"><span class="lineno">  112</span>    UART_puts(<span class="stringliteral">&quot;Checking GPS data validity: &quot;</span>);</div>
-<div class="line"><span class="lineno">  113</span>    UART_puts(<a class="code hl_variable" href="#a8e0c53a74f9f823a22f79a7e767262f8">pt_Route_Parser</a>-&gt;status); UART_puts(<span class="stringliteral">&quot; \r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  112</span>    <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;Checking GPS data validity: &quot;</span>);</div>
+<div class="line"><span class="lineno">  113</span>    <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<a class="code hl_variable" href="#a8e0c53a74f9f823a22f79a7e767262f8">pt_Route_Parser</a>-&gt;status); <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot; \r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  114</span> </div>
 <div class="line"><span class="lineno">  115</span>    <span class="comment">// &#39;V&#39; is invalid &#39;A&#39; is valid </span></div>
 <div class="line"><span class="lineno">  116</span>    <span class="keywordflow">if</span>(<a class="code hl_variable" href="#a8e0c53a74f9f823a22f79a7e767262f8">pt_Route_Parser</a>-&gt;status != <span class="charliteral">&#39;A&#39;</span>)</div>
 <div class="line"><span class="lineno">  117</span>    { </div>
-<div class="line"><span class="lineno">  118</span>        UART_puts(<span class="stringliteral">&quot;Data from GPS is not valid or is currently busy locking&quot;</span>);</div>
+<div class="line"><span class="lineno">  118</span>        <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;Data from GPS is not valid or is currently busy locking&quot;</span>);</div>
 <div class="line"><span class="lineno">  119</span>        <span class="comment">// posibility for lcd screen debuging</span></div>
 <div class="line"><span class="lineno">  120</span>        <span class="keywordflow">return</span> 1; </div>
 <div class="line"><span class="lineno">  121</span>    }</div>
@@ -254,7 +254,7 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  126</span>    <span class="comment">// error malloc failed</span></div>
 <div class="line"><span class="lineno">  127</span>    <span class="keywordflow">if</span>(Node==NULL)</div>
 <div class="line"><span class="lineno">  128</span>    { </div>
-<div class="line"><span class="lineno">  129</span>        UART_puts(<span class="stringliteral">&quot;Malloc failed!&quot;</span>);</div>
+<div class="line"><span class="lineno">  129</span>        <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;Malloc failed!&quot;</span>);</div>
 <div class="line"><span class="lineno">  130</span>        <span class="keywordflow">return</span> 1;</div>
 <div class="line"><span class="lineno">  131</span>    }</div>
 <div class="line"><span class="lineno">  132</span> </div>
@@ -265,16 +265,16 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  137</span>        Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#aa61b46911a0379e3e3c673d4207b0719">latitude</a>= <a class="code hl_function" href="#a26e24df8db9294ca41506dad23837f62">convert_decimal_degrees</a>(<a class="code hl_variable" href="#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.latitude, &amp;<a class="code hl_variable" href="#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.NS_ind);    <span class="comment">// make a float out of the ascii char of the gps data</span></div>
 <div class="line"><span class="lineno">  138</span>        Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ade4f5167bbb15bf9bd35191bead79c72">nodeNumber</a> = 0;</div>
 <div class="line"><span class="lineno">  139</span>        Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">Next_point</a> = NULL; </div>
-<div class="line"><span class="lineno">  140</span>        UART_puts(<span class="stringliteral">&quot;Head created&quot;</span>);</div>
-<div class="line"><span class="lineno">  141</span>        UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  140</span>        <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;Head created&quot;</span>);</div>
+<div class="line"><span class="lineno">  141</span>        <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  142</span> </div>
-<div class="line"><span class="lineno">  143</span>        UART_puts(<span class="stringliteral">&quot; Waypoint number: &quot;</span>); UART_putint(Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ade4f5167bbb15bf9bd35191bead79c72">nodeNumber</a>); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  143</span>        <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;    Waypoint number: &quot;</span>); <a class="code hl_function" href="uart_8c.html#ab68b2265165f1a355ff3dac4a726b37d">UART_putint</a>(Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ade4f5167bbb15bf9bd35191bead79c72">nodeNumber</a>); <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  144</span> </div>
 <div class="line"><span class="lineno">  145</span>        sprintf(Float_buffer, <span class="stringliteral">&quot; Long:%2.9f&quot;</span>,Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ae5a5dd3df2f2114e2cf0d287e6b38ef4">longitude</a>); <span class="comment">// So the float can read by the user in terminal </span></div>
-<div class="line"><span class="lineno">  146</span>        UART_puts(Float_buffer); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  146</span>        <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(Float_buffer); <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  147</span>        <span class="comment">// posibility for lcd screen debuging and showing user the coordinates</span></div>
 <div class="line"><span class="lineno">  148</span>        sprintf(Float_buffer, <span class="stringliteral">&quot; Lat:%2.9f&quot;</span>,Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#aa61b46911a0379e3e3c673d4207b0719">latitude</a>); <span class="comment">// So the float can read by the user in terminal </span></div>
-<div class="line"><span class="lineno">  149</span>        UART_puts(Float_buffer); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  149</span>        <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(Float_buffer); <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  150</span> </div>
 <div class="line"><span class="lineno">  151</span>        <a class="code hl_variable" href="#a634185e179fb7d88f2a1b14442975f12">WP_amount</a>++;</div>
 <div class="line"><span class="lineno">  152</span>        <span class="comment">// LCD_clear();</span></div>
@@ -286,39 +286,39 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  158</span> </div>
 <div class="line"><span class="lineno">  159</span>    <span class="comment">// adding a node other then the head(first)</span></div>
 <div class="line"><span class="lineno">  160</span>    <a class="code hl_typedef" href="GPS__Route__Setter_8h.html#abaf7f2a5f92fa80200324b7686faa66b">GPS_Route</a> *temp = <a class="code hl_variable" href="#adb2c62dd349ccf9f8ec2614a64f90791">pt_Route</a>; <span class="comment">// creating a temp so the original pointer does not get lost when searching for a next point</span></div>
-<div class="line"><span class="lineno">  161</span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="dGPS_8c.html#acb559820d9ca11295b4500f179ef6392">i</a>=1;</div>
-<div class="line"><span class="lineno">  162</span>    UART_puts(<span class="stringliteral">&quot;begin search for next point. \r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  161</span>    <span class="keywordtype">int</span> i=1;</div>
+<div class="line"><span class="lineno">  162</span>    <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;begin search for next point. \r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  163</span> </div>
 <div class="line"><span class="lineno">  164</span>    <span class="comment">// searching for the next node with no next point so one can be added</span></div>
 <div class="line"><span class="lineno">  165</span>    <span class="keywordflow">while</span>(temp-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">Next_point</a> != NULL)</div>
 <div class="line"><span class="lineno">  166</span>    { </div>
-<div class="line"><span class="lineno">  167</span>        <a class="code hl_variable" href="dGPS_8c.html#acb559820d9ca11295b4500f179ef6392">i</a>++;</div>
+<div class="line"><span class="lineno">  167</span>        i++;</div>
 <div class="line"><span class="lineno">  168</span>        temp = temp-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">Next_point</a>; </div>
 <div class="line"><span class="lineno">  169</span>    }</div>
-<div class="line"><span class="lineno">  170</span>    UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
-<div class="line"><span class="lineno">  171</span>    UART_puts(<span class="stringliteral">&quot;Node in linked list:&quot;</span>); UART_putint(<a class="code hl_variable" href="dGPS_8c.html#acb559820d9ca11295b4500f179ef6392">i</a>); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  170</span>    <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  171</span>    <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;Node in linked list:&quot;</span>); <a class="code hl_function" href="uart_8c.html#ab68b2265165f1a355ff3dac4a726b37d">UART_putint</a>(i); <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  172</span> </div>
 <div class="line"><span class="lineno">  173</span>    <span class="comment">// Filling node elements</span></div>
 <div class="line"><span class="lineno">  174</span>    Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ae5a5dd3df2f2114e2cf0d287e6b38ef4">longitude</a>= <a class="code hl_function" href="#a26e24df8db9294ca41506dad23837f62">convert_decimal_degrees</a>(<a class="code hl_variable" href="#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.longitude, &amp;<a class="code hl_variable" href="#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.EW_ind); <span class="comment">// make a float out of the ascii char of the gps data</span></div>
 <div class="line"><span class="lineno">  175</span>    Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#aa61b46911a0379e3e3c673d4207b0719">latitude</a>= <a class="code hl_function" href="#a26e24df8db9294ca41506dad23837f62">convert_decimal_degrees</a>(<a class="code hl_variable" href="#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.latitude, &amp;<a class="code hl_variable" href="#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>.NS_ind);    <span class="comment">// make a float out of the ascii char of the gps data</span></div>
-<div class="line"><span class="lineno">  176</span>    Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ade4f5167bbb15bf9bd35191bead79c72">nodeNumber</a> = <a class="code hl_variable" href="dGPS_8c.html#acb559820d9ca11295b4500f179ef6392">i</a>;</div>
+<div class="line"><span class="lineno">  176</span>    Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ade4f5167bbb15bf9bd35191bead79c72">nodeNumber</a> = i;</div>
 <div class="line"><span class="lineno">  177</span>    Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">Next_point</a> = NULL;</div>
 <div class="line"><span class="lineno">  178</span>    temp-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">Next_point</a> = Node;</div>
 <div class="line"><span class="lineno">  179</span> </div>
-<div class="line"><span class="lineno">  180</span>    UART_puts(<span class="stringliteral">&quot; Waypoint number: &quot;</span>); UART_putint(Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ade4f5167bbb15bf9bd35191bead79c72">nodeNumber</a>); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  180</span>    <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;    Waypoint number: &quot;</span>); <a class="code hl_function" href="uart_8c.html#ab68b2265165f1a355ff3dac4a726b37d">UART_putint</a>(Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ade4f5167bbb15bf9bd35191bead79c72">nodeNumber</a>); <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  181</span> </div>
 <div class="line"><span class="lineno">  182</span>    sprintf(Float_buffer, <span class="stringliteral">&quot; Long:%2.9f&quot;</span>,Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ae5a5dd3df2f2114e2cf0d287e6b38ef4">longitude</a>);</div>
-<div class="line"><span class="lineno">  183</span>    UART_puts(Float_buffer); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  183</span>    <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(Float_buffer); <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  184</span> </div>
 <div class="line"><span class="lineno">  185</span>    sprintf(Float_buffer, <span class="stringliteral">&quot; Lat:%2.9f&quot;</span>,Node-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#aa61b46911a0379e3e3c673d4207b0719">latitude</a>);</div>
-<div class="line"><span class="lineno">  186</span>    UART_puts(Float_buffer); UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  186</span>    <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(Float_buffer); <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  187</span> </div>
 <div class="line"><span class="lineno">  188</span>    <a class="code hl_variable" href="#a634185e179fb7d88f2a1b14442975f12">WP_amount</a>++;</div>
 <div class="line"><span class="lineno">  189</span>    <span class="comment">// LCD_clear();</span></div>
 <div class="line"><span class="lineno">  190</span>    <span class="comment">// LCD_puts(&quot;New node created&quot;);</span></div>
 <div class="line"><span class="lineno">  191</span> </div>
-<div class="line"><span class="lineno">  192</span>    UART_puts(<span class="stringliteral">&quot;New node created succesfully&quot;</span>);</div>
-<div class="line"><span class="lineno">  193</span>    UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  192</span>    <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;New node created succesfully&quot;</span>);</div>
+<div class="line"><span class="lineno">  193</span>    <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  194</span> </div>
 <div class="line"><span class="lineno">  195</span>    <span class="keywordflow">return</span> 0;</div>
 <div class="line"><span class="lineno">  196</span>}</div>
@@ -328,13 +328,14 @@ Variables</h2></td></tr>
 <div class="ttc" id="aGPS__Route__Setter_8c_html_a8e0c53a74f9f823a22f79a7e767262f8"><div class="ttname"><a href="#a8e0c53a74f9f823a22f79a7e767262f8">pt_Route_Parser</a></div><div class="ttdeci">GNRMC * pt_Route_Parser</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8c_source.html#l00027">GPS_Route_Setter.c:27</a></div></div>
 <div class="ttc" id="aGPS__Route__Setter_8c_html_adb2c62dd349ccf9f8ec2614a64f90791"><div class="ttname"><a href="#adb2c62dd349ccf9f8ec2614a64f90791">pt_Route</a></div><div class="ttdeci">GPS_Route * pt_Route</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8c_source.html#l00031">GPS_Route_Setter.c:31</a></div></div>
 <div class="ttc" id="aGPS__Route__Setter_8h_html_abaf7f2a5f92fa80200324b7686faa66b"><div class="ttname"><a href="GPS__Route__Setter_8h.html#abaf7f2a5f92fa80200324b7686faa66b">GPS_Route</a></div><div class="ttdeci">struct _GPS_Route GPS_Route</div><div class="ttdoc">Struct voor het opslaan van GPS coördinaten in een linked list.</div></div>
-<div class="ttc" id="adGPS_8c_html_acb559820d9ca11295b4500f179ef6392"><div class="ttname"><a href="dGPS_8c.html#acb559820d9ca11295b4500f179ef6392">i</a></div><div class="ttdeci">int i</div><div class="ttdef"><b>Definition</b> <a href="dGPS_8c_source.html#l00026">dGPS.c:26</a></div></div>
 <div class="ttc" id="astruct__GPS__Route_html_a5caf46243f1649ed348c9d8f13723998"><div class="ttname"><a href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">_GPS_Route::Next_point</a></div><div class="ttdeci">struct _GPS_Route * Next_point</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8h_source.html#l00023">GPS_Route_Setter.h:23</a></div></div>
 <div class="ttc" id="astruct__GPS__Route_html_aa61b46911a0379e3e3c673d4207b0719"><div class="ttname"><a href="struct__GPS__Route.html#aa61b46911a0379e3e3c673d4207b0719">_GPS_Route::latitude</a></div><div class="ttdeci">double latitude</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8h_source.html#l00020">GPS_Route_Setter.h:20</a></div></div>
 <div class="ttc" id="astruct__GPS__Route_html_ade4f5167bbb15bf9bd35191bead79c72"><div class="ttname"><a href="struct__GPS__Route.html#ade4f5167bbb15bf9bd35191bead79c72">_GPS_Route::nodeNumber</a></div><div class="ttdeci">uint8_t nodeNumber</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8h_source.html#l00022">GPS_Route_Setter.h:22</a></div></div>
 <div class="ttc" id="astruct__GPS__Route_html_ae5a5dd3df2f2114e2cf0d287e6b38ef4"><div class="ttname"><a href="struct__GPS__Route.html#ae5a5dd3df2f2114e2cf0d287e6b38ef4">_GPS_Route::longitude</a></div><div class="ttdeci">double longitude</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8h_source.html#l00021">GPS_Route_Setter.h:21</a></div></div>
+<div class="ttc" id="auart_8c_html_a6299e801cd2b1d8e054c3aea21ce1900"><div class="ttname"><a href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a></div><div class="ttdeci">void UART_puts(const char *s)</div><div class="ttdef"><b>Definition</b> <a href="uart_8c_source.html#l00056">uart.c:56</a></div></div>
+<div class="ttc" id="auart_8c_html_ab68b2265165f1a355ff3dac4a726b37d"><div class="ttname"><a href="uart_8c.html#ab68b2265165f1a355ff3dac4a726b37d">UART_putint</a></div><div class="ttdeci">void UART_putint(unsigned int num)</div><div class="ttdef"><b>Definition</b> <a href="uart_8c_source.html#l00093">uart.c:93</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="GPS__Route__Setter_8c_source.html#l00047">convert_decimal_degrees()</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00026">GNRMC_localcopy3</a>, <a class="el" href="dGPS_8c_source.html#l00026">i</a>, <a class="el" href="GPS__Route__Setter_8h_source.html#l00020">_GPS_Route::latitude</a>, <a class="el" href="GPS__Route__Setter_8h_source.html#l00021">_GPS_Route::longitude</a>, <a class="el" href="GPS__Route__Setter_8h_source.html#l00023">_GPS_Route::Next_point</a>, <a class="el" href="GPS__Route__Setter_8h_source.html#l00022">_GPS_Route::nodeNumber</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00031">pt_Route</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00027">pt_Route_Parser</a>, and <a class="el" href="GPS__Route__Setter_8c_source.html#l00033">WP_amount</a>.</p>
+<p class="reference">References <a class="el" href="GPS__Route__Setter_8c_source.html#l00047">convert_decimal_degrees()</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00026">GNRMC_localcopy3</a>, <a class="el" href="GPS__Route__Setter_8h_source.html#l00020">_GPS_Route::latitude</a>, <a class="el" href="GPS__Route__Setter_8h_source.html#l00021">_GPS_Route::longitude</a>, <a class="el" href="GPS__Route__Setter_8h_source.html#l00023">_GPS_Route::Next_point</a>, <a class="el" href="GPS__Route__Setter_8h_source.html#l00022">_GPS_Route::nodeNumber</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00031">pt_Route</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00027">pt_Route_Parser</a>, <a class="el" href="uart_8c_source.html#l00093">UART_putint()</a>, <a class="el" href="uart_8c_source.html#l00056">UART_puts()</a>, and <a class="el" href="GPS__Route__Setter_8c_source.html#l00033">WP_amount</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="GPS__Route__Setter_8c_source.html#l00256">Route_Setter()</a>.</p>
 
@@ -369,7 +370,7 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  219</span> </div>
 <div class="line"><span class="lineno">  220</span>    <span class="keywordflow">if</span>(<a class="code hl_variable" href="#adb2c62dd349ccf9f8ec2614a64f90791">pt_Route</a> == NULL)</div>
 <div class="line"><span class="lineno">  221</span>    {   <span class="comment">// if the linked list is empty then return -1</span></div>
-<div class="line"><span class="lineno">  222</span>        UART_puts(<span class="stringliteral">&quot;Linked list is empty \r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  222</span>        <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;Linked list is empty \r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  223</span>        <span class="keywordflow">return</span> 0; <span class="comment">// error code maybe other nr</span></div>
 <div class="line"><span class="lineno">  224</span>    }</div>
 <div class="line"><span class="lineno">  225</span> </div>
@@ -377,7 +378,7 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  227</span>    { <span class="comment">// the last node of the linked list</span></div>
 <div class="line"><span class="lineno">  228</span>        free(<a class="code hl_variable" href="#adb2c62dd349ccf9f8ec2614a64f90791">pt_Route</a>); <span class="comment">// this frees the memory for the kernel to be used again</span></div>
 <div class="line"><span class="lineno">  229</span>        <a class="code hl_variable" href="#adb2c62dd349ccf9f8ec2614a64f90791">pt_Route</a> = NULL; <span class="comment">// the pointer will still point to the spot in memory so make it NULL so no exidental read write operation is done</span></div>
-<div class="line"><span class="lineno">  230</span>        UART_puts(<span class="stringliteral">&quot;Linked list is now cleared completly&quot;</span>);</div>
+<div class="line"><span class="lineno">  230</span>        <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;Linked list is now cleared completly&quot;</span>);</div>
 <div class="line"><span class="lineno">  231</span>        <span class="keywordflow">return</span> 1; <span class="comment">// returns 1 when the linked list is completly empty </span></div>
 <div class="line"><span class="lineno">  232</span>    }</div>
 <div class="line"><span class="lineno">  233</span> </div>
@@ -394,11 +395,11 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  244</span>    free(temp);</div>
 <div class="line"><span class="lineno">  245</span>    prev-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">Next_point</a> = NULL;</div>
 <div class="line"><span class="lineno">  246</span> </div>
-<div class="line"><span class="lineno">  247</span>    UART_puts(<span class="stringliteral">&quot;Removed last node&quot;</span>);</div>
+<div class="line"><span class="lineno">  247</span>    <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;Removed last node&quot;</span>);</div>
 <div class="line"><span class="lineno">  248</span>    <span class="keywordflow">return</span> 0;</div>
 <div class="line"><span class="lineno">  249</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="GPS__Route__Setter_8h_source.html#l00023">_GPS_Route::Next_point</a>, and <a class="el" href="GPS__Route__Setter_8c_source.html#l00031">pt_Route</a>.</p>
+<p class="reference">References <a class="el" href="GPS__Route__Setter_8h_source.html#l00023">_GPS_Route::Next_point</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00031">pt_Route</a>, and <a class="el" href="uart_8c_source.html#l00056">UART_puts()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="GPS__Route__Setter_8c_source.html#l00256">Route_Setter()</a>.</p>
 
@@ -426,7 +427,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="GPS__Route__Setter_8c_source.html#l00031">pt_Route</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="routeperformer_8c_source.html#l00123">check_structs()</a>, <a class="el" href="routeperformer_8c_source.html#l00346">Completed_waypoint()</a>, <a class="el" href="LOS__algo_8c_source.html#l00292">onGPSupdate()</a>, and <a class="el" href="LOS__algo_8c_source.html#l00339">startRoute()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LOS__algo_8c_source.html#l00292">onGPSupdate()</a>, and <a class="el" href="LOS__algo_8c_source.html#l00339">startRoute()</a>.</p>
 
 </div>
 </div>
@@ -457,7 +458,7 @@ Variables</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">  257</span>{</div>
 <div class="line"><span class="lineno">  258</span>    osDelay(200); <span class="comment">// wait a second to make sure everything is started</span></div>
 <div class="line"><span class="lineno">  259</span>    <span class="comment">// Print route setter started</span></div>
-<div class="line"><span class="lineno">  260</span>    UART_puts(<span class="stringliteral">&quot;Route Setter started \r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  260</span>    <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;Route Setter started \r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  261</span> </div>
 <div class="line"><span class="lineno">  262</span>    <span class="comment">//Create a key variable to store the key pressed by the user</span></div>
 <div class="line"><span class="lineno">  263</span>    uint32_t <a class="code hl_variable" href="PID__controller_8c.html#a668a437ea5e7a51173aee9f82f6747de">key</a>=0;</div>
@@ -470,40 +471,40 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  270</span>                <span class="comment">/* If receiving failed for some reason, skip this loop iteration */</span></div>
 <div class="line"><span class="lineno">  271</span>                <span class="keywordflow">continue</span>;</div>
 <div class="line"><span class="lineno">  272</span>            }</div>
-<div class="line"><span class="lineno">  273</span>            UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  273</span>            <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  274</span>        }</div>
 <div class="line"><span class="lineno">  275</span> </div>
 <div class="line"><span class="lineno">  276</span>        <span class="keywordflow">switch</span>(<a class="code hl_variable" href="PID__controller_8c.html#a668a437ea5e7a51173aee9f82f6747de">key</a>){</div>
 <div class="line"><span class="lineno">  277</span>        <span class="keywordflow">case</span> 0x01: <span class="comment">// key 1 pressed (upper left)</span></div>
 <div class="line"><span class="lineno">  278</span><span class="preprocessor">            #ifdef debug_routesetter</span></div>
-<div class="line"><span class="lineno">  279</span>                UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
-<div class="line"><span class="lineno">  280</span>                UART_puts(<span class="stringliteral">&quot;Trying to set a waypoint...&quot;</span>);</div>
-<div class="line"><span class="lineno">  281</span>                UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  279</span>                <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  280</span>                <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;Trying to set a waypoint...&quot;</span>);</div>
+<div class="line"><span class="lineno">  281</span>                <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  282</span><span class="preprocessor">            #endif</span></div>
 <div class="line"><span class="lineno">  283</span>            <a class="code hl_function" href="gps_8c.html#ad1ebb3252081d2411aefcb941109edd1">getlatest_GNRMC</a>(&amp;<a class="code hl_variable" href="#a5995b958899bd405b88701c42271afac">GNRMC_localcopy3</a>);</div>
 <div class="line"><span class="lineno">  284</span>            <a class="code hl_function" href="#a323587e3d46e386b76cfa39b2b084bf2">GPS_Route_Maker</a>(); <span class="comment">// Creates a node for a linked list everytime the ARM key is pressed</span></div>
 <div class="line"><span class="lineno">  285</span>            <span class="keywordflow">break</span>;</div>
 <div class="line"><span class="lineno">  286</span> </div>
 <div class="line"><span class="lineno">  287</span>        <span class="keywordflow">case</span> 0x02: <span class="comment">// remove last node </span></div>
-<div class="line"><span class="lineno">  288</span>            UART_puts(<span class="stringliteral">&quot;Removing last node...&quot;</span>);</div>
+<div class="line"><span class="lineno">  288</span>            <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;Removing last node...&quot;</span>);</div>
 <div class="line"><span class="lineno">  289</span>            <a class="code hl_function" href="#a5fc3c361c4b1112cc8b8007ed3daabf4">Remove_Last_Node</a>();</div>
 <div class="line"><span class="lineno">  290</span>            <span class="keywordflow">break</span>;</div>
 <div class="line"><span class="lineno">  291</span> </div>
 <div class="line"><span class="lineno">  292</span>        <span class="keywordflow">case</span> 0x03: <span class="comment">// remove all nodes </span></div>
-<div class="line"><span class="lineno">  293</span>            UART_puts(<span class="stringliteral">&quot;Removing all nodes...&quot;</span>);</div>
+<div class="line"><span class="lineno">  293</span>            <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;Removing all nodes...&quot;</span>);</div>
 <div class="line"><span class="lineno">  294</span>            <span class="keywordflow">while</span>(<a class="code hl_function" href="#a5fc3c361c4b1112cc8b8007ed3daabf4">Remove_Last_Node</a>() != 0);</div>
 <div class="line"><span class="lineno">  295</span>            <a class="code hl_variable" href="#a634185e179fb7d88f2a1b14442975f12">WP_amount</a> = 0;</div>
 <div class="line"><span class="lineno">  296</span>            <span class="keywordflow">break</span>;</div>
 <div class="line"><span class="lineno">  297</span> </div>
 <div class="line"><span class="lineno">  298</span>        <span class="keywordflow">case</span> 0x04:</div>
-<div class="line"><span class="lineno">  299</span>        UART_puts(<span class="stringliteral">&quot;Viewing all items in linked list...&quot;</span>);</div>
+<div class="line"><span class="lineno">  299</span>        <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;Viewing all items in linked list...&quot;</span>);</div>
 <div class="line"><span class="lineno">  300</span>            <a class="code hl_function" href="#ab09e5838f14003e9f53aaf2c7d1d2445">View_Linkedlist</a>();</div>
 <div class="line"><span class="lineno">  301</span>            <span class="keywordflow">break</span>; </div>
 <div class="line"><span class="lineno">  302</span> </div>
 <div class="line"><span class="lineno">  303</span>        <span class="keywordflow">default</span>: <span class="comment">// incease a unassigned key is pressed</span></div>
-<div class="line"><span class="lineno">  304</span>            UART_puts(<span class="stringliteral">&quot;Current key: &quot;</span>); UART_putint(<a class="code hl_variable" href="PID__controller_8c.html#a668a437ea5e7a51173aee9f82f6747de">key</a>);</div>
-<div class="line"><span class="lineno">  305</span>            UART_puts(<span class="stringliteral">&quot; is not in use by GPS_Route_Setter.c&quot;</span>);</div>
-<div class="line"><span class="lineno">  306</span>            UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  304</span>            <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;Current key: &quot;</span>); <a class="code hl_function" href="uart_8c.html#ab68b2265165f1a355ff3dac4a726b37d">UART_putint</a>(<a class="code hl_variable" href="PID__controller_8c.html#a668a437ea5e7a51173aee9f82f6747de">key</a>);</div>
+<div class="line"><span class="lineno">  305</span>            <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot; is not in use by GPS_Route_Setter.c&quot;</span>);</div>
+<div class="line"><span class="lineno">  306</span>            <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  307</span>            <span class="keywordflow">break</span>;</div>
 <div class="line"><span class="lineno">  308</span>        }</div>
 <div class="line"><span class="lineno">  309</span>        osDelay(1);</div>
@@ -512,12 +513,12 @@ Variables</h2></td></tr>
 <div class="ttc" id="aGPS__Route__Setter_8c_html_a323587e3d46e386b76cfa39b2b084bf2"><div class="ttname"><a href="#a323587e3d46e386b76cfa39b2b084bf2">GPS_Route_Maker</a></div><div class="ttdeci">uint8_t GPS_Route_Maker()</div><div class="ttdoc">creates a node for the linked list containing coordinates in Long, Lapt_Route_Parser which are pulled...</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8c_source.html#l00108">GPS_Route_Setter.c:108</a></div></div>
 <div class="ttc" id="aGPS__Route__Setter_8c_html_a5fc3c361c4b1112cc8b8007ed3daabf4"><div class="ttname"><a href="#a5fc3c361c4b1112cc8b8007ed3daabf4">Remove_Last_Node</a></div><div class="ttdeci">uint8_t Remove_Last_Node()</div><div class="ttdoc">Removes the last node from the linked list if the linked list is.</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8c_source.html#l00217">GPS_Route_Setter.c:217</a></div></div>
 <div class="ttc" id="aGPS__Route__Setter_8c_html_ab09e5838f14003e9f53aaf2c7d1d2445"><div class="ttname"><a href="#ab09e5838f14003e9f53aaf2c7d1d2445">View_Linkedlist</a></div><div class="ttdeci">void View_Linkedlist()</div><div class="ttdoc">Views all nodes in the linked list and prints them using UART.</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8c_source.html#l00070">GPS_Route_Setter.c:70</a></div></div>
-<div class="ttc" id="aPID__controller_8c_html_a668a437ea5e7a51173aee9f82f6747de"><div class="ttname"><a href="PID__controller_8c.html#a668a437ea5e7a51173aee9f82f6747de">key</a></div><div class="ttdeci">unsigned int key</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00065">PID_controller.c:65</a></div></div>
-<div class="ttc" id="aadmin_8c_html_a7249f0b1360436af9e4f796769dc43a2"><div class="ttname"><a href="admin_8c.html#a7249f0b1360436af9e4f796769dc43a2">hKeyRS_Queue</a></div><div class="ttdeci">QueueHandle_t hKeyRS_Queue</div><div class="ttdoc">handle voor ARM-keys to route setter queue (non-blocking delivery of key values)</div><div class="ttdef"><b>Definition</b> <a href="admin_8c_source.html#l00051">admin.c:51</a></div></div>
+<div class="ttc" id="aPID__controller_8c_html_a668a437ea5e7a51173aee9f82f6747de"><div class="ttname"><a href="PID__controller_8c.html#a668a437ea5e7a51173aee9f82f6747de">key</a></div><div class="ttdeci">unsigned int key</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00063">PID_controller.c:63</a></div></div>
+<div class="ttc" id="aadmin_8c_html_a7249f0b1360436af9e4f796769dc43a2"><div class="ttname"><a href="admin_8c.html#a7249f0b1360436af9e4f796769dc43a2">hKeyRS_Queue</a></div><div class="ttdeci">QueueHandle_t hKeyRS_Queue</div><div class="ttdoc">handle voor ARM-keys to route setter queue (non-blocking delivery of key values)</div><div class="ttdef"><b>Definition</b> <a href="admin_8c_source.html#l00049">admin.c:49</a></div></div>
 <div class="ttc" id="aadmin_8h_html_aa8cecfc5c5c054d2875c03e77b7be15d"><div class="ttname"><a href="admin_8h.html#aa8cecfc5c5c054d2875c03e77b7be15d">TRUE</a></div><div class="ttdeci">#define TRUE</div><div class="ttdef"><b>Definition</b> <a href="admin_8h_source.html#l00025">admin.h:25</a></div></div>
-<div class="ttc" id="agps_8c_html_ad1ebb3252081d2411aefcb941109edd1"><div class="ttname"><a href="gps_8c.html#ad1ebb3252081d2411aefcb941109edd1">getlatest_GNRMC</a></div><div class="ttdeci">void getlatest_GNRMC(GNRMC *dest)</div><div class="ttdoc">Function that gets a pointer to the latest complete GNRMC data.</div><div class="ttdef"><b>Definition</b> <a href="gps_8c_source.html#l00076">gps.c:76</a></div></div>
+<div class="ttc" id="agps_8c_html_ad1ebb3252081d2411aefcb941109edd1"><div class="ttname"><a href="gps_8c.html#ad1ebb3252081d2411aefcb941109edd1">getlatest_GNRMC</a></div><div class="ttdeci">void getlatest_GNRMC(GNRMC *dest)</div><div class="ttdoc">Function that gets a pointer to the latest complete GNRMC data.</div><div class="ttdef"><b>Definition</b> <a href="gps_8c_source.html#l00042">gps.c:42</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="gps_8c_source.html#l00076">getlatest_GNRMC()</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00026">GNRMC_localcopy3</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00108">GPS_Route_Maker()</a>, <a class="el" href="admin_8c_source.html#l00051">hKeyRS_Queue</a>, <a class="el" href="PID__controller_8c_source.html#l00065">key</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00217">Remove_Last_Node()</a>, <a class="el" href="admin_8h_source.html#l00025">TRUE</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00070">View_Linkedlist()</a>, and <a class="el" href="GPS__Route__Setter_8c_source.html#l00033">WP_amount</a>.</p>
+<p class="reference">References <a class="el" href="gps_8c_source.html#l00042">getlatest_GNRMC()</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00026">GNRMC_localcopy3</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00108">GPS_Route_Maker()</a>, <a class="el" href="admin_8c_source.html#l00049">hKeyRS_Queue</a>, <a class="el" href="PID__controller_8c_source.html#l00063">key</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00217">Remove_Last_Node()</a>, <a class="el" href="admin_8h_source.html#l00025">TRUE</a>, <a class="el" href="uart_8c_source.html#l00093">UART_putint()</a>, <a class="el" href="uart_8c_source.html#l00056">UART_puts()</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00070">View_Linkedlist()</a>, and <a class="el" href="GPS__Route__Setter_8c_source.html#l00033">WP_amount</a>.</p>
 
 </div>
 </div>
@@ -543,7 +544,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="GPS__Route__Setter_8c_source.html#l00033">WP_amount</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="TFT_8c_source.html#l00079">updateWPdisplay()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="TFT_8c_source.html#l00078">updateWPdisplay()</a>.</p>
 
 </div>
 </div>
@@ -575,7 +576,7 @@ Variables</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   71</span>{</div>
 <div class="line"><span class="lineno">   72</span>    <span class="keywordflow">if</span>(<a class="code hl_variable" href="#adb2c62dd349ccf9f8ec2614a64f90791">pt_Route</a> == NULL)</div>
 <div class="line"><span class="lineno">   73</span>        {   <span class="comment">// if the linked list is empty then return</span></div>
-<div class="line"><span class="lineno">   74</span>            UART_puts(<span class="stringliteral">&quot;Linked list is empty \r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">   74</span>            <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;Linked list is empty \r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">   75</span>            <span class="keywordflow">return</span>; </div>
 <div class="line"><span class="lineno">   76</span>        }</div>
 <div class="line"><span class="lineno">   77</span> </div>
@@ -584,23 +585,23 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">   80</span>    <span class="keywordflow">if</span>(temp-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">Next_point</a> == NULL)</div>
 <div class="line"><span class="lineno">   81</span>    {</div>
 <div class="line"><span class="lineno">   82</span>        sprintf(buffer,<span class="stringliteral">&quot;Long:%2.9f\n Lat:%2.9f &quot;</span>, temp-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ae5a5dd3df2f2114e2cf0d287e6b38ef4">longitude</a>, temp-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#aa61b46911a0379e3e3c673d4207b0719">latitude</a>);</div>
-<div class="line"><span class="lineno">   83</span>        UART_puts(buffer);</div>
-<div class="line"><span class="lineno">   84</span>        UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">   83</span>        <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(buffer);</div>
+<div class="line"><span class="lineno">   84</span>        <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">   85</span>        <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">   86</span>    }</div>
 <div class="line"><span class="lineno">   87</span> </div>
 <div class="line"><span class="lineno">   88</span>    <span class="keywordflow">while</span>(temp!= NULL) <span class="comment">// go through and print all nodes while there is a node</span></div>
 <div class="line"><span class="lineno">   89</span>    {</div>
 <div class="line"><span class="lineno">   90</span>        sprintf(buffer,<span class="stringliteral">&quot;Long:%2.9f\n Lat:%2.9f &quot;</span>, temp-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#ae5a5dd3df2f2114e2cf0d287e6b38ef4">longitude</a>, temp-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#aa61b46911a0379e3e3c673d4207b0719">latitude</a>);</div>
-<div class="line"><span class="lineno">   91</span>        UART_puts(buffer);</div>
-<div class="line"><span class="lineno">   92</span>        UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">   91</span>        <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(buffer);</div>
+<div class="line"><span class="lineno">   92</span>        <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">   93</span>        temp=temp-&gt;<a class="code hl_variable" href="struct__GPS__Route.html#a5caf46243f1649ed348c9d8f13723998">Next_point</a>;</div>
 <div class="line"><span class="lineno">   94</span>    }</div>
 <div class="line"><span class="lineno">   95</span> </div>
 <div class="line"><span class="lineno">   96</span>    <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">   97</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="GPS__Route__Setter_8h_source.html#l00020">_GPS_Route::latitude</a>, <a class="el" href="GPS__Route__Setter_8h_source.html#l00021">_GPS_Route::longitude</a>, <a class="el" href="GPS__Route__Setter_8h_source.html#l00023">_GPS_Route::Next_point</a>, and <a class="el" href="GPS__Route__Setter_8c_source.html#l00031">pt_Route</a>.</p>
+<p class="reference">References <a class="el" href="GPS__Route__Setter_8h_source.html#l00020">_GPS_Route::latitude</a>, <a class="el" href="GPS__Route__Setter_8h_source.html#l00021">_GPS_Route::longitude</a>, <a class="el" href="GPS__Route__Setter_8h_source.html#l00023">_GPS_Route::Next_point</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00031">pt_Route</a>, and <a class="el" href="uart_8c_source.html#l00056">UART_puts()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="GPS__Route__Setter_8c_source.html#l00256">Route_Setter()</a>.</p>
 

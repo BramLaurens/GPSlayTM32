@@ -264,7 +264,7 @@ Definition at line \mbox{\hyperlink{main_8c_source_l00779}{779}} of file \mbox{\
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{admin_8c_source_l00053}{h\+GPS\+\_\+\+Queue}}, \mbox{\hyperlink{main_8c_source_l00062}{huart2}}, \mbox{\hyperlink{main_8c_source_l00061}{huart4}}, \mbox{\hyperlink{admin_8c_source_l00052}{h\+UART\+\_\+\+Queue}}, \mbox{\hyperlink{main_8c_source_l00073}{uart2\+\_\+char}}, and \mbox{\hyperlink{main_8c_source_l00073}{uart4\+\_\+char}}.
+References \mbox{\hyperlink{admin_8c_source_l00051}{h\+GPS\+\_\+\+Queue}}, \mbox{\hyperlink{main_8c_source_l00062}{huart2}}, \mbox{\hyperlink{main_8c_source_l00061}{huart4}}, \mbox{\hyperlink{admin_8c_source_l00050}{h\+UART\+\_\+\+Queue}}, \mbox{\hyperlink{main_8c_source_l00073}{uart2\+\_\+char}}, and \mbox{\hyperlink{main_8c_source_l00073}{uart4\+\_\+char}}.
 
 \Hypertarget{main_8c_af2913661f7ff5b025f0710a6d61712e0}\index{main.c@{main.c}!I2C\_ScanBus@{I2C\_ScanBus}}
 \index{I2C\_ScanBus@{I2C\_ScanBus}!main.c@{main.c}}
@@ -283,12 +283,16 @@ Definition at line \mbox{\hyperlink{main_8c_source_l00098}{98}} of file \mbox{\h
 \DoxyCodeLine{00100\ \ \ \ \ \textcolor{keywordflow}{for}\ (uint8\_t\ addr\ =\ 1;\ addr\ <\ 128;\ addr++)\ \{}
 \DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (HAL\_I2C\_IsDeviceReady(hi2c,\ addr\ <<\ 1,\ 1,\ 10)\ ==\ HAL\_OK)\ \{}
 \DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ sprintf(msg,\ \textcolor{stringliteral}{"{}Found\ device\ at\ 0x\%02X\(\backslash\)r\(\backslash\)n"{}},\ addr);}
-\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(msg);}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(msg);}
 \DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00105\ \ \ \ \ \}}
 \DoxyCodeLine{00106\ \}}
 
 \end{DoxyCode}
+
+
+References \mbox{\hyperlink{uart_8c_source_l00056}{UART\+\_\+puts()}}.
+
 
 
 Referenced by \mbox{\hyperlink{main_8c_source_l00114}{main()}}.
@@ -355,14 +359,14 @@ Definition at line \mbox{\hyperlink{main_8c_source_l00114}{114}} of file \mbox{\
 \DoxyCodeLine{00153\ \ \ \ \ \mbox{\hyperlink{main_8c_a1730ffe1e560465665eb47d9264826f9}{Error\_Handler}}();}
 \DoxyCodeLine{00154\ \ \ \}}
 \DoxyCodeLine{00155\ }
-\DoxyCodeLine{00156\ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)r\(\backslash\)n\(\backslash\)r\(\backslash\)n\ I2C\ Bus\ scan:\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00156\ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)r\(\backslash\)n\(\backslash\)r\(\backslash\)n\ I2C\ Bus\ scan:\(\backslash\)r\(\backslash\)n"{}});}
 \DoxyCodeLine{00157\ \ \ \mbox{\hyperlink{main_8c_af2913661f7ff5b025f0710a6d61712e0}{I2C\_ScanBus}}(\&\mbox{\hyperlink{main_8c_a5ccf4a01a8d7f08d3190181f843f7515}{hi2c3}});}
-\DoxyCodeLine{00158\ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)r\(\backslash\)n\(\backslash\)r\(\backslash\)n\ Starting\ up...\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00158\ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)r\(\backslash\)n\(\backslash\)r\(\backslash\)n\ Starting\ up...\(\backslash\)r\(\backslash\)n"{}});}
 \DoxyCodeLine{00159\ }
 \DoxyCodeLine{00160\ \ \ \textcolor{comment}{//\ LCD\_init();}}
-\DoxyCodeLine{00161\ \ \ KEYS\_init();}
-\DoxyCodeLine{00162\ \ \ KEYS\_initISR(1);\ \textcolor{comment}{//\ set\ all\ lines\ high\ once}}
-\DoxyCodeLine{00163\ \ \ LED\_init();}
+\DoxyCodeLine{00161\ \ \ \mbox{\hyperlink{keys_8c_a3b8c0d86406508ab75d7301def4e83d1}{KEYS\_init}}();}
+\DoxyCodeLine{00162\ \ \ \mbox{\hyperlink{keys_8c_a8194a032dc1e3ff80ce3892682d14bd8}{KEYS\_initISR}}(1);\ \textcolor{comment}{//\ set\ all\ lines\ high\ once}}
+\DoxyCodeLine{00163\ \ \ \mbox{\hyperlink{leds_8c_a50cf228fce8563fc202330b7b4816cb9}{LED\_init}}();}
 \DoxyCodeLine{00164\ }
 \DoxyCodeLine{00165\ \ \ \mbox{\hyperlink{admin_8c_a9dec45875121142b6466b9475691b40a}{DisplayVersion}}();}
 \DoxyCodeLine{00166\ \ \ osDelay(500);\ \textcolor{comment}{//\ time\ to\ read\ version}}
@@ -419,7 +423,7 @@ Definition at line \mbox{\hyperlink{main_8c_source_l00114}{114}} of file \mbox{\
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{main_8c_source_l00066}{default\+Task\+\_\+attributes}}, \mbox{\hyperlink{main_8c_source_l00065}{default\+Task\+Handle}}, \mbox{\hyperlink{admin_8c_source_l00161}{Display\+Version()}}, \mbox{\hyperlink{main_8c_source_l00871}{Error\+\_\+\+Handler()}}, \mbox{\hyperlink{main_8c_source_l00052}{hi2c3}}, \mbox{\hyperlink{main_8c_source_l00057}{htim8}}, \mbox{\hyperlink{main_8c_source_l00098}{I2\+C\+\_\+\+Scan\+Bus()}}, \mbox{\hyperlink{main_8c_source_l00588}{MX\+\_\+\+GPIO\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00267}{MX\+\_\+\+I2\+C3\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00301}{MX\+\_\+\+SPI1\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00476}{MX\+\_\+\+TIM12\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00339}{MX\+\_\+\+TIM4\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00392}{MX\+\_\+\+TIM8\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00438}{MX\+\_\+\+TIM9\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00522}{MX\+\_\+\+UART4\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00555}{MX\+\_\+\+USART2\+\_\+\+UART\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00820}{Start\+Default\+Task()}}, and \mbox{\hyperlink{main_8c_source_l00221}{System\+Clock\+\_\+\+Config()}}.
+References \mbox{\hyperlink{main_8c_source_l00066}{default\+Task\+\_\+attributes}}, \mbox{\hyperlink{main_8c_source_l00065}{default\+Task\+Handle}}, \mbox{\hyperlink{admin_8c_source_l00151}{Display\+Version()}}, \mbox{\hyperlink{main_8c_source_l00871}{Error\+\_\+\+Handler()}}, \mbox{\hyperlink{main_8c_source_l00052}{hi2c3}}, \mbox{\hyperlink{main_8c_source_l00057}{htim8}}, \mbox{\hyperlink{main_8c_source_l00098}{I2\+C\+\_\+\+Scan\+Bus()}}, \mbox{\hyperlink{keys_8c_source_l00033}{KEYS\+\_\+init()}}, \mbox{\hyperlink{keys_8c_source_l00055}{KEYS\+\_\+init\+ISR()}}, \mbox{\hyperlink{leds_8c_source_l00025}{LED\+\_\+init()}}, \mbox{\hyperlink{main_8c_source_l00588}{MX\+\_\+\+GPIO\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00267}{MX\+\_\+\+I2\+C3\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00301}{MX\+\_\+\+SPI1\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00476}{MX\+\_\+\+TIM12\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00339}{MX\+\_\+\+TIM4\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00392}{MX\+\_\+\+TIM8\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00438}{MX\+\_\+\+TIM9\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00522}{MX\+\_\+\+UART4\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00555}{MX\+\_\+\+USART2\+\_\+\+UART\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00820}{Start\+Default\+Task()}}, \mbox{\hyperlink{main_8c_source_l00221}{System\+Clock\+\_\+\+Config()}}, and \mbox{\hyperlink{uart_8c_source_l00056}{UART\+\_\+puts()}}.
 
 \Hypertarget{main_8c_ae89fdd15729ad41a66911190fcbab23a}\index{main.c@{main.c}!MX\_GPIO\_Init@{MX\_GPIO\_Init}}
 \index{MX\_GPIO\_Init@{MX\_GPIO\_Init}!main.c@{main.c}}
@@ -1238,7 +1242,7 @@ Definition at line \mbox{\hyperlink{main_8c_source_l00820}{820}} of file \mbox{\
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{admin_8c_source_l00255}{Create\+Handles()}}, \mbox{\hyperlink{admin_8c_source_l00347}{Create\+Tasks()}}, \mbox{\hyperlink{main_8c_source_l00065}{default\+Task\+Handle}}, \mbox{\hyperlink{main_8c_source_l00062}{huart2}}, \mbox{\hyperlink{main_8c_source_l00061}{huart4}}, \mbox{\hyperlink{main_8c_source_l00073}{uart2\+\_\+char}}, and \mbox{\hyperlink{main_8c_source_l00073}{uart4\+\_\+char}}.
+References \mbox{\hyperlink{admin_8c_source_l00245}{Create\+Handles()}}, \mbox{\hyperlink{admin_8c_source_l00337}{Create\+Tasks()}}, \mbox{\hyperlink{main_8c_source_l00065}{default\+Task\+Handle}}, \mbox{\hyperlink{main_8c_source_l00062}{huart2}}, \mbox{\hyperlink{main_8c_source_l00061}{huart4}}, \mbox{\hyperlink{main_8c_source_l00073}{uart2\+\_\+char}}, and \mbox{\hyperlink{main_8c_source_l00073}{uart4\+\_\+char}}.
 
 
 
@@ -1374,7 +1378,7 @@ Definition at line \mbox{\hyperlink{main_8c_source_l00052}{52}} of file \mbox{\h
 
 
 
-Referenced by \mbox{\hyperlink{compass__driver_8c_source_l00322}{Compass\+\_\+\+Heading()}}, \mbox{\hyperlink{compass__driver_8c_source_l00312}{LSM303\+AGR\+\_\+\+CFG\+\_\+\+Read()}}, \mbox{\hyperlink{compass__driver_8c_source_l00216}{LSM303\+M\+\_\+\+Raw\+Angle()}}, \mbox{\hyperlink{main_8c_source_l00114}{main()}}, and \mbox{\hyperlink{main_8c_source_l00267}{MX\+\_\+\+I2\+C3\+\_\+\+Init()}}.
+Referenced by \mbox{\hyperlink{compass__driver_8c_source_l00321}{Compass\+\_\+\+Heading()}}, \mbox{\hyperlink{compass__driver_8c_source_l00311}{LSM303\+AGR\+\_\+\+CFG\+\_\+\+Read()}}, \mbox{\hyperlink{compass__driver_8c_source_l00216}{LSM303\+M\+\_\+\+Raw\+Angle()}}, \mbox{\hyperlink{main_8c_source_l00114}{main()}}, and \mbox{\hyperlink{main_8c_source_l00267}{MX\+\_\+\+I2\+C3\+\_\+\+Init()}}.
 
 \Hypertarget{main_8c_a9c6222bae4d0328dd843ae099623b40b}\index{main.c@{main.c}!hspi1@{hspi1}}
 \index{hspi1@{hspi1}!main.c@{main.c}}
@@ -1458,7 +1462,7 @@ Definition at line \mbox{\hyperlink{main_8c_source_l00062}{62}} of file \mbox{\h
 
 
 
-Referenced by \mbox{\hyperlink{main_8c_source_l00779}{HAL\+\_\+\+UART\+\_\+\+Rx\+Cplt\+Callback()}}, \mbox{\hyperlink{main_8c_source_l00555}{MX\+\_\+\+USART2\+\_\+\+UART\+\_\+\+Init()}}, and \mbox{\hyperlink{main_8c_source_l00820}{Start\+Default\+Task()}}.
+Referenced by \mbox{\hyperlink{main_8c_source_l00779}{HAL\+\_\+\+UART\+\_\+\+Rx\+Cplt\+Callback()}}, \mbox{\hyperlink{main_8c_source_l00555}{MX\+\_\+\+USART2\+\_\+\+UART\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00820}{Start\+Default\+Task()}}, \mbox{\hyperlink{uart_8c_source_l00138}{UART\+\_\+get()}}, and \mbox{\hyperlink{uart_8c_source_l00051}{UART\+\_\+putchar()}}.
 
 \Hypertarget{main_8c_ae273feb3e0dc44e38892650faa58fced}\index{main.c@{main.c}!huart4@{huart4}}
 \index{huart4@{huart4}!main.c@{main.c}}

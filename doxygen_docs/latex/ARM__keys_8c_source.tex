@@ -22,7 +22,7 @@
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00038}00038\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}};}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00039}00039\ \ \ \ \ osThreadId\_t\ hTask;}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00040}00040\ }
-\DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00041}00041\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});\ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}\ started"{}});}
+\DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00041}00041\ \ \ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});\ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}\ started"{}});}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00042}00042\ }
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00043}00043\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(hTask\ =\ xTaskGetHandle(\textcolor{stringliteral}{"{}ARM\_keys\_task"{}})))}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00044}00044\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Err:ARM\_hndle"{}});}
@@ -41,7 +41,7 @@
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00064}\mbox{\hyperlink{admin_8h_af21164a48742d972455d2ce8c6317262}{00064}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ARM__keys_8c_a877687ff1bd562c855d11d4941cd966d}{ARM\_keys\_task}}\ (\textcolor{keywordtype}{void}\ *argument)}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00065}00065\ \{}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00066}00066\ \ \ \ \ uint32\_t\ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}};}
-\DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00067}00067\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}},\ led;}
+\DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00067}00067\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ i,\ led;}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00068}00068\ }
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00069}00069\ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00070}00070\ \ \ \ \ \{}
@@ -53,15 +53,15 @@
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00076}00076\ }
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00077}00077\ \ \ \ \ \ \ \ \ xSemaphoreTake(\mbox{\hyperlink{admin_8c_a011b1349f4d8c02977b852c7587f0581}{hLED\_Sem}},\ portMAX\_DELAY);\ \textcolor{comment}{//\ krijg\ toegang\ (mutex)\ tot\ leds}}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00078}00078\ }
-\DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00079}00079\ \ \ \ \ \ \ \ \ LED\_put((\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char})\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}});\ \textcolor{comment}{//\ set\ 8\ leds-\/byte\ to\ key-\/value}}
-\DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00080}00080\ \ \ \ \ \ \ \ \ BUZZER\_put\ (500);}
+\DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00079}00079\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{leds_8c_a8b0b7dd4a4e48361491c01594342adb0}{LED\_put}}((\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char})\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}});\ \textcolor{comment}{//\ set\ 8\ leds-\/byte\ to\ key-\/value}}
+\DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00080}00080\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{buzzer_8c_adeb2661c8548976c1aa29e21f0659b84}{BUZZER\_put}}\ (500);}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00081}00081\ \ \ \ \ \ \ \ \ osDelay(500);}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00082}00082\ }
-\DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00083}00083\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)tARM\_key\ pressed\ to\ leds:\ "{}});\ UART\_putint(\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}});}
+\DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00083}00083\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)tARM\_key\ pressed\ to\ leds:\ "{}});\ \mbox{\hyperlink{uart_8c_ab68b2265165f1a355ff3dac4a726b37d}{UART\_putint}}(\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}});}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00084}00084\ }
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00085}00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_ae2de7e45f2168abc45779a2d5dce35e2}{ARMKEYS\_DEBUG\_OUT}})}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00086}00086\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)tARM\_key\ pressed\ to\ leds:\ "{}});\ UART\_putint(\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}});}
+\DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)tARM\_key\ pressed\ to\ leds:\ "{}});\ \mbox{\hyperlink{uart_8c_ab68b2265165f1a355ff3dac4a726b37d}{UART\_putint}}(\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}});}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00088}00088\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00089}00089\ }
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00090}00090\ \ \ \ \ \ \ \ \ xSemaphoreGive(\mbox{\hyperlink{admin_8c_a011b1349f4d8c02977b852c7587f0581}{hLED\_Sem}});\ \textcolor{comment}{//\ geef\ toegang\ (mutex)\ vrij}}
@@ -69,9 +69,9 @@
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00092}00092\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ tot\ slot,\ laat\ de\ gekleurde\ ledjes\ meedoen}}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00093}00093\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ maar\ niet\ blauw,\ want\ die\ is\ ingezet\ voor\ de\ timer}}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00094}00094\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ kijk\ naar\ de\ manier\ waarop\ de\ if-\/elses\ er\ uitzien}}
-\DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00095}00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}=0;\ \mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}<3;\ \mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}++)}
+\DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00095}00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (i=0;\ i<3;\ i++)}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00096}00096\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ led\ =\ (\mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}==0\ ?\ \mbox{\hyperlink{admin_8h_a4a865d371e7fdede347031acef7248a1}{LEDRED}}\ :\ (\mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}==1\ ?\ \mbox{\hyperlink{admin_8h_a997de867fda1d8d8774cda7ef97c6f9d}{LEDORANGE}}\ :\ \mbox{\hyperlink{admin_8h_a5cd9ee80876b12602eb666a07b9cfe50}{LEDGREEN}}));}
+\DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ led\ =\ (i==0\ ?\ \mbox{\hyperlink{admin_8h_a4a865d371e7fdede347031acef7248a1}{LEDRED}}\ :\ (i==1\ ?\ \mbox{\hyperlink{admin_8h_a997de867fda1d8d8774cda7ef97c6f9d}{LEDORANGE}}\ :\ \mbox{\hyperlink{admin_8h_a5cd9ee80876b12602eb666a07b9cfe50}{LEDGREEN}}));}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ARM__keys_8c_a1fd0008123c48c14439411716629af5a}{toggle\_led}}(led);}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00099}00099\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00100}00100\ }
@@ -98,11 +98,11 @@
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Send\ key\ to\ the\ PID\ controller\ queue}}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00122}00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_ac28b18f5722e9b7bbd153fef9cd4ca11}{hKeyPID\_Queue}})}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00123}00123\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\ Sending\ key\ to\ PID\_Controller\ queue:\ "{}});\ UART\_putint(\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}});\ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\ Sending\ key\ to\ PID\_Controller\ queue:\ "{}});\ \mbox{\hyperlink{uart_8c_ab68b2265165f1a355ff3dac4a726b37d}{UART\_putint}}(\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}});\ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ try\ to\ send\ without\ blocking;\ if\ queue\ is\ full,\ drop\ the\ key}}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (xQueueSend(\mbox{\hyperlink{admin_8c_ac28b18f5722e9b7bbd153fef9cd4ca11}{hKeyPID\_Queue}},\ \&\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}},\ 0)\ !=\ pdTRUE)}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Err:\ PID\ key\ Q\ full\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}Err:\ PID\ key\ Q\ full\(\backslash\)r\(\backslash\)n"{}});}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00130}00130\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{ARM__keys_8c_source_l00131}00131\ }

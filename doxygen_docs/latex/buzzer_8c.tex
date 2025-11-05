@@ -1,0 +1,116 @@
+\doxysection{Core/\+My\+App/\+Ports/buzzer.c File Reference}
+\hypertarget{buzzer_8c}{}\label{buzzer_8c}\index{Core/MyApp/Ports/buzzer.c@{Core/MyApp/Ports/buzzer.c}}
+{\ttfamily \#include "{}main.\+h"{}}\newline
+{\ttfamily \#include "{}buzzer.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{buzzer_8c_a68f6dbcd53b3d88aaa925588daba83d8}{BUZZER\+\_\+init}} (void)
+\item 
+void \mbox{\hyperlink{buzzer_8c_adeb2661c8548976c1aa29e21f0659b84}{BUZZER\+\_\+put}} (unsigned int time)
+\item 
+void \mbox{\hyperlink{buzzer_8c_a55881d4bd9fb75053e7492926231e4e7}{Buzzer\+\_\+put}} (unsigned int counter)
+\item 
+void \mbox{\hyperlink{buzzer_8c_a82a371564cc7ac165373e86a862fcd69}{BUZZER\+\_\+set}} (int counter)
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{buzzer_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{buzzer_8c_a68f6dbcd53b3d88aaa925588daba83d8}\index{buzzer.c@{buzzer.c}!BUZZER\_init@{BUZZER\_init}}
+\index{BUZZER\_init@{BUZZER\_init}!buzzer.c@{buzzer.c}}
+\doxysubsubsection{\texorpdfstring{BUZZER\_init()}{BUZZER\_init()}}
+{\footnotesize\ttfamily \label{buzzer_8c_a68f6dbcd53b3d88aaa925588daba83d8} 
+void BUZZER\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{buzzer_8c_source_l00019}{19}} of file \mbox{\hyperlink{buzzer_8c_source}{buzzer.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00020\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ kept\ in\ place\ for\ downward\ compatibility}}
+\DoxyCodeLine{00022\ \}}
+
+\end{DoxyCode}
+\Hypertarget{buzzer_8c_adeb2661c8548976c1aa29e21f0659b84}\index{buzzer.c@{buzzer.c}!BUZZER\_put@{BUZZER\_put}}
+\index{BUZZER\_put@{BUZZER\_put}!buzzer.c@{buzzer.c}}
+\doxysubsubsection{\texorpdfstring{BUZZER\_put()}{BUZZER\_put()}}
+{\footnotesize\ttfamily \label{buzzer_8c_adeb2661c8548976c1aa29e21f0659b84} 
+void BUZZER\+\_\+put (\begin{DoxyParamCaption}\item[{unsigned int}]{time}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{buzzer_8c_source_l00043}{43}} of file \mbox{\hyperlink{buzzer_8c_source}{buzzer.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00044\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ i;}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ k=0;}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordflow}{while}\ (k++<100)}
+\DoxyCodeLine{00049\ \ \ \ \ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(Buzzer\_GPIO\_Port,\ Buzzer\_Pin,\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (i=0;i<(time+k);i++);}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(Buzzer\_GPIO\_Port,\ Buzzer\_Pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (i=0;(i<time+k);i++);}
+\DoxyCodeLine{00054\ \ \ \ \ \}}
+\DoxyCodeLine{00055\ \}}
+
+\end{DoxyCode}
+
+
+Referenced by \mbox{\hyperlink{ARM__keys_8c_source_l00064}{ARM\+\_\+keys\+\_\+task()}}, and \mbox{\hyperlink{admin_8c_source_l00227}{error\+\_\+\+Halt\+OS()}}.
+
+\Hypertarget{buzzer_8c_a55881d4bd9fb75053e7492926231e4e7}\index{buzzer.c@{buzzer.c}!Buzzer\_put@{Buzzer\_put}}
+\index{Buzzer\_put@{Buzzer\_put}!buzzer.c@{buzzer.c}}
+\doxysubsubsection{\texorpdfstring{Buzzer\_put()}{Buzzer\_put()}}
+{\footnotesize\ttfamily \label{buzzer_8c_a55881d4bd9fb75053e7492926231e4e7} 
+void Buzzer\+\_\+put (\begin{DoxyParamCaption}\item[{unsigned int}]{counter}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{buzzer_8c_source_l00035}{35}} of file \mbox{\hyperlink{buzzer_8c_source}{buzzer.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00036\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{buzzer_8c_a82a371564cc7ac165373e86a862fcd69}{BUZZER\_set}}(counter);}
+\DoxyCodeLine{00038\ \ \ \ \ HAL\_Delay(150);}
+\DoxyCodeLine{00039\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{buzzer_8c_source_l00024}{BUZZER\+\_\+set()}}.
+
+\Hypertarget{buzzer_8c_a82a371564cc7ac165373e86a862fcd69}\index{buzzer.c@{buzzer.c}!BUZZER\_set@{BUZZER\_set}}
+\index{BUZZER\_set@{BUZZER\_set}!buzzer.c@{buzzer.c}}
+\doxysubsubsection{\texorpdfstring{BUZZER\_set()}{BUZZER\_set()}}
+{\footnotesize\ttfamily \label{buzzer_8c_a82a371564cc7ac165373e86a862fcd69} 
+void BUZZER\+\_\+set (\begin{DoxyParamCaption}\item[{int}]{counter}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{buzzer_8c_source_l00024}{24}} of file \mbox{\hyperlink{buzzer_8c_source}{buzzer.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00025\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordflow}{while}(counter-\/-\/)}
+\DoxyCodeLine{00027\ \ \ \ \ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(Buzzer\_GPIO\_Port,\ Buzzer\_Pin,\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ HAL\_Delay(1);}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(Buzzer\_GPIO\_Port,\ Buzzer\_Pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ HAL\_Delay(1);}
+\DoxyCodeLine{00032\ \ \ \ \ \}}
+\DoxyCodeLine{00033\ \}}
+
+\end{DoxyCode}
+
+
+Referenced by \mbox{\hyperlink{buzzer_8c_source_l00035}{Buzzer\+\_\+put()}}.
+

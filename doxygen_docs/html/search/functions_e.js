@@ -1,11 +1,10 @@
 var searchData=
 [
-  ['rad2deg_0',['rad2deg',['../LOS__algo_8c.html#a597b21f8c48b7f70be67bb8c960f9df3',1,'LOS_algo.c']]],
-  ['remove_5flast_5fnode_1',['Remove_Last_Node',['../GPS__Route__Setter_8c.html#a5fc3c361c4b1112cc8b8007ed3daabf4',1,'GPS_Route_Setter.c']]],
-  ['route_5fperformer_2',['Route_performer',['../admin_8h.html#ab7acdfc2f6faa8de7f7a40d3abca745b',1,'Route_performer(void *):&#160;routeperformer.c'],['../routeperformer_8c.html#a740cda4eac54a1a58036caaed3f26eba',1,'Route_performer(void *argument):&#160;routeperformer.c'],['../routeperformer_8h.html#a740cda4eac54a1a58036caaed3f26eba',1,'Route_performer(void *argument):&#160;routeperformer.c']]],
-  ['route_5fpointer_5frequest_3',['Route_Pointer_Request',['../GPS__Route__Setter_8c.html#aab599ac6ef4958311429d7f072b568e5',1,'Route_Pointer_Request():&#160;GPS_Route_Setter.c'],['../GPS__Route__Setter_8h.html#aab599ac6ef4958311429d7f072b568e5',1,'Route_Pointer_Request():&#160;GPS_Route_Setter.c']]],
-  ['route_5fsetter_4',['Route_Setter',['../admin_8h.html#aba588db1df75c5962e95e3a72baffa24',1,'Route_Setter(void *):&#160;GPS_Route_Setter.c'],['../GPS__Route__Setter_8c.html#a1fc2116f878a80a92b30ebd62f63b298',1,'Route_Setter(void *argument):&#160;GPS_Route_Setter.c']]],
-  ['rp_5fget_5fwpcurrent_5',['RP_get_wpCurrent',['../routeperformer_8c.html#a5d33020c223451c84dd4eecfec4b0c89',1,'routeperformer.c']]],
-  ['rs_5fgetwpamount_6',['RS_getWPamount',['../GPS__Route__Setter_8c.html#ad8c6f94dfc7ffd38df72bd73b37bd18a',1,'GPS_Route_Setter.c']]],
-  ['run_5frp_5falgo_7',['run_RP_algo',['../routeperformer_8c.html#a3b9ae2d20e8eeb203a2f9f10d0527e7b',1,'routeperformer.c']]]
+  ['pid_5fcontroller_0',['PID_Controller',['../admin_8h.html#a554723e4a24821e8610f7750a58e55ba',1,'PID_Controller(void *):&#160;PID_controller.c'],['../PID__controller_8c.html#a17af2a863b179eb9499c041bc817ecb1',1,'PID_Controller(void *argument):&#160;PID_controller.c']]],
+  ['pid_5fgetobstacleavoidancestate_1',['PID_getObstacleAvoidanceState',['../PID__controller_8c.html#a42d774d22f401481c51682d3e3bb94d7',1,'PID_getObstacleAvoidanceState(bool *state):&#160;PID_controller.c'],['../PID__controller_8h.html#a42d774d22f401481c51682d3e3bb94d7',1,'PID_getObstacleAvoidanceState(bool *state):&#160;PID_controller.c']]],
+  ['pid_5fgetobstacleflag_2',['PID_getObstacleFlag',['../PID__controller_8c.html#ad656e15a8dfd83551a134c9d768e8dfc',1,'PID_getObstacleFlag(bool *flag):&#160;PID_controller.c'],['../PID__controller_8h.html#ad656e15a8dfd83551a134c9d768e8dfc',1,'PID_getObstacleFlag(bool *flag):&#160;PID_controller.c']]],
+  ['pid_5fsetobstacleflag_3',['PID_setObstacleFlag',['../PID__controller_8c.html#adee41834c306e02a66bf5a110503006d',1,'PID_setObstacleFlag(bool flag):&#160;PID_controller.c'],['../PID__controller_8h.html#adee41834c306e02a66bf5a110503006d',1,'PID_setObstacleFlag(bool flag):&#160;PID_controller.c']]],
+  ['pid_5ftrigger_4',['PID_trigger',['../PID__controller_8c.html#a37a24fcb8efcc2dc7779c53216c82144',1,'PID_controller.c']]],
+  ['pidcompute_5',['pidCompute',['../PID__controller_8c.html#a709e09555bd056b676dc48c3ed5f305b',1,'PID_controller.c']]],
+  ['pwm_5fset_6',['PWM_Set',['../motordriver_8c.html#a87d28f01887b2a33acbb843402fa731b',1,'motordriver.c']]]
 ];

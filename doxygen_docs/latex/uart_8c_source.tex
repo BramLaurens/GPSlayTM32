@@ -1,0 +1,193 @@
+\doxysection{uart.\+c}
+\hypertarget{uart_8c_source}{}\label{uart_8c_source}\index{Core/MyApp/Ports/uart.c@{Core/MyApp/Ports/uart.c}}
+\mbox{\hyperlink{uart_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00001}00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00002}00002\ \textcolor{comment}{Author:\ \ \ \ \ J.F.\ van\ der\ Bent}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00003}00003\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ W\ Pielage\ \&\ E\ Helmond}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00004}00004\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00005}00005\ \textcolor{comment}{Date:\ \ \ \ \ \ \ 24-\/11-\/2021}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00006}00006\ \textcolor{comment}{Revision:\ \ \ 5}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00007}00007\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00008}00008\ \textcolor{comment}{\ \ \ \ uart.c:}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00009}00009\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ UART2\ driver\ for\ ARM-\/board\ V5}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00010}00010\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00011}00011\ \textcolor{comment}{\ \ \ \ pin-\/info:}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00012}00012\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PA2\ -\/\ TX}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00013}00013\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PA3\ -\/\ RX}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00014}00014\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00015}00015\ \textcolor{comment}{To\ enable\ UART\ use\ the\ following\ line:}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00016}00016\ \textcolor{comment}{\ \ \ \ UART\_init();}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00017}00017\ \textcolor{comment}{To\ use\ UART\ on\ interrupt\ base\ use:}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00018}00018\ \textcolor{comment}{\ \ \ \ UART\_INT\_init();}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00019}00019\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00020}00020\ \textcolor{comment}{This\ file\ initialize\ the\ UART\ on\ the\ ARM-\/board\ v5.}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00021}00021\ \textcolor{comment}{To\ send\ data\ to\ the\ UART\ use:}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00022}00022\ \textcolor{comment}{\ \ \ \ UART\_printf(*string);}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00023}00023\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00024}00024\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00025}00025\ \textcolor{comment}{In\ the\ interrupt\ routine\ the\ char\ is\ send\ back\ to\ the\ terminal}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00026}00026\ \textcolor{comment}{07-\/07-\/2014\ Aanpassen\ Uart\ routine\ om\ compatibel\ te\ zijn\ met\ void\ UART\_put(char\ *c)}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00027}00027\ \textcolor{comment}{24011-\/2021\ aanpassen\ van\ de\ Uart\ lib\ naar\ HAL}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00028}00028\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00029}00029\ \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00031}00031\ \textcolor{comment}{/*\ Includes\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00032}00032\ \textcolor{preprocessor}{\#include\ "{}main.h"{}}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00033}00033\ \textcolor{preprocessor}{\#include\ "{}cmsis\_os.h"{}}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00035}00035\ \textcolor{preprocessor}{\#include\ "{}string.h"{}}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00037}00037\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{uart_8h}{uart.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00040}\mbox{\hyperlink{uart_8c_ae003b8bf1d59f8b3e33f829151d7ef80}{00040}}\ \textcolor{keywordtype}{char}\ \textcolor{keywordtype}{string}[100];}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00041}\mbox{\hyperlink{uart_8c_acd20daa9406afe26baa393e01b4e2f67}{00041}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{uart_8c_acd20daa9406afe26baa393e01b4e2f67}{charcounter}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00042}00042\ \textcolor{keyword}{extern}\ UART\_HandleTypeDef\ \mbox{\hyperlink{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}{huart2}};}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00044}\mbox{\hyperlink{uart_8c_ab60a36f7295d704926120d22f806dcd1}{00044}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{uart_8c_ab60a36f7295d704926120d22f806dcd1}{UART\_init}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00045}00045\ \{}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00047}00047\ \ \textcolor{comment}{//\ done\ in\ CUBE}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00049}00049\ \}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00051}\mbox{\hyperlink{uart_8c_a92684d1c37c3d116f82e9e26f71b58a5}{00051}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{uart_8c_a92684d1c37c3d116f82e9e26f71b58a5}{UART\_putchar}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ c)}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00052}00052\ \{}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00053}00053\ \ \ \ \ \ HAL\_UART\_Transmit(\&\mbox{\hyperlink{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}{huart2}},\ \&c,\ 1,\ 100);}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00054}00054\ \}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00056}\mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{00056}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *s)}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00057}00057\ \{}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00058}00058\ \ \ \ \ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ i;}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00060}00060\ \ \ \ \ \textcolor{keywordflow}{for}\ (i=0;\ s[i];\ i++)}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00061}00061\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a92684d1c37c3d116f82e9e26f71b58a5}{UART\_putchar}}(s[i]);}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00062}00062\ \}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00065}\mbox{\hyperlink{uart_8c_ac3ea536f44785fa10c5a92ff0d2a6298}{00065}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{uart_8c_ac3ea536f44785fa10c5a92ff0d2a6298}{UART\_INT\_init}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00066}00066\ \{}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00067}00067\ \ \ \ \ \textcolor{comment}{//not\ used}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00068}00068\ \}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00070}\mbox{\hyperlink{uart_8c_ae79c23d66207bb2d73163f06a36ed028}{00070}}\ \textcolor{keywordtype}{signed}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{uart_8c_ae79c23d66207bb2d73163f06a36ed028}{UART\_printf}}(\textcolor{keywordtype}{size\_t}\ length,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *pFormat,\ ...)}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00071}00071\ \{}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00072}00072\ \ \ \ \ va\_list\ \ \ \ ap;}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00073}00073\ \ \ \ \ \textcolor{keywordtype}{signed}\ \textcolor{keywordtype}{int}\ rc;}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00074}00074\ \ \ \ \ \textcolor{keywordtype}{char}\ c[length];}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00075}00075\ \ \ \ \ \textcolor{keywordtype}{char}\ *pString\ =\ c;}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00077}00077\ \ \ \ \ va\_start(ap,\ pFormat);}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00078}00078\ \ \ \ \ rc\ =\ vsnprintf(pString,\ length,\ pFormat,\ ap);}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00079}00079\ \ \ \ \ va\_end(ap);}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00081}00081\ \ \ \ \ \_\_asm(\ \textcolor{stringliteral}{"{}CPSID\ \ \ I"{}});}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00082}00082\ \ \ \ \ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ i;}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00083}00083\ \ \ \ \ \textcolor{keywordflow}{for}\ (i=0;\ pString[i];\ i++)}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00084}00084\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a92684d1c37c3d116f82e9e26f71b58a5}{UART\_putchar}}(pString[i]);}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00086}00086\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00087}00087\ \ \ \ \ \_\_asm(\ \textcolor{stringliteral}{"{}CPSIE\ \ \ I"{}});}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00089}00089\ \ \ \ \ \textcolor{keywordflow}{return}\ rc;}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00090}00090\ \}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00092}00092\ \textcolor{comment}{//\ Stuurt\ meegegeven\ getal\ uit\ op\ de\ UART}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00093}\mbox{\hyperlink{uart_8c_ab68b2265165f1a355ff3dac4a726b37d}{00093}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{uart_8c_ab68b2265165f1a355ff3dac4a726b37d}{UART\_putint}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ num)}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00094}00094\ \{}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00095}00095\ \ \ \ \ \mbox{\hyperlink{uart_8c_a8fc12a2adee21e663b39d5d6501cfada}{UART\_putnum}}(num,\ 10);}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00096}00096\ \}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00098}00098\ \textcolor{comment}{//\ Stuurt\ meegegeven\ getal\ uit\ op\ de\ UART\ in\ het\ aangegeven\ getallenstelsel}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00099}\mbox{\hyperlink{uart_8c_a8fc12a2adee21e663b39d5d6501cfada}{00099}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{uart_8c_a8fc12a2adee21e663b39d5d6501cfada}{UART\_putnum}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ num,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ deel)}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00100}00100\ \{}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00101}00101\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ chars[16]\ =\ \textcolor{stringliteral}{"{}0123456789ABCDEF"{}};}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00102}00102\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ rest;}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00103}00103\ \ \ \ \ \textcolor{keywordtype}{signed}\ \textcolor{keywordtype}{char}\ c[16];}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00104}00104\ \ \ \ \ \textcolor{keywordtype}{signed}\ \textcolor{keywordtype}{int}\ i=15;}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00106}00106\ \ \ \ \ \textcolor{comment}{//\ Zet\ de\ integer\ om\ naar\ een\ string}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00107}00107\ \ \ \ \ \textcolor{keywordflow}{if}(num==0)}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00108}00108\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00109}00109\ \ \ \ \ \ \ \ \ c[i]=\textcolor{charliteral}{'0'};}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00110}00110\ \ \ \ \ \ \ \ \ i-\/-\/;}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00111}00111\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00112}00112\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00113}00113\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(num>0)}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00115}00115\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ rest=num\%deel;}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ num/=deel;}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ c[i]=chars[rest];}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ i-\/-\/;}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(i==0)\ \textcolor{comment}{//\ it\ ends\ here}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ num=0;}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00123}00123\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00124}00124\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00126}00126\ \ \ \ \ \textcolor{comment}{//\ Stuur\ de\ string\ uit}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00127}00127\ \ \ \ \ \textcolor{keywordflow}{while}(i<15)}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00128}00128\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00129}00129\ \ \ \ \ \ \ \ \ i++;}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00130}00130\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a92684d1c37c3d116f82e9e26f71b58a5}{UART\_putchar}}(c[i]);}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00131}00131\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00132}00132\ \}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00133}00133\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00135}00135\ \textcolor{comment}{//\ Ontvang\ een\ karakter\ via\ de\ UART2\ middels\ pollen.\ Wanneer\ de\ NVIC\ aan\ wordt\ gezet\ (in\ de\ main\ wordt\ hij\ uitgezet)}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00136}00136\ \textcolor{comment}{//\ niet\ echt\ nodig\ als\ routine\ maar\ als\ wrapper\ voor\ compatabiliteit.\ Let\ op\ geen\ -\/1\ als\ er\ geen\ char\ is\ ontvangen!}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00137}00137\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00138}\mbox{\hyperlink{uart_8c_aba72ba3c665a23c4d7e25f442bc2ce3a}{00138}}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{uart_8c_aba72ba3c665a23c4d7e25f442bc2ce3a}{UART\_get}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00139}00139\ \{}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00140}00140\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ uart\_char\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00142}00142\ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_HAL\_UART\_GET\_FLAG(\&\mbox{\hyperlink{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}{huart2}},\ UART\_FLAG\_RXNE)\ !=\ 0)\ \ \ \ \ \ \ \ \textcolor{comment}{//\ check\ for\ data\ available\ using\ HAL}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00143}00143\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00144}00144\ \ \ \ \ \ \ \ \ uart\_char\ =\ USART2-\/>DR\ \&\ 0xFF;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ and\ read\ the\ data\ from\ peripheral}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00145}00145\ \ \ \ \ \ \ \ \ \_\_HAL\_UART\_CLEAR\_FLAG(\&\mbox{\hyperlink{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}{huart2}},\ UART\_FLAG\_RXNE);\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ clear\ data\ available\ flag\ using\ HAL}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00146}00146\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00147}00147\ \ \ \ \ \textcolor{keywordflow}{return}\ uart\_char;}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00148}00148\ \}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00149}00149\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00151}00151\ \textcolor{comment}{//\ void\ UART\_gets}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00152}00152\ \textcolor{comment}{//\ args:\ char\ *readbuffer}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00153}00153\ \textcolor{comment}{//\ \ \ \ \ \ \ int\ size,\ size\ of\ readbuffer\ handed\ over}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00154}00154\ \textcolor{comment}{//\ \ \ \ \ \ \ int\ \ \ echo,\ when\ TRUE,\ send\ read-\/char\ to\ UART}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00155}00155\ \textcolor{comment}{//\ remark:\ ARM\ sends\ -\/1\ if\ buffer\ is\ empty}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00156}00156\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ LF\ is\ cleared\ if\ set\ in\ terminal-\/program}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00157}\mbox{\hyperlink{uart_8c_a3a89b889590b5197ee13082d86577739}{00157}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{uart_8c_a3a89b889590b5197ee13082d86577739}{UART\_gets}}(\textcolor{keywordtype}{char}\ *s,\ \textcolor{keywordtype}{int}\ size,\ \textcolor{keywordtype}{int}\ echo)}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00158}00158\ \{}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00159}00159\ \ \ \ \ \textcolor{keywordtype}{int}\ pos\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00160}00160\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00161}00161\ \ \ \ \ \textcolor{keywordflow}{while}\ (1)}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00162}00162\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00163}00163\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ADD\ DELAY\ FOR\ SCHEDULER,\ IF\ TOO\ LONG,\ CHARS\ CAN\ BE\ MISSED...}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00164}00164\ \ \ \ \ \ \ \ \ osDelay(60);}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00166}00166\ \ \ \ \ \ \ \ \ *s\ =\ \mbox{\hyperlink{uart_8c_aba72ba3c665a23c4d7e25f442bc2ce3a}{UART\_get}}();}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00168}00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*s\ ==\ -\/1\ ||\ *s\ ==\ 255\ ||\ *s\ ==\ \mbox{\hyperlink{uart_8h_adf83f902bc253b8c48aa46f67dcd0a2a}{CRETURN}})\ \textcolor{comment}{//\ no\ data,\ or\ CR\ pressed}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00170}00170\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00171}00171\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a92684d1c37c3d116f82e9e26f71b58a5}{UART\_putchar}}(*s);\ \ \textcolor{comment}{//\ show\ character}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00173}00173\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*s\ ==\ \mbox{\hyperlink{uart_8h_a862a05b8f5db6a2a6721f8b70f5d7e24}{LFEED}})\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ check\ LF\ pressed}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00174}00174\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ *s\ =\ \textcolor{charliteral}{'\(\backslash\)0'};\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ now,\ close\ string}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00177}00177\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00178}00178\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (pos\ ==\ size\ -\/\ 2)\ \textcolor{comment}{//\ check\ if\ last\ char\ reached}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00179}00179\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ *++s\ =\ \textcolor{charliteral}{'\(\backslash\)0'};\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ first,\ skip\ to\ last\ position}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00182}00182\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00183}00183\ }
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00184}00184\ \ \ \ \ \ \ \ \ s++;}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00185}00185\ \ \ \ \ \ \ \ \ pos++;}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00186}00186\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{uart_8c_source_l00187}00187\ \}}
+
+\end{DoxyCode}

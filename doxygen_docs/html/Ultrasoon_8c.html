@@ -220,7 +220,7 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">   64</span>    <span class="keywordtype">int</span> Echo_time = 0;</div>
 <div class="line"><span class="lineno">   65</span>    <span class="keywordtype">char</span> Buffer[70];</div>
 <div class="line"><span class="lineno">   66</span>    osDelay(1000); <span class="comment">// wait for system to stabilize</span></div>
-<div class="line"><span class="lineno">   67</span>    UART_puts(<span class="stringliteral">&quot;Echo task started \r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">   67</span>    <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;Echo task started \r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">   68</span> </div>
 <div class="line"><span class="lineno">   69</span>    <span class="keywordflow">while</span>(<a class="code hl_define" href="admin_8h.html#aa8cecfc5c5c054d2875c03e77b7be15d">TRUE</a>)</div>
 <div class="line"><span class="lineno">   70</span>    {</div>
@@ -233,7 +233,7 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">   77</span>            <span class="keywordflow">if</span> ((uxBits &amp; 1) == 0)</div>
 <div class="line"><span class="lineno">   78</span>            {</div>
 <div class="line"><span class="lineno">   79</span>                <span class="comment">/* timeout: no echo received */</span></div>
-<div class="line"><span class="lineno">   80</span>                UART_puts(<span class="stringliteral">&quot;Echo timeout\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">   80</span>                <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;Echo timeout\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">   81</span>                <span class="comment">/* Ensure timer is disabled in case it was left running */</span></div>
 <div class="line"><span class="lineno">   82</span>                __HAL_TIM_DISABLE(&amp;<a class="code hl_variable" href="Ultrasoon_8h.html#a31f6f787777409af5ed0d131b52b7988">htim9</a>);</div>
 <div class="line"><span class="lineno">   83</span>                <span class="comment">/* mark object as far away */</span></div>
@@ -246,10 +246,10 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">   90</span> </div>
 <div class="line"><span class="lineno">   91</span><span class="preprocessor">        #ifdef ultrasoon_debug</span></div>
 <div class="line"><span class="lineno">   92</span>            sprintf(Buffer, <span class="stringliteral">&quot;Afstand is: %.2f.&quot;</span>, <a class="code hl_variable" href="#a17914347c89aa35e1d4a9af6f3fca475">ObjectDistance</a>);</div>
-<div class="line"><span class="lineno">   93</span>            UART_puts(Buffer);</div>
-<div class="line"><span class="lineno">   94</span>            UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
-<div class="line"><span class="lineno">   95</span>            UART_putint(Echo_time);</div>
-<div class="line"><span class="lineno">   96</span>            UART_puts(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">   93</span>            <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(Buffer);</div>
+<div class="line"><span class="lineno">   94</span>            <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">   95</span>            <a class="code hl_function" href="uart_8c.html#ab68b2265165f1a355ff3dac4a726b37d">UART_putint</a>(Echo_time);</div>
+<div class="line"><span class="lineno">   96</span>            <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">   97</span><span class="preprocessor">        #endif</span></div>
 <div class="line"><span class="lineno">   98</span> </div>
 <div class="line"><span class="lineno">   99</span>        <span class="keywordflow">if</span>(<a class="code hl_variable" href="#a17914347c89aa35e1d4a9af6f3fca475">ObjectDistance</a> &lt; 60.0) <span class="comment">// obstacle detected within 60 cm</span></div>
@@ -257,7 +257,7 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  101</span>            <a class="code hl_variable" href="#a8d011ebe681ac8c30448fccab3593c86">obstacleCounter</a>++;</div>
 <div class="line"><span class="lineno">  102</span>            <span class="keywordflow">if</span>(<a class="code hl_variable" href="#a8d011ebe681ac8c30448fccab3593c86">obstacleCounter</a> &gt;= 6) <span class="comment">// obstacle confirmed after 2 readings (200 ms)</span></div>
 <div class="line"><span class="lineno">  103</span>            {</div>
-<div class="line"><span class="lineno">  104</span>                UART_puts(<span class="stringliteral">&quot;Obstacle detected!\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  104</span>                <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;Obstacle detected!\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  105</span>                <a class="code hl_function" href="PID__controller_8c.html#adee41834c306e02a66bf5a110503006d">PID_setObstacleFlag</a>(<span class="keyword">true</span>);</div>
 <div class="line"><span class="lineno">  106</span>            }</div>
 <div class="line"><span class="lineno">  107</span>        }</div>
@@ -270,14 +270,16 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  114</span>        osDelay(100);</div>
 <div class="line"><span class="lineno">  115</span>    }</div>
 <div class="line"><span class="lineno">  116</span>}</div>
-<div class="ttc" id="aPID__controller_8c_html_adee41834c306e02a66bf5a110503006d"><div class="ttname"><a href="PID__controller_8c.html#adee41834c306e02a66bf5a110503006d">PID_setObstacleFlag</a></div><div class="ttdeci">void PID_setObstacleFlag(bool flag)</div><div class="ttdoc">Set the current state of the obstacle flag.</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00095">PID_controller.c:95</a></div></div>
+<div class="ttc" id="aPID__controller_8c_html_adee41834c306e02a66bf5a110503006d"><div class="ttname"><a href="PID__controller_8c.html#adee41834c306e02a66bf5a110503006d">PID_setObstacleFlag</a></div><div class="ttdeci">void PID_setObstacleFlag(bool flag)</div><div class="ttdoc">Set the current state of the obstacle flag.</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00091">PID_controller.c:91</a></div></div>
 <div class="ttc" id="aUltrasoon_8c_html_a8d011ebe681ac8c30448fccab3593c86"><div class="ttname"><a href="#a8d011ebe681ac8c30448fccab3593c86">obstacleCounter</a></div><div class="ttdeci">int obstacleCounter</div><div class="ttdef"><b>Definition</b> <a href="Ultrasoon_8c_source.html#l00018">Ultrasoon.c:18</a></div></div>
 <div class="ttc" id="aUltrasoon_8c_html_a978eeff6ef160126abe64f03d45928e6"><div class="ttname"><a href="#a978eeff6ef160126abe64f03d45928e6">Ultrasoon_trig</a></div><div class="ttdeci">void Ultrasoon_trig(void)</div><div class="ttdoc">Generates a 10us pulse on Trigger pin.</div><div class="ttdef"><b>Definition</b> <a href="Ultrasoon_8c_source.html#l00045">Ultrasoon.c:45</a></div></div>
 <div class="ttc" id="aUltrasoon_8h_html_a31f6f787777409af5ed0d131b52b7988"><div class="ttname"><a href="Ultrasoon_8h.html#a31f6f787777409af5ed0d131b52b7988">htim9</a></div><div class="ttdeci">TIM_HandleTypeDef htim9</div><div class="ttdef"><b>Definition</b> <a href="main_8c_source.html#l00058">main.c:58</a></div></div>
-<div class="ttc" id="aadmin_8c_html_a80821d400c57f572ec74821daee9385e"><div class="ttname"><a href="admin_8c.html#a80821d400c57f572ec74821daee9385e">hEcho_Event</a></div><div class="ttdeci">EventGroupHandle_t hEcho_Event</div><div class="ttdoc">handle voor Echo_sign-event</div><div class="ttdef"><b>Definition</b> <a href="admin_8c_source.html#l00058">admin.c:58</a></div></div>
+<div class="ttc" id="aadmin_8c_html_a80821d400c57f572ec74821daee9385e"><div class="ttname"><a href="admin_8c.html#a80821d400c57f572ec74821daee9385e">hEcho_Event</a></div><div class="ttdeci">EventGroupHandle_t hEcho_Event</div><div class="ttdoc">handle voor Echo_sign-event</div><div class="ttdef"><b>Definition</b> <a href="admin_8c_source.html#l00056">admin.c:56</a></div></div>
 <div class="ttc" id="aadmin_8h_html_aa8cecfc5c5c054d2875c03e77b7be15d"><div class="ttname"><a href="admin_8h.html#aa8cecfc5c5c054d2875c03e77b7be15d">TRUE</a></div><div class="ttdeci">#define TRUE</div><div class="ttdef"><b>Definition</b> <a href="admin_8h_source.html#l00025">admin.h:25</a></div></div>
+<div class="ttc" id="auart_8c_html_a6299e801cd2b1d8e054c3aea21ce1900"><div class="ttname"><a href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a></div><div class="ttdeci">void UART_puts(const char *s)</div><div class="ttdef"><b>Definition</b> <a href="uart_8c_source.html#l00056">uart.c:56</a></div></div>
+<div class="ttc" id="auart_8c_html_ab68b2265165f1a355ff3dac4a726b37d"><div class="ttname"><a href="uart_8c.html#ab68b2265165f1a355ff3dac4a726b37d">UART_putint</a></div><div class="ttdeci">void UART_putint(unsigned int num)</div><div class="ttdef"><b>Definition</b> <a href="uart_8c_source.html#l00093">uart.c:93</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="admin_8c_source.html#l00058">hEcho_Event</a>, <a class="el" href="main_8c_source.html#l00058">htim9</a>, <a class="el" href="Ultrasoon_8c_source.html#l00017">ObjectDistance</a>, <a class="el" href="Ultrasoon_8c_source.html#l00018">obstacleCounter</a>, <a class="el" href="PID__controller_8c_source.html#l00095">PID_setObstacleFlag()</a>, <a class="el" href="admin_8h_source.html#l00025">TRUE</a>, and <a class="el" href="Ultrasoon_8c_source.html#l00045">Ultrasoon_trig()</a>.</p>
+<p class="reference">References <a class="el" href="admin_8c_source.html#l00056">hEcho_Event</a>, <a class="el" href="main_8c_source.html#l00058">htim9</a>, <a class="el" href="Ultrasoon_8c_source.html#l00017">ObjectDistance</a>, <a class="el" href="Ultrasoon_8c_source.html#l00018">obstacleCounter</a>, <a class="el" href="PID__controller_8c_source.html#l00091">PID_setObstacleFlag()</a>, <a class="el" href="admin_8h_source.html#l00025">TRUE</a>, <a class="el" href="uart_8c_source.html#l00093">UART_putint()</a>, <a class="el" href="uart_8c_source.html#l00056">UART_puts()</a>, and <a class="el" href="Ultrasoon_8c_source.html#l00045">Ultrasoon_trig()</a>.</p>
 
 </div>
 </div>
@@ -358,7 +360,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Ultrasoon_8c_source.html#l00017">ObjectDistance</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="TFT_8c_source.html#l00139">update_obstacle_display()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="TFT_8c_source.html#l00138">update_obstacle_display()</a>.</p>
 
 </div>
 </div>

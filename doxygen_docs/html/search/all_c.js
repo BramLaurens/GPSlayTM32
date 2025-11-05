@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['m_5fpi_0',['M_PI',['../compass__driver_8c.html#ae71449b1cc6e6250b91f539153a7a0d3',1,'M_PI:&#160;compass_driver.c'],['../LOS__algo_8c.html#ae71449b1cc6e6250b91f539153a7a0d3',1,'M_PI:&#160;LOS_algo.c'],['../routeperformer_8c.html#ae71449b1cc6e6250b91f539153a7a0d3',1,'M_PI:&#160;routeperformer.c']]],
+  ['m_5fpi_0',['M_PI',['../compass__driver_8c.html#ae71449b1cc6e6250b91f539153a7a0d3',1,'M_PI:&#160;compass_driver.c'],['../LOS__algo_8c.html#ae71449b1cc6e6250b91f539153a7a0d3',1,'M_PI:&#160;LOS_algo.c']]],
   ['mag_5fvar_1',['mag_var',['../struct__GNRMC.html#ac40135778fb6397517b22f538550f684',1,'_GNRMC']]],
   ['mag_5fvar_5fpos_2',['mag_var_pos',['../struct__GNRMC.html#ae084cbeba9e7fbdd1fcb2cde9a56e334',1,'_GNRMC']]],
   ['magcal_3',['magCal',['../compass__driver_8c.html#a0fa74aa8cd8f9e5130aa0ec5ad6a7018',1,'compass_driver.c']]],

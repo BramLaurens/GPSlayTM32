@@ -1,0 +1,371 @@
+\doxysection{Core/\+My\+App/\+Ports/uart.c File Reference}
+\hypertarget{uart_8c}{}\label{uart_8c}\index{Core/MyApp/Ports/uart.c@{Core/MyApp/Ports/uart.c}}
+{\ttfamily \#include "{}main.\+h"{}}\newline
+{\ttfamily \#include "{}cmsis\+\_\+os.\+h"{}}\newline
+{\ttfamily \#include "{}string.\+h"{}}\newline
+{\ttfamily \#include "{}uart.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+char \mbox{\hyperlink{uart_8c_aba72ba3c665a23c4d7e25f442bc2ce3a}{UART\+\_\+get}} (void)
+\item 
+void \mbox{\hyperlink{uart_8c_a3a89b889590b5197ee13082d86577739}{UART\+\_\+gets}} (char \texorpdfstring{$\ast$}{*}s, int size, int echo)
+\item 
+void \mbox{\hyperlink{uart_8c_ab60a36f7295d704926120d22f806dcd1}{UART\+\_\+init}} (void)
+\item 
+void \mbox{\hyperlink{uart_8c_ac3ea536f44785fa10c5a92ff0d2a6298}{UART\+\_\+\+INT\+\_\+init}} (void)
+\item 
+signed int \mbox{\hyperlink{uart_8c_ae79c23d66207bb2d73163f06a36ed028}{UART\+\_\+printf}} (size\+\_\+t length, const char \texorpdfstring{$\ast$}{*}p\+Format,...)
+\item 
+void \mbox{\hyperlink{uart_8c_a92684d1c37c3d116f82e9e26f71b58a5}{UART\+\_\+putchar}} (unsigned char c)
+\item 
+void \mbox{\hyperlink{uart_8c_ab68b2265165f1a355ff3dac4a726b37d}{UART\+\_\+putint}} (unsigned int num)
+\item 
+void \mbox{\hyperlink{uart_8c_a8fc12a2adee21e663b39d5d6501cfada}{UART\+\_\+putnum}} (unsigned int num, unsigned char deel)
+\item 
+void \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\+\_\+puts}} (const char \texorpdfstring{$\ast$}{*}s)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{uart_8c_acd20daa9406afe26baa393e01b4e2f67}{charcounter}} = 0
+\item 
+UART\+\_\+\+Handle\+Type\+Def \mbox{\hyperlink{uart_8c_aa9479c261d65eecedd3d9582f7f0f89c}{huart2}}
+\item 
+char \mbox{\hyperlink{uart_8c_ae003b8bf1d59f8b3e33f829151d7ef80}{string}} \mbox{[}100\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{uart_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{uart_8c_aba72ba3c665a23c4d7e25f442bc2ce3a}\index{uart.c@{uart.c}!UART\_get@{UART\_get}}
+\index{UART\_get@{UART\_get}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{UART\_get()}{UART\_get()}}
+{\footnotesize\ttfamily \label{uart_8c_aba72ba3c665a23c4d7e25f442bc2ce3a} 
+char UART\+\_\+get (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{uart_8c_source_l00138}{138}} of file \mbox{\hyperlink{uart_8c_source}{uart.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00139\ \{}
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ uart\_char\ =\ -\/1;}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_HAL\_UART\_GET\_FLAG(\&\mbox{\hyperlink{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}{huart2}},\ UART\_FLAG\_RXNE)\ !=\ 0)\ \ \ \ \ \ \ \ \textcolor{comment}{//\ check\ for\ data\ available\ using\ HAL}}
+\DoxyCodeLine{00143\ \ \ \ \ \{}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ uart\_char\ =\ USART2-\/>DR\ \&\ 0xFF;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ and\ read\ the\ data\ from\ peripheral}}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \_\_HAL\_UART\_CLEAR\_FLAG(\&\mbox{\hyperlink{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}{huart2}},\ UART\_FLAG\_RXNE);\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ clear\ data\ available\ flag\ using\ HAL}}
+\DoxyCodeLine{00146\ \ \ \ \ \}}
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keywordflow}{return}\ uart\_char;}
+\DoxyCodeLine{00148\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{main_8c_source_l00062}{huart2}}.
+
+
+
+Referenced by \mbox{\hyperlink{uart_8c_source_l00157}{UART\+\_\+gets()}}.
+
+\Hypertarget{uart_8c_a3a89b889590b5197ee13082d86577739}\index{uart.c@{uart.c}!UART\_gets@{UART\_gets}}
+\index{UART\_gets@{UART\_gets}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{UART\_gets()}{UART\_gets()}}
+{\footnotesize\ttfamily \label{uart_8c_a3a89b889590b5197ee13082d86577739} 
+void UART\+\_\+gets (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{s}{, }\item[{int}]{size}{, }\item[{int}]{echo}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{uart_8c_source_l00157}{157}} of file \mbox{\hyperlink{uart_8c_source}{uart.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00158\ \{}
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keywordtype}{int}\ pos\ =\ 0;}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{keywordflow}{while}\ (1)}
+\DoxyCodeLine{00162\ \ \ \ \ \{}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ADD\ DELAY\ FOR\ SCHEDULER,\ IF\ TOO\ LONG,\ CHARS\ CAN\ BE\ MISSED...}}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ osDelay(60);}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ *s\ =\ \mbox{\hyperlink{uart_8c_aba72ba3c665a23c4d7e25f442bc2ce3a}{UART\_get}}();}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*s\ ==\ -\/1\ ||\ *s\ ==\ 255\ ||\ *s\ ==\ \mbox{\hyperlink{uart_8h_adf83f902bc253b8c48aa46f67dcd0a2a}{CRETURN}})\ \textcolor{comment}{//\ no\ data,\ or\ CR\ pressed}}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a92684d1c37c3d116f82e9e26f71b58a5}{UART\_putchar}}(*s);\ \ \textcolor{comment}{//\ show\ character}}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*s\ ==\ \mbox{\hyperlink{uart_8h_a862a05b8f5db6a2a6721f8b70f5d7e24}{LFEED}})\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ check\ LF\ pressed}}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ *s\ =\ \textcolor{charliteral}{'\(\backslash\)0'};\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ now,\ close\ string}}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (pos\ ==\ size\ -\/\ 2)\ \textcolor{comment}{//\ check\ if\ last\ char\ reached}}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ *++s\ =\ \textcolor{charliteral}{'\(\backslash\)0'};\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ first,\ skip\ to\ last\ position}}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ s++;}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ pos++;}
+\DoxyCodeLine{00186\ \ \ \ \ \}}
+\DoxyCodeLine{00187\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{uart_8h_source_l00031}{CRETURN}}, \mbox{\hyperlink{uart_8h_source_l00032}{LFEED}}, \mbox{\hyperlink{uart_8c_source_l00138}{UART\+\_\+get()}}, and \mbox{\hyperlink{uart_8c_source_l00051}{UART\+\_\+putchar()}}.
+
+
+
+Referenced by \mbox{\hyperlink{UART__keys_8c_source_l00030}{UART\+\_\+keys\+\_\+poll()}}.
+
+\Hypertarget{uart_8c_ab60a36f7295d704926120d22f806dcd1}\index{uart.c@{uart.c}!UART\_init@{UART\_init}}
+\index{UART\_init@{UART\_init}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{UART\_init()}{UART\_init()}}
+{\footnotesize\ttfamily \label{uart_8c_ab60a36f7295d704926120d22f806dcd1} 
+void UART\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{uart_8c_source_l00044}{44}} of file \mbox{\hyperlink{uart_8c_source}{uart.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00045\ \{}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \textcolor{comment}{//\ done\ in\ CUBE}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \}}
+
+\end{DoxyCode}
+\Hypertarget{uart_8c_ac3ea536f44785fa10c5a92ff0d2a6298}\index{uart.c@{uart.c}!UART\_INT\_init@{UART\_INT\_init}}
+\index{UART\_INT\_init@{UART\_INT\_init}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{UART\_INT\_init()}{UART\_INT\_init()}}
+{\footnotesize\ttfamily \label{uart_8c_ac3ea536f44785fa10c5a92ff0d2a6298} 
+void UART\+\_\+\+INT\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{uart_8c_source_l00065}{65}} of file \mbox{\hyperlink{uart_8c_source}{uart.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00066\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{comment}{//not\ used}}
+\DoxyCodeLine{00068\ \}}
+
+\end{DoxyCode}
+\Hypertarget{uart_8c_ae79c23d66207bb2d73163f06a36ed028}\index{uart.c@{uart.c}!UART\_printf@{UART\_printf}}
+\index{UART\_printf@{UART\_printf}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{UART\_printf()}{UART\_printf()}}
+{\footnotesize\ttfamily \label{uart_8c_ae79c23d66207bb2d73163f06a36ed028} 
+signed int UART\+\_\+printf (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{length}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{p\+Format}{, }\item[{}]{...}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{uart_8c_source_l00070}{70}} of file \mbox{\hyperlink{uart_8c_source}{uart.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00071\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ va\_list\ \ \ \ ap;}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{signed}\ \textcolor{keywordtype}{int}\ rc;}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{char}\ c[length];}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{char}\ *pString\ =\ c;}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ va\_start(ap,\ pFormat);}
+\DoxyCodeLine{00078\ \ \ \ \ rc\ =\ vsnprintf(pString,\ length,\ pFormat,\ ap);}
+\DoxyCodeLine{00079\ \ \ \ \ va\_end(ap);}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ \_\_asm(\ \textcolor{stringliteral}{"{}CPSID\ \ \ I"{}});}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ i;}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordflow}{for}\ (i=0;\ pString[i];\ i++)}
+\DoxyCodeLine{00084\ \ \ \ \ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a92684d1c37c3d116f82e9e26f71b58a5}{UART\_putchar}}(pString[i]);}
+\DoxyCodeLine{00086\ \ \ \ \ \}}
+\DoxyCodeLine{00087\ \ \ \ \ \_\_asm(\ \textcolor{stringliteral}{"{}CPSIE\ \ \ I"{}});}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordflow}{return}\ rc;}
+\DoxyCodeLine{00090\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{uart_8c_source_l00051}{UART\+\_\+putchar()}}.
+
+\Hypertarget{uart_8c_a92684d1c37c3d116f82e9e26f71b58a5}\index{uart.c@{uart.c}!UART\_putchar@{UART\_putchar}}
+\index{UART\_putchar@{UART\_putchar}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{UART\_putchar()}{UART\_putchar()}}
+{\footnotesize\ttfamily \label{uart_8c_a92684d1c37c3d116f82e9e26f71b58a5} 
+void UART\+\_\+putchar (\begin{DoxyParamCaption}\item[{unsigned char}]{c}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{uart_8c_source_l00051}{51}} of file \mbox{\hyperlink{uart_8c_source}{uart.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00052\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ HAL\_UART\_Transmit(\&\mbox{\hyperlink{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}{huart2}},\ \&c,\ 1,\ 100);}
+\DoxyCodeLine{00054\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{main_8c_source_l00062}{huart2}}.
+
+
+
+Referenced by \mbox{\hyperlink{gps_8c_source_l00174}{fill\+\_\+\+GNRMC()}}, \mbox{\hyperlink{uart_8c_source_l00157}{UART\+\_\+gets()}}, \mbox{\hyperlink{uart_8c_source_l00070}{UART\+\_\+printf()}}, \mbox{\hyperlink{uart_8c_source_l00099}{UART\+\_\+putnum()}}, and \mbox{\hyperlink{uart_8c_source_l00056}{UART\+\_\+puts()}}.
+
+\Hypertarget{uart_8c_ab68b2265165f1a355ff3dac4a726b37d}\index{uart.c@{uart.c}!UART\_putint@{UART\_putint}}
+\index{UART\_putint@{UART\_putint}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{UART\_putint()}{UART\_putint()}}
+{\footnotesize\ttfamily \label{uart_8c_ab68b2265165f1a355ff3dac4a726b37d} 
+void UART\+\_\+putint (\begin{DoxyParamCaption}\item[{unsigned int}]{num}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{uart_8c_source_l00093}{93}} of file \mbox{\hyperlink{uart_8c_source}{uart.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00094\ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \mbox{\hyperlink{uart_8c_a8fc12a2adee21e663b39d5d6501cfada}{UART\_putnum}}(num,\ 10);}
+\DoxyCodeLine{00096\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{uart_8c_source_l00099}{UART\+\_\+putnum()}}.
+
+
+
+Referenced by \mbox{\hyperlink{ARM__keys_8c_source_l00064}{ARM\+\_\+keys\+\_\+task()}}, \mbox{\hyperlink{compass__driver_8c_source_l00321}{Compass\+\_\+\+Heading()}}, \mbox{\hyperlink{admin_8c_source_l00245}{Create\+Handles()}}, \mbox{\hyperlink{admin_8c_source_l00447}{Display\+Task\+Data()}}, \mbox{\hyperlink{admin_8c_source_l00151}{Display\+Version()}}, \mbox{\hyperlink{Ultrasoon_8c_source_l00061}{Echo\+\_\+sign\+\_\+task()}}, \mbox{\hyperlink{GPS__Route__Setter_8c_source_l00108}{GPS\+\_\+\+Route\+\_\+\+Maker()}}, \mbox{\hyperlink{ledjes_8c_source_l00044}{LED\+\_\+\+Task1()}}, \mbox{\hyperlink{ledjes_8c_source_l00077}{LED\+\_\+\+Task2()}}, \mbox{\hyperlink{ledjes_8c_source_l00107}{LED\+\_\+\+Task3()}}, \mbox{\hyperlink{ledjes_8c_source_l00152}{LED\+\_\+\+Task4()}}, \mbox{\hyperlink{compass__driver_8c_source_l00216}{LSM303\+M\+\_\+\+Raw\+Angle()}}, \mbox{\hyperlink{GPS__Route__Setter_8c_source_l00256}{Route\+\_\+\+Setter()}}, \mbox{\hyperlink{admin_8c_source_l00385}{Set\+Task\+Priority()}}, and \mbox{\hyperlink{UART__keys_8c_source_l00133}{UART\+\_\+menu()}}.
+
+\Hypertarget{uart_8c_a8fc12a2adee21e663b39d5d6501cfada}\index{uart.c@{uart.c}!UART\_putnum@{UART\_putnum}}
+\index{UART\_putnum@{UART\_putnum}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{UART\_putnum()}{UART\_putnum()}}
+{\footnotesize\ttfamily \label{uart_8c_a8fc12a2adee21e663b39d5d6501cfada} 
+void UART\+\_\+putnum (\begin{DoxyParamCaption}\item[{unsigned int}]{num}{, }\item[{unsigned char}]{deel}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{uart_8c_source_l00099}{99}} of file \mbox{\hyperlink{uart_8c_source}{uart.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00100\ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ chars[16]\ =\ \textcolor{stringliteral}{"{}0123456789ABCDEF"{}};}
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ rest;}
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordtype}{signed}\ \textcolor{keywordtype}{char}\ c[16];}
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordtype}{signed}\ \textcolor{keywordtype}{int}\ i=15;}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{comment}{//\ Zet\ de\ integer\ om\ naar\ een\ string}}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordflow}{if}(num==0)}
+\DoxyCodeLine{00108\ \ \ \ \ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ c[i]=\textcolor{charliteral}{'0'};}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ i-\/-\/;}
+\DoxyCodeLine{00111\ \ \ \ \ \}}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00113\ \ \ \ \ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(num>0)}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ rest=num\%deel;}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ num/=deel;}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ c[i]=chars[rest];}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ i-\/-\/;}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(i==0)\ \textcolor{comment}{//\ it\ ends\ here}}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ num=0;}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00124\ \ \ \ \ \}}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{comment}{//\ Stuur\ de\ string\ uit}}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordflow}{while}(i<15)}
+\DoxyCodeLine{00128\ \ \ \ \ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ i++;}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a92684d1c37c3d116f82e9e26f71b58a5}{UART\_putchar}}(c[i]);}
+\DoxyCodeLine{00131\ \ \ \ \ \}}
+\DoxyCodeLine{00132\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{uart_8c_source_l00051}{UART\+\_\+putchar()}}.
+
+
+
+Referenced by \mbox{\hyperlink{uart_8c_source_l00093}{UART\+\_\+putint()}}.
+
+\Hypertarget{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}\index{uart.c@{uart.c}!UART\_puts@{UART\_puts}}
+\index{UART\_puts@{UART\_puts}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{UART\_puts()}{UART\_puts()}}
+{\footnotesize\ttfamily \label{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900} 
+void UART\+\_\+puts (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{s}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{uart_8c_source_l00056}{56}} of file \mbox{\hyperlink{uart_8c_source}{uart.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00057\ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ i;}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordflow}{for}\ (i=0;\ s[i];\ i++)}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a92684d1c37c3d116f82e9e26f71b58a5}{UART\_putchar}}(s[i]);}
+\DoxyCodeLine{00062\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{uart_8c_source_l00051}{UART\+\_\+putchar()}}.
+
+
+
+Referenced by \mbox{\hyperlink{ARM__keys_8c_source_l00036}{ARM\+\_\+keys\+\_\+\+IRQ()}}, \mbox{\hyperlink{ARM__keys_8c_source_l00064}{ARM\+\_\+keys\+\_\+task()}}, \mbox{\hyperlink{compass__driver_8c_source_l00321}{Compass\+\_\+\+Heading()}}, \mbox{\hyperlink{admin_8c_source_l00245}{Create\+Handles()}}, \mbox{\hyperlink{admin_8c_source_l00337}{Create\+Tasks()}}, \mbox{\hyperlink{admin_8c_source_l00187}{Display\+Menu()}}, \mbox{\hyperlink{admin_8c_source_l00447}{Display\+Task\+Data()}}, \mbox{\hyperlink{admin_8c_source_l00151}{Display\+Version()}}, \mbox{\hyperlink{Ultrasoon_8c_source_l00061}{Echo\+\_\+sign\+\_\+task()}}, \mbox{\hyperlink{admin_8c_source_l00227}{error\+\_\+\+Halt\+OS()}}, \mbox{\hyperlink{gps_8c_source_l00174}{fill\+\_\+\+GNRMC()}}, \mbox{\hyperlink{gps_8c_source_l00283}{GPS\+\_\+get\+NMEA()}}, \mbox{\hyperlink{GPS__Route__Setter_8c_source_l00108}{GPS\+\_\+\+Route\+\_\+\+Maker()}}, \mbox{\hyperlink{main_8c_source_l00098}{I2\+C\+\_\+\+Scan\+Bus()}}, \mbox{\hyperlink{ledjes_8c_source_l00044}{LED\+\_\+\+Task1()}}, \mbox{\hyperlink{ledjes_8c_source_l00077}{LED\+\_\+\+Task2()}}, \mbox{\hyperlink{ledjes_8c_source_l00107}{LED\+\_\+\+Task3()}}, \mbox{\hyperlink{ledjes_8c_source_l00152}{LED\+\_\+\+Task4()}}, \mbox{\hyperlink{LOS__algo_8c_source_l00351}{LOS\+\_\+caller()}}, \mbox{\hyperlink{compass__driver_8c_source_l00154}{LSM303\+AGR\+\_\+\+Calibrate()}}, \mbox{\hyperlink{compass__driver_8c_source_l00311}{LSM303\+AGR\+\_\+\+CFG\+\_\+\+Read()}}, \mbox{\hyperlink{compass__driver_8c_source_l00216}{LSM303\+M\+\_\+\+Raw\+Angle()}}, \mbox{\hyperlink{main_8c_source_l00114}{main()}}, \mbox{\hyperlink{LOS__algo_8c_source_l00292}{on\+GPSupdate()}}, \mbox{\hyperlink{PID__controller_8c_source_l00210}{PID\+\_\+\+Controller()}}, \mbox{\hyperlink{PID__controller_8c_source_l00154}{PID\+\_\+trigger()}}, \mbox{\hyperlink{GPS__Route__Setter_8c_source_l00217}{Remove\+\_\+\+Last\+\_\+\+Node()}}, \mbox{\hyperlink{GPS__Route__Setter_8c_source_l00256}{Route\+\_\+\+Setter()}}, \mbox{\hyperlink{admin_8c_source_l00385}{Set\+Task\+Priority()}}, \mbox{\hyperlink{admin_8c_source_l00413}{Start\+Stop\+Task()}}, \mbox{\hyperlink{student_8c_source_l00019}{Student\+\_\+task1()}}, \mbox{\hyperlink{TFT_8c_source_l00180}{TFT\+\_\+task()}}, \mbox{\hyperlink{UART__keys_8c_source_l00061}{UART\+\_\+keys\+\_\+\+IRQ()}}, \mbox{\hyperlink{UART__keys_8c_source_l00030}{UART\+\_\+keys\+\_\+poll()}}, \mbox{\hyperlink{UART__keys_8c_source_l00133}{UART\+\_\+menu()}}, and \mbox{\hyperlink{GPS__Route__Setter_8c_source_l00070}{View\+\_\+\+Linkedlist()}}.
+
+
+
+\label{doc-var-members}
+\Hypertarget{uart_8c_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{uart_8c_acd20daa9406afe26baa393e01b4e2f67}\index{uart.c@{uart.c}!charcounter@{charcounter}}
+\index{charcounter@{charcounter}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{charcounter}{charcounter}}
+{\footnotesize\ttfamily \label{uart_8c_acd20daa9406afe26baa393e01b4e2f67} 
+int charcounter = 0}
+
+
+
+Definition at line \mbox{\hyperlink{uart_8c_source_l00041}{41}} of file \mbox{\hyperlink{uart_8c_source}{uart.\+c}}.
+
+\Hypertarget{uart_8c_aa9479c261d65eecedd3d9582f7f0f89c}\index{uart.c@{uart.c}!huart2@{huart2}}
+\index{huart2@{huart2}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{huart2}{huart2}}
+{\footnotesize\ttfamily \label{uart_8c_aa9479c261d65eecedd3d9582f7f0f89c} 
+UART\+\_\+\+Handle\+Type\+Def huart2\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00062}{62}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00779}{HAL\+\_\+\+UART\+\_\+\+Rx\+Cplt\+Callback()}}, \mbox{\hyperlink{main_8c_source_l00555}{MX\+\_\+\+USART2\+\_\+\+UART\+\_\+\+Init()}}, \mbox{\hyperlink{main_8c_source_l00820}{Start\+Default\+Task()}}, \mbox{\hyperlink{uart_8c_source_l00138}{UART\+\_\+get()}}, and \mbox{\hyperlink{uart_8c_source_l00051}{UART\+\_\+putchar()}}.
+
+\Hypertarget{uart_8c_ae003b8bf1d59f8b3e33f829151d7ef80}\index{uart.c@{uart.c}!string@{string}}
+\index{string@{string}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{string}{string}}
+{\footnotesize\ttfamily \label{uart_8c_ae003b8bf1d59f8b3e33f829151d7ef80} 
+char string\mbox{[}100\mbox{]}}
+
+
+
+Definition at line \mbox{\hyperlink{uart_8c_source_l00040}{40}} of file \mbox{\hyperlink{uart_8c_source}{uart.\+c}}.
+

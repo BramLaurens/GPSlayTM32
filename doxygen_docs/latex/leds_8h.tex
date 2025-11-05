@@ -1,0 +1,134 @@
+\doxysection{Core/\+My\+App/\+Ports/leds.h File Reference}
+\hypertarget{leds_8h}{}\label{leds_8h}\index{Core/MyApp/Ports/leds.h@{Core/MyApp/Ports/leds.h}}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{leds_8h_ae6fba83412273b31c69dd56268789a6a}{P\+\_\+\+LED\+\_\+\+RCK}}~GPIOB
+\item 
+\#define \mbox{\hyperlink{leds_8h_ab7bfe57136dd4400e101385b4d0bedca}{P\+\_\+\+LED\+\_\+\+SCK}}~GPIOB
+\item 
+\#define \mbox{\hyperlink{leds_8h_aa4729193f636268a31f8184b7b6b3f19}{P\+\_\+\+LED\+\_\+\+SER}}~GPIOA
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{leds_8h_a50cf228fce8563fc202330b7b4816cb9}{LED\+\_\+init}} (void)
+\item 
+void \mbox{\hyperlink{leds_8h_a8b0b7dd4a4e48361491c01594342adb0}{LED\+\_\+put}} (unsigned short led\+\_\+byte)
+\end{DoxyCompactItemize}
+
+
+\label{doc-define-members}
+\Hypertarget{leds_8h_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{leds_8h_ae6fba83412273b31c69dd56268789a6a}\index{leds.h@{leds.h}!P\_LED\_RCK@{P\_LED\_RCK}}
+\index{P\_LED\_RCK@{P\_LED\_RCK}!leds.h@{leds.h}}
+\doxysubsubsection{\texorpdfstring{P\_LED\_RCK}{P\_LED\_RCK}}
+{\footnotesize\ttfamily \label{leds_8h_ae6fba83412273b31c69dd56268789a6a} 
+\#define P\+\_\+\+LED\+\_\+\+RCK~GPIOB}
+
+
+
+Definition at line \mbox{\hyperlink{leds_8h_source_l00031}{31}} of file \mbox{\hyperlink{leds_8h_source}{leds.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{leds_8c_source_l00025}{LED\+\_\+init()}}, and \mbox{\hyperlink{leds_8c_source_l00036}{LED\+\_\+put()}}.
+
+\Hypertarget{leds_8h_ab7bfe57136dd4400e101385b4d0bedca}\index{leds.h@{leds.h}!P\_LED\_SCK@{P\_LED\_SCK}}
+\index{P\_LED\_SCK@{P\_LED\_SCK}!leds.h@{leds.h}}
+\doxysubsubsection{\texorpdfstring{P\_LED\_SCK}{P\_LED\_SCK}}
+{\footnotesize\ttfamily \label{leds_8h_ab7bfe57136dd4400e101385b4d0bedca} 
+\#define P\+\_\+\+LED\+\_\+\+SCK~GPIOB}
+
+
+
+Definition at line \mbox{\hyperlink{leds_8h_source_l00029}{29}} of file \mbox{\hyperlink{leds_8h_source}{leds.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{leds_8c_source_l00025}{LED\+\_\+init()}}, and \mbox{\hyperlink{leds_8c_source_l00036}{LED\+\_\+put()}}.
+
+\Hypertarget{leds_8h_aa4729193f636268a31f8184b7b6b3f19}\index{leds.h@{leds.h}!P\_LED\_SER@{P\_LED\_SER}}
+\index{P\_LED\_SER@{P\_LED\_SER}!leds.h@{leds.h}}
+\doxysubsubsection{\texorpdfstring{P\_LED\_SER}{P\_LED\_SER}}
+{\footnotesize\ttfamily \label{leds_8h_aa4729193f636268a31f8184b7b6b3f19} 
+\#define P\+\_\+\+LED\+\_\+\+SER~GPIOA}
+
+
+
+Definition at line \mbox{\hyperlink{leds_8h_source_l00027}{27}} of file \mbox{\hyperlink{leds_8h_source}{leds.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{leds_8c_source_l00025}{LED\+\_\+init()}}, and \mbox{\hyperlink{leds_8c_source_l00036}{LED\+\_\+put()}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{leds_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{leds_8h_a50cf228fce8563fc202330b7b4816cb9}\index{leds.h@{leds.h}!LED\_init@{LED\_init}}
+\index{LED\_init@{LED\_init}!leds.h@{leds.h}}
+\doxysubsubsection{\texorpdfstring{LED\_init()}{LED\_init()}}
+{\footnotesize\ttfamily \label{leds_8h_a50cf228fce8563fc202330b7b4816cb9} 
+void LED\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{leds_8c_source_l00025}{25}} of file \mbox{\hyperlink{leds_8c_source}{leds.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00026\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{leds_8h_aa4729193f636268a31f8184b7b6b3f19}{P\_LED\_SER}},\ LED\_SER\_Pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00028\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{leds_8h_ab7bfe57136dd4400e101385b4d0bedca}{P\_LED\_SCK}},\ LED\_SCK\_Pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00029\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{leds_8h_ae6fba83412273b31c69dd56268789a6a}{P\_LED\_RCK}},\ LED\_RCK\_Pin,\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{leds_8c_a8b0b7dd4a4e48361491c01594342adb0}{LED\_put}}(0);}
+\DoxyCodeLine{00031\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{leds_8c_source_l00036}{LED\+\_\+put()}}, \mbox{\hyperlink{leds_8h_source_l00031}{P\+\_\+\+LED\+\_\+\+RCK}}, \mbox{\hyperlink{leds_8h_source_l00029}{P\+\_\+\+LED\+\_\+\+SCK}}, and \mbox{\hyperlink{leds_8h_source_l00027}{P\+\_\+\+LED\+\_\+\+SER}}.
+
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00114}{main()}}.
+
+\Hypertarget{leds_8h_a8b0b7dd4a4e48361491c01594342adb0}\index{leds.h@{leds.h}!LED\_put@{LED\_put}}
+\index{LED\_put@{LED\_put}!leds.h@{leds.h}}
+\doxysubsubsection{\texorpdfstring{LED\_put()}{LED\_put()}}
+{\footnotesize\ttfamily \label{leds_8h_a8b0b7dd4a4e48361491c01594342adb0} 
+void LED\+\_\+put (\begin{DoxyParamCaption}\item[{unsigned short}]{led\+\_\+byte}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{leds_8c_source_l00036}{36}} of file \mbox{\hyperlink{leds_8c_source}{leds.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00037\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ i;}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \ \textcolor{keywordflow}{for}(i=128;\ i>=1;\ i>>=1)}
+\DoxyCodeLine{00041\ \ \ \ \ \ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{leds_8h_aa4729193f636268a31f8184b7b6b3f19}{P\_LED\_SER}},\ LED\_SER\_Pin,\ (led\_byte\ \&\ i)\ ?\ GPIO\_PIN\_SET\ :\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{leds_8h_ab7bfe57136dd4400e101385b4d0bedca}{P\_LED\_SCK}},\ LED\_SCK\_Pin,\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{leds_8h_ab7bfe57136dd4400e101385b4d0bedca}{P\_LED\_SCK}},\ LED\_SCK\_Pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00046\ \ \ \ \ \ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{leds_8h_ae6fba83412273b31c69dd56268789a6a}{P\_LED\_RCK}},\ LED\_RCK\_Pin,\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{00049\ \ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{leds_8h_ae6fba83412273b31c69dd56268789a6a}{P\_LED\_RCK}},\ LED\_RCK\_Pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{00050\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{leds_8h_source_l00031}{P\+\_\+\+LED\+\_\+\+RCK}}, \mbox{\hyperlink{leds_8h_source_l00029}{P\+\_\+\+LED\+\_\+\+SCK}}, and \mbox{\hyperlink{leds_8h_source_l00027}{P\+\_\+\+LED\+\_\+\+SER}}.
+
+
+
+Referenced by \mbox{\hyperlink{ARM__keys_8c_source_l00064}{ARM\+\_\+keys\+\_\+task()}}, \mbox{\hyperlink{leds_8c_source_l00025}{LED\+\_\+init()}}, \mbox{\hyperlink{ledjes_8c_source_l00044}{LED\+\_\+\+Task1()}}, \mbox{\hyperlink{ledjes_8c_source_l00077}{LED\+\_\+\+Task2()}}, \mbox{\hyperlink{ledjes_8c_source_l00107}{LED\+\_\+\+Task3()}}, and \mbox{\hyperlink{ledjes_8c_source_l00152}{LED\+\_\+\+Task4()}}.
+

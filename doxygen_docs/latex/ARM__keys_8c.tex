@@ -69,7 +69,7 @@ Definition at line \mbox{\hyperlink{ARM__keys_8c_source_l00036}{36}} of file \mb
 \DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}};}
 \DoxyCodeLine{00039\ \ \ \ \ osThreadId\_t\ hTask;}
 \DoxyCodeLine{00040\ }
-\DoxyCodeLine{00041\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});\ UART\_puts((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ UART\_puts(\textcolor{stringliteral}{"{}\ started"{}});}
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});\ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}((\textcolor{keywordtype}{char}\ *)\_\_func\_\_);\ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}\ started"{}});}
 \DoxyCodeLine{00042\ }
 \DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(hTask\ =\ xTaskGetHandle(\textcolor{stringliteral}{"{}ARM\_keys\_task"{}})))}
 \DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{admin_8c_a34a9c5eb09cae80d85d5d13a348ee1e8}{error\_HaltOS}}(\textcolor{stringliteral}{"{}Err:ARM\_hndle"{}});}
@@ -87,7 +87,7 @@ Definition at line \mbox{\hyperlink{ARM__keys_8c_source_l00036}{36}} of file \mb
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{admin_8c_source_l00237}{error\+\_\+\+Halt\+OS()}}, \mbox{\hyperlink{admin_8c_source_l00057}{h\+KEY\+\_\+\+Event}}, and \mbox{\hyperlink{PID__controller_8c_source_l00065}{key}}.
+References \mbox{\hyperlink{admin_8c_source_l00227}{error\+\_\+\+Halt\+OS()}}, \mbox{\hyperlink{admin_8c_source_l00055}{h\+KEY\+\_\+\+Event}}, \mbox{\hyperlink{PID__controller_8c_source_l00063}{key}}, and \mbox{\hyperlink{uart_8c_source_l00056}{UART\+\_\+puts()}}.
 
 \Hypertarget{ARM__keys_8c_a877687ff1bd562c855d11d4941cd966d}\index{ARM\_keys.c@{ARM\_keys.c}!ARM\_keys\_task@{ARM\_keys\_task}}
 \index{ARM\_keys\_task@{ARM\_keys\_task}!ARM\_keys.c@{ARM\_keys.c}}
@@ -115,7 +115,7 @@ Definition at line \mbox{\hyperlink{ARM__keys_8c_source_l00064}{64}} of file \mb
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00065\ \{}
 \DoxyCodeLine{00066\ \ \ \ \ uint32\_t\ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}};}
-\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}},\ led;}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ i,\ led;}
 \DoxyCodeLine{00068\ }
 \DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
 \DoxyCodeLine{00070\ \ \ \ \ \{}
@@ -127,15 +127,15 @@ Definition at line \mbox{\hyperlink{ARM__keys_8c_source_l00064}{64}} of file \mb
 \DoxyCodeLine{00076\ }
 \DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ xSemaphoreTake(\mbox{\hyperlink{admin_8c_a011b1349f4d8c02977b852c7587f0581}{hLED\_Sem}},\ portMAX\_DELAY);\ \textcolor{comment}{//\ krijg\ toegang\ (mutex)\ tot\ leds}}
 \DoxyCodeLine{00078\ }
-\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ LED\_put((\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char})\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}});\ \textcolor{comment}{//\ set\ 8\ leds-\/byte\ to\ key-\/value}}
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ BUZZER\_put\ (500);}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{leds_8c_a8b0b7dd4a4e48361491c01594342adb0}{LED\_put}}((\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char})\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}});\ \textcolor{comment}{//\ set\ 8\ leds-\/byte\ to\ key-\/value}}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{buzzer_8c_adeb2661c8548976c1aa29e21f0659b84}{BUZZER\_put}}\ (500);}
 \DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ osDelay(500);}
 \DoxyCodeLine{00082\ }
-\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)tARM\_key\ pressed\ to\ leds:\ "{}});\ UART\_putint(\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}});}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)tARM\_key\ pressed\ to\ leds:\ "{}});\ \mbox{\hyperlink{uart_8c_ab68b2265165f1a355ff3dac4a726b37d}{UART\_putint}}(\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}});}
 \DoxyCodeLine{00084\ }
 \DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_a952449da34b356e2651de547daf4312c}{Uart\_debug\_out}}\ \&\ \mbox{\hyperlink{admin_8h_ae2de7e45f2168abc45779a2d5dce35e2}{ARMKEYS\_DEBUG\_OUT}})}
 \DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)tARM\_key\ pressed\ to\ leds:\ "{}});\ UART\_putint(\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}});}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)tARM\_key\ pressed\ to\ leds:\ "{}});\ \mbox{\hyperlink{uart_8c_ab68b2265165f1a355ff3dac4a726b37d}{UART\_putint}}(\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}});}
 \DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00089\ }
 \DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ xSemaphoreGive(\mbox{\hyperlink{admin_8c_a011b1349f4d8c02977b852c7587f0581}{hLED\_Sem}});\ \textcolor{comment}{//\ geef\ toegang\ (mutex)\ vrij}}
@@ -143,9 +143,9 @@ Definition at line \mbox{\hyperlink{ARM__keys_8c_source_l00064}{64}} of file \mb
 \DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ tot\ slot,\ laat\ de\ gekleurde\ ledjes\ meedoen}}
 \DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ maar\ niet\ blauw,\ want\ die\ is\ ingezet\ voor\ de\ timer}}
 \DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ kijk\ naar\ de\ manier\ waarop\ de\ if-\/elses\ er\ uitzien}}
-\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}=0;\ \mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}<3;\ \mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}++)}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (i=0;\ i<3;\ i++)}
 \DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ led\ =\ (\mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}==0\ ?\ \mbox{\hyperlink{admin_8h_a4a865d371e7fdede347031acef7248a1}{LEDRED}}\ :\ (\mbox{\hyperlink{dGPS_8c_acb559820d9ca11295b4500f179ef6392}{i}}==1\ ?\ \mbox{\hyperlink{admin_8h_a997de867fda1d8d8774cda7ef97c6f9d}{LEDORANGE}}\ :\ \mbox{\hyperlink{admin_8h_a5cd9ee80876b12602eb666a07b9cfe50}{LEDGREEN}}));}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ led\ =\ (i==0\ ?\ \mbox{\hyperlink{admin_8h_a4a865d371e7fdede347031acef7248a1}{LEDRED}}\ :\ (i==1\ ?\ \mbox{\hyperlink{admin_8h_a997de867fda1d8d8774cda7ef97c6f9d}{LEDORANGE}}\ :\ \mbox{\hyperlink{admin_8h_a5cd9ee80876b12602eb666a07b9cfe50}{LEDGREEN}}));}
 \DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ARM__keys_8c_a1fd0008123c48c14439411716629af5a}{toggle\_led}}(led);}
 \DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00100\ }
@@ -172,11 +172,11 @@ Definition at line \mbox{\hyperlink{ARM__keys_8c_source_l00064}{64}} of file \mb
 \DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Send\ key\ to\ the\ PID\ controller\ queue}}
 \DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{admin_8c_ac28b18f5722e9b7bbd153fef9cd4ca11}{hKeyPID\_Queue}})}
 \DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\ Sending\ key\ to\ PID\_Controller\ queue:\ "{}});\ UART\_putint(\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}});\ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\ Sending\ key\ to\ PID\_Controller\ queue:\ "{}});\ \mbox{\hyperlink{uart_8c_ab68b2265165f1a355ff3dac4a726b37d}{UART\_putint}}(\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}});\ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
 \DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ try\ to\ send\ without\ blocking;\ if\ queue\ is\ full,\ drop\ the\ key}}
 \DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (xQueueSend(\mbox{\hyperlink{admin_8c_ac28b18f5722e9b7bbd153fef9cd4ca11}{hKeyPID\_Queue}},\ \&\mbox{\hyperlink{PID__controller_8c_a668a437ea5e7a51173aee9f82f6747de}{key}},\ 0)\ !=\ pdTRUE)}
 \DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Err:\ PID\ key\ Q\ full\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}Err:\ PID\ key\ Q\ full\(\backslash\)r\(\backslash\)n"{}});}
 \DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00131\ }
@@ -187,7 +187,7 @@ Definition at line \mbox{\hyperlink{ARM__keys_8c_source_l00064}{64}} of file \mb
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{admin_8h_source_l00103}{ARMKEYS\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{admin_8c_source_l00055}{h\+Key\+PID\+\_\+\+Queue}}, \mbox{\hyperlink{admin_8c_source_l00050}{h\+Key\+RP\+\_\+\+Queue}}, \mbox{\hyperlink{admin_8c_source_l00051}{h\+Key\+RS\+\_\+\+Queue}}, \mbox{\hyperlink{admin_8c_source_l00056}{h\+LED\+\_\+\+Sem}}, \mbox{\hyperlink{dGPS_8c_source_l00026}{i}}, \mbox{\hyperlink{PID__controller_8c_source_l00065}{key}}, \mbox{\hyperlink{admin_8h_source_l00120}{LEDGREEN}}, \mbox{\hyperlink{admin_8h_source_l00124}{LEDORANGE}}, \mbox{\hyperlink{admin_8h_source_l00122}{LEDRED}}, \mbox{\hyperlink{ARM__keys_8c_source_l00023}{toggle\+\_\+led()}}, \mbox{\hyperlink{admin_8h_source_l00025}{TRUE}}, and \mbox{\hyperlink{admin_8c_source_l00044}{Uart\+\_\+debug\+\_\+out}}.
+References \mbox{\hyperlink{admin_8h_source_l00103}{ARMKEYS\+\_\+\+DEBUG\+\_\+\+OUT}}, \mbox{\hyperlink{buzzer_8c_source_l00043}{BUZZER\+\_\+put()}}, \mbox{\hyperlink{admin_8c_source_l00053}{h\+Key\+PID\+\_\+\+Queue}}, \mbox{\hyperlink{admin_8c_source_l00048}{h\+Key\+RP\+\_\+\+Queue}}, \mbox{\hyperlink{admin_8c_source_l00049}{h\+Key\+RS\+\_\+\+Queue}}, \mbox{\hyperlink{admin_8c_source_l00054}{h\+LED\+\_\+\+Sem}}, \mbox{\hyperlink{PID__controller_8c_source_l00063}{key}}, \mbox{\hyperlink{leds_8c_source_l00036}{LED\+\_\+put()}}, \mbox{\hyperlink{admin_8h_source_l00120}{LEDGREEN}}, \mbox{\hyperlink{admin_8h_source_l00124}{LEDORANGE}}, \mbox{\hyperlink{admin_8h_source_l00122}{LEDRED}}, \mbox{\hyperlink{ARM__keys_8c_source_l00023}{toggle\+\_\+led()}}, \mbox{\hyperlink{admin_8h_source_l00025}{TRUE}}, \mbox{\hyperlink{admin_8c_source_l00042}{Uart\+\_\+debug\+\_\+out}}, \mbox{\hyperlink{uart_8c_source_l00093}{UART\+\_\+putint()}}, and \mbox{\hyperlink{uart_8c_source_l00056}{UART\+\_\+puts()}}.
 
 \Hypertarget{ARM__keys_8c_a1fd0008123c48c14439411716629af5a}\index{ARM\_keys.c@{ARM\_keys.c}!toggle\_led@{toggle\_led}}
 \index{toggle\_led@{toggle\_led}!ARM\_keys.c@{ARM\_keys.c}}

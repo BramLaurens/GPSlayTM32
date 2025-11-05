@@ -1,0 +1,41 @@
+\doxysection{leds.\+h}
+\hypertarget{leds_8h_source}{}\label{leds_8h_source}\index{Core/MyApp/Ports/leds.h@{Core/MyApp/Ports/leds.h}}
+\mbox{\hyperlink{leds_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00001}00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00002}00002\ \textcolor{comment}{Author:\ \ \ \ \ W\ Pielage\ \&\ E\ Helmond}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00003}00003\ \textcolor{comment}{Date:\ \ \ \ \ \ \ 2-\/10-\/2013}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00004}00004\ \textcolor{comment}{Revision:\ \ \ 2}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00005}00005\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00006}00006\ \textcolor{comment}{\ \ \ \ leds.c:}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00007}00007\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ LED-\/driver\ for\ SpARM-\/board\ v1}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00008}00008\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00009}00009\ \textcolor{comment}{\ \ \ \ pin-\/info:}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00010}00010\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PB1\ -\/\ RCK:\ Storage\ register\ clock}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00011}00011\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PB8\ \ -\/\ SCK:\ Shift\ register\ clock}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00012}00012\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PA15\ -\/\ SER:\ Data\ input}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00013}00013\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00014}00014\ \textcolor{comment}{To\ use\ the\ LEDs\ use\ the\ following\ line\ to\ set\ the\ pins:}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00015}00015\ \textcolor{comment}{\ \ \ \ LED\_init();}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00016}00016\ \textcolor{comment}{After\ that,\ you\ can\ put\ an\ 8\ bit\ value\ to\ the\ LEDs}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00017}00017\ \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00019}00019\ \textcolor{comment}{/****************Libraries******************************/}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00020}00020\ \textcolor{comment}{/*\ Libraries\ needed\ for\ LEDs\ are\ (These\ are\ in\ main.h):}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00021}00021\ \textcolor{comment}{\ *\ \#include\ "{}stm32f4xx.h"{}}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00022}00022\ \textcolor{comment}{\ *\ \#include\ "{}stm32f4xx\_gpio.h"{}}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00023}00023\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00025}00025\ \textcolor{comment}{/****************Defines********************************/}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00026}00026\ \textcolor{comment}{//\#define\ \ \ LED\_SER\ \ \ \ \ GPIO\_Pin\_15}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00027}\mbox{\hyperlink{leds_8h_aa4729193f636268a31f8184b7b6b3f19}{00027}}\ \textcolor{preprocessor}{\#define\ P\_LED\_SER\ \ \ GPIOA}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00028}00028\ \textcolor{comment}{//\#define\ \ \ LED\_SCK\ \ \ \ \ GPIO\_Pin\_8}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00029}\mbox{\hyperlink{leds_8h_ab7bfe57136dd4400e101385b4d0bedca}{00029}}\ \textcolor{preprocessor}{\#define\ P\_LED\_SCK\ \ \ GPIOB}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00030}00030\ \textcolor{comment}{//\#define\ \ \ LED\_RCK\ \ \ \ \ GPIO\_Pin\_1}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00031}\mbox{\hyperlink{leds_8h_ae6fba83412273b31c69dd56268789a6a}{00031}}\ \textcolor{preprocessor}{\#define\ P\_LED\_RCK\ \ \ GPIOB}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00033}00033\ \textcolor{comment}{/****************Function\ Prototypes********************/}}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00034}00034\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{leds_8h_a50cf228fce8563fc202330b7b4816cb9}{LED\_init}}\ \ \ \ (\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{leds_8h_source_l00035}00035\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{leds_8h_a8b0b7dd4a4e48361491c01594342adb0}{LED\_put}}\ \ \ \ \ \ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ led\_byte);}
+
+\end{DoxyCode}

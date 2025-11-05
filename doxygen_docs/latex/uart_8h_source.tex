@@ -1,0 +1,49 @@
+\doxysection{uart.\+h}
+\hypertarget{uart_8h_source}{}\label{uart_8h_source}\index{Core/MyApp/Ports/uart.h@{Core/MyApp/Ports/uart.h}}
+\mbox{\hyperlink{uart_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00001}00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00002}00002\ \textcolor{comment}{Author:\ \ \ \ \ J.F.\ van\ der\ Bent}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00003}00003\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ W\ Pielage\ \&\ E\ Helmond}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00004}00004\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00005}00005\ \textcolor{comment}{Date:\ \ \ \ \ \ \ 24-\/11-\/2021}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00006}00006\ \textcolor{comment}{Revision:\ \ \ 5}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00007}00007\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00008}00008\ \textcolor{comment}{\ \ \ \ uart.c:}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00009}00009\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ UART2\ driver\ for\ ARM-\/board\ V5}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00010}00010\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00011}00011\ \textcolor{comment}{\ \ \ \ pin-\/info:}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00012}00012\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PA2\ -\/\ TX}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00013}00013\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PA3\ -\/\ RX}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00014}00014\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00015}00015\ \textcolor{comment}{To\ enable\ UART\ use\ the\ following\ line:}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00016}00016\ \textcolor{comment}{\ \ \ \ UART\_init();}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00017}00017\ \textcolor{comment}{To\ use\ UART\ on\ interrupt\ base\ use:}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00018}00018\ \textcolor{comment}{\ \ \ \ UART\_INT\_init();}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00019}00019\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00020}00020\ \textcolor{comment}{This\ file\ initialize\ the\ UART\ on\ the\ ARM-\/board\ v5.}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00021}00021\ \textcolor{comment}{To\ send\ data\ to\ the\ UART\ use:}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00022}00022\ \textcolor{comment}{\ \ \ \ UART\_printf(*string);}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00023}00023\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00024}00024\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00025}00025\ \textcolor{comment}{In\ the\ interrupt\ routine\ the\ char\ is\ send\ back\ to\ the\ terminal}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00026}00026\ \textcolor{comment}{07-\/07-\/2014\ Aanpassen\ Uart\ routine\ om\ compatibel\ te\ zijn\ met\ void\ UART\_put(char\ *c)}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00027}00027\ \textcolor{comment}{24011-\/2021\ aanpassen\ van\ de\ Uart\ lib\ naar\ HAL}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00028}00028\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00029}00029\ \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00031}\mbox{\hyperlink{uart_8h_adf83f902bc253b8c48aa46f67dcd0a2a}{00031}}\ \textcolor{preprocessor}{\#define\ CRETURN\ \ \ \ \ 13}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00032}\mbox{\hyperlink{uart_8h_a862a05b8f5db6a2a6721f8b70f5d7e24}{00032}}\ \textcolor{preprocessor}{\#define\ LFEED\ \ \ \ \ \ \ 10}}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00035}00035\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{uart_8h_ab60a36f7295d704926120d22f806dcd1}{UART\_init}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00036}00036\ \textcolor{keywordtype}{signed}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{uart_8h_ae79c23d66207bb2d73163f06a36ed028}{UART\_printf}}(\textcolor{keywordtype}{size\_t}\ length,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *pFormat,\ ...);}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00037}00037\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{uart_8h_ac3ea536f44785fa10c5a92ff0d2a6298}{UART\_INT\_init}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00038}00038\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{uart_8h_a92684d1c37c3d116f82e9e26f71b58a5}{UART\_putchar}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ c);}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00039}00039\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{uart_8h_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *s);}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00040}00040\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{uart_8h_a8fc12a2adee21e663b39d5d6501cfada}{UART\_putnum}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ num,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ deel);}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00041}00041\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{uart_8h_ab68b2265165f1a355ff3dac4a726b37d}{UART\_putint}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ num);}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00042}00042\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{uart_8h_aba72ba3c665a23c4d7e25f442bc2ce3a}{UART\_get}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{uart_8h_source_l00043}00043\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{uart_8h_a3a89b889590b5197ee13082d86577739}{UART\_gets}}(\textcolor{keywordtype}{char}\ *s,\ \textcolor{keywordtype}{int}\ size,\ \textcolor{keywordtype}{int}\ echo);}
+
+\end{DoxyCode}

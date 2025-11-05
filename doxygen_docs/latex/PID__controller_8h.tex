@@ -3,8 +3,8 @@
 {\ttfamily \#include $<$stdio.\+h$>$}\newline
 {\ttfamily \#include $<$stdlib.\+h$>$}\newline
 {\ttfamily \#include $<$stdint.\+h$>$}\newline
-{\ttfamily \#include "{}routeperformer.\+h"{}}\newline
 {\ttfamily \#include "{}admin.\+h"{}}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -36,22 +36,22 @@ Get the current state of the obstacle avoidance feature.
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{PID__controller_8c_source_l00075}{75}} of file \mbox{\hyperlink{PID__controller_8c_source}{PID\+\_\+controller.\+c}}.
+Definition at line \mbox{\hyperlink{PID__controller_8c_source_l00071}{71}} of file \mbox{\hyperlink{PID__controller_8c_source}{PID\+\_\+controller.\+c}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00076\ \{}
-\DoxyCodeLine{00077\ \ \ \ \ *state\ =\ \mbox{\hyperlink{PID__controller_8c_ae0145984b7a6e7e4003342ba70b42395}{enableObstacleAvoidance}};}
-\DoxyCodeLine{00078\ \}}
+\DoxyCodeLine{00072\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ *state\ =\ \mbox{\hyperlink{PID__controller_8c_ae0145984b7a6e7e4003342ba70b42395}{enableObstacleAvoidance}};}
+\DoxyCodeLine{00074\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{PID__controller_8c_source_l00064}{enable\+Obstacle\+Avoidance}}.
+References \mbox{\hyperlink{PID__controller_8c_source_l00062}{enable\+Obstacle\+Avoidance}}.
 
 
 
-Referenced by \mbox{\hyperlink{TFT_8c_source_l00139}{update\+\_\+obstacle\+\_\+display()}}.
+Referenced by \mbox{\hyperlink{TFT_8c_source_l00138}{update\+\_\+obstacle\+\_\+display()}}.
 
 \Hypertarget{PID__controller_8h_ad656e15a8dfd83551a134c9d768e8dfc}\index{PID\_controller.h@{PID\_controller.h}!PID\_getObstacleFlag@{PID\_getObstacleFlag}}
 \index{PID\_getObstacleFlag@{PID\_getObstacleFlag}!PID\_controller.h@{PID\_controller.h}}
@@ -70,22 +70,22 @@ Get the current state of the obstacle flag.
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{PID__controller_8c_source_l00085}{85}} of file \mbox{\hyperlink{PID__controller_8c_source}{PID\+\_\+controller.\+c}}.
+Definition at line \mbox{\hyperlink{PID__controller_8c_source_l00081}{81}} of file \mbox{\hyperlink{PID__controller_8c_source}{PID\+\_\+controller.\+c}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00086\ \{}
-\DoxyCodeLine{00087\ \ \ \ \ *flag\ =\ \mbox{\hyperlink{PID__controller_8c_ab83af6171d6deb8c85a7976002efc4ea}{obstacleFlag}};}
-\DoxyCodeLine{00088\ \}}
+\DoxyCodeLine{00082\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ *flag\ =\ \mbox{\hyperlink{PID__controller_8c_ab83af6171d6deb8c85a7976002efc4ea}{obstacleFlag}};}
+\DoxyCodeLine{00084\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{PID__controller_8c_source_l00066}{obstacle\+Flag}}.
+References \mbox{\hyperlink{PID__controller_8c_source_l00064}{obstacle\+Flag}}.
 
 
 
-Referenced by \mbox{\hyperlink{TFT_8c_source_l00139}{update\+\_\+obstacle\+\_\+display()}}.
+Referenced by \mbox{\hyperlink{TFT_8c_source_l00138}{update\+\_\+obstacle\+\_\+display()}}.
 
 \Hypertarget{PID__controller_8h_adee41834c306e02a66bf5a110503006d}\index{PID\_controller.h@{PID\_controller.h}!PID\_setObstacleFlag@{PID\_setObstacleFlag}}
 \index{PID\_setObstacleFlag@{PID\_setObstacleFlag}!PID\_controller.h@{PID\_controller.h}}
@@ -104,18 +104,18 @@ Set the current state of the obstacle flag.
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{PID__controller_8c_source_l00095}{95}} of file \mbox{\hyperlink{PID__controller_8c_source}{PID\+\_\+controller.\+c}}.
+Definition at line \mbox{\hyperlink{PID__controller_8c_source_l00091}{91}} of file \mbox{\hyperlink{PID__controller_8c_source}{PID\+\_\+controller.\+c}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00096\ \{}
-\DoxyCodeLine{00097\ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_ab83af6171d6deb8c85a7976002efc4ea}{obstacleFlag}}\ =\ flag;}
-\DoxyCodeLine{00098\ \}}
+\DoxyCodeLine{00092\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_ab83af6171d6deb8c85a7976002efc4ea}{obstacleFlag}}\ =\ flag;}
+\DoxyCodeLine{00094\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{PID__controller_8c_source_l00066}{obstacle\+Flag}}.
+References \mbox{\hyperlink{PID__controller_8c_source_l00064}{obstacle\+Flag}}.
 
 
 

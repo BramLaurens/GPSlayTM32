@@ -1,0 +1,26 @@
+var st7735_8c =
+[
+    [ "DELAY", "st7735_8c.html#a62249e384b997229a3e2ae74ade334e2", null ],
+    [ "ST7735_DrawImage", "st7735_8c.html#a7e1f56549e23caf81fa4f1eadf85875f", null ],
+    [ "ST7735_DrawPixel", "st7735_8c.html#a5f14e27ee982d8839948ece78c0cbf48", null ],
+    [ "ST7735_ExecuteCommandList", "st7735_8c.html#ae66d56487ee56659df16e3432397564e", null ],
+    [ "ST7735_FillRectangle", "st7735_8c.html#ae91430b14654022f725f61a9b4eecaf7", null ],
+    [ "ST7735_FillRectangleFast", "st7735_8c.html#a74523215e8f7e3d810d8ac79688671f6", null ],
+    [ "ST7735_FillScreen", "st7735_8c.html#a3a14506207ab49aee2c40700b5036271", null ],
+    [ "ST7735_FillScreenFast", "st7735_8c.html#ab4664027af128dce09224594a1cf9a83", null ],
+    [ "ST7735_Init", "st7735_8c.html#ab194cedbacbd10d612b3fbe14aefaaab", null ],
+    [ "ST7735_InvertColors", "st7735_8c.html#a1a037b05b226b6884774a979ca2051ed", null ],
+    [ "ST7735_Reset", "st7735_8c.html#aaa424baaa9a271b6e3611518d970d8f2", null ],
+    [ "ST7735_Select", "st7735_8c.html#a468cfe9ec25b2d4da437d6899c2d0d8f", null ],
+    [ "ST7735_SetAddressWindow", "st7735_8c.html#a06e354ea6f383c2a03b2c8b5615f0984", null ],
+    [ "ST7735_SetGamma", "st7735_8c.html#a702e2cbb31f218cf8ebfb475e572f545", null ],
+    [ "ST7735_TestPattern", "st7735_8c.html#a77d12c70eb818578f90b16f7b9508951", null ],
+    [ "ST7735_Unselect", "st7735_8c.html#a37a44640340fd043ef5ce296bc24a016", null ],
+    [ "ST7735_WriteChar", "st7735_8c.html#a0478a1051d049a735c775462d9d5bc94", null ],
+    [ "ST7735_WriteCommand", "st7735_8c.html#add4444abd66c488226da3dc6e36a456d", null ],
+    [ "ST7735_WriteData", "st7735_8c.html#a9abbfdf4a21fd9dabe8c9868bbe763f8", null ],
+    [ "ST7735_WriteString", "st7735_8c.html#a58047936eeaceca83d61fb3e47d8215a", null ],
+    [ "init_cmds1", "st7735_8c.html#ab8a2474a84dad7db7e3440dec7f6f5a0", null ],
+    [ "init_cmds2", "st7735_8c.html#ae24987f1b97461c81dd2362c41e42e05", null ],
+    [ "init_cmds3", "st7735_8c.html#a84840c580dcb96c81f383856986a8df9", null ]
+];

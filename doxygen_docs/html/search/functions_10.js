@@ -1,6 +1,29 @@
 var searchData=
 [
-  ['tft_5ftask_0',['TFT_task',['../admin_8h.html#a4528f7be61484afcfc8a6983fc41fe0c',1,'TFT_task(void *):&#160;TFT.c'],['../TFT_8c.html#af981707b124f3e24ec296ba88d26dc0e',1,'TFT_task(void *argument):&#160;TFT.c']]],
-  ['timer1_5fhandler_1',['Timer1_Handler',['../admin_8c.html#a96c9e7d4608bbcbb1f89460ea7d8da6f',1,'Timer1_Handler(void):&#160;admin.c'],['../admin_8h.html#a96c9e7d4608bbcbb1f89460ea7d8da6f',1,'Timer1_Handler(void):&#160;admin.c']]],
-  ['toggle_5fled_2',['toggle_led',['../ARM__keys_8c.html#a1fd0008123c48c14439411716629af5a',1,'ARM_keys.c']]]
+  ['set_5flos_5falgostate_0',['set_LOS_algoState',['../LOS__algo_8c.html#a787d7b65e7c3a511b8e60a6a4d5de992',1,'set_LOS_algoState(bool state):&#160;LOS_algo.c'],['../LOS__algo_8h.html#a787d7b65e7c3a511b8e60a6a4d5de992',1,'set_LOS_algoState(bool state):&#160;LOS_algo.c']]],
+  ['settaskpriority_1',['SetTaskPriority',['../admin_8c.html#a08f97e6c32e65d04aa2425dadff927e1',1,'SetTaskPriority(int task_id, int new_priority):&#160;admin.c'],['../admin_8h.html#a16ba23da293f6f319ffbc502a4cb7d5c',1,'SetTaskPriority(int, int):&#160;admin.c']]],
+  ['st7735_5fdrawimage_2',['ST7735_DrawImage',['../st7735_8c.html#a7e1f56549e23caf81fa4f1eadf85875f',1,'ST7735_DrawImage(uint16_t x, uint16_t y, uint16_t w, uint16_t h, const uint16_t *data):&#160;st7735.c'],['../st7735_8h.html#a7e1f56549e23caf81fa4f1eadf85875f',1,'ST7735_DrawImage(uint16_t x, uint16_t y, uint16_t w, uint16_t h, const uint16_t *data):&#160;st7735.c']]],
+  ['st7735_5fdrawpixel_3',['ST7735_DrawPixel',['../st7735_8c.html#a5f14e27ee982d8839948ece78c0cbf48',1,'ST7735_DrawPixel(uint16_t x, uint16_t y, uint16_t color):&#160;st7735.c'],['../st7735_8h.html#a5f14e27ee982d8839948ece78c0cbf48',1,'ST7735_DrawPixel(uint16_t x, uint16_t y, uint16_t color):&#160;st7735.c']]],
+  ['st7735_5fexecutecommandlist_4',['ST7735_ExecuteCommandList',['../st7735_8c.html#ae66d56487ee56659df16e3432397564e',1,'st7735.c']]],
+  ['st7735_5ffillrectangle_5',['ST7735_FillRectangle',['../st7735_8c.html#ae91430b14654022f725f61a9b4eecaf7',1,'ST7735_FillRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color):&#160;st7735.c'],['../st7735_8h.html#ae91430b14654022f725f61a9b4eecaf7',1,'ST7735_FillRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color):&#160;st7735.c']]],
+  ['st7735_5ffillrectanglefast_6',['ST7735_FillRectangleFast',['../st7735_8c.html#a74523215e8f7e3d810d8ac79688671f6',1,'ST7735_FillRectangleFast(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color):&#160;st7735.c'],['../st7735_8h.html#a74523215e8f7e3d810d8ac79688671f6',1,'ST7735_FillRectangleFast(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color):&#160;st7735.c']]],
+  ['st7735_5ffillscreen_7',['ST7735_FillScreen',['../st7735_8c.html#a3a14506207ab49aee2c40700b5036271',1,'ST7735_FillScreen(uint16_t color):&#160;st7735.c'],['../st7735_8h.html#a3a14506207ab49aee2c40700b5036271',1,'ST7735_FillScreen(uint16_t color):&#160;st7735.c']]],
+  ['st7735_5ffillscreenfast_8',['ST7735_FillScreenFast',['../st7735_8c.html#ab4664027af128dce09224594a1cf9a83',1,'ST7735_FillScreenFast(uint16_t color):&#160;st7735.c'],['../st7735_8h.html#ab4664027af128dce09224594a1cf9a83',1,'ST7735_FillScreenFast(uint16_t color):&#160;st7735.c']]],
+  ['st7735_5finit_9',['ST7735_Init',['../st7735_8c.html#ab194cedbacbd10d612b3fbe14aefaaab',1,'ST7735_Init():&#160;st7735.c'],['../st7735_8h.html#a0542eab2c844d26cfdef2db1a65c61db',1,'ST7735_Init(void):&#160;st7735.c']]],
+  ['st7735_5finvertcolors_10',['ST7735_InvertColors',['../st7735_8c.html#a1a037b05b226b6884774a979ca2051ed',1,'ST7735_InvertColors(bool invert):&#160;st7735.c'],['../st7735_8h.html#a1a037b05b226b6884774a979ca2051ed',1,'ST7735_InvertColors(bool invert):&#160;st7735.c']]],
+  ['st7735_5freset_11',['ST7735_Reset',['../st7735_8c.html#aaa424baaa9a271b6e3611518d970d8f2',1,'st7735.c']]],
+  ['st7735_5fselect_12',['ST7735_Select',['../st7735_8c.html#a468cfe9ec25b2d4da437d6899c2d0d8f',1,'st7735.c']]],
+  ['st7735_5fsetaddresswindow_13',['ST7735_SetAddressWindow',['../st7735_8c.html#a06e354ea6f383c2a03b2c8b5615f0984',1,'st7735.c']]],
+  ['st7735_5fsetgamma_14',['ST7735_SetGamma',['../st7735_8c.html#a702e2cbb31f218cf8ebfb475e572f545',1,'ST7735_SetGamma(GammaDef gamma):&#160;st7735.c'],['../st7735_8h.html#a702e2cbb31f218cf8ebfb475e572f545',1,'ST7735_SetGamma(GammaDef gamma):&#160;st7735.c']]],
+  ['st7735_5ftestpattern_15',['ST7735_TestPattern',['../st7735_8c.html#a77d12c70eb818578f90b16f7b9508951',1,'ST7735_TestPattern(void):&#160;st7735.c'],['../st7735_8h.html#a77d12c70eb818578f90b16f7b9508951',1,'ST7735_TestPattern(void):&#160;st7735.c']]],
+  ['st7735_5funselect_16',['ST7735_Unselect',['../st7735_8c.html#a37a44640340fd043ef5ce296bc24a016',1,'ST7735_Unselect():&#160;st7735.c'],['../st7735_8h.html#a37a44640340fd043ef5ce296bc24a016',1,'ST7735_Unselect():&#160;st7735.c']]],
+  ['st7735_5fwritechar_17',['ST7735_WriteChar',['../st7735_8c.html#a0478a1051d049a735c775462d9d5bc94',1,'st7735.c']]],
+  ['st7735_5fwritecommand_18',['ST7735_WriteCommand',['../st7735_8c.html#add4444abd66c488226da3dc6e36a456d',1,'st7735.c']]],
+  ['st7735_5fwritedata_19',['ST7735_WriteData',['../st7735_8c.html#a9abbfdf4a21fd9dabe8c9868bbe763f8',1,'st7735.c']]],
+  ['st7735_5fwritestring_20',['ST7735_WriteString',['../st7735_8c.html#a58047936eeaceca83d61fb3e47d8215a',1,'ST7735_WriteString(uint16_t x, uint16_t y, const char *str, FontDef font, uint16_t color, uint16_t bgcolor):&#160;st7735.c'],['../st7735_8h.html#a58047936eeaceca83d61fb3e47d8215a',1,'ST7735_WriteString(uint16_t x, uint16_t y, const char *str, FontDef font, uint16_t color, uint16_t bgcolor):&#160;st7735.c']]],
+  ['startdefaulttask_21',['StartDefaultTask',['../main_8c.html#a99d0fdb0434092bcb24d9c9af917e4e9',1,'main.c']]],
+  ['startroute_22',['startRoute',['../LOS__algo_8c.html#a1317491c4c163ee97c2131805e0f3be8',1,'LOS_algo.c']]],
+  ['startstoptask_23',['StartStopTask',['../admin_8c.html#a3c09afd4e5fad01fc4adbb0c77ecbd6d',1,'StartStopTask(int task_id):&#160;admin.c'],['../admin_8h.html#a0c9aab30edaac2fecc7fd1c21f5763a2',1,'StartStopTask(int):&#160;admin.c']]],
+  ['student_5ftask1_24',['Student_task1',['../admin_8h.html#a23fe84bfb739ead3f3005b8378170b62',1,'Student_task1(void *):&#160;student.c'],['../student_8c.html#a282e21c3f1a0eb3054bbb9e40ffa9cc6',1,'Student_task1(void *argument):&#160;student.c']]],
+  ['systemclock_5fconfig_25',['SystemClock_Config',['../main_8c.html#a70af21c671abfcc773614a9a4f63d920',1,'main.c']]]
 ];

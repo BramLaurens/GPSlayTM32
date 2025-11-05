@@ -100,22 +100,20 @@ $(function(){initNavTree('student_8c_source.html','',''); });
 <div class="foldopen" id="foldopen00019" data-start="{" data-end="}">
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="admin_8h.html#a23fe84bfb739ead3f3005b8378170b62">   19</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="student_8c.html#a282e21c3f1a0eb3054bbb9e40ffa9cc6">Student_task1</a> (<span class="keywordtype">void</span> *argument)</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>{</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    UART_puts((<span class="keywordtype">char</span> *)__func__); UART_puts(<span class="stringliteral">&quot; started\r\n&quot;</span>);</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keywordtype">char</span> buf[80];</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="dGPS_8c.html#acb559820d9ca11295b4500f179ef6392">i</a> = 0;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordflow">while</span>(<a class="code hl_define" href="admin_8h.html#aa8cecfc5c5c054d2875c03e77b7be15d">TRUE</a>)</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    {</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        osDelay(1000);</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    }</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>}</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>((<span class="keywordtype">char</span> *)__func__); <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot; started\r\n&quot;</span>);</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keywordflow">while</span>(<a class="code hl_define" href="admin_8h.html#aa8cecfc5c5c054d2875c03e77b7be15d">TRUE</a>)</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        osDelay(1000);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    }</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>}</div>
 </div>
 <div class="ttc" id="aadmin_8h_html"><div class="ttname"><a href="admin_8h.html">admin.h</a></div><div class="ttdoc">Bevat de defines &amp; externals voor deze applicatie.</div></div>
 <div class="ttc" id="aadmin_8h_html_aa8cecfc5c5c054d2875c03e77b7be15d"><div class="ttname"><a href="admin_8h.html#aa8cecfc5c5c054d2875c03e77b7be15d">TRUE</a></div><div class="ttdeci">#define TRUE</div><div class="ttdef"><b>Definition</b> <a href="admin_8h_source.html#l00025">admin.h:25</a></div></div>
-<div class="ttc" id="adGPS_8c_html_acb559820d9ca11295b4500f179ef6392"><div class="ttname"><a href="dGPS_8c.html#acb559820d9ca11295b4500f179ef6392">i</a></div><div class="ttdeci">int i</div><div class="ttdef"><b>Definition</b> <a href="dGPS_8c_source.html#l00026">dGPS.c:26</a></div></div>
 <div class="ttc" id="astudent_8c_html_a282e21c3f1a0eb3054bbb9e40ffa9cc6"><div class="ttname"><a href="student_8c.html#a282e21c3f1a0eb3054bbb9e40ffa9cc6">Student_task1</a></div><div class="ttdeci">void Student_task1(void *argument)</div><div class="ttdoc">Oefentask voor studenten.</div><div class="ttdef"><b>Definition</b> <a href="#l00019">student.c:19</a></div></div>
+<div class="ttc" id="auart_8c_html_a6299e801cd2b1d8e054c3aea21ce1900"><div class="ttname"><a href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a></div><div class="ttdeci">void UART_puts(const char *s)</div><div class="ttdef"><b>Definition</b> <a href="uart_8c_source.html#l00056">uart.c:56</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

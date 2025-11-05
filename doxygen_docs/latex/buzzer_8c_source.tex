@@ -1,0 +1,62 @@
+\doxysection{buzzer.\+c}
+\hypertarget{buzzer_8c_source}{}\label{buzzer_8c_source}\index{Core/MyApp/Ports/buzzer.c@{Core/MyApp/Ports/buzzer.c}}
+\mbox{\hyperlink{buzzer_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00001}00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00002}00002\ \textcolor{comment}{Author:\ \ \ \ \ J.F.\ van\ der\ Bent}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00003}00003\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ W\ Pielage\ \&\ E\ Helmond}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00004}00004\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00005}00005\ \textcolor{comment}{Date:\ \ \ \ \ \ \ 24-\/11-\/2021}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00006}00006\ \textcolor{comment}{Revision:\ \ \ 5}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00007}00007\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00008}00008\ \textcolor{comment}{\ \ \ \ buzzer.c:}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00009}00009\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ HAL\_\ Buzzer-\/driver\ for\ ARM-\/board\ v5}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00010}00010\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00011}00011\ \textcolor{comment}{\ \ \ \ pin-\/info:}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00012}00012\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PC8\ -\/\ Buzzer}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00013}00013\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00014}00014\ \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00016}00016\ \textcolor{preprocessor}{\#include\ "{}main.h"{}}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00017}00017\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{buzzer_8h}{buzzer.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00019}\mbox{\hyperlink{buzzer_8c_a68f6dbcd53b3d88aaa925588daba83d8}{00019}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{buzzer_8c_a68f6dbcd53b3d88aaa925588daba83d8}{BUZZER\_init}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00020}00020\ \{}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ kept\ in\ place\ for\ downward\ compatibility}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00022}00022\ \}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00024}\mbox{\hyperlink{buzzer_8c_a82a371564cc7ac165373e86a862fcd69}{00024}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{buzzer_8c_a82a371564cc7ac165373e86a862fcd69}{BUZZER\_set}}(\textcolor{keywordtype}{int}\ counter)}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00025}00025\ \{}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00026}00026\ \ \ \ \ \textcolor{keywordflow}{while}(counter-\/-\/)}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00027}00027\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00028}00028\ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(Buzzer\_GPIO\_Port,\ Buzzer\_Pin,\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00029}00029\ \ \ \ \ \ \ \ \ HAL\_Delay(1);}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00030}00030\ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(Buzzer\_GPIO\_Port,\ Buzzer\_Pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00031}00031\ \ \ \ \ \ \ \ \ HAL\_Delay(1);}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00032}00032\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00033}00033\ \}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00035}\mbox{\hyperlink{buzzer_8c_a55881d4bd9fb75053e7492926231e4e7}{00035}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{buzzer_8c_a55881d4bd9fb75053e7492926231e4e7}{Buzzer\_put}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ counter)}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00036}00036\ \{}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00037}00037\ \ \ \ \ \mbox{\hyperlink{buzzer_8c_a82a371564cc7ac165373e86a862fcd69}{BUZZER\_set}}(counter);}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00038}00038\ \ \ \ \ HAL\_Delay(150);}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00039}00039\ \}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00041}00041\ \textcolor{comment}{//\ Maak\ een\ piepje\ met\ meegegeven\ lengte}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00042}00042\ \textcolor{comment}{//\ toevoeging\ om\ compatibel\ te\ blijven\ met\ ARM\ v4.2}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00043}\mbox{\hyperlink{buzzer_8c_adeb2661c8548976c1aa29e21f0659b84}{00043}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{buzzer_8c_adeb2661c8548976c1aa29e21f0659b84}{BUZZER\_put}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ time)}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00044}00044\ \{}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00045}00045\ \ \ \ \ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ i;}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00046}00046\ \ \ \ \ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ k=0;}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00048}00048\ \ \ \ \ \textcolor{keywordflow}{while}\ (k++<100)}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00049}00049\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00050}00050\ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(Buzzer\_GPIO\_Port,\ Buzzer\_Pin,\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (i=0;i<(time+k);i++);}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00052}00052\ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(Buzzer\_GPIO\_Port,\ Buzzer\_Pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (i=0;(i<time+k);i++);}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00054}00054\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00055}00055\ \}}
+\DoxyCodeLine{\Hypertarget{buzzer_8c_source_l00056}00056\ }
+
+\end{DoxyCode}

@@ -138,7 +138,7 @@ Definition at line \mbox{\hyperlink{Ultrasoon_8c_source_l00061}{61}} of file \mb
 \DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{int}\ Echo\_time\ =\ 0;}
 \DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{char}\ Buffer[70];}
 \DoxyCodeLine{00066\ \ \ \ \ osDelay(1000);\ \textcolor{comment}{//\ wait\ for\ system\ to\ stabilize}}
-\DoxyCodeLine{00067\ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Echo\ task\ started\ \(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00067\ \ \ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}Echo\ task\ started\ \(\backslash\)r\(\backslash\)n"{}});}
 \DoxyCodeLine{00068\ }
 \DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{admin_8h_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}})}
 \DoxyCodeLine{00070\ \ \ \ \ \{}
@@ -151,7 +151,7 @@ Definition at line \mbox{\hyperlink{Ultrasoon_8c_source_l00061}{61}} of file \mb
 \DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((uxBits\ \&\ 1)\ ==\ 0)}
 \DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
 \DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ timeout:\ no\ echo\ received\ */}}
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Echo\ timeout\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}Echo\ timeout\(\backslash\)r\(\backslash\)n"{}});}
 \DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Ensure\ timer\ is\ disabled\ in\ case\ it\ was\ left\ running\ */}}
 \DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_HAL\_TIM\_DISABLE(\&\mbox{\hyperlink{Ultrasoon_8h_a31f6f787777409af5ed0d131b52b7988}{htim9}});}
 \DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ mark\ object\ as\ far\ away\ */}}
@@ -164,10 +164,10 @@ Definition at line \mbox{\hyperlink{Ultrasoon_8c_source_l00061}{61}} of file \mb
 \DoxyCodeLine{00090\ }
 \DoxyCodeLine{00091\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#ifdef\ ultrasoon\_debug}}
 \DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ sprintf(Buffer,\ \textcolor{stringliteral}{"{}Afstand\ is:\ \%.2f."{}},\ \mbox{\hyperlink{Ultrasoon_8c_a17914347c89aa35e1d4a9af6f3fca475}{ObjectDistance}});}
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(Buffer);}
-\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
-\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_putint(Echo\_time);}
-\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(Buffer);}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_ab68b2265165f1a355ff3dac4a726b37d}{UART\_putint}}(Echo\_time);}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n"{}});}
 \DoxyCodeLine{00097\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
 \DoxyCodeLine{00098\ }
 \DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{Ultrasoon_8c_a17914347c89aa35e1d4a9af6f3fca475}{ObjectDistance}}\ <\ 60.0)\ \textcolor{comment}{//\ obstacle\ detected\ within\ 60\ cm}}
@@ -175,7 +175,7 @@ Definition at line \mbox{\hyperlink{Ultrasoon_8c_source_l00061}{61}} of file \mb
 \DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{Ultrasoon_8c_a8d011ebe681ac8c30448fccab3593c86}{obstacleCounter}}++;}
 \DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{Ultrasoon_8c_a8d011ebe681ac8c30448fccab3593c86}{obstacleCounter}}\ >=\ 6)\ \textcolor{comment}{//\ obstacle\ confirmed\ after\ 2\ readings\ (200\ ms)}}
 \DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(\textcolor{stringliteral}{"{}Obstacle\ detected!\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}Obstacle\ detected!\(\backslash\)r\(\backslash\)n"{}});}
 \DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{PID__controller_8c_adee41834c306e02a66bf5a110503006d}{PID\_setObstacleFlag}}(\textcolor{keyword}{true});}
 \DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \}}
@@ -192,7 +192,7 @@ Definition at line \mbox{\hyperlink{Ultrasoon_8c_source_l00061}{61}} of file \mb
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{admin_8c_source_l00058}{h\+Echo\+\_\+\+Event}}, \mbox{\hyperlink{main_8c_source_l00058}{htim9}}, \mbox{\hyperlink{Ultrasoon_8c_source_l00017}{Object\+Distance}}, \mbox{\hyperlink{Ultrasoon_8c_source_l00018}{obstacle\+Counter}}, \mbox{\hyperlink{PID__controller_8c_source_l00095}{PID\+\_\+set\+Obstacle\+Flag()}}, \mbox{\hyperlink{admin_8h_source_l00025}{TRUE}}, and \mbox{\hyperlink{Ultrasoon_8c_source_l00045}{Ultrasoon\+\_\+trig()}}.
+References \mbox{\hyperlink{admin_8c_source_l00056}{h\+Echo\+\_\+\+Event}}, \mbox{\hyperlink{main_8c_source_l00058}{htim9}}, \mbox{\hyperlink{Ultrasoon_8c_source_l00017}{Object\+Distance}}, \mbox{\hyperlink{Ultrasoon_8c_source_l00018}{obstacle\+Counter}}, \mbox{\hyperlink{PID__controller_8c_source_l00091}{PID\+\_\+set\+Obstacle\+Flag()}}, \mbox{\hyperlink{admin_8h_source_l00025}{TRUE}}, \mbox{\hyperlink{uart_8c_source_l00093}{UART\+\_\+putint()}}, \mbox{\hyperlink{uart_8c_source_l00056}{UART\+\_\+puts()}}, and \mbox{\hyperlink{Ultrasoon_8c_source_l00045}{Ultrasoon\+\_\+trig()}}.
 
 \Hypertarget{Ultrasoon_8c_a978eeff6ef160126abe64f03d45928e6}\index{Ultrasoon.c@{Ultrasoon.c}!Ultrasoon\_trig@{Ultrasoon\_trig}}
 \index{Ultrasoon\_trig@{Ultrasoon\_trig}!Ultrasoon.c@{Ultrasoon.c}}
@@ -271,7 +271,7 @@ References \mbox{\hyperlink{Ultrasoon_8c_source_l00017}{Object\+Distance}}.
 
 
 
-Referenced by \mbox{\hyperlink{TFT_8c_source_l00139}{update\+\_\+obstacle\+\_\+display()}}.
+Referenced by \mbox{\hyperlink{TFT_8c_source_l00138}{update\+\_\+obstacle\+\_\+display()}}.
 
 
 

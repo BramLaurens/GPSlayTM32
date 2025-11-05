@@ -2,7 +2,6 @@ var gps_8c =
 [
     [ "check_gpsfix", "gps_8c.html#a29a2ed96d431c603207ee1da1ecc9628", null ],
     [ "checksum_valid", "gps_8c.html#a599d945c53e74265e35aff35847c15e2", null ],
-    [ "correct_dGPS_error", "gps_8c.html#a1b40201477f33890b4c1bac0c26e16de", null ],
     [ "fill_GNGGA", "gps_8c.html#a8276cb249bd5e9aef04c5a86a3d0d3be", null ],
     [ "fill_GNRMC", "gps_8c.html#a294c695f1e114c0a4975cef5b91f8e7d", null ],
     [ "getlatest_GNRMC", "gps_8c.html#ad1ebb3252081d2411aefcb941109edd1", null ],

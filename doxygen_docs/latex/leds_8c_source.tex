@@ -1,0 +1,57 @@
+\doxysection{leds.\+c}
+\hypertarget{leds_8c_source}{}\label{leds_8c_source}\index{Core/MyApp/Ports/leds.c@{Core/MyApp/Ports/leds.c}}
+\mbox{\hyperlink{leds_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00001}00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00002}00002\ \textcolor{comment}{Author:\ \ \ \ \ W\ Pielage\ \&\ E\ Helmond}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00003}00003\ \textcolor{comment}{Date:\ \ \ \ \ \ \ 2-\/10-\/2013}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00004}00004\ \textcolor{comment}{Revision:\ \ \ 2}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00005}00005\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00006}00006\ \textcolor{comment}{\ \ \ \ leds.c:}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00007}00007\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ LED-\/driver\ for\ SpARM-\/board\ v1}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00008}00008\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00009}00009\ \textcolor{comment}{\ \ \ \ pin-\/info:}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00010}00010\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PB1\ -\/\ RCK:\ Storage\ register\ clock}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00011}00011\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PB8\ \ -\/\ SCK:\ Shift\ register\ clock}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00012}00012\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PA15\ -\/\ SER:\ Data\ input}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00013}00013\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00014}00014\ \textcolor{comment}{To\ use\ the\ LEDs\ use\ the\ following\ line\ to\ set\ the\ pins:}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00015}00015\ \textcolor{comment}{\ \ \ \ LED\_init();}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00016}00016\ \textcolor{comment}{After\ that,\ you\ can\ put\ an\ 8\ bit\ value\ to\ the\ LEDs}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00017}00017\ \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00019}00019\ \textcolor{preprocessor}{\#include\ "{}main.h"{}}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00022}00022\ \textcolor{comment}{/*\ LED\ Initialize}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00023}00023\ \textcolor{comment}{\ *\ This\ function\ initializes\ the\ pins\ reset\ state}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00024}00024\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00025}\mbox{\hyperlink{leds_8c_a50cf228fce8563fc202330b7b4816cb9}{00025}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{leds_8c_a50cf228fce8563fc202330b7b4816cb9}{LED\_init}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00026}00026\ \{}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00027}00027\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{leds_8h_aa4729193f636268a31f8184b7b6b3f19}{P\_LED\_SER}},\ LED\_SER\_Pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00028}00028\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{leds_8h_ab7bfe57136dd4400e101385b4d0bedca}{P\_LED\_SCK}},\ LED\_SCK\_Pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00029}00029\ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{leds_8h_ae6fba83412273b31c69dd56268789a6a}{P\_LED\_RCK}},\ LED\_RCK\_Pin,\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00030}00030\ \ \ \ \ \mbox{\hyperlink{leds_8c_a8b0b7dd4a4e48361491c01594342adb0}{LED\_put}}(0);}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00031}00031\ \}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00033}00033\ \textcolor{comment}{/*\ LED\ put}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00034}00034\ \textcolor{comment}{\ *\ This\ function\ puts\ an\ 8\ bit\ value\ to\ the\ LEDs,\ where\ left\ is\ the\ LSB}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00035}00035\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00036}\mbox{\hyperlink{leds_8c_a8b0b7dd4a4e48361491c01594342adb0}{00036}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{leds_8c_a8b0b7dd4a4e48361491c01594342adb0}{LED\_put}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ led\_byte)}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00037}00037\ \{}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00038}00038\ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ i;}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00040}00040\ \ \ \ \ \ \textcolor{keywordflow}{for}(i=128;\ i>=1;\ i>>=1)}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00041}00041\ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{leds_8h_aa4729193f636268a31f8184b7b6b3f19}{P\_LED\_SER}},\ LED\_SER\_Pin,\ (led\_byte\ \&\ i)\ ?\ GPIO\_PIN\_SET\ :\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{leds_8h_ab7bfe57136dd4400e101385b4d0bedca}{P\_LED\_SCK}},\ LED\_SCK\_Pin,\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{leds_8h_ab7bfe57136dd4400e101385b4d0bedca}{P\_LED\_SCK}},\ LED\_SCK\_Pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00046}00046\ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00048}00048\ \ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{leds_8h_ae6fba83412273b31c69dd56268789a6a}{P\_LED\_RCK}},\ LED\_RCK\_Pin,\ GPIO\_PIN\_SET);}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00049}00049\ \ \ \ \ \ HAL\_GPIO\_WritePin(\mbox{\hyperlink{leds_8h_ae6fba83412273b31c69dd56268789a6a}{P\_LED\_RCK}},\ LED\_RCK\_Pin,\ GPIO\_PIN\_RESET);}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00050}00050\ \}}
+\DoxyCodeLine{\Hypertarget{leds_8c_source_l00051}00051\ }
+
+\end{DoxyCode}

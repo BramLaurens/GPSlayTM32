@@ -110,7 +110,7 @@ $(function(){initNavTree('LOS__algo_8c.html','',''); });
 <tr class="heading"><td colspan="2"><h2 id="header-define-members" class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:ad1f985f453af1da3d220294ff7810ef7" id="r_ad1f985f453af1da3d220294ff7810ef7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1f985f453af1da3d220294ff7810ef7">ARRIVAL_RADIUS_M</a>&#160;&#160;&#160;1.0</td></tr>
-<tr class="memitem:a0eb202dc819ed397ca87cf47f9ba331f" id="r_a0eb202dc819ed397ca87cf47f9ba331f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0eb202dc819ed397ca87cf47f9ba331f">LOOKAHEAD_DISTANCE_M</a>&#160;&#160;&#160;2.0</td></tr>
+<tr class="memitem:a0eb202dc819ed397ca87cf47f9ba331f" id="r_a0eb202dc819ed397ca87cf47f9ba331f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0eb202dc819ed397ca87cf47f9ba331f">LOOKAHEAD_DISTANCE_M</a>&#160;&#160;&#160;1.0</td></tr>
 <tr class="memitem:ae71449b1cc6e6250b91f539153a7a0d3" id="r_ae71449b1cc6e6250b91f539153a7a0d3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae71449b1cc6e6250b91f539153a7a0d3">M_PI</a>&#160;&#160;&#160;3.14159265358979323846</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
@@ -194,7 +194,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define LOOKAHEAD_DISTANCE_M&#160;&#160;&#160;2.0</td>
+          <td class="memname">#define LOOKAHEAD_DISTANCE_M&#160;&#160;&#160;1.0</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -463,7 +463,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="LOS__algo_8c_source.html#l00041">enable_LOS_algo</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="TFT_8c_source.html#l00079">updateWPdisplay()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="TFT_8c_source.html#l00078">updateWPdisplay()</a>.</p>
 
 </div>
 </div>
@@ -572,14 +572,14 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  354</span>    {   </div>
 <div class="line"><span class="lineno">  355</span>        <span class="keywordflow">if</span>(<a class="code hl_variable" href="#a50114cb08a3c3dc35f40c5c719f47d28">enable_LOS_algo</a>)</div>
 <div class="line"><span class="lineno">  356</span>        {</div>
-<div class="line"><span class="lineno">  357</span>            UART_puts(<span class="stringliteral">&quot;LOS waiting for notification \r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  357</span>            <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;LOS waiting for notification \r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  358</span>            ulTaskNotifyTake(pdTRUE, portMAX_DELAY); <span class="comment">// Wait for GPS update notification</span></div>
-<div class="line"><span class="lineno">  359</span>            UART_puts(<span class="stringliteral">&quot;LOS notified by GPS task\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  359</span>            <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;LOS notified by GPS task\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  360</span> </div>
 <div class="line"><span class="lineno">  361</span>            <a class="code hl_function" href="#a1317491c4c163ee97c2131805e0f3be8">startRoute</a>();</div>
 <div class="line"><span class="lineno">  362</span>            <a class="code hl_function" href="gps_8c.html#ad1ebb3252081d2411aefcb941109edd1">getlatest_GNRMC</a>(&amp;<a class="code hl_variable" href="#af13d9c4ee248595dfd75b13a26c8286a">gnrmc_los</a>);</div>
-<div class="line"><span class="lineno">  363</span>            <span class="keywordtype">double</span> gps_lat = <a class="code hl_function" href="dGPS_8h.html#a26e24df8db9294ca41506dad23837f62">convert_decimal_degrees</a>(<a class="code hl_variable" href="#af13d9c4ee248595dfd75b13a26c8286a">gnrmc_los</a>.latitude, &amp;<a class="code hl_variable" href="#af13d9c4ee248595dfd75b13a26c8286a">gnrmc_los</a>.NS_ind);</div>
-<div class="line"><span class="lineno">  364</span>            <span class="keywordtype">double</span> gps_lon = <a class="code hl_function" href="dGPS_8h.html#a26e24df8db9294ca41506dad23837f62">convert_decimal_degrees</a>(<a class="code hl_variable" href="#af13d9c4ee248595dfd75b13a26c8286a">gnrmc_los</a>.longitude, &amp;<a class="code hl_variable" href="#af13d9c4ee248595dfd75b13a26c8286a">gnrmc_los</a>.EW_ind);</div>
+<div class="line"><span class="lineno">  363</span>            <span class="keywordtype">double</span> gps_lat = <a class="code hl_function" href="GPS__Route__Setter_8c.html#a26e24df8db9294ca41506dad23837f62">convert_decimal_degrees</a>(<a class="code hl_variable" href="#af13d9c4ee248595dfd75b13a26c8286a">gnrmc_los</a>.latitude, &amp;<a class="code hl_variable" href="#af13d9c4ee248595dfd75b13a26c8286a">gnrmc_los</a>.NS_ind);</div>
+<div class="line"><span class="lineno">  364</span>            <span class="keywordtype">double</span> gps_lon = <a class="code hl_function" href="GPS__Route__Setter_8c.html#a26e24df8db9294ca41506dad23837f62">convert_decimal_degrees</a>(<a class="code hl_variable" href="#af13d9c4ee248595dfd75b13a26c8286a">gnrmc_los</a>.longitude, &amp;<a class="code hl_variable" href="#af13d9c4ee248595dfd75b13a26c8286a">gnrmc_los</a>.EW_ind);</div>
 <div class="line"><span class="lineno">  365</span>            <span class="keywordtype">double</span> heading_deg;</div>
 <div class="line"><span class="lineno">  366</span>            <a class="code hl_function" href="compass__driver_8c.html#a2de6b50e325af14c1ca45427dbf371e0">getlatestHeading</a>(&amp;heading_deg);</div>
 <div class="line"><span class="lineno">  367</span>            <a class="code hl_function" href="#ad284922570f78a8900762c2abde98f5c">onGPSupdate</a>(gps_lat, gps_lon, heading_deg);</div>
@@ -588,14 +588,15 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  370</span>        osDelay(1000); <span class="comment">// Run every 1000 ms</span></div>
 <div class="line"><span class="lineno">  371</span>    }</div>
 <div class="line"><span class="lineno">  372</span>}</div>
+<div class="ttc" id="aGPS__Route__Setter_8c_html_a26e24df8db9294ca41506dad23837f62"><div class="ttname"><a href="GPS__Route__Setter_8c.html#a26e24df8db9294ca41506dad23837f62">convert_decimal_degrees</a></div><div class="ttdeci">double convert_decimal_degrees(char *nmea_coordinate, char *ns)</div><div class="ttdoc">Converts NMEA coordinate format (ddmm.mmmm) to decimal degrees. (+ for N/E, - for S/W)</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8c_source.html#l00047">GPS_Route_Setter.c:47</a></div></div>
 <div class="ttc" id="aLOS__algo_8c_html_a1317491c4c163ee97c2131805e0f3be8"><div class="ttname"><a href="#a1317491c4c163ee97c2131805e0f3be8">startRoute</a></div><div class="ttdeci">void startRoute()</div><div class="ttdoc">Starts the route navigation, initializing reference coordinates using the first waypoint.</div><div class="ttdef"><b>Definition</b> <a href="LOS__algo_8c_source.html#l00339">LOS_algo.c:339</a></div></div>
 <div class="ttc" id="aLOS__algo_8c_html_ad284922570f78a8900762c2abde98f5c"><div class="ttname"><a href="#ad284922570f78a8900762c2abde98f5c">onGPSupdate</a></div><div class="ttdeci">void onGPSupdate(double gps_lat, double gps_lon, double heading_deg)</div><div class="ttdoc">Function to call on every received GPS update.</div><div class="ttdef"><b>Definition</b> <a href="LOS__algo_8c_source.html#l00292">LOS_algo.c:292</a></div></div>
 <div class="ttc" id="aLOS__algo_8c_html_af13d9c4ee248595dfd75b13a26c8286a"><div class="ttname"><a href="#af13d9c4ee248595dfd75b13a26c8286a">gnrmc_los</a></div><div class="ttdeci">GNRMC gnrmc_los</div><div class="ttdef"><b>Definition</b> <a href="LOS__algo_8c_source.html#l00044">LOS_algo.c:44</a></div></div>
 <div class="ttc" id="acompass__driver_8c_html_a2de6b50e325af14c1ca45427dbf371e0"><div class="ttname"><a href="compass__driver_8c.html#a2de6b50e325af14c1ca45427dbf371e0">getlatestHeading</a></div><div class="ttdeci">void getlatestHeading(double *dest)</div><div class="ttdef"><b>Definition</b> <a href="compass__driver_8c_source.html#l00035">compass_driver.c:35</a></div></div>
-<div class="ttc" id="adGPS_8h_html_a26e24df8db9294ca41506dad23837f62"><div class="ttname"><a href="dGPS_8h.html#a26e24df8db9294ca41506dad23837f62">convert_decimal_degrees</a></div><div class="ttdeci">double convert_decimal_degrees(char *nmea_coordinate, char *ns)</div><div class="ttdoc">Converts NMEA coordinate format (ddmm.mmmm) to decimal degrees. (+ for N/E, - for S/W)</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8c_source.html#l00047">GPS_Route_Setter.c:47</a></div></div>
-<div class="ttc" id="agps_8c_html_ad1ebb3252081d2411aefcb941109edd1"><div class="ttname"><a href="gps_8c.html#ad1ebb3252081d2411aefcb941109edd1">getlatest_GNRMC</a></div><div class="ttdeci">void getlatest_GNRMC(GNRMC *dest)</div><div class="ttdoc">Function that gets a pointer to the latest complete GNRMC data.</div><div class="ttdef"><b>Definition</b> <a href="gps_8c_source.html#l00076">gps.c:76</a></div></div>
+<div class="ttc" id="agps_8c_html_ad1ebb3252081d2411aefcb941109edd1"><div class="ttname"><a href="gps_8c.html#ad1ebb3252081d2411aefcb941109edd1">getlatest_GNRMC</a></div><div class="ttdeci">void getlatest_GNRMC(GNRMC *dest)</div><div class="ttdoc">Function that gets a pointer to the latest complete GNRMC data.</div><div class="ttdef"><b>Definition</b> <a href="gps_8c_source.html#l00042">gps.c:42</a></div></div>
+<div class="ttc" id="auart_8c_html_a6299e801cd2b1d8e054c3aea21ce1900"><div class="ttname"><a href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a></div><div class="ttdeci">void UART_puts(const char *s)</div><div class="ttdef"><b>Definition</b> <a href="uart_8c_source.html#l00056">uart.c:56</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="GPS__Route__Setter_8c_source.html#l00047">convert_decimal_degrees()</a>, <a class="el" href="LOS__algo_8c_source.html#l00041">enable_LOS_algo</a>, <a class="el" href="gps_8c_source.html#l00076">getlatest_GNRMC()</a>, <a class="el" href="compass__driver_8c_source.html#l00035">getlatestHeading()</a>, <a class="el" href="LOS__algo_8c_source.html#l00044">gnrmc_los</a>, <a class="el" href="LOS__algo_8c_source.html#l00292">onGPSupdate()</a>, and <a class="el" href="LOS__algo_8c_source.html#l00339">startRoute()</a>.</p>
+<p class="reference">References <a class="el" href="GPS__Route__Setter_8c_source.html#l00047">convert_decimal_degrees()</a>, <a class="el" href="LOS__algo_8c_source.html#l00041">enable_LOS_algo</a>, <a class="el" href="gps_8c_source.html#l00042">getlatest_GNRMC()</a>, <a class="el" href="compass__driver_8c_source.html#l00035">getlatestHeading()</a>, <a class="el" href="LOS__algo_8c_source.html#l00044">gnrmc_los</a>, <a class="el" href="LOS__algo_8c_source.html#l00292">onGPSupdate()</a>, <a class="el" href="LOS__algo_8c_source.html#l00339">startRoute()</a>, and <a class="el" href="uart_8c_source.html#l00056">UART_puts()</a>.</p>
 
 </div>
 </div>
@@ -630,7 +631,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="LOS__algo_8c_source.html#l00048">current_LOS_waypoint_number</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="TFT_8c_source.html#l00079">updateWPdisplay()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="TFT_8c_source.html#l00078">updateWPdisplay()</a>.</p>
 
 </div>
 </div>
@@ -665,7 +666,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="LOS__algo_8c_source.html#l00046">los_desiredheading</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00158">PID_trigger()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00154">PID_trigger()</a>.</p>
 
 </div>
 </div>
@@ -700,7 +701,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="LOS__algo_8c_source.html#l00042">hold_LOS_at_waypoint</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00214">PID_Controller()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00210">PID_Controller()</a>.</p>
 
 </div>
 </div>
@@ -735,7 +736,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="LOS__algo_8c_source.html#l00037">los</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="TFT_8c_source.html#l00115">update_routedata_display()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="TFT_8c_source.html#l00114">update_routedata_display()</a>.</p>
 
 </div>
 </div>
@@ -769,7 +770,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="LOS__algo_8c_source.html#l00037">los</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="TFT_8c_source.html#l00115">update_routedata_display()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="TFT_8c_source.html#l00114">update_routedata_display()</a>.</p>
 
 </div>
 </div>
@@ -1002,13 +1003,13 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  328</span>    <span class="comment">// Use los.desired_bearing and los.heading_error in PID</span></div>
 <div class="line"><span class="lineno">  329</span>    <span class="keywordtype">char</span> buffer[50];</div>
 <div class="line"><span class="lineno">  330</span>    sprintf(buffer, <span class="stringliteral">&quot;Desired LOS heading: %.1f&quot;</span>, <a class="code hl_variable" href="#ab06bfee3c79f5eca79b3f25391ce983d">los</a>.desired_bearing);</div>
-<div class="line"><span class="lineno">  331</span>    UART_puts(buffer);</div>
+<div class="line"><span class="lineno">  331</span>    <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(buffer);</div>
 <div class="line"><span class="lineno">  332</span> </div>
 <div class="line"><span class="lineno">  333</span>}</div>
 <div class="ttc" id="aGPS__Route__Setter_8c_html_aab599ac6ef4958311429d7f072b568e5"><div class="ttname"><a href="GPS__Route__Setter_8c.html#aab599ac6ef4958311429d7f072b568e5">Route_Pointer_Request</a></div><div class="ttdeci">GPS_Route * Route_Pointer_Request()</div><div class="ttdef"><b>Definition</b> <a href="GPS__Route__Setter_8c_source.html#l00201">GPS_Route_Setter.c:201</a></div></div>
 <div class="ttc" id="aLOS__algo_8c_html_aa64bea7cc850a34893bb09d7d06f67c3"><div class="ttname"><a href="#aa64bea7cc850a34893bb09d7d06f67c3">LOS_Navigate</a></div><div class="ttdeci">GPS_Route * LOS_Navigate(GPS_Route *prev_wp, GPS_Route *curr_wp, double gps_lat, double gps_lon, double heading_deg, double ref_lat, double ref_lon, LOS_Output_t *los_out)</div><div class="ttdoc">Line of Sight (LOS) navigation algorithm. Calculates vectors berween waypoints and projects the curre...</div><div class="ttdef"><b>Definition</b> <a href="LOS__algo_8c_source.html#l00207">LOS_algo.c:207</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="LOS__algo_8c_source.html#l00036">curr_wp</a>, <a class="el" href="LOS__algo_8c_source.html#l00048">current_LOS_waypoint_number</a>, <a class="el" href="LOS__algo_8c_source.html#l00042">hold_LOS_at_waypoint</a>, <a class="el" href="LOS__algo_8c_source.html#l00037">los</a>, <a class="el" href="LOS__algo_8c_source.html#l00046">los_desiredheading</a>, <a class="el" href="LOS__algo_8c_source.html#l00207">LOS_Navigate()</a>, <a class="el" href="LOS__algo_8c_source.html#l00035">prev_wp</a>, <a class="el" href="LOS__algo_8c_source.html#l00039">ref_lat</a>, <a class="el" href="LOS__algo_8c_source.html#l00039">ref_lon</a>, and <a class="el" href="GPS__Route__Setter_8c_source.html#l00201">Route_Pointer_Request()</a>.</p>
+<p class="reference">References <a class="el" href="LOS__algo_8c_source.html#l00036">curr_wp</a>, <a class="el" href="LOS__algo_8c_source.html#l00048">current_LOS_waypoint_number</a>, <a class="el" href="LOS__algo_8c_source.html#l00042">hold_LOS_at_waypoint</a>, <a class="el" href="LOS__algo_8c_source.html#l00037">los</a>, <a class="el" href="LOS__algo_8c_source.html#l00046">los_desiredheading</a>, <a class="el" href="LOS__algo_8c_source.html#l00207">LOS_Navigate()</a>, <a class="el" href="LOS__algo_8c_source.html#l00035">prev_wp</a>, <a class="el" href="LOS__algo_8c_source.html#l00039">ref_lat</a>, <a class="el" href="LOS__algo_8c_source.html#l00039">ref_lon</a>, <a class="el" href="GPS__Route__Setter_8c_source.html#l00201">Route_Pointer_Request()</a>, and <a class="el" href="uart_8c_source.html#l00056">UART_puts()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="LOS__algo_8c_source.html#l00351">LOS_caller()</a>.</p>
 
@@ -1076,7 +1077,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="LOS__algo_8c_source.html#l00041">enable_LOS_algo</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00214">PID_Controller()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00210">PID_Controller()</a>.</p>
 
 </div>
 </div>

@@ -1,0 +1,79 @@
+\doxysection{keys.\+h}
+\hypertarget{keys_8h_source}{}\label{keys_8h_source}\index{Core/MyApp/Ports/keys.h@{Core/MyApp/Ports/keys.h}}
+\mbox{\hyperlink{keys_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00001}00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00002}00002\ \textcolor{comment}{Author:\ \ \ \ \ J.F.\ van\ der\ Bent}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00003}00003\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ W\ Pielage\ \&\ E\ Helmond}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00004}00004\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00005}00005\ \textcolor{comment}{Date:\ \ \ \ \ \ \ 24-\/11-\/2021}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00006}00006\ \textcolor{comment}{Revision:\ \ \ 5}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00007}00007\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00008}00008\ \textcolor{comment}{\ \ \ \ keys.c:}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00009}00009\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ Keyboard-\/driver\ for\ SpARM-\/board\ v1}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00010}00010\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00011}00011\ \textcolor{comment}{\ \ \ \ pin-\/info:}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00012}00012\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PD1\ \ -\/\ R2}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00013}00013\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PD2\ \ -\/\ R3}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00014}00014\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PD3\ \ -\/\ R4}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00015}00015\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PD6\ \ -\/\ K1}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00016}00016\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PD7\ \ -\/\ K2}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00017}00017\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PD8\ \ -\/\ K3}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00018}00018\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PD9\ \ -\/\ K4}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00019}00019\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ PD11\ -\/\ R1}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00020}00020\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00021}00021\ \textcolor{comment}{To\ use\ the\ keyboard\ first\ initialize\ the\ ports:}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00022}00022\ \textcolor{comment}{\ \ \ \ KEYS\_init();}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00023}00023\ \textcolor{comment}{After\ that,\ you\ can\ use\ polling\ to\ read\ a\ key\ with:}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00024}00024\ \textcolor{comment}{\ \ \ \ KEYS\_read();}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00025}00025\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00026}00026\ \textcolor{comment}{\ \ \ \ 07-\/07-\/2014\ toevoeging\ defines\ key\ values}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00027}00027\ \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00029}00029\ \textcolor{comment}{/****************Libraries******************************/}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00030}00030\ \textcolor{comment}{/*\ Libraries\ needed\ for\ Keys\ are\ (These\ are\ in\ main.h):}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00031}00031\ \textcolor{comment}{\ *\ \#include\ "{}stm32f4xx.h"{}}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00032}00032\ \textcolor{comment}{\ *\ \#include\ "{}stm32f4xx\_gpio.h"{}}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00033}00033\ \textcolor{comment}{\ *\ \#include\ "{}stm32f4xx\_syscfg.h"{}}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00034}00034\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00036}00036\ \textcolor{comment}{/****************Defines********************************/}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00037}\mbox{\hyperlink{keys_8h_a9657418c9744e3fd29e236558d5f1288}{00037}}\ \textcolor{preprocessor}{\#define\ KEY\_R1\ \ \ \ \ \ \ \ \ \ GPIO\_PIN\_11}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00038}\mbox{\hyperlink{keys_8h_ae985d0468046c1ac558afff3ee9ee1c9}{00038}}\ \textcolor{preprocessor}{\#define\ KEY\_R2\ \ \ \ \ \ \ \ \ \ GPIO\_PIN\_1}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00039}\mbox{\hyperlink{keys_8h_a16154c12338ae310f836fd63853cd8b8}{00039}}\ \textcolor{preprocessor}{\#define\ KEY\_R3\ \ \ \ \ \ \ \ \ \ GPIO\_PIN\_2}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00040}\mbox{\hyperlink{keys_8h_a4ab964400e953073ef53f1bf4b540998}{00040}}\ \textcolor{preprocessor}{\#define\ KEY\_R4\ \ \ \ \ \ \ \ \ \ GPIO\_PIN\_3}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00041}\mbox{\hyperlink{keys_8h_ae9715eeb16fe6a32b1d89d70f4556496}{00041}}\ \textcolor{preprocessor}{\#define\ KEY\_ROW\ \ \ \ \ \ \ \ \ (KEY\_R1\ |\ KEY\_R2\ |\ KEY\_R3\ |\ KEY\_R4)}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00042}\mbox{\hyperlink{keys_8h_a89e0190291b00d018969f7cfb3ad6f88}{00042}}\ \textcolor{preprocessor}{\#define\ PKEY\_ROW\ \ \ \ \ \ \ \ GPIOD}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00043}\mbox{\hyperlink{keys_8h_a2b9695092087baacd6d1c0f1752c0821}{00043}}\ \textcolor{preprocessor}{\#define\ KEY\_K1\ \ \ \ \ \ \ \ \ \ GPIO\_PIN\_6}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00044}\mbox{\hyperlink{keys_8h_a7c16ce2380549dc78199023ef5f4792d}{00044}}\ \textcolor{preprocessor}{\#define\ KEY\_K2\ \ \ \ \ \ \ \ \ \ GPIO\_PIN\_7}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00045}\mbox{\hyperlink{keys_8h_ad4e0e57c4fa47a88c1accfa436bfb1cc}{00045}}\ \textcolor{preprocessor}{\#define\ KEY\_K3\ \ \ \ \ \ \ \ \ \ GPIO\_PIN\_8}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00046}\mbox{\hyperlink{keys_8h_a8d0a1ca44c147109db49e85c1efb5dfe}{00046}}\ \textcolor{preprocessor}{\#define\ KEY\_K4\ \ \ \ \ \ \ \ \ \ GPIO\_PIN\_9}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00047}\mbox{\hyperlink{keys_8h_a492342640459e4ce58e85f827f48a0ef}{00047}}\ \textcolor{preprocessor}{\#define\ KEY\_COL\ \ \ \ \ \ \ \ \ (KEY\_K1\ |\ KEY\_K2\ |\ KEY\_K3\ |\ KEY\_K4)}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00048}\mbox{\hyperlink{keys_8h_a7d6ead9754267b43c1b94151d2db9803}{00048}}\ \textcolor{preprocessor}{\#define\ PKEY\_COL\ \ \ \ \ \ \ \ GPIOD}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00050}00050\ \textcolor{comment}{/****************Function\ Prototypes********************/}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00051}00051\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \mbox{\hyperlink{keys_8h_a8daec2fc5486b844904311affaa6ef29}{KEYS\_kolom}}\ \ \ \ (\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00052}00052\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \mbox{\hyperlink{keys_8h_a0998a5b3d17a78378535d1fe75c0b3c3}{KEYS\_read}}\ \ (\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00053}00053\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{keys_8h_a3b8c0d86406508ab75d7301def4e83d1}{KEYS\_init}}\ \ (\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00054}00054\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{keys_8h_aa0b78cd6be2dbdc90db9abc72aab07b2}{KEYS\_initISR}}(\textcolor{keywordtype}{int});}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00057}00057\ \textcolor{comment}{//\ Key\ map}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00058}\mbox{\hyperlink{keys_8h_a76d595d872e17dcbd0fdfaf918a52d0e}{00058}}\ \textcolor{preprocessor}{\#define\ key\_1\ \ \ 1}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00059}\mbox{\hyperlink{keys_8h_aaa30cc875f617b867311146cbdafe676}{00059}}\ \textcolor{preprocessor}{\#define\ key\_2\ \ \ 2}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00060}\mbox{\hyperlink{keys_8h_ac50ba090f2291aca67b86b7ea6af8da2}{00060}}\ \textcolor{preprocessor}{\#define\ key\_3\ \ \ 3}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00061}\mbox{\hyperlink{keys_8h_aaef232f613d1b23d075da507f3cb1cd5}{00061}}\ \textcolor{preprocessor}{\#define\ key\_4\ \ \ 5}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00062}\mbox{\hyperlink{keys_8h_a4d63d77dc5d52479d63a3c42a5555378}{00062}}\ \textcolor{preprocessor}{\#define\ key\_5\ \ \ 6}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00063}\mbox{\hyperlink{keys_8h_a5931d590780b903b3c66624fe3c96f38}{00063}}\ \textcolor{preprocessor}{\#define\ key\_6\ \ \ 7}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00064}\mbox{\hyperlink{keys_8h_a21129973eb0a8b54b13e0803eb2e2978}{00064}}\ \textcolor{preprocessor}{\#define\ key\_7\ \ \ 9}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00065}\mbox{\hyperlink{keys_8h_a22fad16e8acb66db0cc332742b3fc5a8}{00065}}\ \textcolor{preprocessor}{\#define\ key\_8\ \ \ 10}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00066}\mbox{\hyperlink{keys_8h_a5d12d0988ce651bb2dbaaf3f5c6dae8b}{00066}}\ \textcolor{preprocessor}{\#define\ key\_9\ \ \ 11}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00067}\mbox{\hyperlink{keys_8h_a624b7d44b05946b5e9086d8303a10b92}{00067}}\ \textcolor{preprocessor}{\#define\ key\_0\ \ \ 14}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00068}\mbox{\hyperlink{keys_8h_aa53d88235b4f22731227dad70a4e5686}{00068}}\ \textcolor{preprocessor}{\#define\ key\_s\ \ \ 13\ \ }\textcolor{comment}{//\ Star}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00069}\mbox{\hyperlink{keys_8h_abc32482d6bcff020931c3455121e4805}{00069}}\ \textcolor{preprocessor}{\#define\ key\_h\ \ \ 15\ \ }\textcolor{comment}{//\ Hash}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00070}\mbox{\hyperlink{keys_8h_ab6e9852f69f0c2b54f961a8554ab8121}{00070}}\ \textcolor{preprocessor}{\#define\ key\_a\ \ \ 4}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00071}\mbox{\hyperlink{keys_8h_a739873abbc1a28c0a73459450f05a65f}{00071}}\ \textcolor{preprocessor}{\#define\ key\_b\ \ \ 8}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00072}\mbox{\hyperlink{keys_8h_abbb5d89c37d71c96fcc0364d32d4c845}{00072}}\ \textcolor{preprocessor}{\#define\ key\_c\ \ \ 12}}
+\DoxyCodeLine{\Hypertarget{keys_8h_source_l00073}\mbox{\hyperlink{keys_8h_a4a270b260fbcf089dde87119ee5472f5}{00073}}\ \textcolor{preprocessor}{\#define\ key\_d\ \ \ 16}}
+
+\end{DoxyCode}

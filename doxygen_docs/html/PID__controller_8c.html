@@ -100,8 +100,6 @@ $(function(){initNavTree('PID__controller_8c.html','',''); });
 <code>#include &quot;<a class="el" href="gps_8h_source.html">gps.h</a>&quot;</code><br />
 <code>#include &lt;math.h&gt;</code><br />
 <code>#include &lt;stdbool.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="routeperformer_8h_source.html">routeperformer.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="dGPS_8h_source.html">dGPS.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="motordriver_8h_source.html">motordriver.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="compass__driver_8h_source.html">compass_driver.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="LOS__algo_8h_source.html">LOS_algo.h</a>&quot;</code><br />
@@ -138,16 +136,15 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:af8c4529a57f69382b149acd9696c7c25" id="r_af8c4529a57f69382b149acd9696c7c25"><td class="memItemLeft" align="right" valign="top">volatile double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af8c4529a57f69382b149acd9696c7c25">currentHeading</a> = 0.0</td></tr>
-<tr class="memitem:aed4a280ec43791fdc6f26e4c1a498b7b" id="r_aed4a280ec43791fdc6f26e4c1a498b7b"><td class="memItemLeft" align="right" valign="top">volatile double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed4a280ec43791fdc6f26e4c1a498b7b">desiredHeading</a> = 0.0</td></tr>
+<tr class="memitem:a5ba2615783432c8c8c205df9ba434f24" id="r_a5ba2615783432c8c8c205df9ba434f24"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5ba2615783432c8c8c205df9ba434f24">currentHeading</a> = 0.0</td></tr>
+<tr class="memitem:a7c580220d5d9248138f58b71930b407e" id="r_a7c580220d5d9248138f58b71930b407e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c580220d5d9248138f58b71930b407e">desiredHeading</a> = 0.0</td></tr>
 <tr class="memitem:ae0145984b7a6e7e4003342ba70b42395" id="r_ae0145984b7a6e7e4003342ba70b42395"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0145984b7a6e7e4003342ba70b42395">enableObstacleAvoidance</a> = true</td></tr>
 <tr class="memitem:acc215edb8230380d668f1e476661284f" id="r_acc215edb8230380d668f1e476661284f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acc215edb8230380d668f1e476661284f">enablePID</a> = false</td></tr>
 <tr class="memitem:a9157f0915da305914350c5922cee2c1c" id="r_a9157f0915da305914350c5922cee2c1c"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9157f0915da305914350c5922cee2c1c">integral</a> = 0.0</td></tr>
 <tr class="memitem:a668a437ea5e7a51173aee9f82f6747de" id="r_a668a437ea5e7a51173aee9f82f6747de"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a668a437ea5e7a51173aee9f82f6747de">key</a> = 0</td></tr>
 <tr class="memitem:a9648c4b3c5e8528ebc2745f7cb76ff62" id="r_a9648c4b3c5e8528ebc2745f7cb76ff62"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9648c4b3c5e8528ebc2745f7cb76ff62">lastTime</a> = 0.0</td></tr>
-<tr class="memitem:a7abf9e6a9d768092ffb369f93367baf0" id="r_a7abf9e6a9d768092ffb369f93367baf0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdGPS__decimalData__t.html">dGPS_decimalData_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7abf9e6a9d768092ffb369f93367baf0">latest_dGPS_data</a></td></tr>
 <tr class="memitem:ab83af6171d6deb8c85a7976002efc4ea" id="r_ab83af6171d6deb8c85a7976002efc4ea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab83af6171d6deb8c85a7976002efc4ea">obstacleFlag</a> = false</td></tr>
-<tr class="memitem:af47974cd1cc41c663bba40787b6bf0f9" id="r_af47974cd1cc41c663bba40787b6bf0f9"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af47974cd1cc41c663bba40787b6bf0f9">pid_waypoint_hold</a> = false</td></tr>
+<tr class="memitem:a559c9dd9c11859573a85e85363d15f24" id="r_a559c9dd9c11859573a85e85363d15f24"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a559c9dd9c11859573a85e85363d15f24">pid_waypoint_hold</a> = false</td></tr>
 <tr class="memitem:a5f0f2b04907074fd4e0ed600b6e1d394" id="r_a5f0f2b04907074fd4e0ed600b6e1d394"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f0f2b04907074fd4e0ed600b6e1d394">prevError</a> = 0.0</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
@@ -171,9 +168,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00038">38</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00036">36</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00158">PID_trigger()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00154">PID_trigger()</a>.</p>
 
 </div>
 </div>
@@ -189,9 +186,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00029">29</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00027">27</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00121">pidCompute()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00117">pidCompute()</a>.</p>
 
 </div>
 </div>
@@ -207,9 +204,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00028">28</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00026">26</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00121">pidCompute()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00117">pidCompute()</a>.</p>
 
 </div>
 </div>
@@ -225,9 +222,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00027">27</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00025">25</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00121">pidCompute()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00117">pidCompute()</a>.</p>
 
 </div>
 </div>
@@ -243,9 +240,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00039">39</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00037">37</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00158">PID_trigger()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00154">PID_trigger()</a>.</p>
 
 </div>
 </div>
@@ -261,9 +258,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00044">44</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00042">42</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00158">PID_trigger()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00154">PID_trigger()</a>.</p>
 
 </div>
 </div>
@@ -297,15 +294,15 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double Returns the heading error in degrees within the range [-180, 180]. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00107">107</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  107</span>                                                   {</div>
-<div class="line"><span class="lineno">  108</span>    <span class="keywordtype">double</span> error = target - current;</div>
-<div class="line"><span class="lineno">  109</span>    <span class="keywordflow">while</span> (error &gt; 180.0)  error -= 360.0;</div>
-<div class="line"><span class="lineno">  110</span>    <span class="keywordflow">while</span> (error &lt; -180.0) error += 360.0;</div>
-<div class="line"><span class="lineno">  111</span>    <span class="keywordflow">return</span> error;</div>
-<div class="line"><span class="lineno">  112</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00103">103</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  103</span>                                                   {</div>
+<div class="line"><span class="lineno">  104</span>    <span class="keywordtype">double</span> error = target - current;</div>
+<div class="line"><span class="lineno">  105</span>    <span class="keywordflow">while</span> (error &gt; 180.0)  error -= 360.0;</div>
+<div class="line"><span class="lineno">  106</span>    <span class="keywordflow">while</span> (error &lt; -180.0) error += 360.0;</div>
+<div class="line"><span class="lineno">  107</span>    <span class="keywordflow">return</span> error;</div>
+<div class="line"><span class="lineno">  108</span>}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00158">PID_trigger()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00154">PID_trigger()</a>.</p>
 
 </div>
 </div>
@@ -326,27 +323,27 @@ Variables</h2></td></tr>
 
 <p>Obstacle avoidance maneuver. Called everytime an obstacle is detected. </p>
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00139">139</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  139</span>                        {</div>
-<div class="line"><span class="lineno">  140</span> </div>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00135">135</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  135</span>                        {</div>
+<div class="line"><span class="lineno">  136</span> </div>
+<div class="line"><span class="lineno">  137</span>    <a class="code hl_function" href="motordriver_8c.html#a9eb16c7828b5fc5ebe81d5730903aca6">Motor_Set_Speed</a>(0, 0); <span class="comment">// stop motors</span></div>
+<div class="line"><span class="lineno">  138</span>    osDelay(300); <span class="comment">// wait 300 ms</span></div>
+<div class="line"><span class="lineno">  139</span>    <a class="code hl_function" href="motordriver_8c.html#a9eb16c7828b5fc5ebe81d5730903aca6">Motor_Set_Speed</a>(-100, -100); <span class="comment">// reverse </span></div>
+<div class="line"><span class="lineno">  140</span>    osDelay(1000); <span class="comment">// reverse for 1 second</span></div>
 <div class="line"><span class="lineno">  141</span>    <a class="code hl_function" href="motordriver_8c.html#a9eb16c7828b5fc5ebe81d5730903aca6">Motor_Set_Speed</a>(0, 0); <span class="comment">// stop motors</span></div>
 <div class="line"><span class="lineno">  142</span>    osDelay(300); <span class="comment">// wait 300 ms</span></div>
-<div class="line"><span class="lineno">  143</span>    <a class="code hl_function" href="motordriver_8c.html#a9eb16c7828b5fc5ebe81d5730903aca6">Motor_Set_Speed</a>(-100, -100); <span class="comment">// reverse </span></div>
-<div class="line"><span class="lineno">  144</span>    osDelay(1000); <span class="comment">// reverse for 1 second</span></div>
+<div class="line"><span class="lineno">  143</span>    <a class="code hl_function" href="motordriver_8c.html#a9eb16c7828b5fc5ebe81d5730903aca6">Motor_Set_Speed</a>(-100, 100); <span class="comment">// turn left</span></div>
+<div class="line"><span class="lineno">  144</span>    osDelay(1000); <span class="comment">// turn left for 1 second</span></div>
 <div class="line"><span class="lineno">  145</span>    <a class="code hl_function" href="motordriver_8c.html#a9eb16c7828b5fc5ebe81d5730903aca6">Motor_Set_Speed</a>(0, 0); <span class="comment">// stop motors</span></div>
 <div class="line"><span class="lineno">  146</span>    osDelay(300); <span class="comment">// wait 300 ms</span></div>
-<div class="line"><span class="lineno">  147</span>    <a class="code hl_function" href="motordriver_8c.html#a9eb16c7828b5fc5ebe81d5730903aca6">Motor_Set_Speed</a>(-100, 100); <span class="comment">// turn left</span></div>
-<div class="line"><span class="lineno">  148</span>    osDelay(1000); <span class="comment">// turn left for 1 second</span></div>
-<div class="line"><span class="lineno">  149</span>    <a class="code hl_function" href="motordriver_8c.html#a9eb16c7828b5fc5ebe81d5730903aca6">Motor_Set_Speed</a>(0, 0); <span class="comment">// stop motors</span></div>
-<div class="line"><span class="lineno">  150</span>    osDelay(300); <span class="comment">// wait 300 ms</span></div>
-<div class="line"><span class="lineno">  151</span>    <a class="code hl_variable" href="#ab83af6171d6deb8c85a7976002efc4ea">obstacleFlag</a> = <span class="keyword">false</span>; <span class="comment">// reset obstacle flag</span></div>
-<div class="line"><span class="lineno">  152</span>}</div>
-<div class="ttc" id="aPID__controller_8c_html_ab83af6171d6deb8c85a7976002efc4ea"><div class="ttname"><a href="#ab83af6171d6deb8c85a7976002efc4ea">obstacleFlag</a></div><div class="ttdeci">bool obstacleFlag</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00066">PID_controller.c:66</a></div></div>
+<div class="line"><span class="lineno">  147</span>    <a class="code hl_variable" href="#ab83af6171d6deb8c85a7976002efc4ea">obstacleFlag</a> = <span class="keyword">false</span>; <span class="comment">// reset obstacle flag</span></div>
+<div class="line"><span class="lineno">  148</span>}</div>
+<div class="ttc" id="aPID__controller_8c_html_ab83af6171d6deb8c85a7976002efc4ea"><div class="ttname"><a href="#ab83af6171d6deb8c85a7976002efc4ea">obstacleFlag</a></div><div class="ttdeci">bool obstacleFlag</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00064">PID_controller.c:64</a></div></div>
 <div class="ttc" id="amotordriver_8c_html_a9eb16c7828b5fc5ebe81d5730903aca6"><div class="ttname"><a href="motordriver_8c.html#a9eb16c7828b5fc5ebe81d5730903aca6">Motor_Set_Speed</a></div><div class="ttdeci">void Motor_Set_Speed(int16_t speedLeft, int16_t speedRight)</div><div class="ttdoc">Function to set speed and direction of both motors.</div><div class="ttdef"><b>Definition</b> <a href="motordriver_8c_source.html#l00078">motordriver.c:78</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="motordriver_8c_source.html#l00078">Motor_Set_Speed()</a>, and <a class="el" href="PID__controller_8c_source.html#l00066">obstacleFlag</a>.</p>
+<p class="reference">References <a class="el" href="motordriver_8c_source.html#l00078">Motor_Set_Speed()</a>, and <a class="el" href="PID__controller_8c_source.html#l00064">obstacleFlag</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00214">PID_Controller()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00210">PID_Controller()</a>.</p>
 
 </div>
 </div>
@@ -373,85 +370,96 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00214">214</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  215</span>{</div>
-<div class="line"><span class="lineno">  216</span>    osDelay(200); <span class="comment">// wait a second to make sure everything is started</span></div>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00210">210</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  211</span>{</div>
+<div class="line"><span class="lineno">  212</span>    osDelay(200); <span class="comment">// wait a second to make sure everything is started</span></div>
+<div class="line"><span class="lineno">  213</span> </div>
+<div class="line"><span class="lineno">  214</span>    <span class="keywordflow">while</span> (1)</div>
+<div class="line"><span class="lineno">  215</span>    {</div>
+<div class="line"><span class="lineno">  216</span>        <span class="comment">// Non-blocking: Try to read a key from the queue. If none available, continue doing other work.</span></div>
 <div class="line"><span class="lineno">  217</span> </div>
-<div class="line"><span class="lineno">  218</span>    <span class="keywordflow">while</span> (1)</div>
-<div class="line"><span class="lineno">  219</span>    {</div>
-<div class="line"><span class="lineno">  220</span>        <span class="comment">// Non-blocking: Try to read a key from the queue. If none available, continue doing other work.</span></div>
-<div class="line"><span class="lineno">  221</span> </div>
-<div class="line"><span class="lineno">  222</span>        <a class="code hl_function" href="LOS__algo_8c.html#a59b7f773ca31d2459e59e2f451e4442b">LOS_getwaypointhold_status</a>(&amp;<a class="code hl_variable" href="#af47974cd1cc41c663bba40787b6bf0f9">pid_waypoint_hold</a>);</div>
-<div class="line"><span class="lineno">  223</span> </div>
-<div class="line"><span class="lineno">  224</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="admin_8c.html#ac28b18f5722e9b7bbd153fef9cd4ca11">hKeyPID_Queue</a> != NULL)</div>
-<div class="line"><span class="lineno">  225</span>        {</div>
-<div class="line"><span class="lineno">  226</span>            <span class="keywordflow">if</span> (xQueueReceive(<a class="code hl_variable" href="admin_8c.html#ac28b18f5722e9b7bbd153fef9cd4ca11">hKeyPID_Queue</a>, &amp;<a class="code hl_variable" href="#a668a437ea5e7a51173aee9f82f6747de">key</a>, 0) == pdTRUE)</div>
-<div class="line"><span class="lineno">  227</span>            {</div>
-<div class="line"><span class="lineno">  228</span>                <span class="comment">// Process key</span></div>
-<div class="line"><span class="lineno">  229</span>                <span class="keywordflow">switch</span>(<a class="code hl_variable" href="#a668a437ea5e7a51173aee9f82f6747de">key</a>)</div>
-<div class="line"><span class="lineno">  230</span>                {</div>
-<div class="line"><span class="lineno">  231</span>                    <span class="keywordflow">case</span> 5:</div>
-<div class="line"><span class="lineno">  232</span>                        UART_puts(<span class="stringliteral">&quot;\r\n Toggle received in PID_Controller\r\n&quot;</span>);</div>
-<div class="line"><span class="lineno">  233</span>                        <span class="comment">// Toggle PID controller state and inform Route Performer with same state</span></div>
-<div class="line"><span class="lineno">  234</span>                        <a class="code hl_variable" href="#acc215edb8230380d668f1e476661284f">enablePID</a> = !<a class="code hl_variable" href="#acc215edb8230380d668f1e476661284f">enablePID</a>;</div>
-<div class="line"><span class="lineno">  235</span>                        <span class="comment">// set_RP_algoState(enablePID);</span></div>
-<div class="line"><span class="lineno">  236</span>                        <a class="code hl_function" href="LOS__algo_8c.html#a787d7b65e7c3a511b8e60a6a4d5de992">set_LOS_algoState</a>(<a class="code hl_variable" href="#acc215edb8230380d668f1e476661284f">enablePID</a>);</div>
-<div class="line"><span class="lineno">  237</span> </div>
-<div class="line"><span class="lineno">  238</span>                        <span class="keywordflow">if</span> (<a class="code hl_variable" href="#acc215edb8230380d668f1e476661284f">enablePID</a>)</div>
-<div class="line"><span class="lineno">  239</span>                            UART_puts(<span class="stringliteral">&quot;PID Controller enabled\r\n&quot;</span>);</div>
-<div class="line"><span class="lineno">  240</span>                        <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  241</span>                            UART_puts(<span class="stringliteral">&quot;PID Controller disabled\r\n&quot;</span>);   </div>
-<div class="line"><span class="lineno">  242</span>                        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  243</span>                    <span class="keywordflow">case</span> 6:</div>
-<div class="line"><span class="lineno">  244</span>                        UART_puts(<span class="stringliteral">&quot;\r\n Obstacle avoidance toggle received in PID_Controller\r\n&quot;</span>);</div>
-<div class="line"><span class="lineno">  245</span>                        <span class="comment">// Toggle obstacle avoidance state</span></div>
-<div class="line"><span class="lineno">  246</span>                        <a class="code hl_variable" href="#ae0145984b7a6e7e4003342ba70b42395">enableObstacleAvoidance</a> = !<a class="code hl_variable" href="#ae0145984b7a6e7e4003342ba70b42395">enableObstacleAvoidance</a>;</div>
-<div class="line"><span class="lineno">  247</span> </div>
-<div class="line"><span class="lineno">  248</span>                        <span class="keywordflow">if</span> (<a class="code hl_variable" href="#ae0145984b7a6e7e4003342ba70b42395">enableObstacleAvoidance</a>)</div>
-<div class="line"><span class="lineno">  249</span>                            UART_puts(<span class="stringliteral">&quot;Obstacle avoidance enabled\r\n&quot;</span>);</div>
-<div class="line"><span class="lineno">  250</span>                        <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  251</span>                            UART_puts(<span class="stringliteral">&quot;Obstacle avoidance disabled\r\n&quot;</span>);   </div>
-<div class="line"><span class="lineno">  252</span>                        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  253</span>                    <span class="keywordflow">default</span>:</div>
-<div class="line"><span class="lineno">  254</span>                        UART_puts(<span class="stringliteral">&quot;\r\nInvalid key pressed for PID_Controller\r\n&quot;</span>);</div>
-<div class="line"><span class="lineno">  255</span>                        <span class="keywordflow">break</span>; <span class="comment">// continue loop</span></div>
-<div class="line"><span class="lineno">  256</span>                }</div>
-<div class="line"><span class="lineno">  257</span>            }</div>
-<div class="line"><span class="lineno">  258</span>        }</div>
-<div class="line"><span class="lineno">  259</span> </div>
-<div class="line"><span class="lineno">  260</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="#acc215edb8230380d668f1e476661284f">enablePID</a> &amp;&amp; !<a class="code hl_variable" href="#af47974cd1cc41c663bba40787b6bf0f9">pid_waypoint_hold</a> &amp;&amp; !<a class="code hl_variable" href="#ab83af6171d6deb8c85a7976002efc4ea">obstacleFlag</a>)</div>
-<div class="line"><span class="lineno">  261</span>        {</div>
-<div class="line"><span class="lineno">  262</span>            <a class="code hl_function" href="#a37a24fcb8efcc2dc7779c53216c82144">PID_trigger</a>();</div>
-<div class="line"><span class="lineno">  263</span>            osDelay(10); <span class="comment">// Control loop delay</span></div>
-<div class="line"><span class="lineno">  264</span> </div>
-<div class="line"><span class="lineno">  265</span>        }</div>
-<div class="line"><span class="lineno">  266</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span>(!<a class="code hl_variable" href="#acc215edb8230380d668f1e476661284f">enablePID</a>)</div>
-<div class="line"><span class="lineno">  267</span>        {</div>
-<div class="line"><span class="lineno">  268</span>            <a class="code hl_function" href="motordriver_8c.html#a9eb16c7828b5fc5ebe81d5730903aca6">Motor_Set_Speed</a>(0, 0); <span class="comment">// Stop motors when PID is disabled</span></div>
-<div class="line"><span class="lineno">  269</span>        }</div>
-<div class="line"><span class="lineno">  270</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span>(<a class="code hl_variable" href="#af47974cd1cc41c663bba40787b6bf0f9">pid_waypoint_hold</a>)</div>
-<div class="line"><span class="lineno">  271</span>        {</div>
-<div class="line"><span class="lineno">  272</span>            <a class="code hl_function" href="motordriver_8c.html#a9eb16c7828b5fc5ebe81d5730903aca6">Motor_Set_Speed</a>(0, 0); <span class="comment">// Stop motors when in waypoint hold</span></div>
-<div class="line"><span class="lineno">  273</span>        }</div>
-<div class="line"><span class="lineno">  274</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span>(<a class="code hl_variable" href="#ab83af6171d6deb8c85a7976002efc4ea">obstacleFlag</a> &amp;&amp; <a class="code hl_variable" href="#ae0145984b7a6e7e4003342ba70b42395">enableObstacleAvoidance</a>)</div>
-<div class="line"><span class="lineno">  275</span>        {</div>
-<div class="line"><span class="lineno">  276</span>            <a class="code hl_function" href="#abe46c826df3be744548fb954242ae776">obstacleAvoidance</a>();</div>
-<div class="line"><span class="lineno">  277</span>        }</div>
-<div class="line"><span class="lineno">  278</span>        </div>
-<div class="line"><span class="lineno">  279</span>        osDelay(10); <span class="comment">// Idle delay when PID is disabled</span></div>
-<div class="line"><span class="lineno">  280</span>    }</div>
-<div class="line"><span class="lineno">  281</span>}</div>
+<div class="line"><span class="lineno">  218</span>        <a class="code hl_function" href="LOS__algo_8c.html#a59b7f773ca31d2459e59e2f451e4442b">LOS_getwaypointhold_status</a>(&amp;<a class="code hl_variable" href="#a559c9dd9c11859573a85e85363d15f24">pid_waypoint_hold</a>);</div>
+<div class="line"><span class="lineno">  219</span> </div>
+<div class="line"><span class="lineno">  220</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="admin_8c.html#ac28b18f5722e9b7bbd153fef9cd4ca11">hKeyPID_Queue</a> != NULL)</div>
+<div class="line"><span class="lineno">  221</span>        {</div>
+<div class="line"><span class="lineno">  222</span>            <span class="keywordflow">if</span> (xQueueReceive(<a class="code hl_variable" href="admin_8c.html#ac28b18f5722e9b7bbd153fef9cd4ca11">hKeyPID_Queue</a>, &amp;<a class="code hl_variable" href="#a668a437ea5e7a51173aee9f82f6747de">key</a>, 0) == pdTRUE)</div>
+<div class="line"><span class="lineno">  223</span>            {</div>
+<div class="line"><span class="lineno">  224</span>                <span class="comment">// Process key</span></div>
+<div class="line"><span class="lineno">  225</span>                <span class="keywordflow">switch</span>(<a class="code hl_variable" href="#a668a437ea5e7a51173aee9f82f6747de">key</a>)</div>
+<div class="line"><span class="lineno">  226</span>                {</div>
+<div class="line"><span class="lineno">  227</span>                    <span class="keywordflow">case</span> 5:</div>
+<div class="line"><span class="lineno">  228</span>                        <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n Toggle received in PID_Controller\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  229</span>                        <span class="comment">// Toggle PID controller state and inform Route Performer with same state</span></div>
+<div class="line"><span class="lineno">  230</span>                        <a class="code hl_variable" href="#acc215edb8230380d668f1e476661284f">enablePID</a> = !<a class="code hl_variable" href="#acc215edb8230380d668f1e476661284f">enablePID</a>;</div>
+<div class="line"><span class="lineno">  231</span>                        <span class="comment">// set_RP_algoState(enablePID);</span></div>
+<div class="line"><span class="lineno">  232</span>                        <a class="code hl_function" href="LOS__algo_8c.html#a787d7b65e7c3a511b8e60a6a4d5de992">set_LOS_algoState</a>(<a class="code hl_variable" href="#acc215edb8230380d668f1e476661284f">enablePID</a>);</div>
+<div class="line"><span class="lineno">  233</span> </div>
+<div class="line"><span class="lineno">  234</span>                        <span class="keywordflow">if</span> (<a class="code hl_variable" href="#acc215edb8230380d668f1e476661284f">enablePID</a>)</div>
+<div class="line"><span class="lineno">  235</span>                            <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;PID Controller enabled\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  236</span>                        <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  237</span>                            <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;PID Controller disabled\r\n&quot;</span>);   </div>
+<div class="line"><span class="lineno">  238</span>                        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  239</span>                    <span class="keywordflow">case</span> 6:</div>
+<div class="line"><span class="lineno">  240</span>                        <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n Obstacle avoidance toggle received in PID_Controller\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  241</span>                        <span class="comment">// Toggle obstacle avoidance state</span></div>
+<div class="line"><span class="lineno">  242</span>                        <a class="code hl_variable" href="#ae0145984b7a6e7e4003342ba70b42395">enableObstacleAvoidance</a> = !<a class="code hl_variable" href="#ae0145984b7a6e7e4003342ba70b42395">enableObstacleAvoidance</a>;</div>
+<div class="line"><span class="lineno">  243</span> </div>
+<div class="line"><span class="lineno">  244</span>                        <span class="keywordflow">if</span> (<a class="code hl_variable" href="#ae0145984b7a6e7e4003342ba70b42395">enableObstacleAvoidance</a>)</div>
+<div class="line"><span class="lineno">  245</span>                            <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;Obstacle avoidance enabled\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  246</span>                        <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  247</span>                            <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;Obstacle avoidance disabled\r\n&quot;</span>);   </div>
+<div class="line"><span class="lineno">  248</span>                        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  249</span>                    <span class="keywordflow">default</span>:</div>
+<div class="line"><span class="lineno">  250</span>                        <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\nInvalid key pressed for PID_Controller\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  251</span>                        <span class="keywordflow">break</span>; <span class="comment">// continue loop</span></div>
+<div class="line"><span class="lineno">  252</span>                }</div>
+<div class="line"><span class="lineno">  253</span>            }</div>
+<div class="line"><span class="lineno">  254</span>        }</div>
+<div class="line"><span class="lineno">  255</span> </div>
+<div class="line"><span class="lineno">  256</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="#acc215edb8230380d668f1e476661284f">enablePID</a> &amp;&amp; !<a class="code hl_variable" href="#a559c9dd9c11859573a85e85363d15f24">pid_waypoint_hold</a> &amp;&amp; !<a class="code hl_variable" href="#ab83af6171d6deb8c85a7976002efc4ea">obstacleFlag</a> &amp;&amp; !<a class="code hl_variable" href="#ae0145984b7a6e7e4003342ba70b42395">enableObstacleAvoidance</a>)</div>
+<div class="line"><span class="lineno">  257</span>        {</div>
+<div class="line"><span class="lineno">  258</span>            <a class="code hl_function" href="#a37a24fcb8efcc2dc7779c53216c82144">PID_trigger</a>();</div>
+<div class="line"><span class="lineno">  259</span>            osDelay(10); <span class="comment">// Control loop delay</span></div>
+<div class="line"><span class="lineno">  260</span> </div>
+<div class="line"><span class="lineno">  261</span>        }</div>
+<div class="line"><span class="lineno">  262</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span>(<a class="code hl_variable" href="#acc215edb8230380d668f1e476661284f">enablePID</a> &amp;&amp; !<a class="code hl_variable" href="#a559c9dd9c11859573a85e85363d15f24">pid_waypoint_hold</a> &amp;&amp; <a class="code hl_variable" href="#ab83af6171d6deb8c85a7976002efc4ea">obstacleFlag</a> &amp;&amp; !<a class="code hl_variable" href="#ae0145984b7a6e7e4003342ba70b42395">enableObstacleAvoidance</a>)</div>
+<div class="line"><span class="lineno">  263</span>        {</div>
+<div class="line"><span class="lineno">  264</span>            <a class="code hl_function" href="#a37a24fcb8efcc2dc7779c53216c82144">PID_trigger</a>();</div>
+<div class="line"><span class="lineno">  265</span>            osDelay(10); <span class="comment">// Control loop delay</span></div>
+<div class="line"><span class="lineno">  266</span>        }</div>
+<div class="line"><span class="lineno">  267</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span>(<a class="code hl_variable" href="#acc215edb8230380d668f1e476661284f">enablePID</a> &amp;&amp; !<a class="code hl_variable" href="#a559c9dd9c11859573a85e85363d15f24">pid_waypoint_hold</a> &amp;&amp; !<a class="code hl_variable" href="#ab83af6171d6deb8c85a7976002efc4ea">obstacleFlag</a> &amp;&amp; <a class="code hl_variable" href="#ae0145984b7a6e7e4003342ba70b42395">enableObstacleAvoidance</a>)</div>
+<div class="line"><span class="lineno">  268</span>        {</div>
+<div class="line"><span class="lineno">  269</span>            <a class="code hl_function" href="#a37a24fcb8efcc2dc7779c53216c82144">PID_trigger</a>();</div>
+<div class="line"><span class="lineno">  270</span>            osDelay(10); <span class="comment">// Control loop delay</span></div>
+<div class="line"><span class="lineno">  271</span>        }</div>
+<div class="line"><span class="lineno">  272</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span>(!<a class="code hl_variable" href="#acc215edb8230380d668f1e476661284f">enablePID</a>)</div>
+<div class="line"><span class="lineno">  273</span>        {</div>
+<div class="line"><span class="lineno">  274</span>            <a class="code hl_function" href="motordriver_8c.html#a9eb16c7828b5fc5ebe81d5730903aca6">Motor_Set_Speed</a>(0, 0); <span class="comment">// Stop motors when PID is disabled</span></div>
+<div class="line"><span class="lineno">  275</span>        }</div>
+<div class="line"><span class="lineno">  276</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span>(<a class="code hl_variable" href="#a559c9dd9c11859573a85e85363d15f24">pid_waypoint_hold</a>)</div>
+<div class="line"><span class="lineno">  277</span>        {</div>
+<div class="line"><span class="lineno">  278</span>            <a class="code hl_function" href="motordriver_8c.html#a9eb16c7828b5fc5ebe81d5730903aca6">Motor_Set_Speed</a>(0, 0); <span class="comment">// Stop motors when in waypoint hold</span></div>
+<div class="line"><span class="lineno">  279</span>        }</div>
+<div class="line"><span class="lineno">  280</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span>(<a class="code hl_variable" href="#ab83af6171d6deb8c85a7976002efc4ea">obstacleFlag</a> &amp;&amp; <a class="code hl_variable" href="#ae0145984b7a6e7e4003342ba70b42395">enableObstacleAvoidance</a>)</div>
+<div class="line"><span class="lineno">  281</span>        {</div>
+<div class="line"><span class="lineno">  282</span>            <a class="code hl_function" href="#abe46c826df3be744548fb954242ae776">obstacleAvoidance</a>();</div>
+<div class="line"><span class="lineno">  283</span>        }</div>
+<div class="line"><span class="lineno">  284</span>        </div>
+<div class="line"><span class="lineno">  285</span>        osDelay(10); <span class="comment">// Idle delay when PID is disabled</span></div>
+<div class="line"><span class="lineno">  286</span>    }</div>
+<div class="line"><span class="lineno">  287</span>}</div>
 <div class="ttc" id="aLOS__algo_8c_html_a59b7f773ca31d2459e59e2f451e4442b"><div class="ttname"><a href="LOS__algo_8c.html#a59b7f773ca31d2459e59e2f451e4442b">LOS_getwaypointhold_status</a></div><div class="ttdeci">void LOS_getwaypointhold_status(bool *dest)</div><div class="ttdoc">Exports current hold status.</div><div class="ttdef"><b>Definition</b> <a href="LOS__algo_8c_source.html#l00085">LOS_algo.c:85</a></div></div>
 <div class="ttc" id="aLOS__algo_8c_html_a787d7b65e7c3a511b8e60a6a4d5de992"><div class="ttname"><a href="LOS__algo_8c.html#a787d7b65e7c3a511b8e60a6a4d5de992">set_LOS_algoState</a></div><div class="ttdeci">void set_LOS_algoState(bool state)</div><div class="ttdoc">Set the LOS algoState object.</div><div class="ttdef"><b>Definition</b> <a href="LOS__algo_8c_source.html#l00105">LOS_algo.c:105</a></div></div>
-<div class="ttc" id="aPID__controller_8c_html_a37a24fcb8efcc2dc7779c53216c82144"><div class="ttname"><a href="#a37a24fcb8efcc2dc7779c53216c82144">PID_trigger</a></div><div class="ttdeci">void PID_trigger()</div><div class="ttdoc">Triggers the PID controller.</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00158">PID_controller.c:158</a></div></div>
-<div class="ttc" id="aPID__controller_8c_html_a668a437ea5e7a51173aee9f82f6747de"><div class="ttname"><a href="#a668a437ea5e7a51173aee9f82f6747de">key</a></div><div class="ttdeci">unsigned int key</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00065">PID_controller.c:65</a></div></div>
-<div class="ttc" id="aPID__controller_8c_html_abe46c826df3be744548fb954242ae776"><div class="ttname"><a href="#abe46c826df3be744548fb954242ae776">obstacleAvoidance</a></div><div class="ttdeci">void obstacleAvoidance()</div><div class="ttdoc">Obstacle avoidance maneuver. Called everytime an obstacle is detected.</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00139">PID_controller.c:139</a></div></div>
-<div class="ttc" id="aPID__controller_8c_html_acc215edb8230380d668f1e476661284f"><div class="ttname"><a href="#acc215edb8230380d668f1e476661284f">enablePID</a></div><div class="ttdeci">bool enablePID</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00063">PID_controller.c:63</a></div></div>
-<div class="ttc" id="aPID__controller_8c_html_ae0145984b7a6e7e4003342ba70b42395"><div class="ttname"><a href="#ae0145984b7a6e7e4003342ba70b42395">enableObstacleAvoidance</a></div><div class="ttdeci">bool enableObstacleAvoidance</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00064">PID_controller.c:64</a></div></div>
-<div class="ttc" id="aPID__controller_8c_html_af47974cd1cc41c663bba40787b6bf0f9"><div class="ttname"><a href="#af47974cd1cc41c663bba40787b6bf0f9">pid_waypoint_hold</a></div><div class="ttdeci">volatile bool pid_waypoint_hold</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00052">PID_controller.c:52</a></div></div>
-<div class="ttc" id="aadmin_8c_html_ac28b18f5722e9b7bbd153fef9cd4ca11"><div class="ttname"><a href="admin_8c.html#ac28b18f5722e9b7bbd153fef9cd4ca11">hKeyPID_Queue</a></div><div class="ttdeci">QueueHandle_t hKeyPID_Queue</div><div class="ttdoc">queue for complete GPS messages</div><div class="ttdef"><b>Definition</b> <a href="admin_8c_source.html#l00055">admin.c:55</a></div></div>
+<div class="ttc" id="aPID__controller_8c_html_a37a24fcb8efcc2dc7779c53216c82144"><div class="ttname"><a href="#a37a24fcb8efcc2dc7779c53216c82144">PID_trigger</a></div><div class="ttdeci">void PID_trigger()</div><div class="ttdoc">Triggers the PID controller.</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00154">PID_controller.c:154</a></div></div>
+<div class="ttc" id="aPID__controller_8c_html_a559c9dd9c11859573a85e85363d15f24"><div class="ttname"><a href="#a559c9dd9c11859573a85e85363d15f24">pid_waypoint_hold</a></div><div class="ttdeci">bool pid_waypoint_hold</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00050">PID_controller.c:50</a></div></div>
+<div class="ttc" id="aPID__controller_8c_html_a668a437ea5e7a51173aee9f82f6747de"><div class="ttname"><a href="#a668a437ea5e7a51173aee9f82f6747de">key</a></div><div class="ttdeci">unsigned int key</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00063">PID_controller.c:63</a></div></div>
+<div class="ttc" id="aPID__controller_8c_html_abe46c826df3be744548fb954242ae776"><div class="ttname"><a href="#abe46c826df3be744548fb954242ae776">obstacleAvoidance</a></div><div class="ttdeci">void obstacleAvoidance()</div><div class="ttdoc">Obstacle avoidance maneuver. Called everytime an obstacle is detected.</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00135">PID_controller.c:135</a></div></div>
+<div class="ttc" id="aPID__controller_8c_html_acc215edb8230380d668f1e476661284f"><div class="ttname"><a href="#acc215edb8230380d668f1e476661284f">enablePID</a></div><div class="ttdeci">bool enablePID</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00061">PID_controller.c:61</a></div></div>
+<div class="ttc" id="aPID__controller_8c_html_ae0145984b7a6e7e4003342ba70b42395"><div class="ttname"><a href="#ae0145984b7a6e7e4003342ba70b42395">enableObstacleAvoidance</a></div><div class="ttdeci">bool enableObstacleAvoidance</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00062">PID_controller.c:62</a></div></div>
+<div class="ttc" id="aadmin_8c_html_ac28b18f5722e9b7bbd153fef9cd4ca11"><div class="ttname"><a href="admin_8c.html#ac28b18f5722e9b7bbd153fef9cd4ca11">hKeyPID_Queue</a></div><div class="ttdeci">QueueHandle_t hKeyPID_Queue</div><div class="ttdoc">queue for complete GPS messages</div><div class="ttdef"><b>Definition</b> <a href="admin_8c_source.html#l00053">admin.c:53</a></div></div>
+<div class="ttc" id="auart_8c_html_a6299e801cd2b1d8e054c3aea21ce1900"><div class="ttname"><a href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a></div><div class="ttdeci">void UART_puts(const char *s)</div><div class="ttdef"><b>Definition</b> <a href="uart_8c_source.html#l00056">uart.c:56</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="PID__controller_8c_source.html#l00064">enableObstacleAvoidance</a>, <a class="el" href="PID__controller_8c_source.html#l00063">enablePID</a>, <a class="el" href="admin_8c_source.html#l00055">hKeyPID_Queue</a>, <a class="el" href="PID__controller_8c_source.html#l00065">key</a>, <a class="el" href="LOS__algo_8c_source.html#l00085">LOS_getwaypointhold_status()</a>, <a class="el" href="motordriver_8c_source.html#l00078">Motor_Set_Speed()</a>, <a class="el" href="PID__controller_8c_source.html#l00139">obstacleAvoidance()</a>, <a class="el" href="PID__controller_8c_source.html#l00066">obstacleFlag</a>, <a class="el" href="PID__controller_8c_source.html#l00158">PID_trigger()</a>, <a class="el" href="PID__controller_8c_source.html#l00052">pid_waypoint_hold</a>, and <a class="el" href="LOS__algo_8c_source.html#l00105">set_LOS_algoState()</a>.</p>
+<p class="reference">References <a class="el" href="PID__controller_8c_source.html#l00062">enableObstacleAvoidance</a>, <a class="el" href="PID__controller_8c_source.html#l00061">enablePID</a>, <a class="el" href="admin_8c_source.html#l00053">hKeyPID_Queue</a>, <a class="el" href="PID__controller_8c_source.html#l00063">key</a>, <a class="el" href="LOS__algo_8c_source.html#l00085">LOS_getwaypointhold_status()</a>, <a class="el" href="motordriver_8c_source.html#l00078">Motor_Set_Speed()</a>, <a class="el" href="PID__controller_8c_source.html#l00135">obstacleAvoidance()</a>, <a class="el" href="PID__controller_8c_source.html#l00064">obstacleFlag</a>, <a class="el" href="PID__controller_8c_source.html#l00154">PID_trigger()</a>, <a class="el" href="PID__controller_8c_source.html#l00050">pid_waypoint_hold</a>, <a class="el" href="LOS__algo_8c_source.html#l00105">set_LOS_algoState()</a>, and <a class="el" href="uart_8c_source.html#l00056">UART_puts()</a>.</p>
 
 </div>
 </div>
@@ -478,14 +486,14 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00075">75</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   76</span>{</div>
-<div class="line"><span class="lineno">   77</span>    *state = <a class="code hl_variable" href="#ae0145984b7a6e7e4003342ba70b42395">enableObstacleAvoidance</a>;</div>
-<div class="line"><span class="lineno">   78</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00071">71</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   72</span>{</div>
+<div class="line"><span class="lineno">   73</span>    *state = <a class="code hl_variable" href="#ae0145984b7a6e7e4003342ba70b42395">enableObstacleAvoidance</a>;</div>
+<div class="line"><span class="lineno">   74</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="PID__controller_8c_source.html#l00064">enableObstacleAvoidance</a>.</p>
+<p class="reference">References <a class="el" href="PID__controller_8c_source.html#l00062">enableObstacleAvoidance</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="TFT_8c_source.html#l00139">update_obstacle_display()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="TFT_8c_source.html#l00138">update_obstacle_display()</a>.</p>
 
 </div>
 </div>
@@ -512,14 +520,14 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00085">85</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   86</span>{</div>
-<div class="line"><span class="lineno">   87</span>    *flag = <a class="code hl_variable" href="#ab83af6171d6deb8c85a7976002efc4ea">obstacleFlag</a>;</div>
-<div class="line"><span class="lineno">   88</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00081">81</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   82</span>{</div>
+<div class="line"><span class="lineno">   83</span>    *flag = <a class="code hl_variable" href="#ab83af6171d6deb8c85a7976002efc4ea">obstacleFlag</a>;</div>
+<div class="line"><span class="lineno">   84</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="PID__controller_8c_source.html#l00066">obstacleFlag</a>.</p>
+<p class="reference">References <a class="el" href="PID__controller_8c_source.html#l00064">obstacleFlag</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="TFT_8c_source.html#l00139">update_obstacle_display()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="TFT_8c_source.html#l00138">update_obstacle_display()</a>.</p>
 
 </div>
 </div>
@@ -546,12 +554,12 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00095">95</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   96</span>{</div>
-<div class="line"><span class="lineno">   97</span>    <a class="code hl_variable" href="#ab83af6171d6deb8c85a7976002efc4ea">obstacleFlag</a> = flag;</div>
-<div class="line"><span class="lineno">   98</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00091">91</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   92</span>{</div>
+<div class="line"><span class="lineno">   93</span>    <a class="code hl_variable" href="#ab83af6171d6deb8c85a7976002efc4ea">obstacleFlag</a> = flag;</div>
+<div class="line"><span class="lineno">   94</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="PID__controller_8c_source.html#l00066">obstacleFlag</a>.</p>
+<p class="reference">References <a class="el" href="PID__controller_8c_source.html#l00064">obstacleFlag</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="Ultrasoon_8c_source.html#l00061">Echo_sign_task()</a>.</p>
 
@@ -574,71 +582,71 @@ Variables</h2></td></tr>
 
 <p>Triggers the PID controller. </p>
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00158">158</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  158</span>                  {</div>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00154">154</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  154</span>                  {</div>
+<div class="line"><span class="lineno">  155</span> </div>
+<div class="line"><span class="lineno">  156</span>    <span class="comment">// Get latest heading and course to calculate error</span></div>
+<div class="line"><span class="lineno">  157</span>    <a class="code hl_function" href="compass__driver_8c.html#a2de6b50e325af14c1ca45427dbf371e0">getlatestHeading</a>(&amp;<a class="code hl_variable" href="#a5ba2615783432c8c8c205df9ba434f24">currentHeading</a>);</div>
+<div class="line"><span class="lineno">  158</span>    <a class="code hl_function" href="LOS__algo_8c.html#aa8fb3e8e122a30f67765cddfdfa05423">LOS_getdesiredheading</a>(&amp;<a class="code hl_variable" href="#a7c580220d5d9248138f58b71930b407e">desiredHeading</a>);</div>
 <div class="line"><span class="lineno">  159</span> </div>
-<div class="line"><span class="lineno">  160</span>    <span class="comment">// Get latest heading and course to calculate error</span></div>
-<div class="line"><span class="lineno">  161</span>    <a class="code hl_function" href="compass__driver_8c.html#a2de6b50e325af14c1ca45427dbf371e0">getlatestHeading</a>(&amp;<a class="code hl_variable" href="#af8c4529a57f69382b149acd9696c7c25">currentHeading</a>);</div>
-<div class="line"><span class="lineno">  162</span>    <a class="code hl_function" href="LOS__algo_8c.html#aa8fb3e8e122a30f67765cddfdfa05423">LOS_getdesiredheading</a>(&amp;<a class="code hl_variable" href="#aed4a280ec43791fdc6f26e4c1a498b7b">desiredHeading</a>);</div>
-<div class="line"><span class="lineno">  163</span> </div>
-<div class="line"><span class="lineno">  164</span>    <span class="keywordtype">double</span> dt;</div>
-<div class="line"><span class="lineno">  165</span>    TickType_t now = xTaskGetTickCount();</div>
-<div class="line"><span class="lineno">  166</span>    dt = (now - <a class="code hl_variable" href="#a9648c4b3c5e8528ebc2745f7cb76ff62">lastTime</a>) / 1000.0; <span class="comment">// convert to seconds</span></div>
-<div class="line"><span class="lineno">  167</span>    <a class="code hl_variable" href="#a9648c4b3c5e8528ebc2745f7cb76ff62">lastTime</a> = now;</div>
-<div class="line"><span class="lineno">  168</span> </div>
-<div class="line"><span class="lineno">  169</span>    <span class="keywordtype">double</span> error = <a class="code hl_function" href="#a671d698b0bc3a5576a862e1007a79dd6">headingError</a>(<a class="code hl_variable" href="#aed4a280ec43791fdc6f26e4c1a498b7b">desiredHeading</a>, <a class="code hl_variable" href="#af8c4529a57f69382b149acd9696c7c25">currentHeading</a>);</div>
-<div class="line"><span class="lineno">  170</span>    <span class="keywordtype">double</span> steering = <a class="code hl_function" href="#a709e09555bd056b676dc48c3ed5f305b">pidCompute</a>(error, dt);</div>
-<div class="line"><span class="lineno">  171</span> </div>
-<div class="line"><span class="lineno">  172</span>    <span class="keywordtype">double</span> leftSpeed = <a class="code hl_define" href="#ad9f1a713cff15b009f0d2918624db3f8">BASE_SPEED</a> + steering;</div>
-<div class="line"><span class="lineno">  173</span>    <span class="keywordtype">double</span> rightSpeed = <a class="code hl_define" href="#ad9f1a713cff15b009f0d2918624db3f8">BASE_SPEED</a> - steering;</div>
-<div class="line"><span class="lineno">  174</span> </div>
-<div class="line"><span class="lineno">  175</span>    <span class="comment">// If the desired action is effectively zero (no base speed and very</span></div>
-<div class="line"><span class="lineno">  176</span>    <span class="comment">// small heading error), keep motors off so they don&#39;t waste power.</span></div>
-<div class="line"><span class="lineno">  177</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> EPS_ERROR = 0.5; <span class="comment">// degrees (tolerance for considering error zero)</span></div>
-<div class="line"><span class="lineno">  178</span>    <span class="keywordtype">bool</span> keepMotorsOff = (fabs(error) &lt; EPS_ERROR) &amp;&amp; (<a class="code hl_define" href="#ad9f1a713cff15b009f0d2918624db3f8">BASE_SPEED</a> == 0);</div>
-<div class="line"><span class="lineno">  179</span> </div>
-<div class="line"><span class="lineno">  180</span>    <span class="comment">// Clamp to max limits first</span></div>
-<div class="line"><span class="lineno">  181</span>    <span class="keywordflow">if</span> (leftSpeed &gt; <a class="code hl_define" href="#ac2cd96d53dd3ba6407db6766c3d92b26">MAX_SPEED</a>) leftSpeed = <a class="code hl_define" href="#ac2cd96d53dd3ba6407db6766c3d92b26">MAX_SPEED</a>;</div>
-<div class="line"><span class="lineno">  182</span>    <span class="keywordflow">if</span> (leftSpeed &lt; -<a class="code hl_define" href="#ac2cd96d53dd3ba6407db6766c3d92b26">MAX_SPEED</a>) leftSpeed = -<a class="code hl_define" href="#ac2cd96d53dd3ba6407db6766c3d92b26">MAX_SPEED</a>;</div>
-<div class="line"><span class="lineno">  183</span>    <span class="keywordflow">if</span> (rightSpeed &gt; <a class="code hl_define" href="#ac2cd96d53dd3ba6407db6766c3d92b26">MAX_SPEED</a>) rightSpeed = <a class="code hl_define" href="#ac2cd96d53dd3ba6407db6766c3d92b26">MAX_SPEED</a>;</div>
-<div class="line"><span class="lineno">  184</span>    <span class="keywordflow">if</span> (rightSpeed &lt; -<a class="code hl_define" href="#ac2cd96d53dd3ba6407db6766c3d92b26">MAX_SPEED</a>) rightSpeed = -<a class="code hl_define" href="#ac2cd96d53dd3ba6407db6766c3d92b26">MAX_SPEED</a>;</div>
-<div class="line"><span class="lineno">  185</span> </div>
-<div class="line"><span class="lineno">  186</span>    <span class="comment">// Apply minimum effective speed to overcome friction when a non-zero</span></div>
-<div class="line"><span class="lineno">  187</span>    <span class="comment">// command is requested. Preserve exact zero when keepMotorsOff is true.</span></div>
-<div class="line"><span class="lineno">  188</span>    <span class="keywordflow">if</span> (!keepMotorsOff) {</div>
-<div class="line"><span class="lineno">  189</span>        <span class="keywordflow">if</span> ((leftSpeed &gt; 0) &amp;&amp; (leftSpeed &lt; <a class="code hl_define" href="#ad5f5efaa5cb771bd06da4bfe6046809e">MIN_SPEED</a>)) leftSpeed = <a class="code hl_define" href="#ad5f5efaa5cb771bd06da4bfe6046809e">MIN_SPEED</a>;</div>
-<div class="line"><span class="lineno">  190</span>        <span class="keywordflow">if</span> ((leftSpeed &lt; 0) &amp;&amp; (leftSpeed &gt; -<a class="code hl_define" href="#ad5f5efaa5cb771bd06da4bfe6046809e">MIN_SPEED</a>)) leftSpeed = -<a class="code hl_define" href="#ad5f5efaa5cb771bd06da4bfe6046809e">MIN_SPEED</a>;</div>
-<div class="line"><span class="lineno">  191</span> </div>
-<div class="line"><span class="lineno">  192</span>        <span class="keywordflow">if</span> ((rightSpeed &gt; 0) &amp;&amp; (rightSpeed &lt; <a class="code hl_define" href="#ad5f5efaa5cb771bd06da4bfe6046809e">MIN_SPEED</a>)) rightSpeed = <a class="code hl_define" href="#ad5f5efaa5cb771bd06da4bfe6046809e">MIN_SPEED</a>;</div>
-<div class="line"><span class="lineno">  193</span>        <span class="keywordflow">if</span> ((rightSpeed &lt; 0) &amp;&amp; (rightSpeed &gt; -<a class="code hl_define" href="#ad5f5efaa5cb771bd06da4bfe6046809e">MIN_SPEED</a>)) rightSpeed = -<a class="code hl_define" href="#ad5f5efaa5cb771bd06da4bfe6046809e">MIN_SPEED</a>;</div>
-<div class="line"><span class="lineno">  194</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  195</span>        leftSpeed = 0;</div>
-<div class="line"><span class="lineno">  196</span>        rightSpeed = 0;</div>
-<div class="line"><span class="lineno">  197</span>    }</div>
-<div class="line"><span class="lineno">  198</span> </div>
-<div class="line"><span class="lineno">  199</span>    <a class="code hl_function" href="motordriver_8c.html#a9eb16c7828b5fc5ebe81d5730903aca6">Motor_Set_Speed</a>((int16_t)leftSpeed, (int16_t)rightSpeed);</div>
-<div class="line"><span class="lineno">  200</span> </div>
-<div class="line"><span class="lineno">  201</span><span class="preprocessor">    #ifdef DEBUG_PID_CONTROLLER</span></div>
-<div class="line"><span class="lineno">  202</span>    <span class="keywordtype">char</span> msg[128];</div>
-<div class="line"><span class="lineno">  203</span>    sprintf(msg, <span class="stringliteral">&quot;PID Debug: DH=%.2f CH=%.2f Err=%.2f LSpd=%.2f RSpd=%.2f\r\n&quot;</span>,</div>
-<div class="line"><span class="lineno">  204</span>            <a class="code hl_variable" href="#aed4a280ec43791fdc6f26e4c1a498b7b">desiredHeading</a>, <a class="code hl_variable" href="#af8c4529a57f69382b149acd9696c7c25">currentHeading</a>, error, leftSpeed, rightSpeed);</div>
-<div class="line"><span class="lineno">  205</span>    UART_puts(msg);</div>
-<div class="line"><span class="lineno">  206</span><span class="preprocessor">    #endif</span></div>
-<div class="line"><span class="lineno">  207</span>}</div>
+<div class="line"><span class="lineno">  160</span>    <span class="keywordtype">double</span> dt;</div>
+<div class="line"><span class="lineno">  161</span>    TickType_t now = xTaskGetTickCount();</div>
+<div class="line"><span class="lineno">  162</span>    dt = (now - <a class="code hl_variable" href="#a9648c4b3c5e8528ebc2745f7cb76ff62">lastTime</a>) / 1000.0; <span class="comment">// convert to seconds</span></div>
+<div class="line"><span class="lineno">  163</span>    <a class="code hl_variable" href="#a9648c4b3c5e8528ebc2745f7cb76ff62">lastTime</a> = now;</div>
+<div class="line"><span class="lineno">  164</span> </div>
+<div class="line"><span class="lineno">  165</span>    <span class="keywordtype">double</span> error = <a class="code hl_function" href="#a671d698b0bc3a5576a862e1007a79dd6">headingError</a>(<a class="code hl_variable" href="#a7c580220d5d9248138f58b71930b407e">desiredHeading</a>, <a class="code hl_variable" href="#a5ba2615783432c8c8c205df9ba434f24">currentHeading</a>);</div>
+<div class="line"><span class="lineno">  166</span>    <span class="keywordtype">double</span> steering = <a class="code hl_function" href="#a709e09555bd056b676dc48c3ed5f305b">pidCompute</a>(error, dt);</div>
+<div class="line"><span class="lineno">  167</span> </div>
+<div class="line"><span class="lineno">  168</span>    <span class="keywordtype">double</span> leftSpeed = <a class="code hl_define" href="#ad9f1a713cff15b009f0d2918624db3f8">BASE_SPEED</a> + steering;</div>
+<div class="line"><span class="lineno">  169</span>    <span class="keywordtype">double</span> rightSpeed = <a class="code hl_define" href="#ad9f1a713cff15b009f0d2918624db3f8">BASE_SPEED</a> - steering;</div>
+<div class="line"><span class="lineno">  170</span> </div>
+<div class="line"><span class="lineno">  171</span>    <span class="comment">// If the desired action is effectively zero (no base speed and very</span></div>
+<div class="line"><span class="lineno">  172</span>    <span class="comment">// small heading error), keep motors off so they don&#39;t waste power.</span></div>
+<div class="line"><span class="lineno">  173</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> EPS_ERROR = 0.5; <span class="comment">// degrees (tolerance for considering error zero)</span></div>
+<div class="line"><span class="lineno">  174</span>    <span class="keywordtype">bool</span> keepMotorsOff = (fabs(error) &lt; EPS_ERROR) &amp;&amp; (<a class="code hl_define" href="#ad9f1a713cff15b009f0d2918624db3f8">BASE_SPEED</a> == 0);</div>
+<div class="line"><span class="lineno">  175</span> </div>
+<div class="line"><span class="lineno">  176</span>    <span class="comment">// Clamp to max limits first</span></div>
+<div class="line"><span class="lineno">  177</span>    <span class="keywordflow">if</span> (leftSpeed &gt; <a class="code hl_define" href="#ac2cd96d53dd3ba6407db6766c3d92b26">MAX_SPEED</a>) leftSpeed = <a class="code hl_define" href="#ac2cd96d53dd3ba6407db6766c3d92b26">MAX_SPEED</a>;</div>
+<div class="line"><span class="lineno">  178</span>    <span class="keywordflow">if</span> (leftSpeed &lt; -<a class="code hl_define" href="#ac2cd96d53dd3ba6407db6766c3d92b26">MAX_SPEED</a>) leftSpeed = -<a class="code hl_define" href="#ac2cd96d53dd3ba6407db6766c3d92b26">MAX_SPEED</a>;</div>
+<div class="line"><span class="lineno">  179</span>    <span class="keywordflow">if</span> (rightSpeed &gt; <a class="code hl_define" href="#ac2cd96d53dd3ba6407db6766c3d92b26">MAX_SPEED</a>) rightSpeed = <a class="code hl_define" href="#ac2cd96d53dd3ba6407db6766c3d92b26">MAX_SPEED</a>;</div>
+<div class="line"><span class="lineno">  180</span>    <span class="keywordflow">if</span> (rightSpeed &lt; -<a class="code hl_define" href="#ac2cd96d53dd3ba6407db6766c3d92b26">MAX_SPEED</a>) rightSpeed = -<a class="code hl_define" href="#ac2cd96d53dd3ba6407db6766c3d92b26">MAX_SPEED</a>;</div>
+<div class="line"><span class="lineno">  181</span> </div>
+<div class="line"><span class="lineno">  182</span>    <span class="comment">// Apply minimum effective speed to overcome friction when a non-zero</span></div>
+<div class="line"><span class="lineno">  183</span>    <span class="comment">// command is requested. Preserve exact zero when keepMotorsOff is true.</span></div>
+<div class="line"><span class="lineno">  184</span>    <span class="keywordflow">if</span> (!keepMotorsOff) {</div>
+<div class="line"><span class="lineno">  185</span>        <span class="keywordflow">if</span> ((leftSpeed &gt; 0) &amp;&amp; (leftSpeed &lt; <a class="code hl_define" href="#ad5f5efaa5cb771bd06da4bfe6046809e">MIN_SPEED</a>)) leftSpeed = <a class="code hl_define" href="#ad5f5efaa5cb771bd06da4bfe6046809e">MIN_SPEED</a>;</div>
+<div class="line"><span class="lineno">  186</span>        <span class="keywordflow">if</span> ((leftSpeed &lt; 0) &amp;&amp; (leftSpeed &gt; -<a class="code hl_define" href="#ad5f5efaa5cb771bd06da4bfe6046809e">MIN_SPEED</a>)) leftSpeed = -<a class="code hl_define" href="#ad5f5efaa5cb771bd06da4bfe6046809e">MIN_SPEED</a>;</div>
+<div class="line"><span class="lineno">  187</span> </div>
+<div class="line"><span class="lineno">  188</span>        <span class="keywordflow">if</span> ((rightSpeed &gt; 0) &amp;&amp; (rightSpeed &lt; <a class="code hl_define" href="#ad5f5efaa5cb771bd06da4bfe6046809e">MIN_SPEED</a>)) rightSpeed = <a class="code hl_define" href="#ad5f5efaa5cb771bd06da4bfe6046809e">MIN_SPEED</a>;</div>
+<div class="line"><span class="lineno">  189</span>        <span class="keywordflow">if</span> ((rightSpeed &lt; 0) &amp;&amp; (rightSpeed &gt; -<a class="code hl_define" href="#ad5f5efaa5cb771bd06da4bfe6046809e">MIN_SPEED</a>)) rightSpeed = -<a class="code hl_define" href="#ad5f5efaa5cb771bd06da4bfe6046809e">MIN_SPEED</a>;</div>
+<div class="line"><span class="lineno">  190</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  191</span>        leftSpeed = 0;</div>
+<div class="line"><span class="lineno">  192</span>        rightSpeed = 0;</div>
+<div class="line"><span class="lineno">  193</span>    }</div>
+<div class="line"><span class="lineno">  194</span> </div>
+<div class="line"><span class="lineno">  195</span>    <a class="code hl_function" href="motordriver_8c.html#a9eb16c7828b5fc5ebe81d5730903aca6">Motor_Set_Speed</a>((int16_t)leftSpeed, (int16_t)rightSpeed);</div>
+<div class="line"><span class="lineno">  196</span> </div>
+<div class="line"><span class="lineno">  197</span><span class="preprocessor">    #ifdef DEBUG_PID_CONTROLLER</span></div>
+<div class="line"><span class="lineno">  198</span>    <span class="keywordtype">char</span> msg[128];</div>
+<div class="line"><span class="lineno">  199</span>    sprintf(msg, <span class="stringliteral">&quot;PID Debug: DH=%.2f CH=%.2f Err=%.2f LSpd=%.2f RSpd=%.2f\r\n&quot;</span>,</div>
+<div class="line"><span class="lineno">  200</span>            <a class="code hl_variable" href="#a7c580220d5d9248138f58b71930b407e">desiredHeading</a>, <a class="code hl_variable" href="#a5ba2615783432c8c8c205df9ba434f24">currentHeading</a>, error, leftSpeed, rightSpeed);</div>
+<div class="line"><span class="lineno">  201</span>    <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(msg);</div>
+<div class="line"><span class="lineno">  202</span><span class="preprocessor">    #endif</span></div>
+<div class="line"><span class="lineno">  203</span>}</div>
 <div class="ttc" id="aLOS__algo_8c_html_aa8fb3e8e122a30f67765cddfdfa05423"><div class="ttname"><a href="LOS__algo_8c.html#aa8fb3e8e122a30f67765cddfdfa05423">LOS_getdesiredheading</a></div><div class="ttdeci">void LOS_getdesiredheading(double *dest)</div><div class="ttdoc">Exports desired LOS heading.</div><div class="ttdef"><b>Definition</b> <a href="LOS__algo_8c_source.html#l00095">LOS_algo.c:95</a></div></div>
-<div class="ttc" id="aPID__controller_8c_html_a671d698b0bc3a5576a862e1007a79dd6"><div class="ttname"><a href="#a671d698b0bc3a5576a862e1007a79dd6">headingError</a></div><div class="ttdeci">double headingError(double target, double current)</div><div class="ttdoc">Calculate the heading error between the target and current heading.</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00107">PID_controller.c:107</a></div></div>
-<div class="ttc" id="aPID__controller_8c_html_a709e09555bd056b676dc48c3ed5f305b"><div class="ttname"><a href="#a709e09555bd056b676dc48c3ed5f305b">pidCompute</a></div><div class="ttdeci">double pidCompute(double error, double dt)</div><div class="ttdoc">Compute the PID control output.</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00121">PID_controller.c:121</a></div></div>
-<div class="ttc" id="aPID__controller_8c_html_a9648c4b3c5e8528ebc2745f7cb76ff62"><div class="ttname"><a href="#a9648c4b3c5e8528ebc2745f7cb76ff62">lastTime</a></div><div class="ttdeci">double lastTime</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00057">PID_controller.c:57</a></div></div>
-<div class="ttc" id="aPID__controller_8c_html_ac2cd96d53dd3ba6407db6766c3d92b26"><div class="ttname"><a href="#ac2cd96d53dd3ba6407db6766c3d92b26">MAX_SPEED</a></div><div class="ttdeci">#define MAX_SPEED</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00039">PID_controller.c:39</a></div></div>
-<div class="ttc" id="aPID__controller_8c_html_ad5f5efaa5cb771bd06da4bfe6046809e"><div class="ttname"><a href="#ad5f5efaa5cb771bd06da4bfe6046809e">MIN_SPEED</a></div><div class="ttdeci">#define MIN_SPEED</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00044">PID_controller.c:44</a></div></div>
-<div class="ttc" id="aPID__controller_8c_html_ad9f1a713cff15b009f0d2918624db3f8"><div class="ttname"><a href="#ad9f1a713cff15b009f0d2918624db3f8">BASE_SPEED</a></div><div class="ttdeci">#define BASE_SPEED</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00038">PID_controller.c:38</a></div></div>
-<div class="ttc" id="aPID__controller_8c_html_aed4a280ec43791fdc6f26e4c1a498b7b"><div class="ttname"><a href="#aed4a280ec43791fdc6f26e4c1a498b7b">desiredHeading</a></div><div class="ttdeci">volatile double desiredHeading</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00048">PID_controller.c:48</a></div></div>
-<div class="ttc" id="aPID__controller_8c_html_af8c4529a57f69382b149acd9696c7c25"><div class="ttname"><a href="#af8c4529a57f69382b149acd9696c7c25">currentHeading</a></div><div class="ttdeci">volatile double currentHeading</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00049">PID_controller.c:49</a></div></div>
+<div class="ttc" id="aPID__controller_8c_html_a5ba2615783432c8c8c205df9ba434f24"><div class="ttname"><a href="#a5ba2615783432c8c8c205df9ba434f24">currentHeading</a></div><div class="ttdeci">double currentHeading</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00047">PID_controller.c:47</a></div></div>
+<div class="ttc" id="aPID__controller_8c_html_a671d698b0bc3a5576a862e1007a79dd6"><div class="ttname"><a href="#a671d698b0bc3a5576a862e1007a79dd6">headingError</a></div><div class="ttdeci">double headingError(double target, double current)</div><div class="ttdoc">Calculate the heading error between the target and current heading.</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00103">PID_controller.c:103</a></div></div>
+<div class="ttc" id="aPID__controller_8c_html_a709e09555bd056b676dc48c3ed5f305b"><div class="ttname"><a href="#a709e09555bd056b676dc48c3ed5f305b">pidCompute</a></div><div class="ttdeci">double pidCompute(double error, double dt)</div><div class="ttdoc">Compute the PID control output.</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00117">PID_controller.c:117</a></div></div>
+<div class="ttc" id="aPID__controller_8c_html_a7c580220d5d9248138f58b71930b407e"><div class="ttname"><a href="#a7c580220d5d9248138f58b71930b407e">desiredHeading</a></div><div class="ttdeci">double desiredHeading</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00046">PID_controller.c:46</a></div></div>
+<div class="ttc" id="aPID__controller_8c_html_a9648c4b3c5e8528ebc2745f7cb76ff62"><div class="ttname"><a href="#a9648c4b3c5e8528ebc2745f7cb76ff62">lastTime</a></div><div class="ttdeci">double lastTime</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00055">PID_controller.c:55</a></div></div>
+<div class="ttc" id="aPID__controller_8c_html_ac2cd96d53dd3ba6407db6766c3d92b26"><div class="ttname"><a href="#ac2cd96d53dd3ba6407db6766c3d92b26">MAX_SPEED</a></div><div class="ttdeci">#define MAX_SPEED</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00037">PID_controller.c:37</a></div></div>
+<div class="ttc" id="aPID__controller_8c_html_ad5f5efaa5cb771bd06da4bfe6046809e"><div class="ttname"><a href="#ad5f5efaa5cb771bd06da4bfe6046809e">MIN_SPEED</a></div><div class="ttdeci">#define MIN_SPEED</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00042">PID_controller.c:42</a></div></div>
+<div class="ttc" id="aPID__controller_8c_html_ad9f1a713cff15b009f0d2918624db3f8"><div class="ttname"><a href="#ad9f1a713cff15b009f0d2918624db3f8">BASE_SPEED</a></div><div class="ttdeci">#define BASE_SPEED</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00036">PID_controller.c:36</a></div></div>
 <div class="ttc" id="acompass__driver_8c_html_a2de6b50e325af14c1ca45427dbf371e0"><div class="ttname"><a href="compass__driver_8c.html#a2de6b50e325af14c1ca45427dbf371e0">getlatestHeading</a></div><div class="ttdeci">void getlatestHeading(double *dest)</div><div class="ttdef"><b>Definition</b> <a href="compass__driver_8c_source.html#l00035">compass_driver.c:35</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="PID__controller_8c_source.html#l00038">BASE_SPEED</a>, <a class="el" href="PID__controller_8c_source.html#l00049">currentHeading</a>, <a class="el" href="PID__controller_8c_source.html#l00048">desiredHeading</a>, <a class="el" href="compass__driver_8c_source.html#l00035">getlatestHeading()</a>, <a class="el" href="PID__controller_8c_source.html#l00107">headingError()</a>, <a class="el" href="PID__controller_8c_source.html#l00057">lastTime</a>, <a class="el" href="LOS__algo_8c_source.html#l00095">LOS_getdesiredheading()</a>, <a class="el" href="PID__controller_8c_source.html#l00039">MAX_SPEED</a>, <a class="el" href="PID__controller_8c_source.html#l00044">MIN_SPEED</a>, <a class="el" href="motordriver_8c_source.html#l00078">Motor_Set_Speed()</a>, and <a class="el" href="PID__controller_8c_source.html#l00121">pidCompute()</a>.</p>
+<p class="reference">References <a class="el" href="PID__controller_8c_source.html#l00036">BASE_SPEED</a>, <a class="el" href="PID__controller_8c_source.html#l00047">currentHeading</a>, <a class="el" href="PID__controller_8c_source.html#l00046">desiredHeading</a>, <a class="el" href="compass__driver_8c_source.html#l00035">getlatestHeading()</a>, <a class="el" href="PID__controller_8c_source.html#l00103">headingError()</a>, <a class="el" href="PID__controller_8c_source.html#l00055">lastTime</a>, <a class="el" href="LOS__algo_8c_source.html#l00095">LOS_getdesiredheading()</a>, <a class="el" href="PID__controller_8c_source.html#l00037">MAX_SPEED</a>, <a class="el" href="PID__controller_8c_source.html#l00042">MIN_SPEED</a>, <a class="el" href="motordriver_8c_source.html#l00078">Motor_Set_Speed()</a>, <a class="el" href="PID__controller_8c_source.html#l00117">pidCompute()</a>, and <a class="el" href="uart_8c_source.html#l00056">UART_puts()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00214">PID_Controller()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00210">PID_Controller()</a>.</p>
 
 </div>
 </div>
@@ -671,66 +679,66 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double Returns the PID control output. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00121">121</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  121</span>                                           {</div>
-<div class="line"><span class="lineno">  122</span>    <a class="code hl_variable" href="#a9157f0915da305914350c5922cee2c1c">integral</a> += error * dt;</div>
-<div class="line"><span class="lineno">  123</span>    <span class="keywordtype">double</span> derivative = (error - <a class="code hl_variable" href="#a5f0f2b04907074fd4e0ed600b6e1d394">prevError</a>) / dt;</div>
-<div class="line"><span class="lineno">  124</span>    <a class="code hl_variable" href="#a5f0f2b04907074fd4e0ed600b6e1d394">prevError</a> = error;</div>
-<div class="line"><span class="lineno">  125</span> </div>
-<div class="line"><span class="lineno">  126</span>    <span class="keywordtype">double</span> output = (<a class="code hl_define" href="#aa4729260b732666338dee7d841aa12f3">KP</a> * error) + (<a class="code hl_define" href="#ade82752ae1652fdf0df9df7a16ffda29">KI</a> * <a class="code hl_variable" href="#a9157f0915da305914350c5922cee2c1c">integral</a>) + (<a class="code hl_define" href="#ad4f9673d16d231643789f081068d2372">KD</a> * derivative);</div>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00117">117</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  117</span>                                           {</div>
+<div class="line"><span class="lineno">  118</span>    <a class="code hl_variable" href="#a9157f0915da305914350c5922cee2c1c">integral</a> += error * dt;</div>
+<div class="line"><span class="lineno">  119</span>    <span class="keywordtype">double</span> derivative = (error - <a class="code hl_variable" href="#a5f0f2b04907074fd4e0ed600b6e1d394">prevError</a>) / dt;</div>
+<div class="line"><span class="lineno">  120</span>    <a class="code hl_variable" href="#a5f0f2b04907074fd4e0ed600b6e1d394">prevError</a> = error;</div>
+<div class="line"><span class="lineno">  121</span> </div>
+<div class="line"><span class="lineno">  122</span>    <span class="keywordtype">double</span> output = (<a class="code hl_define" href="#aa4729260b732666338dee7d841aa12f3">KP</a> * error) + (<a class="code hl_define" href="#ade82752ae1652fdf0df9df7a16ffda29">KI</a> * <a class="code hl_variable" href="#a9157f0915da305914350c5922cee2c1c">integral</a>) + (<a class="code hl_define" href="#ad4f9673d16d231643789f081068d2372">KD</a> * derivative);</div>
+<div class="line"><span class="lineno">  123</span> </div>
+<div class="line"><span class="lineno">  124</span>    <span class="comment">// Normalize output range (e.g., -1 to 1)</span></div>
+<div class="line"><span class="lineno">  125</span>    <span class="keywordflow">if</span> (output &gt; 255) output = 255;</div>
+<div class="line"><span class="lineno">  126</span>    <span class="keywordflow">if</span> (output &lt; -255) output = -255;</div>
 <div class="line"><span class="lineno">  127</span> </div>
-<div class="line"><span class="lineno">  128</span>    <span class="comment">// Normalize output range (e.g., -1 to 1)</span></div>
-<div class="line"><span class="lineno">  129</span>    <span class="keywordflow">if</span> (output &gt; 255) output = 255;</div>
-<div class="line"><span class="lineno">  130</span>    <span class="keywordflow">if</span> (output &lt; -255) output = -255;</div>
-<div class="line"><span class="lineno">  131</span> </div>
-<div class="line"><span class="lineno">  132</span>    <span class="keywordflow">return</span> output;</div>
-<div class="line"><span class="lineno">  133</span>}</div>
-<div class="ttc" id="aPID__controller_8c_html_a5f0f2b04907074fd4e0ed600b6e1d394"><div class="ttname"><a href="#a5f0f2b04907074fd4e0ed600b6e1d394">prevError</a></div><div class="ttdeci">static double prevError</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00056">PID_controller.c:56</a></div></div>
-<div class="ttc" id="aPID__controller_8c_html_a9157f0915da305914350c5922cee2c1c"><div class="ttname"><a href="#a9157f0915da305914350c5922cee2c1c">integral</a></div><div class="ttdeci">static double integral</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00055">PID_controller.c:55</a></div></div>
-<div class="ttc" id="aPID__controller_8c_html_aa4729260b732666338dee7d841aa12f3"><div class="ttname"><a href="#aa4729260b732666338dee7d841aa12f3">KP</a></div><div class="ttdeci">#define KP</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00027">PID_controller.c:27</a></div></div>
-<div class="ttc" id="aPID__controller_8c_html_ad4f9673d16d231643789f081068d2372"><div class="ttname"><a href="#ad4f9673d16d231643789f081068d2372">KD</a></div><div class="ttdeci">#define KD</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00029">PID_controller.c:29</a></div></div>
-<div class="ttc" id="aPID__controller_8c_html_ade82752ae1652fdf0df9df7a16ffda29"><div class="ttname"><a href="#ade82752ae1652fdf0df9df7a16ffda29">KI</a></div><div class="ttdeci">#define KI</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00028">PID_controller.c:28</a></div></div>
+<div class="line"><span class="lineno">  128</span>    <span class="keywordflow">return</span> output;</div>
+<div class="line"><span class="lineno">  129</span>}</div>
+<div class="ttc" id="aPID__controller_8c_html_a5f0f2b04907074fd4e0ed600b6e1d394"><div class="ttname"><a href="#a5f0f2b04907074fd4e0ed600b6e1d394">prevError</a></div><div class="ttdeci">static double prevError</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00054">PID_controller.c:54</a></div></div>
+<div class="ttc" id="aPID__controller_8c_html_a9157f0915da305914350c5922cee2c1c"><div class="ttname"><a href="#a9157f0915da305914350c5922cee2c1c">integral</a></div><div class="ttdeci">static double integral</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00053">PID_controller.c:53</a></div></div>
+<div class="ttc" id="aPID__controller_8c_html_aa4729260b732666338dee7d841aa12f3"><div class="ttname"><a href="#aa4729260b732666338dee7d841aa12f3">KP</a></div><div class="ttdeci">#define KP</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00025">PID_controller.c:25</a></div></div>
+<div class="ttc" id="aPID__controller_8c_html_ad4f9673d16d231643789f081068d2372"><div class="ttname"><a href="#ad4f9673d16d231643789f081068d2372">KD</a></div><div class="ttdeci">#define KD</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00027">PID_controller.c:27</a></div></div>
+<div class="ttc" id="aPID__controller_8c_html_ade82752ae1652fdf0df9df7a16ffda29"><div class="ttname"><a href="#ade82752ae1652fdf0df9df7a16ffda29">KI</a></div><div class="ttdeci">#define KI</div><div class="ttdef"><b>Definition</b> <a href="PID__controller_8c_source.html#l00026">PID_controller.c:26</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="PID__controller_8c_source.html#l00055">integral</a>, <a class="el" href="PID__controller_8c_source.html#l00029">KD</a>, <a class="el" href="PID__controller_8c_source.html#l00028">KI</a>, <a class="el" href="PID__controller_8c_source.html#l00027">KP</a>, and <a class="el" href="PID__controller_8c_source.html#l00056">prevError</a>.</p>
+<p class="reference">References <a class="el" href="PID__controller_8c_source.html#l00053">integral</a>, <a class="el" href="PID__controller_8c_source.html#l00027">KD</a>, <a class="el" href="PID__controller_8c_source.html#l00026">KI</a>, <a class="el" href="PID__controller_8c_source.html#l00025">KP</a>, and <a class="el" href="PID__controller_8c_source.html#l00054">prevError</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00158">PID_trigger()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00154">PID_trigger()</a>.</p>
 
 </div>
 </div>
 <a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
-<a id="af8c4529a57f69382b149acd9696c7c25" name="af8c4529a57f69382b149acd9696c7c25"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af8c4529a57f69382b149acd9696c7c25">&#9670;&#160;</a></span>currentHeading</h2>
+<a id="a5ba2615783432c8c8c205df9ba434f24" name="a5ba2615783432c8c8c205df9ba434f24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ba2615783432c8c8c205df9ba434f24">&#9670;&#160;</a></span>currentHeading</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">volatile double currentHeading = 0.0</td>
+          <td class="memname">double currentHeading = 0.0</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00049">49</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00047">47</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00158">PID_trigger()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00154">PID_trigger()</a>.</p>
 
 </div>
 </div>
-<a id="aed4a280ec43791fdc6f26e4c1a498b7b" name="aed4a280ec43791fdc6f26e4c1a498b7b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed4a280ec43791fdc6f26e4c1a498b7b">&#9670;&#160;</a></span>desiredHeading</h2>
+<a id="a7c580220d5d9248138f58b71930b407e" name="a7c580220d5d9248138f58b71930b407e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c580220d5d9248138f58b71930b407e">&#9670;&#160;</a></span>desiredHeading</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">volatile double desiredHeading = 0.0</td>
+          <td class="memname">double desiredHeading = 0.0</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00048">48</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00046">46</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00158">PID_trigger()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00154">PID_trigger()</a>.</p>
 
 </div>
 </div>
@@ -746,9 +754,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00064">64</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00062">62</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00214">PID_Controller()</a>, and <a class="el" href="PID__controller_8c_source.html#l00075">PID_getObstacleAvoidanceState()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00210">PID_Controller()</a>, and <a class="el" href="PID__controller_8c_source.html#l00071">PID_getObstacleAvoidanceState()</a>.</p>
 
 </div>
 </div>
@@ -764,9 +772,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00063">63</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00061">61</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00214">PID_Controller()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00210">PID_Controller()</a>.</p>
 
 </div>
 </div>
@@ -790,9 +798,9 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00055">55</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00053">53</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00121">pidCompute()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00117">pidCompute()</a>.</p>
 
 </div>
 </div>
@@ -808,9 +816,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00065">65</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00063">63</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ARM__keys_8c_source.html#l00036">ARM_keys_IRQ()</a>, <a class="el" href="ARM__keys_8c_source.html#l00064">ARM_keys_task()</a>, <a class="el" href="PID__controller_8c_source.html#l00214">PID_Controller()</a>, <a class="el" href="routeperformer_8c_source.html#l00407">Route_performer()</a>, and <a class="el" href="GPS__Route__Setter_8c_source.html#l00256">Route_Setter()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ARM__keys_8c_source.html#l00036">ARM_keys_IRQ()</a>, <a class="el" href="ARM__keys_8c_source.html#l00064">ARM_keys_task()</a>, <a class="el" href="keys_8c_source.html#l00101">KEYS_kolom()</a>, <a class="el" href="keys_8c_source.html#l00068">KEYS_read()</a>, <a class="el" href="PID__controller_8c_source.html#l00210">PID_Controller()</a>, and <a class="el" href="GPS__Route__Setter_8c_source.html#l00256">Route_Setter()</a>.</p>
 
 </div>
 </div>
@@ -826,25 +834,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00057">57</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00055">55</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00158">PID_trigger()</a>.</p>
-
-</div>
-</div>
-<a id="a7abf9e6a9d768092ffb369f93367baf0" name="a7abf9e6a9d768092ffb369f93367baf0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7abf9e6a9d768092ffb369f93367baf0">&#9670;&#160;</a></span>latest_dGPS_data</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structdGPS__decimalData__t.html">dGPS_decimalData_t</a> latest_dGPS_data</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00068">68</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00154">PID_trigger()</a>.</p>
 
 </div>
 </div>
@@ -860,27 +852,27 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00066">66</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00064">64</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00139">obstacleAvoidance()</a>, <a class="el" href="PID__controller_8c_source.html#l00214">PID_Controller()</a>, <a class="el" href="PID__controller_8c_source.html#l00085">PID_getObstacleFlag()</a>, and <a class="el" href="PID__controller_8c_source.html#l00095">PID_setObstacleFlag()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00135">obstacleAvoidance()</a>, <a class="el" href="PID__controller_8c_source.html#l00210">PID_Controller()</a>, <a class="el" href="PID__controller_8c_source.html#l00081">PID_getObstacleFlag()</a>, and <a class="el" href="PID__controller_8c_source.html#l00091">PID_setObstacleFlag()</a>.</p>
 
 </div>
 </div>
-<a id="af47974cd1cc41c663bba40787b6bf0f9" name="af47974cd1cc41c663bba40787b6bf0f9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af47974cd1cc41c663bba40787b6bf0f9">&#9670;&#160;</a></span>pid_waypoint_hold</h2>
+<a id="a559c9dd9c11859573a85e85363d15f24" name="a559c9dd9c11859573a85e85363d15f24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a559c9dd9c11859573a85e85363d15f24">&#9670;&#160;</a></span>pid_waypoint_hold</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">volatile bool pid_waypoint_hold = false</td>
+          <td class="memname">bool pid_waypoint_hold = false</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00052">52</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00050">50</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00214">PID_Controller()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00210">PID_Controller()</a>.</p>
 
 </div>
 </div>
@@ -904,9 +896,9 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00056">56</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PID__controller_8c_source.html#l00054">54</a> of file <a class="el" href="PID__controller_8c_source.html">PID_controller.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00121">pidCompute()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID__controller_8c_source.html#l00117">pidCompute()</a>.</p>
 
 </div>
 </div>

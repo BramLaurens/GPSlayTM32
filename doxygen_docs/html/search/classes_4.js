@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['magcalibration_0',['MagCalibration',['../structMagCalibration.html',1,'']]]
+  ['taskdata_0',['TaskData',['../structTaskData.html',1,'']]]
 ];

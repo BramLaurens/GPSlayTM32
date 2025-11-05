@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['gps_5fdecimal_5fdegrees_5ft_0',['GPS_decimal_degrees_t',['../structGPS__decimal__degrees__t.html',1,'']]]
+  ['los_5foutput_5ft_0',['LOS_Output_t',['../structLOS__Output__t.html',1,'']]]
 ];

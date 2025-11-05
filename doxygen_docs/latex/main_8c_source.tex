@@ -14,7 +14,7 @@
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00030}00030\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{admin_8h}{admin.h}}"{}}}
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00031}00031\ \textcolor{preprocessor}{\#include\ "{}NRF24.h"{}}}
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00032}00032\ \textcolor{preprocessor}{\#include\ "{}NRF24\_reg\_addresses.h"{}}}
-\DoxyCodeLine{\Hypertarget{main_8c_source_l00033}00033\ \textcolor{preprocessor}{\#include\ "{}st7735.h"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00033}00033\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{st7735_8h}{st7735.h}}"{}}}
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00034}00034\ }
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00035}00035\ \textcolor{comment}{/*\ USER\ CODE\ END\ Includes\ */}}
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00036}00036\ }
@@ -84,7 +84,7 @@
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00100}00100\ \ \ \ \ \textcolor{keywordflow}{for}\ (uint8\_t\ addr\ =\ 1;\ addr\ <\ 128;\ addr++)\ \{}
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00101}00101\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (HAL\_I2C\_IsDeviceReady(hi2c,\ addr\ <<\ 1,\ 1,\ 10)\ ==\ HAL\_OK)\ \{}
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ sprintf(msg,\ \textcolor{stringliteral}{"{}Found\ device\ at\ 0x\%02X\(\backslash\)r\(\backslash\)n"{}},\ addr);}
-\DoxyCodeLine{\Hypertarget{main_8c_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ UART\_puts(msg);}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(msg);}
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00104}00104\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00105}00105\ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00106}00106\ \}}
@@ -133,14 +133,14 @@
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00153}00153\ \ \ \ \ \mbox{\hyperlink{main_8c_a1730ffe1e560465665eb47d9264826f9}{Error\_Handler}}();}
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00154}00154\ \ \ \}}
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00155}00155\ }
-\DoxyCodeLine{\Hypertarget{main_8c_source_l00156}00156\ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)r\(\backslash\)n\(\backslash\)r\(\backslash\)n\ I2C\ Bus\ scan:\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00156}00156\ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)r\(\backslash\)n\(\backslash\)r\(\backslash\)n\ I2C\ Bus\ scan:\(\backslash\)r\(\backslash\)n"{}});}
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00157}00157\ \ \ \mbox{\hyperlink{main_8c_af2913661f7ff5b025f0710a6d61712e0}{I2C\_ScanBus}}(\&\mbox{\hyperlink{main_8c_a5ccf4a01a8d7f08d3190181f843f7515}{hi2c3}});}
-\DoxyCodeLine{\Hypertarget{main_8c_source_l00158}00158\ \ \ UART\_puts(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)r\(\backslash\)n\(\backslash\)r\(\backslash\)n\ Starting\ up...\(\backslash\)r\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00158}00158\ \ \ \mbox{\hyperlink{uart_8c_a6299e801cd2b1d8e054c3aea21ce1900}{UART\_puts}}(\textcolor{stringliteral}{"{}\(\backslash\)r\(\backslash\)n\(\backslash\)r\(\backslash\)n\(\backslash\)r\(\backslash\)n\ Starting\ up...\(\backslash\)r\(\backslash\)n"{}});}
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00159}00159\ }
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00160}00160\ \ \ \textcolor{comment}{//\ LCD\_init();}}
-\DoxyCodeLine{\Hypertarget{main_8c_source_l00161}00161\ \ \ KEYS\_init();}
-\DoxyCodeLine{\Hypertarget{main_8c_source_l00162}00162\ \ \ KEYS\_initISR(1);\ \textcolor{comment}{//\ set\ all\ lines\ high\ once}}
-\DoxyCodeLine{\Hypertarget{main_8c_source_l00163}00163\ \ \ LED\_init();}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00161}00161\ \ \ \mbox{\hyperlink{keys_8c_a3b8c0d86406508ab75d7301def4e83d1}{KEYS\_init}}();}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00162}00162\ \ \ \mbox{\hyperlink{keys_8c_a8194a032dc1e3ff80ce3892682d14bd8}{KEYS\_initISR}}(1);\ \textcolor{comment}{//\ set\ all\ lines\ high\ once}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00163}00163\ \ \ \mbox{\hyperlink{leds_8c_a50cf228fce8563fc202330b7b4816cb9}{LED\_init}}();}
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00164}00164\ }
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00165}00165\ \ \ \mbox{\hyperlink{admin_8c_a9dec45875121142b6466b9475691b40a}{DisplayVersion}}();}
 \DoxyCodeLine{\Hypertarget{main_8c_source_l00166}00166\ \ \ osDelay(500);\ \textcolor{comment}{//\ time\ to\ read\ version}}

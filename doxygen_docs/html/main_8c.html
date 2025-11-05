@@ -100,7 +100,7 @@ $(function(){initNavTree('main_8c.html','',''); });
 <code>#include &quot;<a class="el" href="admin_8h_source.html">admin.h</a>&quot;</code><br />
 <code>#include &quot;NRF24.h&quot;</code><br />
 <code>#include &quot;NRF24_reg_addresses.h&quot;</code><br />
-<code>#include &quot;st7735.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="st7735_8h_source.html">st7735.h</a>&quot;</code><br />
 </div>
 <p><a href="main_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -337,14 +337,14 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  805</span>    }</div>
 <div class="line"><span class="lineno">  806</span> </div>
 <div class="line"><span class="lineno">  807</span>}</div>
-<div class="ttc" id="aadmin_8c_html_a1db415a0f7c5ecff145e4bb53cc54dbe"><div class="ttname"><a href="admin_8c.html#a1db415a0f7c5ecff145e4bb53cc54dbe">hUART_Queue</a></div><div class="ttdeci">QueueHandle_t hUART_Queue</div><div class="ttdoc">typedefs of struct itself and pointer to it</div><div class="ttdef"><b>Definition</b> <a href="admin_8c_source.html#l00052">admin.c:52</a></div></div>
-<div class="ttc" id="aadmin_8c_html_a77d12f838c966d96a18a31e503b7955c"><div class="ttname"><a href="admin_8c.html#a77d12f838c966d96a18a31e503b7955c">hGPS_Queue</a></div><div class="ttdeci">QueueHandle_t hGPS_Queue</div><div class="ttdoc">uses UART2</div><div class="ttdef"><b>Definition</b> <a href="admin_8c_source.html#l00053">admin.c:53</a></div></div>
+<div class="ttc" id="aadmin_8c_html_a1db415a0f7c5ecff145e4bb53cc54dbe"><div class="ttname"><a href="admin_8c.html#a1db415a0f7c5ecff145e4bb53cc54dbe">hUART_Queue</a></div><div class="ttdeci">QueueHandle_t hUART_Queue</div><div class="ttdoc">typedefs of struct itself and pointer to it</div><div class="ttdef"><b>Definition</b> <a href="admin_8c_source.html#l00050">admin.c:50</a></div></div>
+<div class="ttc" id="aadmin_8c_html_a77d12f838c966d96a18a31e503b7955c"><div class="ttname"><a href="admin_8c.html#a77d12f838c966d96a18a31e503b7955c">hGPS_Queue</a></div><div class="ttdeci">QueueHandle_t hGPS_Queue</div><div class="ttdoc">uses UART2</div><div class="ttdef"><b>Definition</b> <a href="admin_8c_source.html#l00051">admin.c:51</a></div></div>
 <div class="ttc" id="amain_8c_html_a245542656c11698d62157049b0f8276f"><div class="ttname"><a href="#a245542656c11698d62157049b0f8276f">uart4_char</a></div><div class="ttdeci">unsigned char uart4_char</div><div class="ttdef"><b>Definition</b> <a href="main_8c_source.html#l00073">main.c:73</a></div></div>
 <div class="ttc" id="amain_8c_html_a3414137a6752f04b9b5b666591a62952"><div class="ttname"><a href="#a3414137a6752f04b9b5b666591a62952">uart2_char</a></div><div class="ttdeci">unsigned char uart2_char</div><div class="ttdef"><b>Definition</b> <a href="main_8c_source.html#l00073">main.c:73</a></div></div>
 <div class="ttc" id="amain_8c_html_aa9479c261d65eecedd3d9582f7f0f89c"><div class="ttname"><a href="#aa9479c261d65eecedd3d9582f7f0f89c">huart2</a></div><div class="ttdeci">UART_HandleTypeDef huart2</div><div class="ttdef"><b>Definition</b> <a href="main_8c_source.html#l00062">main.c:62</a></div></div>
 <div class="ttc" id="amain_8c_html_ae273feb3e0dc44e38892650faa58fced"><div class="ttname"><a href="#ae273feb3e0dc44e38892650faa58fced">huart4</a></div><div class="ttdeci">UART_HandleTypeDef huart4</div><div class="ttdef"><b>Definition</b> <a href="main_8c_source.html#l00061">main.c:61</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="admin_8c_source.html#l00053">hGPS_Queue</a>, <a class="el" href="main_8c_source.html#l00062">huart2</a>, <a class="el" href="main_8c_source.html#l00061">huart4</a>, <a class="el" href="admin_8c_source.html#l00052">hUART_Queue</a>, <a class="el" href="main_8c_source.html#l00073">uart2_char</a>, and <a class="el" href="main_8c_source.html#l00073">uart4_char</a>.</p>
+<p class="reference">References <a class="el" href="admin_8c_source.html#l00051">hGPS_Queue</a>, <a class="el" href="main_8c_source.html#l00062">huart2</a>, <a class="el" href="main_8c_source.html#l00061">huart4</a>, <a class="el" href="admin_8c_source.html#l00050">hUART_Queue</a>, <a class="el" href="main_8c_source.html#l00073">uart2_char</a>, and <a class="el" href="main_8c_source.html#l00073">uart4_char</a>.</p>
 
 </div>
 </div>
@@ -369,11 +369,14 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  100</span>    <span class="keywordflow">for</span> (uint8_t addr = 1; addr &lt; 128; addr++) {</div>
 <div class="line"><span class="lineno">  101</span>        <span class="keywordflow">if</span> (HAL_I2C_IsDeviceReady(hi2c, addr &lt;&lt; 1, 1, 10) == HAL_OK) {</div>
 <div class="line"><span class="lineno">  102</span>            sprintf(msg, <span class="stringliteral">&quot;Found device at 0x%02X\r\n&quot;</span>, addr);</div>
-<div class="line"><span class="lineno">  103</span>            UART_puts(msg);</div>
+<div class="line"><span class="lineno">  103</span>            <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(msg);</div>
 <div class="line"><span class="lineno">  104</span>        }</div>
 <div class="line"><span class="lineno">  105</span>    }</div>
 <div class="line"><span class="lineno">  106</span>}</div>
+<div class="ttc" id="auart_8c_html_a6299e801cd2b1d8e054c3aea21ce1900"><div class="ttname"><a href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a></div><div class="ttdeci">void UART_puts(const char *s)</div><div class="ttdef"><b>Definition</b> <a href="uart_8c_source.html#l00056">uart.c:56</a></div></div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="uart_8c_source.html#l00056">UART_puts()</a>.</p>
+
 <p class="reference">Referenced by <a class="el" href="main_8c_source.html#l00114">main()</a>.</p>
 
 </div>
@@ -443,14 +446,14 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  153</span>    <a class="code hl_function" href="#a1730ffe1e560465665eb47d9264826f9">Error_Handler</a>();</div>
 <div class="line"><span class="lineno">  154</span>  }</div>
 <div class="line"><span class="lineno">  155</span> </div>
-<div class="line"><span class="lineno">  156</span>  UART_puts(<span class="stringliteral">&quot;\r\n\r\n\r\n I2C Bus scan:\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  156</span>  <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n\r\n\r\n I2C Bus scan:\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  157</span>  <a class="code hl_function" href="#af2913661f7ff5b025f0710a6d61712e0">I2C_ScanBus</a>(&amp;<a class="code hl_variable" href="#a5ccf4a01a8d7f08d3190181f843f7515">hi2c3</a>);</div>
-<div class="line"><span class="lineno">  158</span>  UART_puts(<span class="stringliteral">&quot;\r\n\r\n\r\n Starting up...\r\n&quot;</span>);</div>
+<div class="line"><span class="lineno">  158</span>  <a class="code hl_function" href="uart_8c.html#a6299e801cd2b1d8e054c3aea21ce1900">UART_puts</a>(<span class="stringliteral">&quot;\r\n\r\n\r\n Starting up...\r\n&quot;</span>);</div>
 <div class="line"><span class="lineno">  159</span> </div>
 <div class="line"><span class="lineno">  160</span>  <span class="comment">// LCD_init();</span></div>
-<div class="line"><span class="lineno">  161</span>  KEYS_init();</div>
-<div class="line"><span class="lineno">  162</span>  KEYS_initISR(1); <span class="comment">// set all lines high once</span></div>
-<div class="line"><span class="lineno">  163</span>  LED_init();</div>
+<div class="line"><span class="lineno">  161</span>  <a class="code hl_function" href="keys_8c.html#a3b8c0d86406508ab75d7301def4e83d1">KEYS_init</a>();</div>
+<div class="line"><span class="lineno">  162</span>  <a class="code hl_function" href="keys_8c.html#a8194a032dc1e3ff80ce3892682d14bd8">KEYS_initISR</a>(1); <span class="comment">// set all lines high once</span></div>
+<div class="line"><span class="lineno">  163</span>  <a class="code hl_function" href="leds_8c.html#a50cf228fce8563fc202330b7b4816cb9">LED_init</a>();</div>
 <div class="line"><span class="lineno">  164</span> </div>
 <div class="line"><span class="lineno">  165</span>  <a class="code hl_function" href="admin_8c.html#a9dec45875121142b6466b9475691b40a">DisplayVersion</a>();</div>
 <div class="line"><span class="lineno">  166</span>  osDelay(500); <span class="comment">// time to read version</span></div>
@@ -504,7 +507,10 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  214</span>  <span class="comment">/* USER CODE END 3 */</span></div>
 <div class="line"><span class="lineno">  215</span>}</div>
 <div class="ttc" id="aUltrasoon_8h_html_a5faa27108379f799afb6984010bf0384"><div class="ttname"><a href="Ultrasoon_8h.html#a5faa27108379f799afb6984010bf0384">htim8</a></div><div class="ttdeci">TIM_HandleTypeDef htim8</div><div class="ttdef"><b>Definition</b> <a href="main_8c_source.html#l00057">main.c:57</a></div></div>
-<div class="ttc" id="aadmin_8c_html_a9dec45875121142b6466b9475691b40a"><div class="ttname"><a href="admin_8c.html#a9dec45875121142b6466b9475691b40a">DisplayVersion</a></div><div class="ttdeci">void DisplayVersion(void)</div><div class="ttdef"><b>Definition</b> <a href="admin_8c_source.html#l00161">admin.c:161</a></div></div>
+<div class="ttc" id="aadmin_8c_html_a9dec45875121142b6466b9475691b40a"><div class="ttname"><a href="admin_8c.html#a9dec45875121142b6466b9475691b40a">DisplayVersion</a></div><div class="ttdeci">void DisplayVersion(void)</div><div class="ttdef"><b>Definition</b> <a href="admin_8c_source.html#l00151">admin.c:151</a></div></div>
+<div class="ttc" id="akeys_8c_html_a3b8c0d86406508ab75d7301def4e83d1"><div class="ttname"><a href="keys_8c.html#a3b8c0d86406508ab75d7301def4e83d1">KEYS_init</a></div><div class="ttdeci">void KEYS_init(void)</div><div class="ttdef"><b>Definition</b> <a href="keys_8c_source.html#l00033">keys.c:33</a></div></div>
+<div class="ttc" id="akeys_8c_html_a8194a032dc1e3ff80ce3892682d14bd8"><div class="ttname"><a href="keys_8c.html#a8194a032dc1e3ff80ce3892682d14bd8">KEYS_initISR</a></div><div class="ttdeci">void KEYS_initISR(int hilo)</div><div class="ttdef"><b>Definition</b> <a href="keys_8c_source.html#l00055">keys.c:55</a></div></div>
+<div class="ttc" id="aleds_8c_html_a50cf228fce8563fc202330b7b4816cb9"><div class="ttname"><a href="leds_8c.html#a50cf228fce8563fc202330b7b4816cb9">LED_init</a></div><div class="ttdeci">void LED_init(void)</div><div class="ttdef"><b>Definition</b> <a href="leds_8c_source.html#l00025">leds.c:25</a></div></div>
 <div class="ttc" id="amain_8c_html_a0a27714aa6a2c91e546e7df583111cab"><div class="ttname"><a href="#a0a27714aa6a2c91e546e7df583111cab">MX_TIM9_Init</a></div><div class="ttdeci">static void MX_TIM9_Init(void)</div><div class="ttdoc">TIM9 Initialization Function.</div><div class="ttdef"><b>Definition</b> <a href="main_8c_source.html#l00438">main.c:438</a></div></div>
 <div class="ttc" id="amain_8c_html_a1730ffe1e560465665eb47d9264826f9"><div class="ttname"><a href="#a1730ffe1e560465665eb47d9264826f9">Error_Handler</a></div><div class="ttdeci">void Error_Handler(void)</div><div class="ttdoc">This function is executed in case of error occurrence.</div><div class="ttdef"><b>Definition</b> <a href="main_8c_source.html#l00871">main.c:871</a></div></div>
 <div class="ttc" id="amain_8c_html_a21452da22b16c3f7234224c5705ddd11"><div class="ttname"><a href="#a21452da22b16c3f7234224c5705ddd11">MX_I2C3_Init</a></div><div class="ttdeci">static void MX_I2C3_Init(void)</div><div class="ttdoc">I2C3 Initialization Function.</div><div class="ttdef"><b>Definition</b> <a href="main_8c_source.html#l00267">main.c:267</a></div></div>
@@ -522,7 +528,7 @@ Variables</h2></td></tr>
 <div class="ttc" id="amain_8c_html_ae89fdd15729ad41a66911190fcbab23a"><div class="ttname"><a href="#ae89fdd15729ad41a66911190fcbab23a">MX_GPIO_Init</a></div><div class="ttdeci">static void MX_GPIO_Init(void)</div><div class="ttdoc">GPIO Initialization Function.</div><div class="ttdef"><b>Definition</b> <a href="main_8c_source.html#l00588">main.c:588</a></div></div>
 <div class="ttc" id="amain_8c_html_af2913661f7ff5b025f0710a6d61712e0"><div class="ttname"><a href="#af2913661f7ff5b025f0710a6d61712e0">I2C_ScanBus</a></div><div class="ttdeci">void I2C_ScanBus(I2C_HandleTypeDef *hi2c)</div><div class="ttdef"><b>Definition</b> <a href="main_8c_source.html#l00098">main.c:98</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="main_8c_source.html#l00066">defaultTask_attributes</a>, <a class="el" href="main_8c_source.html#l00065">defaultTaskHandle</a>, <a class="el" href="admin_8c_source.html#l00161">DisplayVersion()</a>, <a class="el" href="main_8c_source.html#l00871">Error_Handler()</a>, <a class="el" href="main_8c_source.html#l00052">hi2c3</a>, <a class="el" href="main_8c_source.html#l00057">htim8</a>, <a class="el" href="main_8c_source.html#l00098">I2C_ScanBus()</a>, <a class="el" href="main_8c_source.html#l00588">MX_GPIO_Init()</a>, <a class="el" href="main_8c_source.html#l00267">MX_I2C3_Init()</a>, <a class="el" href="main_8c_source.html#l00301">MX_SPI1_Init()</a>, <a class="el" href="main_8c_source.html#l00476">MX_TIM12_Init()</a>, <a class="el" href="main_8c_source.html#l00339">MX_TIM4_Init()</a>, <a class="el" href="main_8c_source.html#l00392">MX_TIM8_Init()</a>, <a class="el" href="main_8c_source.html#l00438">MX_TIM9_Init()</a>, <a class="el" href="main_8c_source.html#l00522">MX_UART4_Init()</a>, <a class="el" href="main_8c_source.html#l00555">MX_USART2_UART_Init()</a>, <a class="el" href="main_8c_source.html#l00820">StartDefaultTask()</a>, and <a class="el" href="main_8c_source.html#l00221">SystemClock_Config()</a>.</p>
+<p class="reference">References <a class="el" href="main_8c_source.html#l00066">defaultTask_attributes</a>, <a class="el" href="main_8c_source.html#l00065">defaultTaskHandle</a>, <a class="el" href="admin_8c_source.html#l00151">DisplayVersion()</a>, <a class="el" href="main_8c_source.html#l00871">Error_Handler()</a>, <a class="el" href="main_8c_source.html#l00052">hi2c3</a>, <a class="el" href="main_8c_source.html#l00057">htim8</a>, <a class="el" href="main_8c_source.html#l00098">I2C_ScanBus()</a>, <a class="el" href="keys_8c_source.html#l00033">KEYS_init()</a>, <a class="el" href="keys_8c_source.html#l00055">KEYS_initISR()</a>, <a class="el" href="leds_8c_source.html#l00025">LED_init()</a>, <a class="el" href="main_8c_source.html#l00588">MX_GPIO_Init()</a>, <a class="el" href="main_8c_source.html#l00267">MX_I2C3_Init()</a>, <a class="el" href="main_8c_source.html#l00301">MX_SPI1_Init()</a>, <a class="el" href="main_8c_source.html#l00476">MX_TIM12_Init()</a>, <a class="el" href="main_8c_source.html#l00339">MX_TIM4_Init()</a>, <a class="el" href="main_8c_source.html#l00392">MX_TIM8_Init()</a>, <a class="el" href="main_8c_source.html#l00438">MX_TIM9_Init()</a>, <a class="el" href="main_8c_source.html#l00522">MX_UART4_Init()</a>, <a class="el" href="main_8c_source.html#l00555">MX_USART2_UART_Init()</a>, <a class="el" href="main_8c_source.html#l00820">StartDefaultTask()</a>, <a class="el" href="main_8c_source.html#l00221">SystemClock_Config()</a>, and <a class="el" href="uart_8c_source.html#l00056">UART_puts()</a>.</p>
 
 </div>
 </div>
@@ -1430,10 +1436,10 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  841</span>  }</div>
 <div class="line"><span class="lineno">  842</span>  <span class="comment">/* USER CODE END 5 */</span></div>
 <div class="line"><span class="lineno">  843</span>}</div>
-<div class="ttc" id="aadmin_8c_html_a183387e08a88262f831be8b883ce8754"><div class="ttname"><a href="admin_8c.html#a183387e08a88262f831be8b883ce8754">CreateHandles</a></div><div class="ttdeci">void CreateHandles(void)</div><div class="ttdoc">Creates alle handles voor deze applicatie.</div><div class="ttdef"><b>Definition</b> <a href="admin_8c_source.html#l00255">admin.c:255</a></div></div>
-<div class="ttc" id="aadmin_8c_html_a7f983159a50cdcaaad786c6c7a216cd9"><div class="ttname"><a href="admin_8c.html#a7f983159a50cdcaaad786c6c7a216cd9">CreateTasks</a></div><div class="ttdeci">void CreateTasks(void)</div><div class="ttdoc">Creëert alle taken door te scannen door de TASKDATA-argumenten-array.  Let op. Eerst wordt de schedul...</div><div class="ttdef"><b>Definition</b> <a href="admin_8c_source.html#l00347">admin.c:347</a></div></div>
+<div class="ttc" id="aadmin_8c_html_a183387e08a88262f831be8b883ce8754"><div class="ttname"><a href="admin_8c.html#a183387e08a88262f831be8b883ce8754">CreateHandles</a></div><div class="ttdeci">void CreateHandles(void)</div><div class="ttdoc">Creates alle handles voor deze applicatie.</div><div class="ttdef"><b>Definition</b> <a href="admin_8c_source.html#l00245">admin.c:245</a></div></div>
+<div class="ttc" id="aadmin_8c_html_a7f983159a50cdcaaad786c6c7a216cd9"><div class="ttname"><a href="admin_8c.html#a7f983159a50cdcaaad786c6c7a216cd9">CreateTasks</a></div><div class="ttdeci">void CreateTasks(void)</div><div class="ttdoc">Creëert alle taken door te scannen door de TASKDATA-argumenten-array.  Let op. Eerst wordt de schedul...</div><div class="ttdef"><b>Definition</b> <a href="admin_8c_source.html#l00337">admin.c:337</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="admin_8c_source.html#l00255">CreateHandles()</a>, <a class="el" href="admin_8c_source.html#l00347">CreateTasks()</a>, <a class="el" href="main_8c_source.html#l00065">defaultTaskHandle</a>, <a class="el" href="main_8c_source.html#l00062">huart2</a>, <a class="el" href="main_8c_source.html#l00061">huart4</a>, <a class="el" href="main_8c_source.html#l00073">uart2_char</a>, and <a class="el" href="main_8c_source.html#l00073">uart4_char</a>.</p>
+<p class="reference">References <a class="el" href="admin_8c_source.html#l00245">CreateHandles()</a>, <a class="el" href="admin_8c_source.html#l00337">CreateTasks()</a>, <a class="el" href="main_8c_source.html#l00065">defaultTaskHandle</a>, <a class="el" href="main_8c_source.html#l00062">huart2</a>, <a class="el" href="main_8c_source.html#l00061">huart4</a>, <a class="el" href="main_8c_source.html#l00073">uart2_char</a>, and <a class="el" href="main_8c_source.html#l00073">uart4_char</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="main_8c_source.html#l00114">main()</a>.</p>
 
@@ -1566,7 +1572,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="main_8c_source.html#l00052">52</a> of file <a class="el" href="main_8c_source.html">main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="compass__driver_8c_source.html#l00322">Compass_Heading()</a>, <a class="el" href="compass__driver_8c_source.html#l00312">LSM303AGR_CFG_Read()</a>, <a class="el" href="compass__driver_8c_source.html#l00216">LSM303M_RawAngle()</a>, <a class="el" href="main_8c_source.html#l00114">main()</a>, and <a class="el" href="main_8c_source.html#l00267">MX_I2C3_Init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="compass__driver_8c_source.html#l00321">Compass_Heading()</a>, <a class="el" href="compass__driver_8c_source.html#l00311">LSM303AGR_CFG_Read()</a>, <a class="el" href="compass__driver_8c_source.html#l00216">LSM303M_RawAngle()</a>, <a class="el" href="main_8c_source.html#l00114">main()</a>, and <a class="el" href="main_8c_source.html#l00267">MX_I2C3_Init()</a>.</p>
 
 </div>
 </div>
@@ -1674,7 +1680,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="main_8c_source.html#l00062">62</a> of file <a class="el" href="main_8c_source.html">main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="main_8c_source.html#l00779">HAL_UART_RxCpltCallback()</a>, <a class="el" href="main_8c_source.html#l00555">MX_USART2_UART_Init()</a>, and <a class="el" href="main_8c_source.html#l00820">StartDefaultTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="main_8c_source.html#l00779">HAL_UART_RxCpltCallback()</a>, <a class="el" href="main_8c_source.html#l00555">MX_USART2_UART_Init()</a>, <a class="el" href="main_8c_source.html#l00820">StartDefaultTask()</a>, <a class="el" href="uart_8c_source.html#l00138">UART_get()</a>, and <a class="el" href="uart_8c_source.html#l00051">UART_putchar()</a>.</p>
 
 </div>
 </div>
