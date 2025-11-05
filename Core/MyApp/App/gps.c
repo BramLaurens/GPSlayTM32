@@ -34,40 +34,6 @@ void GPS_get_fix_quality(char *dest)
 }
 
 /**
- * @brief Corrects the input coordinates with the latest GPS error received from the NRF24L01+ module
- * 
- * @param pinputCoordinates pointer to GPS_decimal_degrees_t struct containing the coordinates to be corrected
- * @return void
- */
-void correct_dGPS_error(PdGPS_errorData_t pinputCoordinates)
-{
-	// Get the latest error from the NRF24L01+ module
-	dGPS_errorData_t latestError;
-	GPS_getlatest_error(&latestError);
-
-	#ifdef dGPS_debug
-		UART_puts("Correcting error\r\n");
-		char msg[100];
-		sprintf(msg, "Working Error - Lat: %.9f, Lon: %.9f\r\n", latestError.latitude, latestError.longitude);
-		UART_puts(msg);
-
-		sprintf(msg, "Before correction - Lat: %.9f, Lon: %.9f\r\n", pinputCoordinates->latitude, pinputCoordinates->longitude);
-		UART_puts(msg);
-	#endif
-
-	// Apply the correction
-	pinputCoordinates->latitude -= latestError.latitude;
-	pinputCoordinates->longitude -= latestError.longitude;
-
-	#ifdef dGPS_debug
-		sprintf(msg, "After correction - Lat: %.6f, Lon: %.6f\r\n", pinputCoordinates->latitude, pinputCoordinates->longitude);
-		UART_puts(msg);
-	#endif
-
-	return;
-}
-
-/**
  * @brief Function that gets a pointer to the latest complete GNRMC data
  * 
  * @param dest pointer of type GNRMC that will be pointing to the latest GNRMC data
@@ -210,7 +176,6 @@ void fill_GNRMC(char *message)
 	// example: $GNRMC,164435.000,A,5205.9505,N,00507.0873,E,0.49,21.70,140423,,,A
 	//          id    , time     ,s,
 
-	osThreadId_t hTask;
 	UART_puts("Filling GNRMC\r\n");	
 
 	char *tok = ",";

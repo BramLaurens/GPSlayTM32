@@ -25,13 +25,11 @@
 * @date 5/5/2022
 */
 
-#include "routeperformer.h"
 #include "main.h"
 #include "cmsis_os.h"
 #include "task.h"
 #include "admin.h"
 #include "GPS_Route_Setter.h"
-#include "dGPS.h"
 #include "gps.h"
 #include "compass_driver.h"
 
@@ -117,14 +115,6 @@ TASKDATA tasks[] =
 
 // Route setter
 { Route_Setter,   NULL, .attr.name ="Route_setter",    .attr.stack_size = 1200, .attr.priority = osPriorityNormal1 },
-
-// dGPS
-{ dGPS_parser,    NULL, .attr.name = "dGPS_parser",    .attr.stack_size = 2300, .attr.priority = osPriorityNormal3},
-
-{ dGPS_calculator, NULL, .attr.name ="dGPS_calculator", .attr.stack_size = 3000, .attr.priority = osPriorityNormal3},
-
-// Route performer
-{ Route_performer,    NULL, .attr.name ="Route_performer",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal2 },
 
 // LOS algorithm
 { LOS_caller,    NULL, .attr.name ="LOS_algo",    .attr.stack_size = 2000, .attr.priority = osPriorityNormal2 },

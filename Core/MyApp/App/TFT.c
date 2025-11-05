@@ -11,13 +11,12 @@
 
 #include "main.h"
 #include "cmsis_os.h"
-#include "admin.h"
 #include "st7735.h"
 #include "gps.h"
-#include "routeperformer.h"
 #include "GPS_Route_Setter.h"
 #include "LOS_algo.h"
 #include "Ultrasoon.h"
+#include "PID_controller.h"
 
 #include <stdint.h>
 
@@ -93,7 +92,7 @@ void updateWPdisplay()
     {
         ST7735_FillRectangleFast(10, 50, 160, 10, ST7735_BLACK);
         ST7735_WriteString(10, 50, "Going to: ", Font_7x10, ST7735_WHITE, ST7735_BLACK);
-        char wp_current_str[5];
+        char wp_current_str[15];
         int wp_current = 0;
         // RP_get_wpCurrent(&wp_current);
         LOS_getcurrentWPnumber(&wp_current);

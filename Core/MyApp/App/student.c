@@ -19,8 +19,6 @@
 void Student_task1 (void *argument)
 {
 	UART_puts((char *)__func__); UART_puts(" started\r\n");
-	char buf[80];
-	unsigned int i = 0;
 
 	while(TRUE)
 	{

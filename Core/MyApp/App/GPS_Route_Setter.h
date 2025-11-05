@@ -27,4 +27,5 @@ uint8_t GPS_Route_Maker();
 double convert_decimal_degrees(char *nmea_coordinate, char* ns);
 
 GPS_Route *Route_Pointer_Request(); // request the newest route
+void RS_getWPamount(char *dest);
 #endif /* MYAPP_APP_GPS_ROUTE_SETTER_H_ */

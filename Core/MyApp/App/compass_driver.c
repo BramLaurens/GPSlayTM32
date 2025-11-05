@@ -216,7 +216,6 @@ void LSM303AGR_ApplyCalibration(const MagCalibration *cal, int16_t mx, int16_t m
 double LSM303M_RawAngle()
 {
     double angle;
-    char msg[100];
 
     int16_t mx, my, mz;
     int16_t ax, ay, az;
@@ -349,7 +348,6 @@ void Compass_Heading(void *argument)
     // LSM303M_Calibrate(&hi2c3, &offx, &offy, &offz, &scalex, &scaley, &scalez);
     while (1)
     {
-        char b[64];
         double a = LSM303M_RawAngle(); // in degrees
         double rad = a * M_PI / 180.0;
 
@@ -362,6 +360,7 @@ void Compass_Heading(void *argument)
         if (filtAngle < 0) filtAngle += 360.0;
 
         #ifdef DEBUG_COMPASS
+            char b[100];
             sprintf(b, "        Raw angle: %.2f deg, Filtered angle: %.2f deg\r\n", a, filtAngle);
             UART_puts(b);
         #endif

@@ -15,8 +15,6 @@
 #include "gps.h"
 #include <math.h>
 #include <stdbool.h>   
-#include "routeperformer.h"
-#include "dGPS.h"
 #include "motordriver.h"
 #include "compass_driver.h"
 #include "LOS_algo.h"
@@ -44,12 +42,12 @@ Kd = 0.1
 #define MIN_SPEED 0
 
 
-// ==== Shared variables (updated by GPS task) ====
-volatile double desiredHeading = 0.0;   // degrees
-volatile double currentHeading = 0.0;   // degrees
+// ==== Heading variables ==== //
+double desiredHeading = 0.0;   // degrees
+double currentHeading = 0.0;   // degrees
 
 // Waypoint hold status
-volatile bool pid_waypoint_hold = false;    // from route performer
+bool pid_waypoint_hold = false;    // from route performer
 
 // ==== Internal PID state ====
 static double integral = 0.0;
@@ -64,8 +62,6 @@ bool enablePID = false;
 bool enableObstacleAvoidance = true;
 unsigned int key = 0;
 bool obstacleFlag = false;
-
-dGPS_decimalData_t latest_dGPS_data;
 
 /**
  * @brief Get the current state of the obstacle avoidance feature.
